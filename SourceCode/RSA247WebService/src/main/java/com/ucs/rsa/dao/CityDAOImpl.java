@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.ucs.rsa.common.constants.RSAErrorConstants;
@@ -21,15 +19,27 @@ public class CityDAOImpl extends BaseRepository implements ICityDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CityDTO> getCities() {
+
 		List<City> citiesList = null;
+
 		List<CityDTO> cityDTOsList = new ArrayList<>();
 		Session theSession = null;
 		try {
 			theSession = currentSession();
 			Criteria criteria = theSession.createCriteria(City.class, "city");
 			citiesList = (List<City>) criteria.list();
-			BeanUtils.copyProperties(citiesList, cityDTOsList);
+			// BeanUtils.copyProperties(citiesList, cityDTOsList);
 
+			if (!citiesList.isEmpty()) {
+				for (City city : citiesList) {
+					CityDTO cityDTO = new CityDTO();
+					cityDTO.setCityID(city.getCityID());
+					cityDTO.setCityCode(city.getCityCode());
+					cityDTO.setCityName(city.getCityName());
+					cityDTO.setEnabled(city.isEnabled());
+					cityDTOsList.add(cityDTO);
+				}
+			}
 		} catch (RuntimeException e) {
 			RSAException rsaException = new RSAException();
 			rsaException.setRootCause(e);
@@ -39,6 +49,7 @@ public class CityDAOImpl extends BaseRepository implements ICityDAO {
 		return cityDTOsList;
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public CitiesDTO getCities(String iCityId) {
 		List<City> citiesList = null;
@@ -46,10 +57,21 @@ public class CityDAOImpl extends BaseRepository implements ICityDAO {
 		Session theSession = null;
 		try {
 			theSession = currentSession();
-			Criteria criteria = theSession.createCriteria(City.class, "city")
-					.add(Restrictions.eq("cityID", iCityId));
-			citiesList = (List<City>) criteria.list();
-			BeanUtils.copyProperties(citiesList, citiesDTO.getCities());
+			City city = (City) theSession.get(City.class, iCityId);
+			// citiesList = (List<City>) criteria.list();
+			// BeanUtils.copyProperties(citiesList, citiesDTO.getCities());
+
+			List<CityDTO> cityDTOs = new ArrayList<>();
+			CityDTO cityDTO = new CityDTO();
+			if (city != null) {
+				cityDTO.setCityID(city.getCityID());
+				cityDTO.setCityCode(city.getCityCode());
+				cityDTO.setCityName(city.getCityName());
+				cityDTO.setEnabled(city.isEnabled());
+				cityDTOs.add(cityDTO);
+			} 
+			citiesDTO.setCities(cityDTOs);
+
 		} catch (RuntimeException e) {
 			RSAException rsaException = new RSAException();
 			rsaException.setRootCause(e);
@@ -59,5 +81,4 @@ public class CityDAOImpl extends BaseRepository implements ICityDAO {
 		return citiesDTO;
 	}
 
-	
 }

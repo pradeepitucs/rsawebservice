@@ -18,6 +18,7 @@ import com.ucs.rsa.domain.State;
 @Component
 public class StateDAOImpl extends BaseRepository implements IStateDAO {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<StateDTO> getStates() {
 		List<State> stateList = null;
@@ -27,7 +28,19 @@ public class StateDAOImpl extends BaseRepository implements IStateDAO {
 			theSession = currentSession();
 			Criteria criteria = theSession.createCriteria(State.class, "state");
 			stateList = (List<State>) criteria.list();
-			BeanUtils.copyProperties(stateList, stateDTOsList);
+			// BeanUtils.copyProperties(stateList, stateDTOsList);
+
+			if (!stateList.isEmpty()) {
+				for (State state : stateList) {
+					StateDTO stateDTO = new StateDTO();
+					stateDTO.setEnabled(state.isEnabled());
+					stateDTO.setStateID(state.getStateID());
+					stateDTO.setStateName(state.getStateName());
+					stateDTO.setStateCode(state.getStateCode());
+					stateDTOsList.add(stateDTO);
+				}
+			}
+
 		} catch (RuntimeException e) {
 			RSAException rsaException = new RSAException();
 			rsaException.setRootCause(e);
@@ -37,6 +50,7 @@ public class StateDAOImpl extends BaseRepository implements IStateDAO {
 		return stateDTOsList;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public StatesDTO getStates(String iStateId) {
 		List<State> stateList = null;
