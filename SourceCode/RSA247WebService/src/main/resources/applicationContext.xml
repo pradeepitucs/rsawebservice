@@ -49,6 +49,10 @@
 				<value>com.ucs.rsa.common.dto.UserRoleDTO</value>
 				<value>com.ucs.rsa.common.dto.UserRolesDTO</value>
 				<value>com.ucs.rsa.common.dto.UsersDTO</value>
+				<value>com.ucs.rsa.common.dto.CitiesDTO</value>
+				<value>com.ucs.rsa.common.dto.CityDTO</value>
+				<value>com.ucs.rsa.common.dto.StateDTO</value>
+				<value>com.ucs.rsa.common.dto.StatesDTO</value>
 			</list>
 		</property>
 	</bean>
@@ -98,6 +102,8 @@
 				<value>com.ucs.rsa.domain.Customer</value>
 				<value>com.ucs.rsa.domain.BaseDomain</value>
 				<value>com.ucs.rsa.domain.UserRole</value>
+				<value>com.ucs.rsa.domain.City</value>
+				<value>com.ucs.rsa.domain.State</value>
 			</list>
 		</property>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml" />

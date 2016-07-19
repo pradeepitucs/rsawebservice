@@ -11,12 +11,13 @@ public class RSAException extends RuntimeException {
 	private Locale locale;
 	private String localizedErrorMessage;
 
+	private Throwable rootCause;
 	private ErrorCode error;
 
 	public RSAException() {
-		
+
 	}
-	
+
 	public RSAException(ErrorCode iErrorCode) {
 		this.error = iErrorCode;
 	}
@@ -48,6 +49,14 @@ public class RSAException extends RuntimeException {
 
 	public void setError(ErrorCode error) {
 		this.error = error;
+	}
+
+	public Throwable getRootCause() {
+		return rootCause;
+	}
+
+	public void setRootCause(Throwable rootCause) {
+		this.rootCause = rootCause;
 	}
 
 }
