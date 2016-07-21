@@ -53,6 +53,12 @@
 				<value>com.ucs.rsa.common.dto.CityDTO</value>
 				<value>com.ucs.rsa.common.dto.StateDTO</value>
 				<value>com.ucs.rsa.common.dto.StatesDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleDTO</value>
+				<value>com.ucs.rsa.common.dto.VehiclesDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleModuleDetailDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleModuleDetailsDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleTypeDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleTypesDTO</value>
 			</list>
 		</property>
 	</bean>
@@ -104,6 +110,9 @@
 				<value>com.ucs.rsa.domain.UserRole</value>
 				<value>com.ucs.rsa.domain.City</value>
 				<value>com.ucs.rsa.domain.State</value>
+				<value>com.ucs.rsa.domain.Vehicle</value>
+				<value>com.ucs.rsa.domain.VehicleModuleDetails</value>
+				<value>com.ucs.rsa.domain.VehicleType</value>
 			</list>
 		</property>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
