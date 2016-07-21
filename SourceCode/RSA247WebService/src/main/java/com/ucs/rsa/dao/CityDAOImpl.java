@@ -37,6 +37,7 @@ public class CityDAOImpl extends BaseRepository implements ICityDAO {
 					cityDTO.setCityCode(city.getCityCode());
 					cityDTO.setCityName(city.getCityName());
 					cityDTO.setEnabled(city.isEnabled());
+					cityDTO.setStateId(city.getState());
 					cityDTOsList.add(cityDTO);
 				}
 			}
