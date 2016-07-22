@@ -41,7 +41,7 @@ public class UserDAOImpl extends BaseRepository implements IUserDAO {
 					throw rsaException;
 				}
 				user = new User();
-				user.setMobileNo(iMobieNo);
+			//	user.setMobileNo(iMobieNo);
 				user.setUserID(iUserId);
 				user.setEnabled(isEnabled);
 			} else {
@@ -53,7 +53,7 @@ public class UserDAOImpl extends BaseRepository implements IUserDAO {
 					throw rsaException;
 				}
 				user = new User();
-				user.setMobileNo(iMobieNo);
+			//	user.setMobileNo(iMobieNo);
 				user.setUserID(iUserId);
 				user.setEnabled(isEnabled);
 			}
@@ -120,6 +120,10 @@ public class UserDAOImpl extends BaseRepository implements IUserDAO {
 				customer.setRole_id(customerDTO.getRoleId());
 				customer.setUserFirstName(customerDTO.getUserFirstName());
 				customer.setUserLastName(customerDTO.getUserLastName());
+				customer.setCity(customerDTO.getCity());
+				customer.setEmailId(customerDTO.getEmailId());
+				customer.setGcmId(customerDTO.getGcmId());
+				customer.setFolderName(customerDTO.getFolderName());
 			} else {
 				customer = (Customer) theSession.createCriteria(Customer.class, "customer")
 						.add(Restrictions.ne("userId", customerDTO.getUserId()))
@@ -136,6 +140,10 @@ public class UserDAOImpl extends BaseRepository implements IUserDAO {
 				customer.setRole_id(customerDTO.getRoleId());
 				customer.setUserFirstName(customerDTO.getUserFirstName());
 				customer.setUserLastName(customerDTO.getUserLastName());
+				customer.setCity(customerDTO.getCity());
+				customer.setEmailId(customerDTO.getEmailId());
+				customer.setGcmId(customerDTO.getGcmId());
+				customer.setFolderName(customerDTO.getFolderName());
 			}
 
 			// Need to check error on which case it will thow the error
@@ -159,6 +167,11 @@ public class UserDAOImpl extends BaseRepository implements IUserDAO {
 				customerDTO.setEnabled(customer.isEnabled());
 				customerDTO.setUserFirstName(customer.getUserFirstName());
 				customerDTO.setUserLastName(customer.getUserLastName());
+				customerDTO.setCity(customer.getCity());
+				customerDTO.setGcmId(customer.getGcmId());
+				customerDTO.setEmailId(customer.getEmailId());
+				customerDTO.setRoleId(customer.getRole_id());
+				customerDTO.setFolderName(customer.getFolderName());
 			}
 			System.out.println("userDTO " + customerDTO);
 

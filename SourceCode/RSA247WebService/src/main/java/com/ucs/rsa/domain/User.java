@@ -22,7 +22,7 @@ public class User extends BaseDomain {
 	private int userID;
 
 	@Column(name = "mobile_no", unique = true)
-	private int mobileNo;
+	private long mobileNo;
 
 	@Column(name = "is_enabled")
 	private boolean isEnabled;
@@ -30,20 +30,20 @@ public class User extends BaseDomain {
 	@Column(name="role_id")
 	private int role_id;
 
+	public long getMobileNo() {
+		return mobileNo;
+	}
+
+	public void setMobileNo(long mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
 	public int getUserID() {
 		return userID;
 	}
 
 	public void setUserID(int userID) {
 		this.userID = userID;
-	}
-
-	public int getMobileNo() {
-		return mobileNo;
-	}
-
-	public void setMobileNo(int mobileNo) {
-		this.mobileNo = mobileNo;
 	}
 
 	public boolean isEnabled() {

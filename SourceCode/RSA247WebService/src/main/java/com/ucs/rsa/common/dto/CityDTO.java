@@ -13,6 +13,15 @@ public class CityDTO implements Serializable {
 	private String cityName;
 	private String cityCode;
 	private boolean isEnabled;
+	private int stateId;
+
+	public int getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(int stateId) {
+		this.stateId = stateId;
+	}
 
 	public int getCityID() {
 		return cityID;
@@ -49,7 +58,8 @@ public class CityDTO implements Serializable {
 	@Override
 	public String toString() {
 		return "CityDTO [cityID=" + cityID + ", cityName=" + cityName + ", cityCode=" + cityCode + ", isEnabled="
-				+ isEnabled + "]";
+				+ isEnabled + ", stateId="
+						+ stateId+ "]";
 	}
 
 }
