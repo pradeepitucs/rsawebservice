@@ -25,7 +25,7 @@ public class VehicleModuleDetailsDAO extends BaseRepository implements IVehicleM
 		try {
 			theSession = currentSession();
 			final Criteria theCriteria = theSession.createCriteria(VehicleModuleDetails.class, "vehicleModuleDetails")
-					.add(Restrictions.eq("moduleDetailsID", iVehicleModuleDetailsId));
+					.add(Restrictions.eq("moduleDetailsID", Integer.valueOf(iVehicleModuleDetailsId)));
 			theVehicleModuleDetailsList = (List<VehicleModuleDetails>) theCriteria.list();
 
 			if (!theVehicleModuleDetailsList.isEmpty()) {

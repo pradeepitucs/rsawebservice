@@ -19,34 +19,18 @@ public class VehicleModuleDetailsController {
 
 	@Autowired
 	private IVehicleModuleDetailsService vehicleModuleDetailsService;
-	
-	@RequestMapping(value = "/update", method = { RequestMethod.POST , RequestMethod.GET})
-	private ModelAndView updateVehicleModuleDetails(@RequestParam("moduleDetailsID") final int iModuleDetailsID,
-			@RequestParam("manufacturer") final String iManufacturer,
-			@RequestParam("moduleYear") final int iModuleYear,
-			@RequestParam("moduleName") final String iModuleName,
-			@RequestParam("vehicleClass") final String iVehicleClass,
-			@RequestParam("vehicleCategory") final String iVehicleCategory,
-			@RequestParam("vehicleTypeID") final int iVehicleTypeID,
-			@RequestParam("isEnabled") final boolean isEnabled,
-			@RequestParam("isCreated") final boolean isCreated) {
 
-		VehicleModuleDetailDTO vehicleModuleDetailDTO = new VehicleModuleDetailDTO();
-		vehicleModuleDetailDTO.setEnabled(isEnabled);
-		vehicleModuleDetailDTO.setManufacturer(iManufacturer);
-		vehicleModuleDetailDTO.setModuleDetailsID(iModuleDetailsID);
-		vehicleModuleDetailDTO.setModuleName(iModuleName);
-		vehicleModuleDetailDTO.setVehicleClass(iVehicleClass);
-		vehicleModuleDetailDTO.setModuleYear(iModuleYear);
-		vehicleModuleDetailDTO.setVehicleCategory(iVehicleCategory);
-		vehicleModuleDetailDTO.setVehicleTypeID(iVehicleTypeID);
-		
-		VehicleModuleDetailDTO ivehicleModuleDetailDTO = vehicleModuleDetailsService.updateVehicleModuleDetails(vehicleModuleDetailDTO, isCreated);
-		
+	@RequestMapping(value = "/update", method = { RequestMethod.POST, RequestMethod.GET })
+	private ModelAndView updateVehicleModuleDetails(final 
+			VehicleModuleDetailDTO vehicleModuleDetailDTO) {
+
+		VehicleModuleDetailDTO ivehicleModuleDetailDTO = vehicleModuleDetailsService
+				.updateVehicleModuleDetails(vehicleModuleDetailDTO, false);
+
 		return new ModelAndView("xml", "vehicleModuleDetailDTO", ivehicleModuleDetailDTO);
 	}
-	
-	@RequestMapping(value = "/all", method = {RequestMethod.GET, RequestMethod.POST })
+
+	@RequestMapping(value = "/all", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView getAllVehicleModuleDetails() {
 		List<VehicleModuleDetailDTO> vehicleModuleDetailDTOs = null;
 		vehicleModuleDetailDTOs = vehicleModuleDetailsService.getVehicleModuleDetails();
@@ -56,9 +40,8 @@ public class VehicleModuleDetailsController {
 
 	}
 
-	@RequestMapping(value = "/module", method = RequestMethod.GET)
+	@RequestMapping(value = "/details", method = RequestMethod.GET)
 	public ModelAndView getModuleDetails(@RequestParam("moduleDetailsId") final String iVehicleModuleDetailsId) {
-
 		VehicleModuleDetailsDTO vehicleModuleDetailsDTO = null;
 		vehicleModuleDetailsDTO = vehicleModuleDetailsService.getVehicleModuleDetails(iVehicleModuleDetailsId);
 		List<VehicleModuleDetailDTO> vehicleModuleDetailDTOs = vehicleModuleDetailsDTO.getVehicleModuleDetaislDTO();
@@ -70,6 +53,5 @@ public class VehicleModuleDetailsController {
 		}
 		return new ModelAndView("xml", "vehicleModuleDetailDTO", aVehicleModuleDetailDTO);
 	}
-	
-	
+
 }

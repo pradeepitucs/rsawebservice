@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ucs.rsa.common.constants.RSAErrorConstants;
-import com.ucs.rsa.common.dto.UserDTO;
 import com.ucs.rsa.common.dto.VehicleDTO;
 import com.ucs.rsa.common.dto.VehiclesDTO;
 import com.ucs.rsa.common.exception.RSAException;
