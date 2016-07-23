@@ -9,23 +9,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "vehicleModuleDetails", namespace = "com.ucs.rsa.dto")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class VehicleModuleDetailsDTO implements Serializable {
+public class VehicleModulesDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<VehicleModuleDetailDTO> vehicleModuleDetaislDTO;
+	private List<VehicleModuleDTO> vehicleModuleDTO;
 
-	public List<VehicleModuleDetailDTO> getVehicleModuleDetaislDTO() {
-		return vehicleModuleDetaislDTO;
+	public List<VehicleModuleDTO> getVehicleModuleDTO() {
+		return vehicleModuleDTO;
 	}
 
-	public void setVehicleModuleDetaislDTO(List<VehicleModuleDetailDTO> vehicleModuleDetaislDTO) {
-		this.vehicleModuleDetaislDTO = vehicleModuleDetaislDTO;
+	public void setVehicleModuleDTO(List<VehicleModuleDTO> vehicleModuleDTO) {
+		this.vehicleModuleDTO = vehicleModuleDTO;
 	}
 
 	@Override
 	public String toString() {
-		return "VehicleModuleDetailsDTO [vehicleModuleDetaislDTO=" + vehicleModuleDetaislDTO + "]";
+		return "VehicleModulesDTO [vehicleModuleDTO=" + vehicleModuleDTO + "]";
 	}
 
 }

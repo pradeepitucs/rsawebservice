@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "vehicleModuleDetail", namespace = "com.ucs.rsa.dto")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class VehicleModuleDetailDTO implements Serializable {
+public class VehicleModuleDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

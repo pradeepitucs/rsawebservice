@@ -30,7 +30,7 @@
 		<property name="useJaf" value="false" />
 		
 		<!-- default Content Type  --> 
-		<property name="defaultContentType" value="application/json" />
+		<!-- <property name="defaultContentType" value="application/json" /> -->
 
 		<property name="mediaTypes">
 			<map>
@@ -56,8 +56,10 @@
 				<value>com.ucs.rsa.common.dto.StatesDTO</value>
 				<value>com.ucs.rsa.common.dto.VehicleDTO</value>
 				<value>com.ucs.rsa.common.dto.VehiclesDTO</value>
-				<value>com.ucs.rsa.common.dto.VehicleModuleDetailDTO</value>
-				<value>com.ucs.rsa.common.dto.VehicleModuleDetailsDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleModuleDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleModulesDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleManufacturerDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleManufacturersDTO</value>
 				<value>com.ucs.rsa.common.dto.VehicleTypeDTO</value>
 				<value>com.ucs.rsa.common.dto.VehicleTypesDTO</value>
 			</list>
@@ -112,7 +114,8 @@
 				<value>com.ucs.rsa.domain.City</value>
 				<value>com.ucs.rsa.domain.State</value>
 				<value>com.ucs.rsa.domain.Vehicle</value>
-				<value>com.ucs.rsa.domain.VehicleModuleDetails</value>
+				<value>com.ucs.rsa.domain.VehicleModules</value>
+				<value>com.ucs.rsa.domain.VehicleManufacturer</value>
 				<value>com.ucs.rsa.domain.VehicleType</value>
 			</list>
 		</property>

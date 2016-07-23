@@ -2,13 +2,13 @@ package com.ucs.rsa.dao;
 
 import java.util.List;
 
-import com.ucs.rsa.common.dto.VehicleModuleDetailDTO;
+import com.ucs.rsa.common.dto.VehicleModuleDTO;
 
-public interface IVehicleModuleDetailsDAO {
+public interface IVehicleModulesDAO {
 
-	List<VehicleModuleDetailDTO> getVehicleModuleDetails(String iVehicleModuleDetailsId);
+	List<VehicleModuleDTO> getVehicleModules(String iVehicleModulesId);
 
-	List<VehicleModuleDetailDTO> getVehicleModuleDetails();
+	List<VehicleModuleDTO> getVehicleModules();
 
 }
 

@@ -2,15 +2,13 @@ package com.ucs.rsa.service;
 
 import java.util.List;
 
-import com.ucs.rsa.common.dto.VehicleModuleDetailDTO;
-import com.ucs.rsa.common.dto.VehicleModuleDetailsDTO;
+import com.ucs.rsa.common.dto.VehicleModuleDTO;
+import com.ucs.rsa.common.dto.VehicleModulesDTO;
 
-public interface IVehicleModuleDetailsService {
+public interface IVehicleModuleService {
 
-	VehicleModuleDetailDTO updateVehicleModuleDetails(VehicleModuleDetailDTO vehicleModuleDetailDTO, boolean isCreated);
+	List<VehicleModuleDTO> getVehicleModules();
 
-	List<VehicleModuleDetailDTO> getVehicleModuleDetails();
-
-	VehicleModuleDetailsDTO getVehicleModuleDetails(String iVehicleModuleDetailsId);
+	VehicleModulesDTO getVehicleModules(String iVehicleModulesId);
 
 }

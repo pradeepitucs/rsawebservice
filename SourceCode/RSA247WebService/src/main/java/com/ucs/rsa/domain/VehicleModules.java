@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "vehicle_module_t")
-public class VehicleModuleDetails extends BaseDomain {
+public class VehicleModules extends BaseDomain {
 
 	private static final long serialVersionUID = 1L;
 
@@ -105,7 +105,7 @@ public class VehicleModuleDetails extends BaseDomain {
 
 	@Override
 	public String toString() {
-		return "VehicleModuleDetails [moduleDetailsID=" + moduleDetailsID + ", manufacturer=" + manufacturer
+		return "VehicleModules [moduleDetailsID=" + moduleDetailsID + ", manufacturer=" + manufacturer
 				+ ", moduleYear=" + moduleYear + ", moduleName=" + moduleName + ", vehicleClass=" + vehicleClass
 				+ ", vehicleCategory=" + vehicleCategory + ", vehicleTypeID=" + vehicleTypeID + ", isEnabled="
 				+ isEnabled + "]";

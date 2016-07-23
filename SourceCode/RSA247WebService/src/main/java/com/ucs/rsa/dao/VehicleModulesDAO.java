@@ -9,37 +9,37 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
 import com.ucs.rsa.common.constants.RSAErrorConstants;
-import com.ucs.rsa.common.dto.VehicleModuleDetailDTO;
+import com.ucs.rsa.common.dto.VehicleModuleDTO;
 import com.ucs.rsa.common.exception.RSAException;
-import com.ucs.rsa.domain.VehicleModuleDetails;
+import com.ucs.rsa.domain.VehicleModules;
 
 @Component
-public class VehicleModuleDetailsDAO extends BaseRepository implements IVehicleModuleDetailsDAO {
+public class VehicleModulesDAO extends BaseRepository implements IVehicleModulesDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<VehicleModuleDetailDTO> getVehicleModuleDetails(String iVehicleModuleDetailsId) {
-		List<VehicleModuleDetails> theVehicleModuleDetailsList = null;
-		List<VehicleModuleDetailDTO> vehicleModuleDetailsDTOs = new ArrayList<>();
+	public List<VehicleModuleDTO> getVehicleModules(String iVehicleModulesId) {
+		List<VehicleModules> theVehicleModulesList = null;
+		List<VehicleModuleDTO> vehicleModulesDTOs = new ArrayList<>();
 		Session theSession = null;
 		try {
 			theSession = currentSession();
-			final Criteria theCriteria = theSession.createCriteria(VehicleModuleDetails.class, "vehicleModuleDetails")
-					.add(Restrictions.eq("moduleDetailsID", Integer.valueOf(iVehicleModuleDetailsId)));
-			theVehicleModuleDetailsList = (List<VehicleModuleDetails>) theCriteria.list();
+			final Criteria theCriteria = theSession.createCriteria(VehicleModules.class, "vehicleModuleDetails")
+					.add(Restrictions.eq("moduleDetailsID", Integer.valueOf(iVehicleModulesId)));
+			theVehicleModulesList = (List<VehicleModules>) theCriteria.list();
 
-			if (!theVehicleModuleDetailsList.isEmpty()) {
-				for (VehicleModuleDetails vehicleModuleDetails : theVehicleModuleDetailsList) {
-					VehicleModuleDetailDTO vehicleVehicleModuleDetailDTO = new VehicleModuleDetailDTO();
-					vehicleVehicleModuleDetailDTO.setEnabled(vehicleModuleDetails.isEnabled());
-					vehicleVehicleModuleDetailDTO.setManufacturer(vehicleModuleDetails.getManufacturer());
-					vehicleVehicleModuleDetailDTO.setModuleDetailsID(vehicleModuleDetails.getModuleDetailsID());
-					vehicleVehicleModuleDetailDTO.setModuleName(vehicleModuleDetails.getModuleName());
-					vehicleVehicleModuleDetailDTO.setModuleYear(vehicleModuleDetails.getModuleYear());
-					vehicleVehicleModuleDetailDTO.setVehicleCategory(vehicleModuleDetails.getVehicleCategory());
-					vehicleVehicleModuleDetailDTO.setVehicleClass(vehicleModuleDetails.getVehicleClass());
-					vehicleVehicleModuleDetailDTO.setVehicleTypeID(vehicleModuleDetails.getVehicleTypeID());
-					vehicleModuleDetailsDTOs.add(vehicleVehicleModuleDetailDTO);
+			if (!theVehicleModulesList.isEmpty()) {
+				for (VehicleModules vehicleModules : theVehicleModulesList) {
+					VehicleModuleDTO vehicleModuleDTO = new VehicleModuleDTO();
+					vehicleModuleDTO.setEnabled(vehicleModules.isEnabled());
+					vehicleModuleDTO.setManufacturer(vehicleModules.getManufacturer());
+					vehicleModuleDTO.setModuleDetailsID(vehicleModules.getModuleDetailsID());
+					vehicleModuleDTO.setModuleName(vehicleModules.getModuleName());
+					vehicleModuleDTO.setModuleYear(vehicleModules.getModuleYear());
+					vehicleModuleDTO.setVehicleCategory(vehicleModules.getVehicleCategory());
+					vehicleModuleDTO.setVehicleClass(vehicleModules.getVehicleClass());
+					vehicleModuleDTO.setVehicleTypeID(vehicleModules.getVehicleTypeID());
+					vehicleModulesDTOs.add(vehicleModuleDTO);
 				}
 			}
 		} catch (RuntimeException ex) {
@@ -48,32 +48,32 @@ public class VehicleModuleDetailsDAO extends BaseRepository implements IVehicleM
 			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
 			throw rsaEx;
 		}
-		return vehicleModuleDetailsDTOs;
+		return vehicleModulesDTOs;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<VehicleModuleDetailDTO> getVehicleModuleDetails() {
-		List<VehicleModuleDetails> theVehicleModuleDetailsList = null;
-		List<VehicleModuleDetailDTO> vehicleModuleDetailsDTOs = new ArrayList<>();
+	public List<VehicleModuleDTO> getVehicleModules() {
+		List<VehicleModules> theVehicleModulesList = null;
+		List<VehicleModuleDTO> vehicleModuleDTOs = new ArrayList<>();
 		Session theSession = null;
 		try {
 			theSession = currentSession();
-			final Criteria theCriteria = theSession.createCriteria(VehicleModuleDetails.class, "vehicleModuleDetails");
-			theVehicleModuleDetailsList = (List<VehicleModuleDetails>) theCriteria.list();
+			final Criteria theCriteria = theSession.createCriteria(VehicleModules.class, "vehicleModuleDetails");
+			theVehicleModulesList = (List<VehicleModules>) theCriteria.list();
 
-			if (!theVehicleModuleDetailsList.isEmpty()) {
-				for (VehicleModuleDetails vehicleModuleDetails : theVehicleModuleDetailsList) {
-					VehicleModuleDetailDTO vehicleVehicleModuleDetailDTO = new VehicleModuleDetailDTO();
-					vehicleVehicleModuleDetailDTO.setEnabled(vehicleModuleDetails.isEnabled());
-					vehicleVehicleModuleDetailDTO.setManufacturer(vehicleModuleDetails.getManufacturer());
-					vehicleVehicleModuleDetailDTO.setModuleDetailsID(vehicleModuleDetails.getModuleDetailsID());
-					vehicleVehicleModuleDetailDTO.setModuleName(vehicleModuleDetails.getModuleName());
-					vehicleVehicleModuleDetailDTO.setModuleYear(vehicleModuleDetails.getModuleYear());
-					vehicleVehicleModuleDetailDTO.setVehicleCategory(vehicleModuleDetails.getVehicleCategory());
-					vehicleVehicleModuleDetailDTO.setVehicleClass(vehicleModuleDetails.getVehicleClass());
-					vehicleVehicleModuleDetailDTO.setVehicleTypeID(vehicleModuleDetails.getVehicleTypeID());
-					vehicleModuleDetailsDTOs.add(vehicleVehicleModuleDetailDTO);
+			if (!theVehicleModulesList.isEmpty()) {
+				for (VehicleModules vehicleModules : theVehicleModulesList) {
+					VehicleModuleDTO vehicleVehicleModuleDTO = new VehicleModuleDTO();
+					vehicleVehicleModuleDTO.setEnabled(vehicleModules.isEnabled());
+					vehicleVehicleModuleDTO.setManufacturer(vehicleModules.getManufacturer());
+					vehicleVehicleModuleDTO.setModuleDetailsID(vehicleModules.getModuleDetailsID());
+					vehicleVehicleModuleDTO.setModuleName(vehicleModules.getModuleName());
+					vehicleVehicleModuleDTO.setModuleYear(vehicleModules.getModuleYear());
+					vehicleVehicleModuleDTO.setVehicleCategory(vehicleModules.getVehicleCategory());
+					vehicleVehicleModuleDTO.setVehicleClass(vehicleModules.getVehicleClass());
+					vehicleVehicleModuleDTO.setVehicleTypeID(vehicleModules.getVehicleTypeID());
+					vehicleModuleDTOs.add(vehicleVehicleModuleDTO);
 				}
 			}
 		} catch (RuntimeException ex) {
@@ -82,7 +82,7 @@ public class VehicleModuleDetailsDAO extends BaseRepository implements IVehicleM
 			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
 			throw rsaEx;
 		}
-		return vehicleModuleDetailsDTOs;
+		return vehicleModuleDTOs;
 	}
 
 }
