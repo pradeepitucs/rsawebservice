@@ -19,7 +19,7 @@ public class VehicleManufacturerService extends BaseManagerImpl implements IVehi
 	private IVehicleManufacturerDAO vehicleManufacturerDAO;
 
 	@Override
-	public VehicleManufacturersDTO getVehicleManufacturers(String iVehicleManufacturerId) {
+	public VehicleManufacturersDTO getVehicleManufacturers(int iVehicleManufacturerId) {
 		List<VehicleManufacturerDTO> vehicleManufacturerDTOs = null;
 		if (validateGetVehicleManufacturers(iVehicleManufacturerId)) {
 			vehicleManufacturerDTOs = vehicleManufacturerDAO.getVehicleManufacturers(iVehicleManufacturerId);
@@ -40,17 +40,10 @@ public class VehicleManufacturerService extends BaseManagerImpl implements IVehi
 		return vehicleManufacturerDTOs;
 	}
 
-	private boolean validateGetVehicleManufacturers(String iVehicleManufacturerId) {
+	private boolean validateGetVehicleManufacturers(int iVehicleManufacturerId) {
 		boolean isValid = Boolean.FALSE;
-		if (null != iVehicleManufacturerId && "" != iVehicleManufacturerId) {
+		if (0 != iVehicleManufacturerId) {
 			isValid = Boolean.TRUE;
-			try {
-				Integer.valueOf(iVehicleManufacturerId);
-			} catch (RuntimeException e) {
-				RSAException rsaEx = new RSAException();
-				rsaEx.setError(RSAErrorConstants.ErrorCode.INVALID_INPUT_PARAM_ERROR);
-				throw rsaEx;
-			}
 		}
 		return isValid;
 	}

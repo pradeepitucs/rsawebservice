@@ -31,7 +31,7 @@ public class VehicleManufacturerController {
 	}
 
 	@RequestMapping(value = "/details", method = RequestMethod.GET)
-	public ModelAndView getModuleDetails(@RequestParam("ManufacturerId") final String iVehicleManufacturerId) {
+	public ModelAndView getModuleDetails(@RequestParam("manufacturerId") final int iVehicleManufacturerId) {
 		VehicleManufacturersDTO vehicleManufacturersDTO = null;
 		vehicleManufacturersDTO = vehicleManufacturerService.getVehicleManufacturers(iVehicleManufacturerId);
 		List<VehicleManufacturerDTO> vehicleManufacturerDTOs = vehicleManufacturersDTO.getVehicleManufacturerDTOs();

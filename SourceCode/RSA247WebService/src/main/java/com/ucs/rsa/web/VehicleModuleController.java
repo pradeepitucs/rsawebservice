@@ -31,7 +31,7 @@ public class VehicleModuleController {
 	}
 
 	@RequestMapping(value = "/details", method = RequestMethod.GET)
-	public ModelAndView getModuleDetails(@RequestParam("moduleDetailsId") final String iVehicleModulesId) {
+	public ModelAndView getModuleDetails(@RequestParam("moduleDetailsId") final int iVehicleModulesId) {
 		VehicleModulesDTO vehicleModulesDTO = null;
 		vehicleModulesDTO = vehicleModuleService.getVehicleModules(iVehicleModulesId);
 		List<VehicleModuleDTO> vehicleModuleDTOs = vehicleModulesDTO.getVehicleModuleDTO();
@@ -41,7 +41,15 @@ public class VehicleModuleController {
 		} else {
 			aVehicleModuleDTO = new VehicleModuleDTO();
 		}
-		return new ModelAndView("xml", "vehicleModuleDetailDTO", aVehicleModuleDTO);
+		return new ModelAndView("xml", "vehicleModuleDTO", aVehicleModuleDTO);
 	}
 
+	@RequestMapping(value = "/manufacturers", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView getAllVehicleManufacturerDetails(@RequestParam("manufacturerID") final int iVehicleManufacturersId) {
+		VehicleModulesDTO vehicleModulesDTO = new VehicleModulesDTO();
+		vehicleModulesDTO = vehicleModuleService.getVehicleManufacturers(iVehicleManufacturersId);
+		return new ModelAndView("xml", "vehicleModulesDTO", vehicleModulesDTO);
+	}
+
+	
 }

@@ -8,7 +8,7 @@ public interface IVehicleDAO {
 
 	List<VehicleDTO> getVehicles();
 
-	List<VehicleDTO> getVehicles(String iVehicleId);
+	List<VehicleDTO> getVehicles(int iVehicleId);
 
 	VehicleDTO updateVehicle(VehicleDTO iVehicleDTO, boolean isCreated);
 

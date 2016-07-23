@@ -8,7 +8,9 @@ import com.ucs.rsa.common.dto.VehicleModulesDTO;
 public interface IVehicleModuleService {
 
 	List<VehicleModuleDTO> getVehicleModules();
+	
+	VehicleModulesDTO getVehicleModules(int iVehicleModulesId);
 
-	VehicleModulesDTO getVehicleModules(String iVehicleModulesId);
+	VehicleModulesDTO getVehicleManufacturers(int iVehicleManufacturersId);
 
 }

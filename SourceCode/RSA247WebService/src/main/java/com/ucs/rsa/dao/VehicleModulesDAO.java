@@ -18,7 +18,7 @@ public class VehicleModulesDAO extends BaseRepository implements IVehicleModules
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<VehicleModuleDTO> getVehicleModules(String iVehicleModulesId) {
+	public List<VehicleModuleDTO> getVehicleModules(int iVehicleModulesId) {
 		List<VehicleModules> theVehicleModulesList = null;
 		List<VehicleModuleDTO> vehicleModulesDTOs = new ArrayList<>();
 		Session theSession = null;
@@ -32,7 +32,7 @@ public class VehicleModulesDAO extends BaseRepository implements IVehicleModules
 				for (VehicleModules vehicleModules : theVehicleModulesList) {
 					VehicleModuleDTO vehicleModuleDTO = new VehicleModuleDTO();
 					vehicleModuleDTO.setEnabled(vehicleModules.isEnabled());
-					vehicleModuleDTO.setManufacturer(vehicleModules.getManufacturer());
+					vehicleModuleDTO.setManufacturerID(vehicleModules.getManufacturerID());
 					vehicleModuleDTO.setModuleDetailsID(vehicleModules.getModuleDetailsID());
 					vehicleModuleDTO.setModuleName(vehicleModules.getModuleName());
 					vehicleModuleDTO.setModuleYear(vehicleModules.getModuleYear());
@@ -66,7 +66,7 @@ public class VehicleModulesDAO extends BaseRepository implements IVehicleModules
 				for (VehicleModules vehicleModules : theVehicleModulesList) {
 					VehicleModuleDTO vehicleVehicleModuleDTO = new VehicleModuleDTO();
 					vehicleVehicleModuleDTO.setEnabled(vehicleModules.isEnabled());
-					vehicleVehicleModuleDTO.setManufacturer(vehicleModules.getManufacturer());
+					vehicleVehicleModuleDTO.setManufacturerID(vehicleModules.getManufacturerID());
 					vehicleVehicleModuleDTO.setModuleDetailsID(vehicleModules.getModuleDetailsID());
 					vehicleVehicleModuleDTO.setModuleName(vehicleModules.getModuleName());
 					vehicleVehicleModuleDTO.setModuleYear(vehicleModules.getModuleYear());
@@ -83,6 +83,41 @@ public class VehicleModulesDAO extends BaseRepository implements IVehicleModules
 			throw rsaEx;
 		}
 		return vehicleModuleDTOs;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<VehicleModuleDTO> getVehicleManufacturers(int iVehicleManufacturersId) {
+		List<VehicleModules> theVehicleModulesList = null;
+		List<VehicleModuleDTO> vehicleModulesDTOs = new ArrayList<>();
+		Session theSession = null;
+		try {
+			theSession = currentSession();
+			final Criteria theCriteria = theSession.createCriteria(VehicleModules.class, "vehicleModuleDetails")
+					.add(Restrictions.eq("manufacturerID", Integer.valueOf(iVehicleManufacturersId)));
+			theVehicleModulesList = (List<VehicleModules>) theCriteria.list();
+
+			if (!theVehicleModulesList.isEmpty()) {
+				for (VehicleModules vehicleModules : theVehicleModulesList) {
+					VehicleModuleDTO vehicleModuleDTO = new VehicleModuleDTO();
+					vehicleModuleDTO.setEnabled(vehicleModules.isEnabled());
+					vehicleModuleDTO.setManufacturerID(vehicleModules.getManufacturerID());
+					vehicleModuleDTO.setModuleDetailsID(vehicleModules.getModuleDetailsID());
+					vehicleModuleDTO.setModuleName(vehicleModules.getModuleName());
+					vehicleModuleDTO.setModuleYear(vehicleModules.getModuleYear());
+					vehicleModuleDTO.setVehicleCategory(vehicleModules.getVehicleCategory());
+					vehicleModuleDTO.setVehicleClass(vehicleModules.getVehicleClass());
+					vehicleModuleDTO.setVehicleTypeID(vehicleModules.getVehicleTypeID());
+					vehicleModulesDTOs.add(vehicleModuleDTO);
+				}
+			}
+		} catch (RuntimeException ex) {
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return vehicleModulesDTOs;
 	}
 
 }

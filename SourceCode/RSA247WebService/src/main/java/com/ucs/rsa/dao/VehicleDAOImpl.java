@@ -50,7 +50,7 @@ public class VehicleDAOImpl extends BaseRepository implements IVehicleDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<VehicleDTO> getVehicles(String iVehicleId) {
+	public List<VehicleDTO> getVehicles(int iVehicleId) {
 		List<Vehicle> theVehicleList = null;
 		List<VehicleDTO> vehicleDTOs = new ArrayList<>();
 		Session theSession = null;

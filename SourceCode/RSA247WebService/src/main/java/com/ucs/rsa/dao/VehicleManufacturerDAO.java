@@ -18,7 +18,7 @@ public class VehicleManufacturerDAO extends BaseRepository implements IVehicleMa
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<VehicleManufacturerDTO> getVehicleManufacturers(String iVehicleManufacturerId) {
+	public List<VehicleManufacturerDTO> getVehicleManufacturers(int iVehicleManufacturerId) {
 		List<VehicleManufacturer> theVehicleManufacturersList = null;
 		List<VehicleManufacturerDTO> vehicleManufacturersDTOs = new ArrayList<>();
 		Session theSession = null;

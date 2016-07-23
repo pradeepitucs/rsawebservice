@@ -18,8 +18,8 @@ public class VehicleModules extends BaseDomain {
 	@Column(name = "module_details_id", unique = true, insertable = true, updatable = false)
 	private int moduleDetailsID;
 	
-	@Column(name="manufacturer")
-	private String manufacturer;
+	@Column(name="manufacturer_id")
+	private int manufacturerID;
 	
 	@Column(name="module_year")
 	private int moduleYear;
@@ -47,12 +47,12 @@ public class VehicleModules extends BaseDomain {
 		this.moduleDetailsID = moduleDetailsID;
 	}
 
-	public String getManufacturer() {
-		return manufacturer;
+	public int getManufacturerID() {
+		return manufacturerID;
 	}
 
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setManufacturer(int manufacturerID) {
+		this.manufacturerID = manufacturerID;
 	}
 
 	public int getModuleYear() {
@@ -105,7 +105,7 @@ public class VehicleModules extends BaseDomain {
 
 	@Override
 	public String toString() {
-		return "VehicleModules [moduleDetailsID=" + moduleDetailsID + ", manufacturer=" + manufacturer
+		return "VehicleModules [moduleDetailsID=" + moduleDetailsID + ", manufacturerID=" + manufacturerID
 				+ ", moduleYear=" + moduleYear + ", moduleName=" + moduleName + ", vehicleClass=" + vehicleClass
 				+ ", vehicleCategory=" + vehicleCategory + ", vehicleTypeID=" + vehicleTypeID + ", isEnabled="
 				+ isEnabled + "]";

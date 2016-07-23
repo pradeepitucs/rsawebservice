@@ -13,7 +13,7 @@ public class VehicleModuleDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int moduleDetailsID;
-	private String manufacturer;
+	private int manufacturerID;
 	private int moduleYear;
 	private String moduleName;
 	private String vehicleClass;
@@ -29,12 +29,12 @@ public class VehicleModuleDTO implements Serializable {
 		this.moduleDetailsID = moduleDetailsID;
 	}
 
-	public String getManufacturer() {
-		return manufacturer;
+	public int getManufacturerID() {
+		return manufacturerID;
 	}
 
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setManufacturerID(int manufacturerID) {
+		this.manufacturerID = manufacturerID;
 	}
 
 	public int getModuleYear() {
@@ -87,7 +87,7 @@ public class VehicleModuleDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "VehicleModuleDetailsDTO [moduleDetailsID=" + moduleDetailsID + ", manufacturer=" + manufacturer
+		return "VehicleModuleDetailsDTO [moduleDetailsID=" + moduleDetailsID + ", manufacturerID=" + manufacturerID
 				+ ", moduleYear=" + moduleYear + ", moduleName=" + moduleName + ", vehicleClass=" + vehicleClass
 				+ ", vehicleCategory=" + vehicleCategory + ", vehicleTypeID=" + vehicleTypeID + ", isEnabled="
 				+ isEnabled + "]";

@@ -25,7 +25,7 @@ public class VehicleModuleService extends BaseManagerImpl implements IVehicleMod
 	}
 
 	@Override
-	public VehicleModulesDTO getVehicleModules(String iVehicleModuleDetailsId) {
+	public VehicleModulesDTO getVehicleModules(int iVehicleModuleDetailsId) {
 		List<VehicleModuleDTO> vehicleModulesDTOs = null;
 		if (validateGetVehicleModuleDetails(iVehicleModuleDetailsId)) {
 			vehicleModulesDTOs = vehicleModuleDetailsDAO.getVehicleModules(iVehicleModuleDetailsId);
@@ -39,19 +39,27 @@ public class VehicleModuleService extends BaseManagerImpl implements IVehicleMod
 		return vehicleModulesDTO;
 	}
 
-	private boolean validateGetVehicleModuleDetails(String iVehicleModuleDetailsId) {
+	private boolean validateGetVehicleModuleDetails(int iVehicleModuleDetailsId) {
 		boolean isValid = Boolean.FALSE;
-		if (null != iVehicleModuleDetailsId && "" != iVehicleModuleDetailsId) {
+		if (0 != iVehicleModuleDetailsId) {
 			isValid = Boolean.TRUE;
-			try {
-				Integer.valueOf(iVehicleModuleDetailsId);
-			} catch (RuntimeException e) {
-				RSAException rsaEx = new RSAException();
-				rsaEx.setError(RSAErrorConstants.ErrorCode.INVALID_INPUT_PARAM_ERROR);
-				throw rsaEx;
-			}
 		}
 		return isValid;
+	}
+
+	@Override
+	public VehicleModulesDTO getVehicleManufacturers(int iVehicleManufacturersId) {
+		List<VehicleModuleDTO> vehicleModulesDTOs = null;
+		if (validateGetVehicleModuleDetails(iVehicleManufacturersId)) {
+			vehicleModulesDTOs = vehicleModuleDetailsDAO.getVehicleManufacturers(iVehicleManufacturersId);
+		} else {
+			RSAException rsaEx = new RSAException();
+			rsaEx.setError(RSAErrorConstants.ErrorCode.MANDATORY_PARAMS_MISSING_ERROR);
+			throw rsaEx;
+		}
+		VehicleModulesDTO vehicleModulesDTO = new VehicleModulesDTO();
+		vehicleModulesDTO.setVehicleModuleDTO(vehicleModulesDTOs);
+		return vehicleModulesDTO;
 	}
 
 }

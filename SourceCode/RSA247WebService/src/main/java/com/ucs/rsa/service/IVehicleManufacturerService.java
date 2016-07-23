@@ -7,7 +7,7 @@ import com.ucs.rsa.common.dto.VehicleManufacturersDTO;
 
 public interface IVehicleManufacturerService {
 
-	VehicleManufacturersDTO getVehicleManufacturers(String iVehicleManufacturerId);
+	VehicleManufacturersDTO getVehicleManufacturers(int iVehicleManufacturerId);
 
 	List<VehicleManufacturerDTO> getVehicleManufacturers();
 

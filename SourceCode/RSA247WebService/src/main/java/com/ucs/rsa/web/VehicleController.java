@@ -50,7 +50,7 @@ public class VehicleController {
 	}
 
 	@RequestMapping(value = "/details", method = RequestMethod.GET)
-	public ModelAndView getVehicleDetails(@RequestParam("vehicleid") final String iVehicleId) {
+	public ModelAndView getVehicleDetails(@RequestParam("vehicleid") final int iVehicleId) {
 
 		VehiclesDTO vehiclesDTO = null;
 		vehiclesDTO = vehicleService.getVehicles(iVehicleId);
