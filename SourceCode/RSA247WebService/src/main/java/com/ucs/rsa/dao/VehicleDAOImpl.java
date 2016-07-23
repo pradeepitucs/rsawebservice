@@ -50,14 +50,14 @@ public class VehicleDAOImpl extends BaseRepository implements IVehicleDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<VehicleDTO> getVehicles(String iVehicleId) {
+	public List<VehicleDTO> getVehicles(int iVehicleId) {
 		List<Vehicle> theVehicleList = null;
 		List<VehicleDTO> vehicleDTOs = new ArrayList<>();
 		Session theSession = null;
 		try {
 			theSession = currentSession();
 			final Criteria theCriteria = theSession.createCriteria(Vehicle.class, "vehicle")
-					.add(Restrictions.eq("vehicleID", iVehicleId));
+					.add(Restrictions.eq("vehicleID", Integer.valueOf(iVehicleId) ));
 			theVehicleList = (List<Vehicle>) theCriteria.list();
 
 			if (!theVehicleList.isEmpty()) {
@@ -91,20 +91,25 @@ public class VehicleDAOImpl extends BaseRepository implements IVehicleDAO {
 			theSession = currentSession();
 			Vehicle vehicle = null;
 
-			vehicle = (Vehicle) theSession.createCriteria(Vehicle.class, "vehicle")
-					.add(Restrictions.eq("mobileNo", vehicleDTO.getVehicleID())).uniqueResult();
-			if (vehicle != null) {
-				System.out.println("rsaException");
-				RSAException rsaException = new RSAException();
-				System.out.println("rsaException" + rsaException);
-				rsaException.setError(RSAErrorConstants.ErrorCode.USERNAME_ALREADY_EXISTS_ERROR);
-				throw rsaException;
-			}
+//			vehicle = (Vehicle) theSession.createCriteria(Vehicle.class, "vehicle").uniqueResult();
+//			if (vehicle != null) {
+//				System.out.println("rsaException");
+//				RSAException rsaException = new RSAException();
+//				System.out.println("rsaException" + rsaException);
+//				rsaException.setError(RSAErrorConstants.ErrorCode.USERNAME_ALREADY_EXISTS_ERROR);
+//				throw rsaException;
+//			}
 			vehicle = new Vehicle();
+			vehicle.setEnabled(iVehicleDTO.isEnabled());
+			vehicle.setUserId(iVehicleDTO.getUserId());
+			vehicle.setVehicleModuleID(iVehicleDTO.getVehicleModuleID());
+			vehicle.setVehicleNo(iVehicleDTO.getVehicleNo());
+			vehicle.setVehicleID(iVehicleDTO.getVehicleID());
 
+			
 			theSession.saveOrUpdate("vehicle", vehicle);
-
-			vehicle = (Vehicle) theSession.createCriteria(Vehicle.class, "vehicle").uniqueResult();
+			
+			vehicle = (Vehicle) theSession.createCriteria(Vehicle.class, "vehicle").add(Restrictions.eq("vehicleNo", vehicle.getVehicleNo())).uniqueResult();
 
 			System.out.println(vehicle);
 			if (vehicle != null) {

@@ -11,6 +11,6 @@ public interface IVehicleService {
 
 	List<VehicleDTO> getVehicles();
 
-	VehiclesDTO getVehicles(String iVehicleId);
+	VehiclesDTO getVehicles(int iVehicleId);
 
 }

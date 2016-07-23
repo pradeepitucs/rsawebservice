@@ -1,24 +1,42 @@
-package com.ucs.rsa.common.dto;
+package com.ucs.rsa.domain;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement(name = "vehicleModuleDetail", namespace = "com.ucs.rsa.dto")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class VehicleModuleDetailDTO implements Serializable {
+@Entity
+@Table(name = "vehicle_module_t")
+public class VehicleModules extends BaseDomain {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "module_details_id", unique = true, insertable = true, updatable = false)
 	private int moduleDetailsID;
-	private String manufacturer;
+	
+	@Column(name="manufacturer_id")
+	private int manufacturerID;
+	
+	@Column(name="module_year")
 	private int moduleYear;
+	
+	@Column(name="module_name")
 	private String moduleName;
+	
+	@Column(name="vehicle_class")
 	private String vehicleClass;
+	
+	@Column(name="vehicle_category")
 	private String vehicleCategory;
+	
+	@Column(name="vehicle_type_id")
 	private int vehicleTypeID;
+	
+	@Column(name="isEnabled")
 	private boolean isEnabled;
 
 	public int getModuleDetailsID() {
@@ -29,12 +47,12 @@ public class VehicleModuleDetailDTO implements Serializable {
 		this.moduleDetailsID = moduleDetailsID;
 	}
 
-	public String getManufacturer() {
-		return manufacturer;
+	public int getManufacturerID() {
+		return manufacturerID;
 	}
 
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setManufacturer(int manufacturerID) {
+		this.manufacturerID = manufacturerID;
 	}
 
 	public int getModuleYear() {
@@ -87,7 +105,7 @@ public class VehicleModuleDetailDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "VehicleModuleDetailsDTO [moduleDetailsID=" + moduleDetailsID + ", manufacturer=" + manufacturer
+		return "VehicleModules [moduleDetailsID=" + moduleDetailsID + ", manufacturerID=" + manufacturerID
 				+ ", moduleYear=" + moduleYear + ", moduleName=" + moduleName + ", vehicleClass=" + vehicleClass
 				+ ", vehicleCategory=" + vehicleCategory + ", vehicleTypeID=" + vehicleTypeID + ", isEnabled="
 				+ isEnabled + "]";

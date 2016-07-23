@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ucs.rsa.common.constants.RSAErrorConstants;
-import com.ucs.rsa.common.dto.UserDTO;
 import com.ucs.rsa.common.dto.VehicleDTO;
 import com.ucs.rsa.common.dto.VehiclesDTO;
 import com.ucs.rsa.common.exception.RSAException;
@@ -41,7 +40,7 @@ public class VehicleServiceImpl extends BaseManagerImpl implements IVehicleServi
 	}
 
 	@Override
-	public VehiclesDTO getVehicles(String iVehicleId) {
+	public VehiclesDTO getVehicles(int iVehicleId) {
 		List<VehicleDTO> vehicleDTOs = null;
 		if(validateGetVehicles(iVehicleId)) {
 			vehicleDTOs = vehicleDAO.getVehicles(iVehicleId);
@@ -55,17 +54,10 @@ public class VehicleServiceImpl extends BaseManagerImpl implements IVehicleServi
 		return vehiclesDTO;
 	}
 
-	private boolean validateGetVehicles(String iVehicleId) {
+	private boolean validateGetVehicles(int iVehicleId) {
 		boolean isValid = Boolean.FALSE;
-		if(null != iVehicleId && "" != iVehicleId) {
+		if( 0 != iVehicleId) {
 			isValid = Boolean.TRUE;
-			try {
-				Integer.valueOf(iVehicleId);
-			} catch (RuntimeException e) {
-				RSAException rsaEx = new RSAException();
-				rsaEx.setError(RSAErrorConstants.ErrorCode.INVALID_INPUT_PARAM_ERROR);
-				throw rsaEx;
-			}
 		}
 		return isValid;
 	}

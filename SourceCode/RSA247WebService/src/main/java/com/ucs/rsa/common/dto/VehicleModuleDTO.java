@@ -1,42 +1,24 @@
-package com.ucs.rsa.domain;
+package com.ucs.rsa.common.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "vehicle_module_t")
-public class VehicleModuleDetails extends BaseDomain {
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "vehicleModuleDetail", namespace = "com.ucs.rsa.dto")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class VehicleModuleDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "module_details_id", unique = true, insertable = true, updatable = false)
 	private int moduleDetailsID;
-	
-	@Column(name="manufacturer")
-	private String manufacturer;
-	
-	@Column(name="module_year")
+	private int manufacturerID;
 	private int moduleYear;
-	
-	@Column(name="module_name")
 	private String moduleName;
-	
-	@Column(name="vehicle_class")
 	private String vehicleClass;
-	
-	@Column(name="vehicle_category")
 	private String vehicleCategory;
-	
-	@Column(name="vehicle_type_id")
 	private int vehicleTypeID;
-	
-	@Column(name="isEnabled")
 	private boolean isEnabled;
 
 	public int getModuleDetailsID() {
@@ -47,12 +29,12 @@ public class VehicleModuleDetails extends BaseDomain {
 		this.moduleDetailsID = moduleDetailsID;
 	}
 
-	public String getManufacturer() {
-		return manufacturer;
+	public int getManufacturerID() {
+		return manufacturerID;
 	}
 
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setManufacturerID(int manufacturerID) {
+		this.manufacturerID = manufacturerID;
 	}
 
 	public int getModuleYear() {
@@ -105,7 +87,7 @@ public class VehicleModuleDetails extends BaseDomain {
 
 	@Override
 	public String toString() {
-		return "VehicleModuleDetails [moduleDetailsID=" + moduleDetailsID + ", manufacturer=" + manufacturer
+		return "VehicleModuleDetailsDTO [moduleDetailsID=" + moduleDetailsID + ", manufacturerID=" + manufacturerID
 				+ ", moduleYear=" + moduleYear + ", moduleName=" + moduleName + ", vehicleClass=" + vehicleClass
 				+ ", vehicleCategory=" + vehicleCategory + ", vehicleTypeID=" + vehicleTypeID + ", isEnabled="
 				+ isEnabled + "]";
