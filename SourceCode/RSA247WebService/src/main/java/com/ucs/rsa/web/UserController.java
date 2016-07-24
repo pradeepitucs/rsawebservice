@@ -30,17 +30,12 @@ public class UserController {
 			@RequestParam("isCreated") final boolean isCreated) {
 
 		
-//		UserDTO userDTO1 = userService.updateUser(iUserId, iUserFirstName,
-//				iUserLastName, iMobileNo, isEnabled, isCreated);
-		
 		CustomerDTO iUserDTO = new CustomerDTO();
 		iUserDTO.setMobileNo(iMobileNo);
 		iUserDTO.setUserId(iUserId);
 		iUserDTO.setEnabled(isEnabled);
 		iUserDTO.setUserFirstName(iUserFirstName);
 		iUserDTO.setUserLastName(iUserLastName);
-		
-		System.out.println("CustomerDTO " + iUserDTO);
 		
 		UserDTO userDTO = userService.updateUser(iUserDTO, isCreated);
 		
