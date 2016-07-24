@@ -4,9 +4,16 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+import org.springframework.stereotype.Component;
 
+@Component
+@Transactional
 public class BaseRepository extends HibernateDaoSupport implements
 		IBaseRepository {
 
@@ -159,4 +166,8 @@ public class BaseRepository extends HibernateDaoSupport implements
 				firstResult, maxResults);
 	}
 
+	@Resource(name = "sessionFactory")
+	public void setSessionFactroy(final SessionFactory iSessionFactory) {
+		this.setSessionFactory(iSessionFactory);
+	}
 }

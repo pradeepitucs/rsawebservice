@@ -7,9 +7,11 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.springframework.stereotype.Component;
 
 import com.ucs.rsa.dao.IBaseRepository;
 
+@Component
 public class BaseManagerImpl implements IBaseManager {
 
 	@Resource(name = "baseRepository")
@@ -164,7 +166,6 @@ public class BaseManagerImpl implements IBaseManager {
 				firstResult, maxResults);
 	}
 
-	
 	public IBaseRepository getRepository() {
 		return repository;
 	}
@@ -172,6 +173,5 @@ public class BaseManagerImpl implements IBaseManager {
 	public void setRepository(IBaseRepository repository) {
 		this.repository = repository;
 	}
-	
 	
 }

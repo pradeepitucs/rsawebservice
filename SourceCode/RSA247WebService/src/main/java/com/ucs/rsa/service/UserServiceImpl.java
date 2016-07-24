@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ucs.rsa.common.constants.RSAErrorConstants;
 import com.ucs.rsa.common.dto.UserDTO;
+import com.ucs.rsa.common.dto.UserRolesDTO;
 import com.ucs.rsa.common.exception.RSAException;
 import com.ucs.rsa.dao.IUserDAO;
 
@@ -37,6 +38,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	@Transactional
 	public UserDTO updateUser(UserDTO iUserDTO, boolean isCreate) {
 		UserDTO userDTO = null;
 
@@ -49,6 +51,13 @@ public class UserServiceImpl implements IUserService {
 			throw rsaException;
 		}
 		return userDTO;
+	}
+
+	@Override
+	@Transactional
+	public UserRolesDTO getUserRoles() {
+		UserRolesDTO userRolesDTO = userDAO.getUserRoles();
+		return userRolesDTO;
 	}
 
 }

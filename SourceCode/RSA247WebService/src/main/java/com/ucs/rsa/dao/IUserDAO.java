@@ -1,6 +1,7 @@
 package com.ucs.rsa.dao;
 
 import com.ucs.rsa.common.dto.UserDTO;
+import com.ucs.rsa.common.dto.UserRolesDTO;
 
 public interface IUserDAO  {
 
@@ -9,5 +10,7 @@ public interface IUserDAO  {
 			boolean isCreate);
 	
 	public UserDTO updateUser(UserDTO iUserDTO, boolean isCreate);
+	
+	public UserRolesDTO getUserRoles();
 	
 }

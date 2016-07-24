@@ -22,10 +22,21 @@ public class User extends BaseDomain {
 	private int userID;
 
 	@Column(name = "mobile_no", unique = true)
-	private int mobileNo;
+	private long mobileNo;
 
 	@Column(name = "is_enabled")
 	private boolean isEnabled;
+	
+	@Column(name="role_id")
+	private int role_id;
+
+	public long getMobileNo() {
+		return mobileNo;
+	}
+
+	public void setMobileNo(long mobileNo) {
+		this.mobileNo = mobileNo;
+	}
 
 	public int getUserID() {
 		return userID;
@@ -33,14 +44,6 @@ public class User extends BaseDomain {
 
 	public void setUserID(int userID) {
 		this.userID = userID;
-	}
-
-	public int getMobileNo() {
-		return mobileNo;
-	}
-
-	public void setMobileNo(int mobileNo) {
-		this.mobileNo = mobileNo;
 	}
 
 	public boolean isEnabled() {
@@ -51,10 +54,18 @@ public class User extends BaseDomain {
 		this.isEnabled = isEnabled;
 	}
 
+	public int getRole_id() {
+		return role_id;
+	}
+
+	public void setRole_id(int role_id) {
+		this.role_id = role_id;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userID=" + userID + ", mobileNo=" + mobileNo
-				+ ", isEnabled=" + isEnabled + "]";
+				+ ", isEnabled=" + isEnabled + ", role_id=" + role_id + "]";
 	}
 
 }

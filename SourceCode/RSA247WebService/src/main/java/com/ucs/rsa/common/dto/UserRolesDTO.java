@@ -10,13 +10,13 @@ public class UserRolesDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<RoleDTO> userRole;
+	private List<UserRoleDTO> userRole;
 
-	public List<RoleDTO> getUserRole() {
+	public List<UserRoleDTO> getUserRole() {
 		return userRole;
 	}
 
-	public void setUserRole(List<RoleDTO> userRole) {
+	public void setUserRole(List<UserRoleDTO> userRole) {
 		this.userRole = userRole;
 	}
 

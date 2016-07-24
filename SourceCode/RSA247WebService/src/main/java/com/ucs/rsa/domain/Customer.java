@@ -17,6 +17,50 @@ public class Customer extends User {
 
 	@Column(name = "last_name")
 	private String userLastName;
+	
+	@Column(name = "email_id")
+	private String emailId;
+
+	@Column(name = "city_id")
+	private int city;
+	
+	@Column(name = "gcm_id")
+	private String gcmId;
+	
+	@Column(name = "folder_name")
+	private String folderName;
+
+	public int getCity() {
+		return city;
+	}
+
+	public void setCity(int city) {
+		this.city = city;
+	}
+
+	public String getFolderName() {
+		return folderName;
+	}
+
+	public void setFolderName(String folderName) {
+		this.folderName = folderName;
+	}
+
+	public String getGcmId() {
+		return gcmId;
+	}
+
+	public void setGcmId(String gcmId) {
+		this.gcmId = gcmId;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
 
 	public String getUserFirstName() {
 		return userFirstName;
@@ -37,7 +81,7 @@ public class Customer extends User {
 	@Override
 	public String toString() {
 		return "Customer [userFirstName=" + userFirstName + ", userLastName="
-				+ userLastName + "]" + super.toString();
+				+ userLastName + ", emailId=" + emailId + ", city=" + city+ ", gcmId=" + gcmId+ ", folderName =" + folderName+ "]" + super.toString();
 	}
 	
 	

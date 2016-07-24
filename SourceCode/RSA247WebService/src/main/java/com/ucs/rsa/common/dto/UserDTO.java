@@ -11,7 +11,17 @@ public class UserDTO implements Serializable {
 
 	private int userId;
 	
-	private int mobileNo;
+	private long mobileNo;
+
+	public long getMobileNo() {
+		return mobileNo;
+	}
+
+	public void setMobileNo(long mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
+	private int roleId;
 	private boolean isEnabled;
 
 	public int getUserId() {
@@ -22,14 +32,6 @@ public class UserDTO implements Serializable {
 		this.userId = userId;
 	}
 
-	public int getMobileNo() {
-		return mobileNo;
-	}
-
-	public void setMobileNo(int mobileNo) {
-		this.mobileNo = mobileNo;
-	}
-
 	public boolean isEnabled() {
 		return isEnabled;
 	}
@@ -37,11 +39,19 @@ public class UserDTO implements Serializable {
 	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
 	}
+	
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
 
 	@Override
 	public String toString() {
-		return "UserDTO [userId=" + userId  + ", mobileNo=" + mobileNo
-				+ ", isEnabled=" + isEnabled + "]";
+		return "UserDTO [userId=" + userId + ", mobileNo=" + mobileNo
+				+ ", roleId=" + roleId + ", isEnabled=" + isEnabled + "]";
 	}
-
+	
 }

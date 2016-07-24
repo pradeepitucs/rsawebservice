@@ -1,6 +1,7 @@
 package com.ucs.rsa.service;
 
 import com.ucs.rsa.common.dto.UserDTO;
+import com.ucs.rsa.common.dto.UserRolesDTO;
 
 public interface IUserService {
 
@@ -8,4 +9,7 @@ public interface IUserService {
 			boolean isEnabled, boolean isCreate);
 	
 	public UserDTO updateUser(UserDTO iUserDTO, boolean isCreate);
+
+	public UserRolesDTO getUserRoles();
+	
 }

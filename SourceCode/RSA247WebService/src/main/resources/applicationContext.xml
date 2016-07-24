@@ -3,6 +3,7 @@
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/jdbc 
@@ -25,14 +26,16 @@
 		<property name="favorPathExtension" value="false" />
 		<property name="favorParameter" value="true" />
 		<property name="parameterName" value="mediaType" />
-		<property name="ignoreAcceptHeader" value="true" />
+		<property name="ignoreAcceptHeader" value="false" />
 		<property name="useJaf" value="false" />
-		<property name="defaultContentType" value="application/json" />
+		
+		<!-- default Content Type  --> 
+		<!-- <property name="defaultContentType" value="application/json" /> -->
 
 		<property name="mediaTypes">
 			<map>
-				<entry key="json" value="application/json" />
-				<entry key="xml" value="application/xml" />
+			    <entry key="json" value="application/json" />
+			    <entry key="xml" value="application/xml" />
 			</map>
 		</property>
 	</bean>
@@ -42,10 +45,31 @@
 		<property name="classesToBeBound">
 			<list>
 				<value>com.ucs.rsa.common.dto.UserDTO</value>
+				<value>com.ucs.rsa.common.dto.CustomerDTO</value>
+				<value>com.ucs.rsa.common.dto.ExceptionDTO</value>
+				<value>com.ucs.rsa.common.dto.UserRoleDTO</value>
+				<value>com.ucs.rsa.common.dto.UserRolesDTO</value>
+				<value>com.ucs.rsa.common.dto.UsersDTO</value>
+				<value>com.ucs.rsa.common.dto.CitiesDTO</value>
+				<value>com.ucs.rsa.common.dto.CityDTO</value>
+				<value>com.ucs.rsa.common.dto.StateDTO</value>
+				<value>com.ucs.rsa.common.dto.StatesDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleDTO</value>
+				<value>com.ucs.rsa.common.dto.VehiclesDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleModuleDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleModulesDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleManufacturerDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleManufacturersDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleTypeDTO</value>
+				<value>com.ucs.rsa.common.dto.VehicleTypesDTO</value>
+				<value>com.ucs.rsa.common.dto.AmbulanceRequestDTO</value>
+				<value>com.ucs.rsa.common.dto.CustomerRequestDTO</value>
+				<value>com.ucs.rsa.common.dto.CustomerRequestsDTO</value>
 			</list>
 		</property>
 	</bean>
 
+	<!-- View Resolver -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 
@@ -55,7 +79,9 @@
 		<property name="defaultViews">
 			<list>
 				<bean id="JsonView"
-					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" >
+					<property name="prettyPrint" value="true" />
+				</bean>
 				<bean id="XmlView"
 					class="org.springframework.web.servlet.view.xml.MarshallingView">
 					<constructor-arg ref="jaxbMarshaller" />
@@ -64,13 +90,20 @@
 		</property>
 
 	</bean>
+	
+	<!-- Request Mapping Handler Mapping -->
+	<bean id="handlerMapping"
+	      class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+	    <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+	    <property name="useSuffixPatternMatch" value="false"/>
+	</bean>
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost/mt1" />
 		<property name="username" value="root" />
-		<property name="password" value="admin" />
+		<property name="password" value="root" />
 	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -78,6 +111,17 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.ucs.rsa.domain.User</value>
+				<value>com.ucs.rsa.domain.Customer</value>
+				<value>com.ucs.rsa.domain.BaseDomain</value>
+				<value>com.ucs.rsa.domain.UserRole</value>
+				<value>com.ucs.rsa.domain.City</value>
+				<value>com.ucs.rsa.domain.State</value>
+				<value>com.ucs.rsa.domain.Vehicle</value>
+				<value>com.ucs.rsa.domain.VehicleModules</value>
+				<value>com.ucs.rsa.domain.VehicleManufacturer</value>
+				<value>com.ucs.rsa.domain.VehicleType</value>
+				<value>com.ucs.rsa.domain.AmbulanceRequest</value>
+				<value>com.ucs.rsa.domain.CustomerRequest</value>
 			</list>
 		</property>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
@@ -90,10 +134,14 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="userDAOImpl" class="com.ucs.rsa.dao.UserDAOImpl">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
+<!-- 	<bean id="userDAOImpl" class="com.ucs.rsa.dao.UserDAOImpl"> -->
+<!-- 		<property name="sessionFactory" ref="sessionFactory" /> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="baseRepository" class="com.ucs.rsa.dao.BaseRepository"> -->
+<!-- 		<property name="sessionFactory" ref="sessionFactory" /> -->
+<!-- 	</bean> -->
+	
 	<bean id="userServiceImpl" class="com.ucs.rsa.service.UserServiceImpl">
 		<property name="userDAO" ref="userDAOImpl" />
 	</bean>
@@ -102,4 +150,22 @@
 		<property name="userServices" ref="userServiceImpl" />
 	</bean>
 
+	<!--  Resolvers -->
+	<bean id="ResponseExceptionResolver"
+		class="org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver">
+		<property name="order">
+			<value>1</value>
+		</property>
+	</bean>
+	<bean id="RSAExceptionResolver" class="com.ucs.rsa.web.resolver.RSAExceptionResolver">
+		<property name="order">
+			<value>2</value>
+		</property>
+	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
+	     p:defaultEncoding="utf-8"> 
+	    <!-- <property name="maxUploadSize" value="50000000"/> --> 
+	</bean>
+	
 </beans>
