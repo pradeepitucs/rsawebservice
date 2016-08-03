@@ -2,48 +2,49 @@ package com.ucs.rsa.common.dto;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "vehicleType", namespace = "com.ucs.rsa.dto")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class VehicleTypeDTO implements Serializable {
+@XmlRootElement(name = "vehicleType", namespace = "com.ucs.rsa.common.dto")
 
+public class VehicleTypeDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int vehicleType;
+	private int vehicleTypeId;
+	private boolean isEnabled;
 	private String vehicleTypeName;
-	private String fuelType;
+//	private List<VehicleInformationModelDTO> vehicleInformationModelDTOs;
 
-	public int getVehicleType() {
-		return vehicleType;
+
+	public int getVehicleTypeId() {
+		return this.vehicleTypeId;
 	}
 
-	public void setVehicleType(int vehicleType) {
-		this.vehicleType = vehicleType;
+	public void setVehicleTypeId(int vehicleTypeId) {
+		this.vehicleTypeId = vehicleTypeId;
+	}
+
+	public boolean getIsEnabled() {
+		return this.isEnabled;
+	}
+
+	public void setIsEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
 	public String getVehicleTypeName() {
-		return vehicleTypeName;
+		return this.vehicleTypeName;
 	}
 
 	public void setVehicleTypeName(String vehicleTypeName) {
 		this.vehicleTypeName = vehicleTypeName;
 	}
 
-	public String getFuelType() {
-		return fuelType;
-	}
-
-	public void setFuelType(String fuelType) {
-		this.fuelType = fuelType;
-	}
-
-	@Override
-	public String toString() {
-		return "VehicleTypeDTO [vehicleType=" + vehicleType + ", vehicleTypeName=" + vehicleTypeName + ", fuelType="
-				+ fuelType + "]";
-	}
+//	public List<VehicleInformationModelDTO> getVehicleInformationModels() {
+//		return this.vehicleInformationModelDTOs;
+//	}
+//
+//	public void setVehicleInformationModels(List<VehicleInformationModelDTO> vehicleInformationModelDTOs) {
+//		this.vehicleInformationModelDTOs = vehicleInformationModelDTOs;
+//	}
 
 }

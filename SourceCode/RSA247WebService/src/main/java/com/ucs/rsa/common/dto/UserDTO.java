@@ -4,54 +4,56 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "user", namespace = "com.ucs.rsa.dto")
-public class UserDTO implements Serializable {
 
-	private static final long serialVersionUID = 6325865187874911617L;
+@XmlRootElement(name = "user", namespace = "com.ucs.rsa.common.dto")
+
+public class UserDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private int userId;
-	
-	private long mobileNo;
-
-	public long getMobileNo() {
-		return mobileNo;
-	}
-
-	public void setMobileNo(long mobileNo) {
-		this.mobileNo = mobileNo;
-	}
-
-	private int roleId;
 	private boolean isEnabled;
+	private long mobileNo;
+//	private CustomerDTO customerModel;
+//	private RoleDTO roleDTO;
 
 	public int getUserId() {
-		return userId;
+		return this.userId;
 	}
 
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
-	public boolean isEnabled() {
-		return isEnabled;
+	public boolean getIsEnabled() {
+		return this.isEnabled;
 	}
 
-	public void setEnabled(boolean isEnabled) {
+	public void setIsEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
 	}
-	
-	public int getRoleId() {
-		return roleId;
+
+	public long getMobileNo() {
+		return this.mobileNo;
 	}
 
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
+	public void setMobileNo(long mobileNo) {
+		this.mobileNo = mobileNo;
 	}
 
-	@Override
-	public String toString() {
-		return "UserDTO [userId=" + userId + ", mobileNo=" + mobileNo
-				+ ", roleId=" + roleId + ", isEnabled=" + isEnabled + "]";
-	}
-	
+//	public CustomerDTO getCustomerModel() {
+//		return this.customerModel;
+//	}
+//
+//	public void setCustomerModel(CustomerDTO customerModel) {
+//		this.customerModel = customerModel;
+//	}
+//
+//	public RoleDTO getRoleModel() {
+//		return this.roleDTO;
+//	}
+//
+//	public void setRoleModel(RoleDTO roleDTO) {
+//		this.roleDTO = roleDTO;
+//	}
+
 }

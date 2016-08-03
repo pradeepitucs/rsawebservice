@@ -1,9 +1,9 @@
 package com.ucs.rsa.service;
 
-import com.ucs.rsa.common.dto.CustomerRequestDTO;
+import com.ucs.rsa.model.AmbulanceRequest;
 
-public interface ICustomerRequestService {
+public interface ICustomerRequestService extends BaseService {
 	
-	public CustomerRequestDTO updateCustomerRequest(CustomerRequestDTO iCustomerRequestDTO, boolean isCreate);
+	public AmbulanceRequest updateAmbulanceRequest(AmbulanceRequest iAmbulanceRequest, boolean isCreate);
 
 }

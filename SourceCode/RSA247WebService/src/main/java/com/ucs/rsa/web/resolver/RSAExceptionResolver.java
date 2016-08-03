@@ -30,10 +30,6 @@ public class RSAExceptionResolver implements HandlerExceptionResolver {
 			anExceptionDTO.setErrorKey(((RSAException) iException).getError().getKey());
 			anExceptionDTO.setErrorMessage(((RSAException) iException).getError().getMessage());
 
-			// anExceptionDTO.setErrorKey(((UPCException)
-			// iException).getErrorKey());
-			// anExceptionDTO.setErrorMessage(((UPCException)
-			// iException).getErrorMessage());
 		} else {
 			anExceptionDTO.setErrorMessage(iException.getMessage());
 		}

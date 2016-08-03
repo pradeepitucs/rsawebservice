@@ -1,55 +1,60 @@
 package com.ucs.rsa.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "state", namespace = "com.ucs.rsa.common.dto")
-public class StateDTO implements Serializable {
 
+public class StateDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int stateID;
-	private String stateName;
-	private String stateCode;
+	private int stateId;
 	private boolean isEnabled;
+	private String stateCode;
+	private String stateName;
+//	private List<CityDTO> cityDTOs;
 
-	public int getStateID() {
-		return stateID;
+
+	public int getStateId() {
+		return this.stateId;
 	}
 
-	public void setStateID(int stateID) {
-		this.stateID = stateID;
+	public void setStateId(int stateId) {
+		this.stateId = stateId;
 	}
 
-	public String getStateName() {
-		return stateName;
+	public boolean getIsEnabled() {
+		return this.isEnabled;
 	}
 
-	public void setStateName(String stateName) {
-		this.stateName = stateName;
+	public void setIsEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
 	public String getStateCode() {
-		return stateCode;
+		return this.stateCode;
 	}
 
 	public void setStateCode(String stateCode) {
 		this.stateCode = stateCode;
 	}
 
-	public boolean isEnabled() {
-		return isEnabled;
+	public String getStateName() {
+		return this.stateName;
 	}
 
-	public void setEnabled(boolean isEnabled) {
-		this.isEnabled = isEnabled;
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
 	}
 
-	@Override
-	public String toString() {
-		return "StateDTO [stateID=" + stateID + ", stateName=" + stateName + ", stateCode=" + stateCode + ", isEnabled="
-				+ isEnabled + "]";
-	}
+//	public List<CityDTO> getCityModels() {
+//		return this.cityDTOs;
+//	}
+//
+//	public void setCityModels(List<CityDTO> cityDTOs) {
+//		this.cityDTOs = cityDTOs;
+//	}
 
 }

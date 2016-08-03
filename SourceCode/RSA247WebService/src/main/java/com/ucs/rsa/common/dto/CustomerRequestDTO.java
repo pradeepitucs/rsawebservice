@@ -11,13 +11,9 @@ public class CustomerRequestDTO implements Serializable {
 
 	private int issueId;
 
-	private String issueType;
-
 	private double customerLatitude;
 
 	private double customerLongitude;
-
-	private int userId;
 
 	private String issueStatus;
 
@@ -37,14 +33,7 @@ public class CustomerRequestDTO implements Serializable {
 		this.issueId = issueId;
 	}
 
-	public String getIssueType() {
-		return issueType;
-	}
-
-	public void setIssueType(String issueType) {
-		this.issueType = issueType;
-	}
-
+	
 	public double getCustomerLatitude() {
 		return customerLatitude;
 	}
@@ -61,19 +50,10 @@ public class CustomerRequestDTO implements Serializable {
 		this.customerLongitude = customerLongitude;
 	}
 
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
 	@Override
 	public String toString() {
-		return "CustomerRequest [issueId=" + issueId + ", issueType=" + issueType + ", customerLatitude="
-				+ customerLatitude + ", customerLongitude=" + customerLongitude + ", userId=" + userId
-				+ ", issueStatus=" + issueStatus + "]";
+		return "CustomerRequest [issueId=" + issueId  + ", customerLatitude="
+				+ customerLatitude + ", customerLongitude=" + customerLongitude + " issueStatus=" + issueStatus + "]";
 	}
 
 }

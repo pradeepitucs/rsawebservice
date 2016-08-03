@@ -2,48 +2,59 @@ package com.ucs.rsa.common.dto;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "VehicleManufacturers", namespace = "com.ucs.rsa.dto")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class VehicleManufacturerDTO implements Serializable {
 
+@XmlRootElement(name = "vehicleManufacturer", namespace = "com.ucs.rsa.common.dto")
+
+public class VehicleManufacturerDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int manufacturesrID;
-	private String manufacturerName;
+	private int manufacturerId;
 	private boolean isEnabled;
+	private String manufacturerName;
+//	private List<VehicleDTO> vehicleDTOs;
+//	private List<VehicleInformationModelDTO> vehicleInformationDTOs;
 
-	public int getManufacturesrID() {
-		return manufacturesrID;
+
+	public int getManufacturerId() {
+		return this.manufacturerId;
 	}
 
-	public void setManufacturesrID(int manufacturesrID) {
-		this.manufacturesrID = manufacturesrID;
+	public void setManufacturerId(int manufacturerId) {
+		this.manufacturerId = manufacturerId;
+	}
+
+	public boolean getIsEnabled() {
+		return this.isEnabled;
+	}
+
+	public void setIsEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
 	public String getManufacturerName() {
-		return manufacturerName;
+		return this.manufacturerName;
 	}
 
 	public void setManufacturerName(String manufacturerName) {
 		this.manufacturerName = manufacturerName;
 	}
 
-	public boolean isEnabled() {
-		return isEnabled;
-	}
-
-	public void setEnabled(boolean isEnabled) {
-		this.isEnabled = isEnabled;
-	}
-
-	@Override
-	public String toString() {
-		return "VehicleManufacturesrDTO [manufacturesrID=" + manufacturesrID + ", manufacturer=" + manufacturerName
-				+ ", isEnabled=" + isEnabled + "]";
-	}
+//	public List<VehicleDTO> getVehicleModels() {
+//		return this.vehicleDTOs;
+//	}
+//
+//	public void setVehicleModels(List<VehicleDTO> vehicleModels) {
+//		this.vehicleDTOs = vehicleModels;
+//	}
+//
+//	public List<VehicleInformationModelDTO> getVehicleInformationModels() {
+//		return this.vehicleInformationDTOs;
+//	}
+//
+//	public void setVehicleInformationModels(List<VehicleInformationModelDTO> vehicleInformationModels) {
+//		this.vehicleInformationDTOs = vehicleInformationModels;
+//	}
 
 }

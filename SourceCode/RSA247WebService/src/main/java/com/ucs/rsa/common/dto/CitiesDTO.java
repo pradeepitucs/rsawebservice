@@ -3,26 +3,24 @@ package com.ucs.rsa.common.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "cities", namespace = "com.ucs.rsa.common.dto")
-public class CitiesDTO implements Serializable {
 
+public class CitiesDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private List<CityDTO> cities;
+	
+	private List<CityDTO> cityDTOs;
 
-	public List<CityDTO> getCities() {
-		return cities;
+	@XmlElement(name = "city")
+	public List<CityDTO> getCityDTOs() {
+		return cityDTOs;
 	}
 
-	public void setCities(List<CityDTO> cities) {
-		this.cities = cities;
-	}
-
-	@Override
-	public String toString() {
-		return "CitiesDTO [cities=" + cities + "]";
+	public void setCityDTOs(List<CityDTO> cityDTOs) {
+		this.cityDTOs = cityDTOs;
 	}
 
 }

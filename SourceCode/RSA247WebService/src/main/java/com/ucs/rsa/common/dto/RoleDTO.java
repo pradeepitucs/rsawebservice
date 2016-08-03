@@ -1,19 +1,23 @@
 package com.ucs.rsa.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "role", namespace = "com.ucs.rsa.common.dto")
-public class RoleDTO implements Serializable {
 
+@XmlRootElement(name = "role", namespace = "com.ucs.rsa.common.dto")
+
+public class RoleDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private int roleId;
 	private String roleName;
+//	private List<UserDTO> userDTOs;
+
 
 	public int getRoleId() {
-		return roleId;
+		return this.roleId;
 	}
 
 	public void setRoleId(int roleId) {
@@ -21,40 +25,19 @@ public class RoleDTO implements Serializable {
 	}
 
 	public String getRoleName() {
-		return roleName;
+		return this.roleName;
 	}
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
 
-	@Override
-	public boolean equals(final Object arg0) {
-		if (arg0 == null) {
-			return false;
-		}
-		if (!(arg0 instanceof RoleDTO)) {
-			return false;
-		}
-		RoleDTO arg1 = (RoleDTO) arg0;
-		return (this.roleId == arg1.getRoleId())
-				&& (arg1.getRoleName().equals(this.roleName));
-
-	}
-
-	@Override
-	public int hashCode() {
-		int code = 0;
-		code += roleId;
-		if (roleName != null) {
-			code += roleName.hashCode();
-		}
-		return code;
-	}
-
-	@Override
-	public String toString() {
-		return "RoleDTO [roleId=" + roleId + ", roleName=" + roleName + "]";
-	}
+//	public List<UserDTO> getUserModels() {
+//		return this.userDTOs;
+//	}
+//
+//	public void setUserModels(List<UserDTO> userDTOs) {
+//		this.userDTOs = userDTOs;
+//	}
 
 }
