@@ -7,29 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "customer_request_t")
-@NamedQuery(name="CustomerRequest.findAll", query="SELECT u FROM CustomerRequest u")
-public class CustomerRequest implements Serializable {
-
+@NamedQuery(name = "CustomerRequestModel.findAll", query = "SELECT u FROM CustomerRequestModel u")
+public class CustomerRequestModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "issue_id", unique = true, insertable = true, updatable = false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "issue_id")
 	private int issueId;
-
-	@ManyToOne
-	@JoinColumn(name="service_type_id")
-	private ServiceTypeModel serviceTypeModel;
 
 	@Column(name = "customer_latitude")
 	private double customerLatitude;
@@ -37,22 +29,25 @@ public class CustomerRequest implements Serializable {
 	@Column(name = "customer_longitude")
 	private double customerLongitude;
 
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private UserModel userModel;
-
 	@Column(name = "issue_status")
 	private String issueStatus;
 
-	public CustomerRequest() {
-	}
+	//bi-directional many-to-one association to ServiceTypeModel
+	@ManyToOne
+	@JoinColumn(name="service_type_id")
+	private ServiceTypeModel serviceTypeModel;
 
-	public String getIssueStatus() {
-		return issueStatus;
-	}
+	//bi-directional many-to-one association to CustomerModel
+	@ManyToOne
+	@JoinColumn(name="customer_id")
+	private CustomerModel customerModel;
 
-	public void setIssueStatus(String issueStatus) {
-		this.issueStatus = issueStatus;
+	//bi-directional many-to-one association to ServiceProviderModel
+	@ManyToOne
+	@JoinColumn(name="employee_id")
+	private ServiceProviderModel serviceProviderModel;
+
+	public CustomerRequestModel() {
 	}
 
 	public int getIssueId() {
@@ -79,6 +74,14 @@ public class CustomerRequest implements Serializable {
 		this.customerLongitude = customerLongitude;
 	}
 
+	public String getIssueStatus() {
+		return issueStatus;
+	}
+
+	public void setIssueStatus(String issueStatus) {
+		this.issueStatus = issueStatus;
+	}
+
 	public ServiceTypeModel getServiceTypeModel() {
 		return serviceTypeModel;
 	}
@@ -87,19 +90,20 @@ public class CustomerRequest implements Serializable {
 		this.serviceTypeModel = serviceTypeModel;
 	}
 
-	public UserModel getUserModel() {
-		return userModel;
+	public CustomerModel getCustomerModel() {
+		return customerModel;
 	}
 
-	public void setUserModel(UserModel userModel) {
-		this.userModel = userModel;
+	public void setCustomerModel(CustomerModel customerModel) {
+		this.customerModel = customerModel;
 	}
 
-	@Override
-	public String toString() {
-		return "CustomerRequest [issueId=" + issueId + ", serviceTypeModel=" + serviceTypeModel + ", customerLatitude="
-				+ customerLatitude + ", customerLongitude=" + customerLongitude + ", userModel=" + userModel
-				+ ", issueStatus=" + issueStatus + "]";
+	public ServiceProviderModel getServiceProviderModel() {
+		return serviceProviderModel;
+	}
+
+	public void setServiceProviderModel(ServiceProviderModel serviceProviderModel) {
+		this.serviceProviderModel = serviceProviderModel;
 	}
 
 }

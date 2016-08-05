@@ -71,9 +71,10 @@
 				<value>com.ucs.rsa.common.dto.ServiceProvidersDTO</value>
 				<value>com.ucs.rsa.common.dto.ServiceTypeDTO</value>
 				<value>com.ucs.rsa.common.dto.ServiceTypesDTO</value>
-				<value>com.ucs.rsa.common.dto.AmbulanceRequestDTO</value>
 				<value>com.ucs.rsa.common.dto.CustomerRequestDTO</value>
 				<value>com.ucs.rsa.common.dto.CustomerRequestsDTO</value>
+				<value>com.ucs.rsa.common.dto.CustomerReviewDTO</value>
+				<value>com.ucs.rsa.common.dto.CustomerReviewsDTO</value>
 			</list>
 		</property>
 	</bean>
@@ -107,7 +108,7 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/mt2" />
+		<property name="url" value="jdbc:mysql://localhost/mt1" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 	</bean>
@@ -130,7 +131,8 @@
 				<value>com.ucs.rsa.model.VehicleTypeModel</value>
 				<value>com.ucs.rsa.model.ServiceProviderModel</value>
 				<value>com.ucs.rsa.model.ServiceTypeModel</value>
-				<value>com.ucs.rsa.model.AmbulanceRequest</value>
+				<value>com.ucs.rsa.model.CustomerRequestModel</value>
+				<value>com.ucs.rsa.model.CustomerReviewModel</value>
 			</list>
 		</property>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
@@ -142,22 +144,6 @@
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
-<!-- 	<bean id="userDAOImpl" class="com.ucs.rsa.dao.UserDAOImpl"> -->
-<!-- 		<property name="sessionFactory" ref="sessionFactory" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="baseRepository" class="com.ucs.rsa.dao.BaseRepository"> -->
-<!-- 		<property name="sessionFactory" ref="sessionFactory" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="userServiceImpl" class="com.ucs.rsa.services.UserServiceImpl"> -->
-<!-- 		<property name="userDAO" ref="userDAOImpl" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="userController" class="com.ucs.rsa.web.UserController"> -->
-<!-- 		<property name="userServices" ref="userServiceImpl" /> -->
-<!-- 	</bean> -->
 
 	<!--  Resolvers -->
 	<bean id="ResponseExceptionResolver"

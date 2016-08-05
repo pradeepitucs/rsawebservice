@@ -1,7 +1,20 @@
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * The persistent class for the customer_t database table.
@@ -33,6 +46,16 @@ public class CustomerModel extends UserModel implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "city_id")
 	private CityModel cityModel;
+
+	// bi-directional many-to-one association to CustomerRequestModel
+	@OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
+	//@Fetch(value = FetchMode.SUBSELECT)
+	private List<CustomerRequestModel> customerRequestModels;
+
+	// bi-directional many-to-one association to CustomerReviewModel
+	@OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
+	//@Fetch(value = FetchMode.SUBSELECT)
+	private List<CustomerReviewModel> customerReviewModels;
 
 	public CustomerModel() {
 	}
@@ -85,10 +108,43 @@ public class CustomerModel extends UserModel implements Serializable {
 		this.cityModel = cityModel;
 	}
 
-	@Override
-	public String toString() {
-		return "CustomerModel [emailId=" + emailId + ", firstName=" + firstName + ", folderName=" + folderName
-				+ ", gcmId=" + gcmId + ", lastName=" + lastName + ", cityModel=" + cityModel + "]";
+	public List<CustomerRequestModel> getCustomerRequestModels() {
+		return customerRequestModels;
 	}
 
+	public void setCustomerRequestModels(List<CustomerRequestModel> customerRequestModels) {
+		this.customerRequestModels = customerRequestModels;
+	}
+
+	public List<CustomerReviewModel> getCustomerReviewModels() {
+		return customerReviewModels;
+	}
+
+	public void setCustomerReviewModels(List<CustomerReviewModel> customerReviewModels) {
+		this.customerReviewModels = customerReviewModels;
+	}
+
+	public CustomerRequestModel addCustomerRequestModel(CustomerRequestModel customerRequestModel) {
+		getCustomerRequestModels().add(customerRequestModel);
+		customerRequestModel.setCustomerModel(this);
+		return customerRequestModel;
+	}
+
+	public CustomerRequestModel removeCustomerRequestModel(CustomerRequestModel customerRequestModel) {
+		getCustomerRequestModels().remove(customerRequestModel);
+		customerRequestModel.setCustomerModel(null);
+		return customerRequestModel;
+	}
+
+	public CustomerReviewModel addCustomerReviewModel(CustomerReviewModel customerReviewModel) {
+		getCustomerReviewModels().add(customerReviewModel);
+		customerReviewModel.setCustomerModel(this);
+		return customerReviewModel;
+	}
+
+	public CustomerReviewModel removeCustomerReviewModel(CustomerReviewModel customerReviewModel) {
+		getCustomerReviewModels().remove(customerReviewModel);
+		customerReviewModel.setCustomerModel(null);
+		return customerReviewModel;
+	}
 }

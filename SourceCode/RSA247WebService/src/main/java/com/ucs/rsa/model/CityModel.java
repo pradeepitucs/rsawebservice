@@ -88,18 +88,18 @@ public class CityModel implements Serializable {
 		this.customerModels = customerModels;
 	}
 
-	public CustomerModel addCustomerModel(CustomerModel CustomerModel) {
-		getCustomerModels().add(CustomerModel);
-		CustomerModel.setCityModel(this);
+	public CustomerModel addCustomerModel(CustomerModel customerModel) {
+		getCustomerModels().add(customerModel);
+		customerModel.setCityModel(this);
 
-		return CustomerModel;
+		return customerModel;
 	}
 
-	public CustomerModel removeCustomerModel(CustomerModel CustomerModel) {
-		getCustomerModels().remove(CustomerModel);
-		CustomerModel.setCityModel(null);
+	public CustomerModel removeCustomerModel(CustomerModel customerModel) {
+		getCustomerModels().remove(customerModel);
+		customerModel.setCityModel(null);
 
-		return CustomerModel;
+		return customerModel;
 	}
 
 	@Override

@@ -1,7 +1,18 @@
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**
@@ -26,6 +37,14 @@ public class UserModel implements Serializable {
 	@Column(name="mobile_no")
 	private long mobileNo;
 
+//	//bi-directional one-to-one association to CustomerModel
+//	@OneToOne(mappedBy="userModel")
+//	private CustomerModel customerModel;
+//
+//	//bi-directional one-to-one association to ServiceProviderModel
+//	@OneToOne(mappedBy="userModel")
+//	private ServiceProviderModel serviceProviderModel;
+	
 	//bi-directional many-to-one association to RoleModel
 	@ManyToOne
 	@JoinColumn(name="role_id")
@@ -65,12 +84,5 @@ public class UserModel implements Serializable {
 	public void setRoleModel(RoleModel roleModel) {
 		this.roleModel = roleModel;
 	}
-
-	@Override
-	public String toString() {
-		return "UserModel [userId=" + userId + ", isEnabled=" + isEnabled + ", mobileNo=" + mobileNo
-				+  ", roleModel=" + roleModel + "]";
-	}
-
 	
 }

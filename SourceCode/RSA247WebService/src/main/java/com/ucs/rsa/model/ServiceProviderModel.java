@@ -1,12 +1,13 @@
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -72,18 +73,13 @@ public class ServiceProviderModel extends UserModel implements Serializable {
 	@Column(name = "body_repair")
 	private boolean bodyRepair;
 
-	/*// bi-directional one-to-one association to UserModel
-	@OneToOne
-	@JoinColumn(name = "id")
-	private UserModel userModel;
+	// bi-directional many-to-one association to CustomerRequestModel
+	@OneToMany(mappedBy = "serviceProviderModel", fetch = FetchType.EAGER)
+	private List<CustomerRequestModel> customerRequestModels;
 
-	public UserModel getUserModel() {
-		return userModel;
-	}
-
-	public void setUserModel(UserModel userModel) {
-		this.userModel = userModel;
-	}*/
+	// bi-directional many-to-one association to CustomerReviewModel
+	@OneToMany(mappedBy = "serviceProviderModel", fetch = FetchType.EAGER)
+	private List<CustomerReviewModel> customerReviewModels;
 
 	public ServiceProviderModel() {
 	}
@@ -232,19 +228,43 @@ public class ServiceProviderModel extends UserModel implements Serializable {
 		this.serviceProviderMaxDistanceToOperate = serviceProviderMaxDistanceToOperate;
 	}
 
-	@Override
-	public String toString() {
-		return "ServiceProvider [ serviceProviderName=" + serviceProviderName + ", imageFolderName=" + imageFolderName
-				+ ", rating=" + rating + ", serviceProviderCity=" + serviceProviderCity + ", serviceProviderComments ="
-				+ serviceProviderComments + ", serviceproviderExperties=" + serviceproviderExperties
-				+ ", serviceProviderLatitude=" + serviceProviderLatitude + ", serviceProviderLongitude="
-				+ serviceProviderLongitude + ", serviceProviderMaxDistanceToOperate="
-				+ serviceProviderMaxDistanceToOperate + ", serviceProviderotherServices ="
-				+ serviceProviderotherServices + ", serviceProviderPremium=" + serviceProviderPremium
-				+ ", serviceProvidertiming=" + serviceProvidertiming + ", serviceProviderWebsite="
-				+ serviceProviderWebsite + ", vehicleTypeId=" + vehicleTypeId + ", bodyRepair =" + bodyRepair
-				+ ", serviceProviderNightOperation =" + serviceProviderNightOperation + ", electricalType ="
-				+ electricalType + ", mechanicalType =" + mechanicalType + "]" + super.toString();
+	public List<CustomerRequestModel> getCustomerRequestModels() {
+		return customerRequestModels;
 	}
 
+	public void setCustomerRequestModels(List<CustomerRequestModel> customerRequestModels) {
+		this.customerRequestModels = customerRequestModels;
+	}
+
+	public List<CustomerReviewModel> getCustomerReviewModels() {
+		return customerReviewModels;
+	}
+
+	public void setCustomerReviewModels(List<CustomerReviewModel> customerReviewModels) {
+		this.customerReviewModels = customerReviewModels;
+	}
+
+	public CustomerRequestModel addCustomerRequestModel(CustomerRequestModel customerRequestModel) {
+		getCustomerRequestModels().add(customerRequestModel);
+		customerRequestModel.setServiceProviderModel(this);
+		return customerRequestModel;
+	}
+
+	public CustomerRequestModel removeCustomerRequestModel(CustomerRequestModel customerRequestModel) {
+		getCustomerRequestModels().remove(customerRequestModel);
+		customerRequestModel.setServiceProviderModel(null);
+		return customerRequestModel;
+	}
+
+	public CustomerReviewModel addCustomerReviewModel(CustomerReviewModel customerReviewModel) {
+		getCustomerReviewModels().add(customerReviewModel);
+		customerReviewModel.setServiceProviderModel(this);
+		return customerReviewModel;
+	}
+
+	public CustomerReviewModel removeCustomerReviewModel(CustomerReviewModel customerReviewModel) {
+		getCustomerReviewModels().remove(customerReviewModel);
+		customerReviewModel.setServiceProviderModel(null);
+		return customerReviewModel;
+	}
 }

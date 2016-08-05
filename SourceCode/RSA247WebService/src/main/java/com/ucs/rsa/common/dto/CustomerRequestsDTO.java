@@ -12,18 +12,13 @@ public class CustomerRequestsDTO implements Serializable {
 
 	private List<CustomerRequestDTO> customerRequests;
 
-	public List<CustomerRequestDTO> getCities() {
+	public List<CustomerRequestDTO> getCustomerRequests() {
 		return customerRequests;
 	}
 
-	public void setCities(List<CustomerRequestDTO> cities) {
-		this.customerRequests = cities;
+	public void setCustomerRequests(List<CustomerRequestDTO> customerRequests) {
+		this.customerRequests = customerRequests;
 	}
 
-	@Override
-	public String toString() {
-		return "CustomerRequestsDTO [customerRequests=" + customerRequests + "]";
-	}
-
-
+	
 }

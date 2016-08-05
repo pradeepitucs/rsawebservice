@@ -1,9 +1,9 @@
 package com.ucs.rsa.daos;
 
-import com.ucs.rsa.model.AmbulanceRequest;
+import com.ucs.rsa.model.CustomerRequestModel;
 
-public interface ICustomerRequestDAO extends BaseDAO{
+public interface CustomerRequestDAO extends BaseDAO{
 	
-	public AmbulanceRequest updateAmbulanceRequest(AmbulanceRequest iAmbulanceRequest, boolean isCreate);
+	public CustomerRequestModel updateCustomerRequest(CustomerRequestModel iCustomerRequestModel);
 
 }

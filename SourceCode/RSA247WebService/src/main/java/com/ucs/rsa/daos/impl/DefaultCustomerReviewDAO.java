@@ -5,19 +5,19 @@ import org.springframework.stereotype.Repository;
 
 import com.ucs.rsa.common.constants.RSAErrorConstants;
 import com.ucs.rsa.common.exception.RSAException;
-import com.ucs.rsa.daos.CustomerRequestDAO;
-import com.ucs.rsa.model.CustomerRequestModel;
+import com.ucs.rsa.daos.CustomerReviewDAO;
+import com.ucs.rsa.model.CustomerReviewModel;
 
-@Repository(value = "customerRequestDAO")
-public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements CustomerRequestDAO {
+@Repository(value = "customerReviewDAO")
+public class DefaultCustomerReviewDAO extends DefaultBaseDAO implements CustomerReviewDAO {
 
 	@Override
-	public CustomerRequestModel updateCustomerRequest(CustomerRequestModel iCustomerRequestModel) {
-		CustomerRequestModel customerRequestModel = iCustomerRequestModel;
+	public CustomerReviewModel updateCustomerReview(CustomerReviewModel iCustomerReviewModel) {
+		CustomerReviewModel customerReviewModel = iCustomerReviewModel;
 		Session theSession = null;
 		try {
 			theSession = currentSession();
-			theSession.saveOrUpdate(customerRequestModel);
+			theSession.saveOrUpdate(customerReviewModel);
 		} catch (RSAException e) {
 			throw e;
 		} catch (RuntimeException ex) {
@@ -26,7 +26,7 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
 			throw rsaEx;
 		}
-		return customerRequestModel;
+		return customerReviewModel;
 	}
 
 }

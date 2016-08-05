@@ -18,8 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ucs.rsa.common.dto.CitiesDTO;
 import com.ucs.rsa.common.dto.CityDTO;
 import com.ucs.rsa.common.dto.CustomerDTO;
+import com.ucs.rsa.common.dto.CustomersDTO;
 import com.ucs.rsa.common.dto.RoleDTO;
 import com.ucs.rsa.common.dto.RolesDTO;
+import com.ucs.rsa.common.dto.ServiceProviderDTO;
+import com.ucs.rsa.common.dto.ServiceProvidersDTO;
 import com.ucs.rsa.model.CityModel;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.RoleModel;
@@ -34,8 +37,7 @@ public class UserManagementResource {
 	UserService userService;
 
 	@RequestMapping(value = "/updateCustomer", method = { RequestMethod.POST, RequestMethod.GET })
-	private ModelAndView updateCustomer (
-			@RequestParam(value = "userid") final int iUserId,
+	private ModelAndView updateCustomer(@RequestParam(value = "userid") final int iUserId,
 			@RequestParam(value = "userfirstname") final String iUserFirstName,
 			@RequestParam(value = "userlastname") final String iUserLastName,
 			@RequestParam(value = "mobileno", required = true) final long iMobileNo,
@@ -51,26 +53,25 @@ public class UserManagementResource {
 		customerModel.setMobileNo(iMobileNo);
 		customerModel.setGcmId(iGcmId);
 		customerModel.setEmailId(iEmailId);
-		
+
 		CityModel cityModel = new CityModel();
 		cityModel.setCityId(iCity);
-		
+
 		customerModel.setCityModel(cityModel);
 		customerModel.setFirstName(iUserFirstName);
 		customerModel.setLastName(iUserLastName);
-		
+
 		RoleModel roleModel = new RoleModel();
 		roleModel.setRoleId(iRoleId);
-		
+
 		customerModel.setRoleModel(roleModel);
 		customerModel.setUserId(iUserId);
 		customerModel.setFolderName(iFolderName);
-		
+
 		CustomerModel customerModel1 = getUserService().updateCustomer(customerModel);
 
-		
 		CustomerDTO customerDTO = new CustomerDTO();
-		if(customerModel1 != null) {
+		if (customerModel1 != null) {
 			customerDTO.setEmailId(customerModel1.getEmailId());
 			customerDTO.setUserId(customerModel1.getUserId());
 			customerDTO.setFolderName(customerModel1.getFolderName());
@@ -79,8 +80,88 @@ public class UserManagementResource {
 			customerDTO.setGcmId(customerModel1.getGcmId());
 			customerDTO.setIsEnabled(customerDTO.getIsEnabled());
 		}
-		
+
 		return new ModelAndView("xml", "customer", customerDTO);
+	}
+
+	@RequestMapping(value = "/customers", method = { RequestMethod.GET })
+	public ModelAndView getAllCustomers() {
+
+		List<CustomerModel> customerModels = new ArrayList<>();
+		customerModels = getUserService().loadAll(CustomerModel.class);
+
+		CustomersDTO customersDTO = new CustomersDTO();
+		List<CustomerDTO> customerDTOs = new ArrayList<>();
+
+		for (CustomerModel customerModel : customerModels) {
+			CustomerDTO customerDTO = new CustomerDTO();
+			customerDTO.setIsEnabled(customerModel.getIsEnabled());
+			customerDTO.setEmailId(customerModel.getEmailId());
+			customerDTO.setFirstName(customerModel.getFirstName());
+			customerDTO.setFolderName(customerModel.getFolderName());
+			customerDTO.setGcmId(customerModel.getGcmId());
+			customerDTO.setLastName(customerModel.getLastName());
+			customerDTO.setMobileNo(customerModel.getMobileNo());
+			customerDTO.setUserId(customerModel.getUserId());
+			customerDTOs.add(customerDTO);
+		}
+		customersDTO.setCustomerDTOs(customerDTOs);
+		return new ModelAndView("xml", "customers", customersDTO);
+	}
+
+	@RequestMapping(value = "/customer", method = { RequestMethod.GET })
+	public ModelAndView getCustomer(@RequestParam("customerid") final int iCustomerId) {
+
+		CustomerModel customerModel = new CustomerModel();
+		customerModel = getUserService().get(CustomerModel.class, iCustomerId);
+
+		CustomerDTO customerDTO = new CustomerDTO();
+		if (customerModel != null) {
+			customerDTO.setIsEnabled(customerModel.getIsEnabled());
+			customerDTO.setEmailId(customerModel.getEmailId());
+			customerDTO.setFirstName(customerModel.getFirstName());
+			customerDTO.setFolderName(customerModel.getFolderName());
+			customerDTO.setGcmId(customerModel.getGcmId());
+			customerDTO.setLastName(customerModel.getLastName());
+			customerDTO.setMobileNo(customerModel.getMobileNo());
+			customerDTO.setUserId(customerModel.getUserId());
+		}
+		return new ModelAndView("xml", "customer", customerDTO);
+	}
+
+	@RequestMapping(value = "/serviceproviders", method = { RequestMethod.GET })
+	public ModelAndView getAllServiceProviders() {
+
+		List<ServiceProviderModel> serviceProviderModels = new ArrayList<>();
+		serviceProviderModels = getUserService().loadAll(ServiceProviderModel.class);
+
+		ServiceProvidersDTO serviceProvidersDTO = new ServiceProvidersDTO();
+		List<ServiceProviderDTO> serviceProviderDTOs = new ArrayList<>();
+
+		for (ServiceProviderModel serviceProviderModel : serviceProviderModels) {
+			ServiceProviderDTO serviceProviderDTO = new ServiceProviderDTO();
+			serviceProviderDTO.setIsEnabled(serviceProviderModel.getIsEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getMobileNo());
+			serviceProviderDTO.setUserId(serviceProviderModel.getUserId());
+			serviceProviderDTOs.add(serviceProviderDTO);
+		}
+		serviceProvidersDTO.setServiceProviderDTOs(serviceProviderDTOs);
+		return new ModelAndView("xml", "serviceproviders", serviceProvidersDTO);
+	}
+
+	@RequestMapping(value = "/serviceprovider", method = { RequestMethod.GET })
+	public ModelAndView getServiceProviders(@RequestParam("serviceprovidersid") final int iServiceProvidersId) {
+
+		ServiceProviderModel serviceProviderModel = new ServiceProviderModel();
+		serviceProviderModel = getUserService().get(ServiceProviderModel.class, iServiceProvidersId);
+
+		ServiceProviderDTO serviceProviderDTO = new ServiceProviderDTO();
+		if (serviceProviderModel != null) {
+			serviceProviderDTO.setIsEnabled(serviceProviderModel.getIsEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getMobileNo());
+			serviceProviderDTO.setUserId(serviceProviderModel.getUserId());
+		}
+		return new ModelAndView("xml", "serviceProvider", serviceProviderDTO);
 	}
 
 	@RequestMapping(value = "/cities", method = { RequestMethod.GET })
@@ -120,7 +201,7 @@ public class UserManagementResource {
 		}
 		return new ModelAndView("xml", "city", cityDTO);
 	}
-	
+
 	@RequestMapping(value = "/roles", method = { RequestMethod.GET })
 	public ModelAndView getUserRoles() {
 
@@ -153,7 +234,7 @@ public class UserManagementResource {
 		}
 		return new ModelAndView("xml", "role", roleDTO);
 	}
-	
+
 	public UserService getUserService() {
 		return userService;
 	}
@@ -161,14 +242,17 @@ public class UserManagementResource {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	/**
 	 * Upload org img.
 	 *
-	 * @param files the files
-	 * @param fileName the file name
+	 * @param files
+	 *            the files
+	 * @param fileName
+	 *            the file name
 	 * @return String : It gives the result like data inserted or not .
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 * @Description This method is for upload the verification form images.
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "uploadCustomerImg", headers = "content-type=multipart/form-data")
@@ -208,16 +292,14 @@ public class UserManagementResource {
 		}
 		return imageInserted;
 	}
-	
+
 	@RequestMapping(value = "/update", method = { RequestMethod.POST })
 	private ModelAndView updateServiceProvider(@RequestParam("bodyRepair") final boolean bodyRepair,
 			@RequestParam("electricalType") final boolean electricalType,
 			@RequestParam("enabled") final boolean enabled,
 			@RequestParam("imageFolderName") final String imageFolderName,
-			@RequestParam("mechanicalType") final boolean mechanicalType,
-			@RequestParam("mobileNo") final long mobileNo,
-			@RequestParam("rating") final double rating,
-			@RequestParam("roleId") final int roleId,
+			@RequestParam("mechanicalType") final boolean mechanicalType, @RequestParam("mobileNo") final long mobileNo,
+			@RequestParam("rating") final double rating, @RequestParam("roleId") final int roleId,
 			@RequestParam("serviceProviderCity") final String serviceProviderCity,
 			@RequestParam("serviceProviderComments") final String serviceProviderComments,
 			@RequestParam("serviceproviderExperties") final String serviceproviderExperties,
@@ -257,26 +339,29 @@ public class UserManagementResource {
 		serviceProvider.setServiceProviderWebsite(serviceProviderWebsite);
 		serviceProvider.setVehicleTypeId(vehicleTypeId);
 		System.out.println("ServiceProviderDTO " + serviceProvider);
-		
+
 		ServiceProviderModel userModel = userService.updateServiceProvider(serviceProvider);
-		
+
 		System.out.println("UserDTO " + userModel);
 		return new ModelAndView("xml", "userDTO", "Inserted Data");
-	
+
 	}
-	
+
 	/**
 	 * Upload ids img.
 	 *
-	 * @param files the files
-	 * @param phoneNumber the phone number
+	 * @param files
+	 *            the files
+	 * @param phoneNumber
+	 *            the phone number
 	 * @return the string
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "uploadIDSImg", headers = "content-type=multipart/form-data")
 	public @ResponseBody String uploadIDSImg(@RequestParam("file") MultipartFile[] files,
 			@RequestParam("fileName") String phoneNumber) throws Exception {
-		ArrayList<String> orgImageFolderAndEmployeeName = null;//surveyService.getOrgImageFolderAndEmployeeName(phoneNumber,constant);
+		ArrayList<String> orgImageFolderAndEmployeeName = null;// surveyService.getOrgImageFolderAndEmployeeName(phoneNumber,constant);
 		String imageInserted = null;
 		String rootPath = System.getProperty("catalina.home");
 		File theDir = new File(rootPath + "/webapps/ServiceProviderApp/" + orgImageFolderAndEmployeeName.get(1));
@@ -314,13 +399,13 @@ public class UserManagementResource {
 								}
 							}
 						} else {
-						throw new Exception("File not found ");
-					}
-					imageInserted = "Inserted Image";
+							throw new Exception("File not found ");
+						}
+						imageInserted = "Inserted Image";
 					}
 				} else {
-						System.out.println("File Already exist");
-						imageInserted = "Already Exist";
+					System.out.println("File Already exist");
+					imageInserted = "Already Exist";
 				}
 			}
 		} else {
@@ -349,23 +434,22 @@ public class UserManagementResource {
 							}
 						}
 					} else {
-					throw new Exception("File not found ");
-				}
+						throw new Exception("File not found ");
+					}
 					imageInserted = "Inserted Image";
 				}
 			} else {
 				imageInserted = "Already Exist";
 				System.out.println("File Already exist");
 			}
-		
+
 		}
-		
+
 		return imageInserted;
 	}
-	
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView login(
-			@RequestParam(value = "mobileno") final String iMobileNo,
+	public ModelAndView login(@RequestParam(value = "mobileno") final String iMobileNo,
 			@RequestParam(value = "gcmid") final String iGcmId) {
 
 		String result = getUserService().login(iMobileNo, iGcmId);
