@@ -1,5 +1,8 @@
 package com.ucs.rsa.common.dto;
 
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "service_provider", namespace = "com.ucs.rsa.dto")
@@ -37,13 +40,51 @@ public class ServiceProviderDTO extends UserDTO {
 
 	private double rating;
 
-	private int vehicleTypeId;
+	private Timestamp serviceProviderTimestamp;
+	
+	private boolean fourWheeler;
+	
+	private boolean twoWheeler;
+
+	private int olderServiceProviderId;
 
 	private boolean electricalType;
 
 	private boolean mechanicalType;
 
 	private boolean bodyRepair;
+
+	public Timestamp getServiceProviderTimestamp() {
+		return serviceProviderTimestamp;
+	}
+
+	public void setServiceProviderTimestamp(Timestamp serviceProviderTimestamp) {
+		this.serviceProviderTimestamp = serviceProviderTimestamp;
+	}
+
+	public boolean isFourWheeler() {
+		return fourWheeler;
+	}
+
+	public void setFourWheeler(boolean fourWheeler) {
+		this.fourWheeler = fourWheeler;
+	}
+
+	public boolean isTwoWheeler() {
+		return twoWheeler;
+	}
+
+	public void setTwoWheeler(boolean twoWheeler) {
+		this.twoWheeler = twoWheeler;
+	}
+
+	public int getOlderServiceProviderId() {
+		return olderServiceProviderId;
+	}
+
+	public void setOlderServiceProviderId(int olderServiceProviderId) {
+		this.olderServiceProviderId = olderServiceProviderId;
+	}
 
 	public String getServiceProviderName() {
 		return serviceProviderName;
@@ -75,14 +116,6 @@ public class ServiceProviderDTO extends UserDTO {
 
 	public void setRating(double rating) {
 		this.rating = rating;
-	}
-
-	public int getVehicleTypeId() {
-		return vehicleTypeId;
-	}
-
-	public void setVehicleTypeId(int vehicleTypeId) {
-		this.vehicleTypeId = vehicleTypeId;
 	}
 
 	public boolean isElectricalType() {
@@ -208,7 +241,7 @@ public class ServiceProviderDTO extends UserDTO {
 				+ serviceProviderMaxDistanceToOperate + ", serviceProviderotherServices ="
 				+ serviceProviderotherServices + ", serviceProviderPremium=" + serviceProviderPremium
 				+ ", serviceProvidertiming=" + serviceProvidertiming + ", serviceProviderWebsite="
-				+ serviceProviderWebsite + ", vehicleTypeId=" + vehicleTypeId + ", bodyRepair =" + bodyRepair
+				+ serviceProviderWebsite + ", twoWheeler=" + twoWheeler + ", bodyRepair =" + bodyRepair
 				+ ", serviceProviderNightOperation =" + serviceProviderNightOperation + ", electricalType ="
 				+ electricalType + ", mechanicalType =" + mechanicalType + ", isEnabled =" + isEnabled + "]"
 				+ super.toString();
