@@ -8,6 +8,7 @@ import com.ucs.rsa.common.exception.RSAException;
 import com.ucs.rsa.daos.UserDAO;
 import org.springframework.util.StringUtils;
 import com.ucs.rsa.model.CustomerModel;
+import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.service.UserService;
 
@@ -75,4 +76,19 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 		}
 		return isValid;
 	}
+	
+	@Override
+	public EmployeeModel updateEmployee(EmployeeModel iCustomerModel) {
+		EmployeeModel customerModel = null;
+		if (!"".equals(iCustomerModel.getRoleModel().getRoleId())
+				&& !"".equals(iCustomerModel.getMobileNo())) {
+			customerModel = userDAO.updateEmployee(iCustomerModel);
+		} else {
+			RSAException rsaEx = new RSAException();
+			rsaEx.setError(RSAErrorConstants.ErrorCode.MANDATORY_PARAMS_MISSING_ERROR);
+			throw rsaEx;
+		}
+		return customerModel;
+	}
+	
 }
