@@ -14,7 +14,7 @@ public class CustomerReviewDTO implements Serializable {
 
 	private boolean blocked;
 
-	private byte[] comment;
+	private String comment;
 
 	private Date creationTime;
 
@@ -49,11 +49,11 @@ public class CustomerReviewDTO implements Serializable {
 		this.blocked = blocked;
 	}
 
-	public byte[] getComment() {
+	public String getComment() {
 		return comment;
 	}
 
-	public void setComment(byte[] comment) {
+	public void setComment(String comment) {
 		this.comment = comment;
 	}
 

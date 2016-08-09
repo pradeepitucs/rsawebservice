@@ -22,7 +22,7 @@ public class MarshallingXmlViewResolver implements ViewResolver {
 	/**
 	 * Get the view to use.
 	 * 
-	 * @return Always returns an instance of {@link MappingJacksonJsonView}.
+	 * 
 	 */
 	@Override
 	public View resolveViewName(String viewName, Locale locale)

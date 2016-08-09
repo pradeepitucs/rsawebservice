@@ -1,5 +1,7 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+		http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ucs</groupId>
@@ -9,13 +11,22 @@
 
 	<developers>
 		<developer>
-			<id>Guruaj M</id>
+			<id>GuruajM</id>
 			<name>Gururaj Munnalli</name>
 			<email>gururaj.m@ucs.consulting</email>
+			<!-- <url>http://www.ucsconsulting.com/GuruajM</url> -->
+			<organization>UniqueWare Consulting</organization>
+			<organizationUrl>http://www.ucs.consulting</organizationUrl>
 			<roles>
+				<role>architect</role>
 				<role>designer</role>
 				<role>developer</role>
 			</roles>
+			<timezone>Asia/India IST UTC +5:30h</timezone>
+			<properties>
+				<!-- <picUrl>http://www.ucsconsulting.com/GuruajM/pic</picUrl> -->
+				<picUrl>https://scontent.fmaa1-1.fna.fbcdn.net/v/t1.0-1/c0.1.589.589/s160x160/208774_216717075010177_1008054_n.jpg?oh=17ddff87e9ceed471b0a71e1c97bdc86&amp;oe=5810C7D5</picUrl>
+			</properties>
 		</developer>
 	</developers>
 	<dependencies>
@@ -169,7 +180,7 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>1.10.2.RELEASE</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
@@ -179,6 +190,13 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
+		</dependency>
+		
+		<!-- javamelody-core -->
+		<dependency>
+			<groupId>net.bull.javamelody</groupId>
+			<artifactId>javamelody-core</artifactId>
+			<version>1.60.0</version>
 		</dependency>
 
 	</dependencies>
@@ -216,53 +234,90 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.4</version>
+				<version>3.5.1</version>
+				<configuration>
+					<locales>en,fr</locales>
+				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 
+	<!-- <distributionManagement> -->
+	<!-- <site> -->
+	<!-- <id>www.ucsconsulting.com</id> -->
+	<!-- <url>scp://www.ucsconsulting.com/www/docs/project/</url> -->
+	<!-- </site> -->
+	<!-- </distributionManagement> -->
+
 	<reporting>
 		<plugins>
-			<!-- http://maven.apache.org/surefire/maven-surefire-report-plugin/plugins.html -->
+
+			<!-- Report on coding style conventions. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.13</version>
+				<version>2.15</version>
 			</plugin>
 
+			<!-- Verification of coding rules. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.5</version>
 			</plugin>
 
+			<!-- Java Doc for Project -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9.1</version>
-				<configuration>
-					<additionalparam>-Xdoclint:none</additionalparam>
-					<failOnError>false</failOnError>
-					<links>
-						<link>http://commons.apache.org/lang/api</link>
-						<link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-						<link>http://this-one-will-not-work</link>
-					</links>
-				</configuration>
 			</plugin>
 
+			<!-- HTML based, cross-reference version of Java source code and Java 
+				test source code. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+
+			<!-- Report on the test results of the project. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.18.1</version>
+			</plugin>
+
+			<!-- generate reports information about the project. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.8.1</version>
+			</plugin>
+
+			<!-- Generates a source code report with the FindBugs Library. -->
+			<!-- 1) Go into your Start Menu and type regedit into the search field. 
+				2) Navigate to path HKEY_LOCAL_MACHINE\Software\JavaSoft (Windows 10 seems 
+				to now have this here: HKEY_LOCAL_MACHINE\Software\WOW6432Node\JavaSoft) 
+				3) Right click on the JavaSoft folder and click on New -> Key 4) Name the 
+				new Key Prefs and everything should work. -->
+			<!-- Unable to get XClass for java/io/ObjectInputStream java.lang.ArrayIndexOutOfBoundsException: 
+				27745 -->
+			<!-- <plugin> -->
+			<!-- <groupId>org.codehaus.mojo</groupId> -->
+			<!-- <artifactId>findbugs-maven-plugin</artifactId> -->
+			<!-- <version>2.5.5</version> -->
+			<!-- </plugin> -->
+
+			<!-- Report on various tags found in the code. -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
 				<version>2.4</version>
 			</plugin>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>2.5.5</version>
-			</plugin>
-
+			<!-- Quality analysis dashboard. -->
 			<plugin>
 				<groupId>org.codehaus.sonar-plugins</groupId>
 				<artifactId>maven-report</artifactId>

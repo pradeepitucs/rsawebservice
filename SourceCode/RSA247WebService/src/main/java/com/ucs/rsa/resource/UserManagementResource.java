@@ -253,7 +253,7 @@ public class UserManagementResource {
 	 * @return String : It gives the result like data inserted or not .
 	 * @throws Exception
 	 *             the exception
-	 * @Description This method is for upload the verification form images.
+	 * 
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "uploadCustomerImg", headers = "content-type=multipart/form-data")
 	public @ResponseBody String uploadOrgImg(@RequestParam("file") MultipartFile[] files,

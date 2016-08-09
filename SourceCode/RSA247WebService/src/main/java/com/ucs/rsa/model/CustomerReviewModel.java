@@ -27,7 +27,7 @@ public class CustomerReviewModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "customer_review_id")
 	private int customerReviewId;
 
@@ -37,7 +37,7 @@ public class CustomerReviewModel implements Serializable {
 	private boolean blocked;
 
 	@Lob
-	private byte[] comment;
+	private String comment;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "creation_time")
@@ -46,6 +46,9 @@ public class CustomerReviewModel implements Serializable {
 	private String headline;
 
 	private float rating;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date modification;
 
 	// bi-directional many-to-one association to CustomerT
 	@ManyToOne
@@ -56,6 +59,11 @@ public class CustomerReviewModel implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "employee_id")
 	private ServiceProviderModel serviceProviderModel;
+
+	// bi-directional many-to-one association to ServiceProviderT
+	@ManyToOne
+	@JoinColumn(name = "issueId")
+	private CustomerRequestModel customerRequestModel;
 
 	public CustomerReviewModel() {
 	}
@@ -84,11 +92,11 @@ public class CustomerReviewModel implements Serializable {
 		this.blocked = blocked;
 	}
 
-	public byte[] getComment() {
+	public String getComment() {
 		return comment;
 	}
 
-	public void setComment(byte[] comment) {
+	public void setComment(String comment) {
 		this.comment = comment;
 	}
 
@@ -130,6 +138,22 @@ public class CustomerReviewModel implements Serializable {
 
 	public void setServiceProviderModel(ServiceProviderModel serviceProviderModel) {
 		this.serviceProviderModel = serviceProviderModel;
+	}
+
+	public CustomerRequestModel getCustomerRequestModel() {
+		return customerRequestModel;
+	}
+
+	public void setCustomerRequestModel(CustomerRequestModel customerRequestModel) {
+		this.customerRequestModel = customerRequestModel;
+	}
+
+	public Date getModification() {
+		return modification;
+	}
+
+	public void setModification(Date modification) {
+		this.modification = modification;
 	}
 
 }

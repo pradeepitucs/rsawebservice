@@ -1,15 +1,18 @@
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -46,6 +49,10 @@ public class CustomerRequestModel implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="employee_id")
 	private ServiceProviderModel serviceProviderModel;
+	
+	// bi-directional many-to-one association to CustomerReviewModel
+	@OneToMany(mappedBy = "serviceProviderModel", fetch = FetchType.EAGER)
+	private List<CustomerReviewModel> customerReviewModels;
 
 	public CustomerRequestModel() {
 	}
@@ -105,5 +112,24 @@ public class CustomerRequestModel implements Serializable {
 	public void setServiceProviderModel(ServiceProviderModel serviceProviderModel) {
 		this.serviceProviderModel = serviceProviderModel;
 	}
+	
+	public List<CustomerReviewModel> getCustomerReviewModels() {
+		return customerReviewModels;
+	}
 
+	public void setCustomerReviewModels(List<CustomerReviewModel> customerReviewModels) {
+		this.customerReviewModels = customerReviewModels;
+	}
+
+	public CustomerReviewModel addCustomerReviewModel(CustomerReviewModel customerReviewModel) {
+		getCustomerReviewModels().add(customerReviewModel);
+		customerReviewModel.setCustomerRequestModel(this);
+		return customerReviewModel;
+	}
+
+	public CustomerReviewModel removeCustomerReviewModel(CustomerReviewModel customerReviewModel) {
+		getCustomerReviewModels().remove(customerReviewModel);
+		customerReviewModel.setCustomerRequestModel(null);
+		return customerReviewModel;
+	}
 }

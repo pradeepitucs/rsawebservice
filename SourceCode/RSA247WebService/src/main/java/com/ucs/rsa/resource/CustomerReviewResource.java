@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ucs.rsa.common.dto.CustomerReviewDTO;
 import com.ucs.rsa.common.dto.CustomerReviewsDTO;
 import com.ucs.rsa.model.CustomerModel;
+import com.ucs.rsa.model.CustomerRequestModel;
 import com.ucs.rsa.model.CustomerReviewModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.service.CustomerReviewService;
@@ -33,10 +34,15 @@ public class CustomerReviewResource {
 	}
 
 	@RequestMapping(value = "/updatecustomerreview", method = { RequestMethod.POST })
-	private ModelAndView updateCustomerReview(@RequestParam("customerReviewId") final int iCustomerReviewId,
-			@RequestParam("customerId") final int iCustomerId, @RequestParam("comment") final byte[] iComment,
-			@RequestParam("approvalstatus") final int iApprovalStatus, @RequestParam("headline") final String iHeadline,
-			@RequestParam("rating") final float iRating, @RequestParam("blocked") final boolean iBlocked,
+	private ModelAndView updateCustomerReview(
+			@RequestParam("customerReviewId") final int iCustomerReviewId,
+			@RequestParam("customerId") final int iCustomerId, 
+			@RequestParam("comment") final String iComment,
+			@RequestParam("approvalstatus") final int iApprovalStatus, 
+			@RequestParam("headline") final String iHeadline,
+			@RequestParam("rating") final float iRating, 
+			@RequestParam("blocked") final boolean iBlocked,
+			@RequestParam("issueid") final int iIssueId,
 			@RequestParam("employeeId") final int iEmployeeId) {
 
 		CustomerReviewModel customerReviewModel = new CustomerReviewModel();
@@ -50,7 +56,11 @@ public class CustomerReviewResource {
 		CustomerModel customerModel = new CustomerModel();
 		customerModel.setUserId(iCustomerId);
 		customerReviewModel.setCustomerModel(customerModel);
-
+		
+		CustomerRequestModel customerRequestModel = new CustomerRequestModel();
+		customerRequestModel.setIssueId(iIssueId);
+		customerReviewModel.setCustomerRequestModel(customerRequestModel);
+		
 		ServiceProviderModel serviceProviderModel = new ServiceProviderModel();
 		serviceProviderModel.setUserId(iEmployeeId);
 		customerReviewModel.setServiceProviderModel(serviceProviderModel);
