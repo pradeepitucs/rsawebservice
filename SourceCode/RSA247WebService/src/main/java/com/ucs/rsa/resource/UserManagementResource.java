@@ -3,6 +3,7 @@ package com.ucs.rsa.resource;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -352,7 +353,10 @@ public class UserManagementResource {
 			@RequestParam("serviceProviderPremium") final String serviceProviderPremium,
 			@RequestParam("serviceProvidertiming") final String serviceProvidertiming,
 			@RequestParam("serviceProviderWebsite") final String serviceProviderWebsite,
-			@RequestParam("vehicleTypeId") final int vehicleTypeId) {
+			@RequestParam("twoWheeler") final Boolean twoWheeler,
+			@RequestParam("fourWheeler") final Boolean fourWheeler,
+			@RequestParam("serviceProviderTimeStamp") final Timestamp serviceProviderTimeStamp,
+			@RequestParam("olderServiceProviderId") final Integer olderServiceProviderId) {
 		RoleModel roleModel = new RoleModel();
 		roleModel.setRoleId(1);
 		ServiceProviderModel serviceProvider = new ServiceProviderModel();
@@ -376,7 +380,11 @@ public class UserManagementResource {
 		serviceProvider.setServiceProviderPremium(serviceProviderPremium);
 		serviceProvider.setServiceProvidertiming(serviceProvidertiming);
 		serviceProvider.setServiceProviderWebsite(serviceProviderWebsite);
-		serviceProvider.setVehicleTypeId(vehicleTypeId);
+		serviceProvider.setFourWheeler(fourWheeler);
+		serviceProvider.setTwoWheeler(twoWheeler);
+		serviceProvider.setIsEnabled(enabled);
+		serviceProvider.setOlderServiceProviderId(olderServiceProviderId);
+		serviceProvider.setServiceProviderTimestamp(serviceProviderTimeStamp);
 		System.out.println("ServiceProviderDTO " + serviceProvider);
 
 		ServiceProviderModel userModel = userService.updateServiceProvider(serviceProvider);
