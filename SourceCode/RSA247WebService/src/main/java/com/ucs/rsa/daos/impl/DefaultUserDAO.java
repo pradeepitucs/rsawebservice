@@ -26,7 +26,8 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 			/**** Check for user mobile number exists for new user  ****/
 			if(customerModel.getUserId() == 0) {
 				CustomerModel theCriteria = (CustomerModel) theSession.createCriteria(CustomerModel.class, "customerModel")
-						.add(Restrictions.eq("mobileNo", customerModel.getMobileNo())).uniqueResult();
+						.add(Restrictions.eq("mobileNo", customerModel.getMobileNo()))
+						.add(Restrictions.eq("roleModel.roleId", customerModel.getRoleModel().getRoleId())).uniqueResult();
 				if (theCriteria != null) {
 					System.out.println("rsaException");
 					RSAException rsaException = new RSAException();

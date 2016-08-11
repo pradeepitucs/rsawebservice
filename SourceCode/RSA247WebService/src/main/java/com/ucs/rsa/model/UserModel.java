@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 
 /**
@@ -20,7 +21,8 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="user_t")
+@Table(name="user_t", uniqueConstraints=
+@UniqueConstraint(columnNames={"mobile_no", "role_id"}))
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name="UserModel.findAll", query="SELECT u FROM UserModel u")
 public class UserModel implements Serializable {
