@@ -2,21 +2,19 @@ package com.ucs.rsa.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "service_provider_t")
-@PrimaryKeyJoinColumn(name = "userId")
-@NamedQuery(name = "ServiceProviderModel.findAll", query = "SELECT c FROM ServiceProviderModel c")
-public class ServiceProviderModel extends UserModel implements Serializable {
+@NamedQuery(name = "ServiceProviderModel.findAll", query = "SELECT u FROM ServiceProviderModel u")
+public class ServiceProviderModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -70,18 +68,61 @@ public class ServiceProviderModel extends UserModel implements Serializable {
 
 	@Column(name = "body_repair")
 	private boolean bodyRepair;
-	
+
 	@Column(name = "service_provider_timestamp")
 	private Timestamp serviceProviderTimestamp;
-	
+
 	@Column(name = "four_wheeler")
 	private Boolean fourWheeler;
-	
+
 	@Column(name = "two_wheeler")
 	private Boolean twoWheeler;
 
 	@Column(name = "older_service_provider_id")
 	private Integer olderServiceProviderId;
+
+	@Column(name = "is_enabled")
+	private boolean isEnabled;
+
+	@Column(name = "service_provider_phone_number")
+	private long serviceProviderPhoneNumber;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "service_provider_id", unique = true, insertable = true, updatable = false)
+	private int serviceProviderId;
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+
+	public long getServiceProviderPhoneNumber() {
+		return serviceProviderPhoneNumber;
+	}
+
+	public void setServiceProviderPhoneNumber(long serviceProviderPhoneNumber) {
+		this.serviceProviderPhoneNumber = serviceProviderPhoneNumber;
+	}
+
+	public int getServiceProviderId() {
+		return serviceProviderId;
+	}
+
+	public void setServiceProviderId(int serviceProviderId) {
+		this.serviceProviderId = serviceProviderId;
+	}
+
+	public Boolean getFourWheeler() {
+		return fourWheeler;
+	}
+
+	public Boolean getTwoWheeler() {
+		return twoWheeler;
+	}
 
 	public Integer getOlderServiceProviderId() {
 		return olderServiceProviderId;
@@ -114,14 +155,6 @@ public class ServiceProviderModel extends UserModel implements Serializable {
 	public void setTwoWheeler(Boolean twoWheeler) {
 		this.twoWheeler = twoWheeler;
 	}
-
-	// bi-directional many-to-one association to CustomerRequestModel
-	@OneToMany(mappedBy = "serviceProviderModel", fetch = FetchType.LAZY)
-	private List<CustomerRequestModel> customerRequestModels;
-
-	// bi-directional many-to-one association to CustomerReviewModel
-	@OneToMany(mappedBy = "serviceProviderModel", fetch = FetchType.LAZY)
-	private List<CustomerReviewModel> customerReviewModels;
 
 	public ServiceProviderModel() {
 	}
@@ -262,46 +295,6 @@ public class ServiceProviderModel extends UserModel implements Serializable {
 		this.serviceProviderMaxDistanceToOperate = serviceProviderMaxDistanceToOperate;
 	}
 
-	public List<CustomerRequestModel> getCustomerRequestModels() {
-		return customerRequestModels;
-	}
-
-	public void setCustomerRequestModels(List<CustomerRequestModel> customerRequestModels) {
-		this.customerRequestModels = customerRequestModels;
-	}
-
-	public List<CustomerReviewModel> getCustomerReviewModels() {
-		return customerReviewModels;
-	}
-
-	public void setCustomerReviewModels(List<CustomerReviewModel> customerReviewModels) {
-		this.customerReviewModels = customerReviewModels;
-	}
-
-	public CustomerRequestModel addCustomerRequestModel(CustomerRequestModel customerRequestModel) {
-		getCustomerRequestModels().add(customerRequestModel);
-		customerRequestModel.setServiceProviderModel(this);
-		return customerRequestModel;
-	}
-
-	public CustomerRequestModel removeCustomerRequestModel(CustomerRequestModel customerRequestModel) {
-		getCustomerRequestModels().remove(customerRequestModel);
-		customerRequestModel.setServiceProviderModel(null);
-		return customerRequestModel;
-	}
-
-	public CustomerReviewModel addCustomerReviewModel(CustomerReviewModel customerReviewModel) {
-		getCustomerReviewModels().add(customerReviewModel);
-		customerReviewModel.setServiceProviderModel(this);
-		return customerReviewModel;
-	}
-
-	public CustomerReviewModel removeCustomerReviewModel(CustomerReviewModel customerReviewModel) {
-		getCustomerReviewModels().remove(customerReviewModel);
-		customerReviewModel.setServiceProviderModel(null);
-		return customerReviewModel;
-	}
-	
 	@Override
 	public String toString() {
 		return "ServiceProvider [ serviceProviderName=" + serviceProviderName + ", imageFolderName=" + imageFolderName
@@ -315,6 +308,9 @@ public class ServiceProviderModel extends UserModel implements Serializable {
 				+ serviceProviderWebsite + ", bodyRepair =" + bodyRepair + ", serviceProviderNightOperation ="
 				+ serviceProviderNightOperation + ", electricalType =" + electricalType + ", mechanicalType ="
 				+ mechanicalType + ", twoWheeler =" + twoWheeler + ", fourWheeler =" + fourWheeler
-				+ ", olderServiceProviderId =" + olderServiceProviderId + ", serviceProviderTimestamp =" + serviceProviderTimestamp + "]" + super.toString();
+				+ ", olderServiceProviderId =" + olderServiceProviderId + ", serviceProviderTimestamp ="
+				+ serviceProviderTimestamp + ", serviceProviderId =" + serviceProviderId
+				+ ", isEnabled =" + isEnabled + ", serviceProviderPhoneNumber ="
+				+ serviceProviderPhoneNumber + "]" + super.toString();
 	}
 }
