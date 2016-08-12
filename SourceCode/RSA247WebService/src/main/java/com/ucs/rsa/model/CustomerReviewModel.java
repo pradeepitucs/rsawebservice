@@ -58,12 +58,20 @@ public class CustomerReviewModel implements Serializable {
 	// bi-directional many-to-one association to ServiceProviderT
 	@ManyToOne
 	@JoinColumn(name = "employee_id")
-	private ServiceProviderModel serviceProviderModel;
+	private EmployeeModel employeeModel;
 
 	// bi-directional many-to-one association to ServiceProviderT
 	@ManyToOne
 	@JoinColumn(name = "issueId")
 	private CustomerRequestModel customerRequestModel;
+
+	public EmployeeModel getEmployeeModel() {
+		return employeeModel;
+	}
+
+	public void setEmployeeModel(EmployeeModel employeeModel) {
+		this.employeeModel = employeeModel;
+	}
 
 	public CustomerReviewModel() {
 	}
@@ -130,14 +138,6 @@ public class CustomerReviewModel implements Serializable {
 
 	public void setCustomerModel(CustomerModel customerModel) {
 		this.customerModel = customerModel;
-	}
-
-	public ServiceProviderModel getServiceProviderModel() {
-		return serviceProviderModel;
-	}
-
-	public void setServiceProviderModel(ServiceProviderModel serviceProviderModel) {
-		this.serviceProviderModel = serviceProviderModel;
 	}
 
 	public CustomerRequestModel getCustomerRequestModel() {
