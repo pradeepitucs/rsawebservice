@@ -56,9 +56,9 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 		try {
 
 			theSession = currentSession();
-			if(serviceProviderModel.getUserId() == 0) {
+			if(serviceProviderModel.getOlderServiceProviderId() == 0) {
 				ServiceProviderModel theCriteria = (ServiceProviderModel) theSession.createCriteria(ServiceProviderModel.class, "serviceProviderModel")
-						.add(Restrictions.eq("mobileNo", serviceProviderModel.getMobileNo())).uniqueResult();
+						.add(Restrictions.eq("serviceProviderPhoneNumber", serviceProviderModel.getServiceProviderPhoneNumber())).uniqueResult();
 				if (theCriteria != null) {
 					System.out.println("rsaException");
 					RSAException rsaException = new RSAException();
@@ -79,7 +79,7 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 	}
 	
 	@Override
-	public String login(Integer iMobileNo, String iGcmId) {
+	public String login(Long iMobileNo, String iGcmId) {
 		long mobileNo = iMobileNo;
 		String result = null;
 		Session theSession = null;
