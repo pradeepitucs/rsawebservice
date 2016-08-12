@@ -56,7 +56,7 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 		try {
 
 			theSession = currentSession();
-			if(serviceProviderModel.getOlderServiceProviderId() == 0) {
+			if(serviceProviderModel.getServiceProviderId() == 0) {
 				ServiceProviderModel theCriteria = (ServiceProviderModel) theSession.createCriteria(ServiceProviderModel.class, "serviceProviderModel")
 						.add(Restrictions.eq("serviceProviderPhoneNumber", serviceProviderModel.getServiceProviderPhoneNumber())).uniqueResult();
 				if (theCriteria != null) {
