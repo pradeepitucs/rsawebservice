@@ -180,9 +180,9 @@ public class UserManagementResource {
 
 		for (ServiceProviderModel serviceProviderModel : serviceProviderModels) {
 			ServiceProviderDTO serviceProviderDTO = new ServiceProviderDTO();
-			serviceProviderDTO.setIsEnabled(serviceProviderModel.getIsEnabled());
-			serviceProviderDTO.setMobileNo(serviceProviderModel.getMobileNo());
-			serviceProviderDTO.setUserId(serviceProviderModel.getUserId());
+			serviceProviderDTO.setIsEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
+			serviceProviderDTO.setUserId(serviceProviderModel.getServiceProviderId());
 			serviceProviderDTOs.add(serviceProviderDTO);
 		}
 		serviceProvidersDTO.setServiceProviderDTOs(serviceProviderDTOs);
@@ -197,9 +197,9 @@ public class UserManagementResource {
 
 		ServiceProviderDTO serviceProviderDTO = new ServiceProviderDTO();
 		if (serviceProviderModel != null) {
-			serviceProviderDTO.setIsEnabled(serviceProviderModel.getIsEnabled());
-			serviceProviderDTO.setMobileNo(serviceProviderModel.getMobileNo());
-			serviceProviderDTO.setUserId(serviceProviderModel.getUserId());
+			serviceProviderDTO.setIsEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
+			serviceProviderDTO.setUserId(serviceProviderModel.getServiceProviderId());
 		}
 		return new ModelAndView("xml", "serviceProvider", serviceProviderDTO);
 	}
@@ -339,11 +339,11 @@ public class UserManagementResource {
 			@RequestParam("enabled") final boolean enabled,
 			@RequestParam("imageFolderName") final String imageFolderName,
 			@RequestParam("mechanicalType") final boolean mechanicalType, @RequestParam("mobileNo") final long mobileNo,
-			@RequestParam("rating") final double rating, @RequestParam("roleId") final int roleId,
+			@RequestParam("rating") final double rating, 
 			@RequestParam("serviceProviderCity") final String serviceProviderCity,
 			@RequestParam("serviceProviderComments") final String serviceProviderComments,
 			@RequestParam("serviceproviderExperties") final String serviceproviderExperties,
-			@RequestParam("userId") final int userId,
+			@RequestParam("serviceProviderId") final int serviceProviderId,
 			@RequestParam("serviceProviderLatitude") final double serviceProviderLatitude,
 			@RequestParam("serviceProviderLongitude") final double serviceProviderLongitude,
 			@RequestParam("serviceProviderMaxDistanceToOperate") final int serviceProviderMaxDistanceToOperate,
@@ -357,20 +357,17 @@ public class UserManagementResource {
 			@RequestParam("fourWheeler") final Boolean fourWheeler,
 			@RequestParam("serviceProviderTimeStamp") final Timestamp serviceProviderTimeStamp,
 			@RequestParam("olderServiceProviderId") final Integer olderServiceProviderId) {
-		RoleModel roleModel = new RoleModel();
-		roleModel.setRoleId(1);
 		ServiceProviderModel serviceProvider = new ServiceProviderModel();
 		serviceProvider.setBodyRepair(bodyRepair);
 		serviceProvider.setElectricalType(electricalType);
 		serviceProvider.setImageFolderName(imageFolderName);
 		serviceProvider.setMechanicalType(mechanicalType);
-		serviceProvider.setMobileNo(mobileNo);
+		serviceProvider.setServiceProviderPhoneNumber(mobileNo);
 		serviceProvider.setRating(rating);
-		serviceProvider.setRoleModel(roleModel);
 		serviceProvider.setServiceProviderCity(serviceProviderCity);
 		serviceProvider.setServiceProviderComments(serviceProviderComments);
 		serviceProvider.setServiceproviderExperties(serviceproviderExperties);
-		serviceProvider.setUserId(userId);
+		serviceProvider.setServiceProviderId(serviceProviderId);
 		serviceProvider.setServiceProviderLatitude(serviceProviderLatitude);
 		serviceProvider.setServiceProviderLongitude(serviceProviderLongitude);
 		serviceProvider.setServiceProviderMaxDistanceToOperate(serviceProviderMaxDistanceToOperate);
@@ -382,7 +379,7 @@ public class UserManagementResource {
 		serviceProvider.setServiceProviderWebsite(serviceProviderWebsite);
 		serviceProvider.setFourWheeler(fourWheeler);
 		serviceProvider.setTwoWheeler(twoWheeler);
-		serviceProvider.setIsEnabled(enabled);
+		serviceProvider.setEnabled(enabled);
 		serviceProvider.setOlderServiceProviderId(olderServiceProviderId);
 		serviceProvider.setServiceProviderTimestamp(serviceProviderTimeStamp);
 		System.out.println("ServiceProviderDTO " + serviceProvider);
