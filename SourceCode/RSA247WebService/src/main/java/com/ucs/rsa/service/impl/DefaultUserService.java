@@ -37,8 +37,7 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 	@Override
 	public ServiceProviderModel updateServiceProvider(ServiceProviderModel iCustomerModel) {
 		ServiceProviderModel customerModel = null;
-		if (!"".equals(iCustomerModel.getRoleModel().getRoleId())
-				&& !"".equals(iCustomerModel.getMobileNo())) {
+		if ( !"".equals(iCustomerModel.getServiceProviderPhoneNumber())) {
 			customerModel = userDAO.updateServiceProvider(iCustomerModel);
 		} else {
 			RSAException rsaEx = new RSAException();
@@ -53,7 +52,7 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 	public String login(String iMobileNo, String iGcmId) {
 		String result;
 		if (validateLoginInputs(iMobileNo, iGcmId)) {
-			result = userDAO.login(Integer.valueOf(iMobileNo), iGcmId);
+			result = userDAO.login(Long.valueOf(iMobileNo), iGcmId);
 		} else {
 			RSAException upcEx = new RSAException();
 			upcEx.setError(RSAErrorConstants.ErrorCode.MANDATORY_PARAMS_MISSING_ERROR);
@@ -67,7 +66,7 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 		if (!StringUtils.isEmpty(iMobileNo) && !StringUtils.isEmpty(iGcmId)) {
 			isValid = Boolean.TRUE;
 			try {
-				Integer.parseInt(iMobileNo);
+				Long.parseLong(iMobileNo);
 			} catch (RuntimeException e) {
 				RSAException upcEx = new RSAException();
 				upcEx.setError(RSAErrorConstants.ErrorCode.INVALID_INPUT_PARAM_ERROR);
