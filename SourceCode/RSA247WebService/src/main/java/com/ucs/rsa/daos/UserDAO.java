@@ -12,6 +12,6 @@ public interface UserDAO extends BaseDAO {
 	
 	public EmployeeModel updateEmployee(EmployeeModel iCustomerModel);
 	
-	public String login(Integer iMobileNo, String iGcmId);
+	public String login(Long iMobileNo, String iGcmId);
 	
 }
