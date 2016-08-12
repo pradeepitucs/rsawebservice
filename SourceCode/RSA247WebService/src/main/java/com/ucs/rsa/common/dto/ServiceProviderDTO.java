@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "service_provider", namespace = "com.ucs.rsa.dto")
-public class ServiceProviderDTO extends UserDTO {
+public class ServiceProviderDTO {
 	
 	private static final long serialVersionUID = 1L;
 
