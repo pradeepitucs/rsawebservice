@@ -1,10 +1,13 @@
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -36,6 +39,14 @@ public class EmployeeModel extends UserModel implements Serializable {
 
 	@Column(name = "is_send_approval_notification")
 	private boolean isSendArrovalNotification;
+	
+	// bi-directional many-to-one association to CustomerRequestModel
+		@OneToMany(mappedBy = "employeeModel", fetch = FetchType.LAZY)
+		private List<CustomerRequestModel> customerRequestModels;
+
+		// bi-directional many-to-one association to CustomerReviewModel
+		@OneToMany(mappedBy = "employeeModel", fetch = FetchType.LAZY)
+		private List<CustomerReviewModel> customerReviewModels;
 
 	public boolean isSendArrovalNotification() {
 		return isSendArrovalNotification;
@@ -91,6 +102,46 @@ public class EmployeeModel extends UserModel implements Serializable {
 
 	public void setGcmId(String gcmId) {
 		this.gcmId = gcmId;
+	}
+	
+	public CustomerRequestModel addCustomerRequestModel(CustomerRequestModel customerRequestModel) {
+		getCustomerRequestModels().add(customerRequestModel);
+		customerRequestModel.setEmployeeModel(this);
+		return customerRequestModel;
+	}
+
+	public CustomerRequestModel removeCustomerRequestModel(CustomerRequestModel customerRequestModel) {
+		getCustomerRequestModels().remove(customerRequestModel);
+		customerRequestModel.setEmployeeModel(null);
+		return customerRequestModel;
+	}
+	
+	public List<CustomerRequestModel> getCustomerRequestModels() {
+		return customerRequestModels;
+	}
+
+	public void setCustomerRequestModels(List<CustomerRequestModel> customerRequestModels) {
+		this.customerRequestModels = customerRequestModels;
+	}
+
+	public List<CustomerReviewModel> getCustomerReviewModels() {
+		return customerReviewModels;
+	}
+
+	public void setCustomerReviewModels(List<CustomerReviewModel> customerReviewModels) {
+		this.customerReviewModels = customerReviewModels;
+	}
+
+	public CustomerReviewModel addCustomerReviewModel(CustomerReviewModel customerReviewModel) {
+		getCustomerReviewModels().add(customerReviewModel);
+		customerReviewModel.setEmployeeModel(this);
+		return customerReviewModel;
+	}
+
+	public CustomerReviewModel removeCustomerReviewModel(CustomerReviewModel customerReviewModel) {
+		getCustomerReviewModels().remove(customerReviewModel);
+		customerReviewModel.setEmployeeModel(null);
+		return customerReviewModel;
 	}
 
 	@Override
