@@ -1,6 +1,7 @@
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -34,6 +35,17 @@ public class CustomerRequestModel implements Serializable {
 
 	@Column(name = "issue_status")
 	private String issueStatus;
+	
+	@Column(name = "issue_start_time")
+	private Time issueStartTime;
+
+	public Time getIssueStartTime() {
+		return issueStartTime;
+	}
+
+	public void setIssueStartTime(Time issueStartTime) {
+		this.issueStartTime = issueStartTime;
+	}
 
 	//bi-directional many-to-one association to ServiceTypeModel
 	@ManyToOne
@@ -48,10 +60,18 @@ public class CustomerRequestModel implements Serializable {
 	//bi-directional many-to-one association to ServiceProviderModel
 	@ManyToOne
 	@JoinColumn(name="employee_id")
-	private ServiceProviderModel serviceProviderModel;
+	private EmployeeModel employeeModel;
 	
+	public EmployeeModel getEmployeeModel() {
+		return employeeModel;
+	}
+
+	public void setEmployeeModel(EmployeeModel employeeModel) {
+		this.employeeModel = employeeModel;
+	}
+
 	// bi-directional many-to-one association to CustomerReviewModel
-	@OneToMany(mappedBy = "serviceProviderModel", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "customerRequestModel", fetch = FetchType.LAZY)
 	private List<CustomerReviewModel> customerReviewModels;
 
 	public CustomerRequestModel() {
@@ -104,14 +124,6 @@ public class CustomerRequestModel implements Serializable {
 	public void setCustomerModel(CustomerModel customerModel) {
 		this.customerModel = customerModel;
 	}
-
-	public ServiceProviderModel getServiceProviderModel() {
-		return serviceProviderModel;
-	}
-
-	public void setServiceProviderModel(ServiceProviderModel serviceProviderModel) {
-		this.serviceProviderModel = serviceProviderModel;
-	}
 	
 	public List<CustomerReviewModel> getCustomerReviewModels() {
 		return customerReviewModels;
@@ -132,4 +144,14 @@ public class CustomerRequestModel implements Serializable {
 		customerReviewModel.setCustomerRequestModel(null);
 		return customerReviewModel;
 	}
+	
+	@Override
+	public String toString() {
+		return "CustomerRequestModel [ issueId=" + issueId + ", issueStatus=" + issueStatus
+				+ ", issueStartTime=" + issueStartTime + ", customerLatitude=" + customerLatitude + ", customerLongitude ="
+				+ customerLongitude + ", employeeModel=" + employeeModel
+				+ ", customerModel=" + customerModel + ", serviceTypeModel="
+				+ serviceTypeModel  + "]" + super.toString();
+	}
+	
 }
