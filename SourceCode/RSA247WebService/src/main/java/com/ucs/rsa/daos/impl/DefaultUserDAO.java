@@ -8,6 +8,7 @@ import com.ucs.rsa.common.constants.RSAErrorConstants;
 import com.ucs.rsa.common.exception.RSAException;
 import com.ucs.rsa.daos.UserDAO;
 import com.ucs.rsa.model.CustomerModel;
+import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 
 @Repository(value="defaultUserDAO")
@@ -109,6 +110,40 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 			throw rsaException;
 		}
 		return result;
+	}
+	
+	@Override
+	public EmployeeModel updateEmployee(EmployeeModel iCustomerModel) {
+		EmployeeModel customerModel = iCustomerModel;
+		Session theSession = null;
+		try {
+			theSession = currentSession();
+
+			/**** Check for invalid role id ****/
+			// TODO : check for customer with given id
+
+			/**** Check for user mobile number exists for new user  ****/
+			if(customerModel.getUserId() == 0) {
+				EmployeeModel theCriteria = (EmployeeModel) theSession.createCriteria(EmployeeModel.class, "customerModel")
+						.add(Restrictions.eq("mobileNo", customerModel.getMobileNo())).uniqueResult();
+				if (theCriteria != null) {
+					System.out.println("rsaException");
+					RSAException rsaException = new RSAException();
+					System.out.println("rsaException" + rsaException);
+					rsaException.setError(RSAErrorConstants.ErrorCode.USER_ALREADY_EXISTS_ERROR);
+					throw rsaException;
+				}
+			}
+			theSession.saveOrUpdate(customerModel);
+		} catch (RSAException e) {
+			throw e;
+		} catch (RuntimeException ex) {
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return customerModel;
 	}
 
 }

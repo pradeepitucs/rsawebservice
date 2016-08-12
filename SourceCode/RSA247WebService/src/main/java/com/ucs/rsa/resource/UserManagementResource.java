@@ -3,6 +3,7 @@ package com.ucs.rsa.resource;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import com.ucs.rsa.common.dto.ServiceProviderDTO;
 import com.ucs.rsa.common.dto.ServiceProvidersDTO;
 import com.ucs.rsa.model.CityModel;
 import com.ucs.rsa.model.CustomerModel;
+import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.RoleModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.service.UserService;
@@ -82,6 +84,44 @@ public class UserManagementResource {
 		}
 
 		return new ModelAndView("xml", "customer", customerDTO);
+	}
+	
+	@RequestMapping(value = "/updateEmployee", method = { RequestMethod.POST, RequestMethod.GET })
+	private ModelAndView updateEmployee (
+			@RequestParam(value = "userid") final int iUserId,
+			@RequestParam(value = "employeeName") final String employeeName,
+			@RequestParam(value = "employeeEmail") final String employeeEmail,
+			@RequestParam(value = "mobileno", required = true) final long iMobileNo,
+			@RequestParam(value = "roleid", required = true) final int iRoleId,
+			@RequestParam(value = "enabled") final boolean isEnabled,
+			@RequestParam(value = "isOnwer") final boolean isOnwer,
+			@RequestParam(value = "isSendApprovalNotification") final boolean isSendApprovalNotification,
+			@RequestParam(value = "gcmid", required = true) final String iGcmId,
+			@RequestParam(value = "olderEmployeeId") final int olderEmployeeId,
+			@RequestParam(value = "serviceProviderId") final int serviceProviderId) {
+
+		EmployeeModel customerModel = new EmployeeModel();
+		customerModel.setIsEnabled(isEnabled);
+		customerModel.setMobileNo(iMobileNo);
+		customerModel.setGcmId(iGcmId);
+		customerModel.setEmployeeEmail(employeeEmail);
+		customerModel.setEmployeeName(employeeName);
+		customerModel.setSendArrovalNotification(isSendApprovalNotification);
+		
+		RoleModel roleModel = new RoleModel();
+		roleModel.setRoleId(iRoleId);
+		
+		customerModel.setRoleModel(roleModel);
+		customerModel.setUserId(iUserId);
+		customerModel.setOnwer(isOnwer);
+		customerModel.setServiceProviderID(serviceProviderId);
+		customerModel.setOlderEmployeeID(olderEmployeeId);
+		
+		EmployeeModel customerModel1 = getUserService().updateEmployee(customerModel);
+		if(customerModel1 != null) {
+		}
+		
+		return new ModelAndView("xml", "customer", "Inserted Data");
 	}
 
 	@RequestMapping(value = "/customers", method = { RequestMethod.GET })
@@ -313,7 +353,10 @@ public class UserManagementResource {
 			@RequestParam("serviceProviderPremium") final String serviceProviderPremium,
 			@RequestParam("serviceProvidertiming") final String serviceProvidertiming,
 			@RequestParam("serviceProviderWebsite") final String serviceProviderWebsite,
-			@RequestParam("vehicleTypeId") final int vehicleTypeId) {
+			@RequestParam("twoWheeler") final Boolean twoWheeler,
+			@RequestParam("fourWheeler") final Boolean fourWheeler,
+			@RequestParam("serviceProviderTimeStamp") final Timestamp serviceProviderTimeStamp,
+			@RequestParam("olderServiceProviderId") final Integer olderServiceProviderId) {
 		RoleModel roleModel = new RoleModel();
 		roleModel.setRoleId(1);
 		ServiceProviderModel serviceProvider = new ServiceProviderModel();
@@ -337,7 +380,11 @@ public class UserManagementResource {
 		serviceProvider.setServiceProviderPremium(serviceProviderPremium);
 		serviceProvider.setServiceProvidertiming(serviceProvidertiming);
 		serviceProvider.setServiceProviderWebsite(serviceProviderWebsite);
-		serviceProvider.setVehicleTypeId(vehicleTypeId);
+		serviceProvider.setFourWheeler(fourWheeler);
+		serviceProvider.setTwoWheeler(twoWheeler);
+		serviceProvider.setIsEnabled(enabled);
+		serviceProvider.setOlderServiceProviderId(olderServiceProviderId);
+		serviceProvider.setServiceProviderTimestamp(serviceProviderTimeStamp);
 		System.out.println("ServiceProviderDTO " + serviceProvider);
 
 		ServiceProviderModel userModel = userService.updateServiceProvider(serviceProvider);

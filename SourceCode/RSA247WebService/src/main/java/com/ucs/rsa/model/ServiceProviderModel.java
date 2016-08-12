@@ -1,6 +1,7 @@
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -61,9 +62,6 @@ public class ServiceProviderModel extends UserModel implements Serializable {
 	@Column(name = "service_provider_rating")
 	private double rating;
 
-	@Column(name = "vehicle_type_id")
-	private int vehicleTypeId;
-
 	@Column(name = "electrical_type")
 	private boolean electricalType;
 
@@ -72,13 +70,57 @@ public class ServiceProviderModel extends UserModel implements Serializable {
 
 	@Column(name = "body_repair")
 	private boolean bodyRepair;
+	
+	@Column(name = "service_provider_timestamp")
+	private Timestamp serviceProviderTimestamp;
+	
+	@Column(name = "four_wheeler")
+	private Boolean fourWheeler;
+	
+	@Column(name = "two_wheeler")
+	private Boolean twoWheeler;
+
+	@Column(name = "older_service_provider_id")
+	private Integer olderServiceProviderId;
+
+	public Integer getOlderServiceProviderId() {
+		return olderServiceProviderId;
+	}
+
+	public void setOlderServiceProviderId(Integer olderServiceProviderId) {
+		this.olderServiceProviderId = olderServiceProviderId;
+	}
+
+	public Timestamp getServiceProviderTimestamp() {
+		return serviceProviderTimestamp;
+	}
+
+	public void setServiceProviderTimestamp(Timestamp serviceProviderTimestamp) {
+		this.serviceProviderTimestamp = serviceProviderTimestamp;
+	}
+
+	public Boolean isFourWheeler() {
+		return fourWheeler;
+	}
+
+	public void setFourWheeler(Boolean fourWheeler) {
+		this.fourWheeler = fourWheeler;
+	}
+
+	public Boolean isTwoWheeler() {
+		return twoWheeler;
+	}
+
+	public void setTwoWheeler(Boolean twoWheeler) {
+		this.twoWheeler = twoWheeler;
+	}
 
 	// bi-directional many-to-one association to CustomerRequestModel
-	@OneToMany(mappedBy = "serviceProviderModel", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "serviceProviderModel", fetch = FetchType.LAZY)
 	private List<CustomerRequestModel> customerRequestModels;
 
 	// bi-directional many-to-one association to CustomerReviewModel
-	@OneToMany(mappedBy = "serviceProviderModel", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "serviceProviderModel", fetch = FetchType.LAZY)
 	private List<CustomerReviewModel> customerReviewModels;
 
 	public ServiceProviderModel() {
@@ -106,14 +148,6 @@ public class ServiceProviderModel extends UserModel implements Serializable {
 
 	public void setRating(double rating) {
 		this.rating = rating;
-	}
-
-	public int getVehicleTypeId() {
-		return vehicleTypeId;
-	}
-
-	public void setVehicleTypeId(int vehicleTypeId) {
-		this.vehicleTypeId = vehicleTypeId;
 	}
 
 	public boolean isElectricalType() {
@@ -266,5 +300,21 @@ public class ServiceProviderModel extends UserModel implements Serializable {
 		getCustomerReviewModels().remove(customerReviewModel);
 		customerReviewModel.setServiceProviderModel(null);
 		return customerReviewModel;
+	}
+	
+	@Override
+	public String toString() {
+		return "ServiceProvider [ serviceProviderName=" + serviceProviderName + ", imageFolderName=" + imageFolderName
+				+ ", rating=" + rating + ", serviceProviderCity=" + serviceProviderCity + ", serviceProviderComments ="
+				+ serviceProviderComments + ", serviceproviderExperties=" + serviceproviderExperties
+				+ ", serviceProviderLatitude=" + serviceProviderLatitude + ", serviceProviderLongitude="
+				+ serviceProviderLongitude + ", serviceProviderMaxDistanceToOperate="
+				+ serviceProviderMaxDistanceToOperate + ", serviceProviderotherServices ="
+				+ serviceProviderotherServices + ", serviceProviderPremium=" + serviceProviderPremium
+				+ ", serviceProvidertiming=" + serviceProvidertiming + ", serviceProviderWebsite="
+				+ serviceProviderWebsite + ", bodyRepair =" + bodyRepair + ", serviceProviderNightOperation ="
+				+ serviceProviderNightOperation + ", electricalType =" + electricalType + ", mechanicalType ="
+				+ mechanicalType + ", twoWheeler =" + twoWheeler + ", fourWheeler =" + fourWheeler
+				+ ", olderServiceProviderId =" + olderServiceProviderId + ", serviceProviderTimestamp =" + serviceProviderTimestamp + "]" + super.toString();
 	}
 }

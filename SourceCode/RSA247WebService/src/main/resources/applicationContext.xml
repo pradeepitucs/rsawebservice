@@ -75,6 +75,8 @@
 				<value>com.ucs.rsa.common.dto.CustomerRequestsDTO</value>
 				<value>com.ucs.rsa.common.dto.CustomerReviewDTO</value>
 				<value>com.ucs.rsa.common.dto.CustomerReviewsDTO</value>
+				<value>com.ucs.rsa.common.dto.EmployeeDTO</value>
+				<value>com.ucs.rsa.common.dto.EmployeesDTO</value>
 			</list>
 		</property>
 	</bean>
@@ -108,7 +110,7 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/mt1" />
+		<property name="url" value="jdbc:mysql://localhost/mt2" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 	</bean>
@@ -133,6 +135,7 @@
 				<value>com.ucs.rsa.model.ServiceTypeModel</value>
 				<value>com.ucs.rsa.model.CustomerRequestModel</value>
 				<value>com.ucs.rsa.model.CustomerReviewModel</value>
+				<value>com.ucs.rsa.model.EmployeeModel</value>
 			</list>
 		</property>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml" />

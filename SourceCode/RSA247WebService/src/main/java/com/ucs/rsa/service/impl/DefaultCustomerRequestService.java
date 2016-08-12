@@ -1,5 +1,7 @@
 package com.ucs.rsa.service.impl;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,26 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 			throw rsaEx;
 		}
 		return customerRequestModel;
+	}
+	
+	@Override
+	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, String serviceType) {
+		ArrayList<Integer> serviceProviderList =null;
+		serviceProviderList = customerRequestDAO.getServiceProviderIDS(ratingAndLocation, serviceType);
+		return serviceProviderList;
+	}
+	
+	@Override
+	public ArrayList<String> getDeviceIDSFromServiceProviderIDS(ArrayList<Integer> serviceProviderIDs) {
+		ArrayList<String> deviceIDList =null;
+		deviceIDList = customerRequestDAO.getDeviceIDSFromServiceProviderIDS(serviceProviderIDs);
+		return deviceIDList;
+	}
+
+	@Override
+	public String getIssueStatus(int issueID) {
+		String issueStatus = customerRequestDAO.getIssueStatus(issueID);
+		return issueStatus;
 	}
 
 }
