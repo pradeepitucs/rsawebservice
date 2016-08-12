@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.ucs.rsa.common.constants.RSAErrorConstants;
 import com.ucs.rsa.common.exception.RSAException;
 import com.ucs.rsa.daos.CustomerRequestDAO;
+import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerRequestModel;
 import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceProviderModel;
@@ -38,6 +39,38 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 		return customerRequestModel;
 	}
 	
+	@Override
+	public ArrayList<String> updateCustomerRequestByEmployee(CustomerRequestModel iCustomerRequestModel) {
+		ArrayList<String> customerRequestResponse = new ArrayList<String>();
+		Session theSession = null;
+		try {
+			theSession = currentSession();
+			CustomerRequestModel customerRequestList =  (CustomerRequestModel) theSession.createCriteria(CustomerRequestModel.class, "customerRequestModel")
+					.add(Restrictions.eq("issueId", iCustomerRequestModel.getIssueId())).uniqueResult();
+			//CustomerRequestModel customerRequestList = cr.list();
+			int customer_id = customerRequestList.getCustomerModel().getUserId();
+			customerRequestResponse.add(String.valueOf(customerRequestList.getCustomerModel().getUserId()));
+			if(customerRequestList.getIssueStatus()==null || customerRequestList.getIssueStatus().isEmpty()) {
+				customerRequestList.setIssueStartTime(iCustomerRequestModel.getIssueStartTime());
+				customerRequestList.setIssueStatus(iCustomerRequestModel.getIssueStatus());
+				customerRequestList.setEmployeeModel(iCustomerRequestModel.getEmployeeModel());
+			theSession.saveOrUpdate(customerRequestList);
+			customerRequestResponse.add("Accepted");
+			} else {
+				customerRequestResponse.add("Accepted by other Person");
+			}
+			
+		} catch (RSAException e) {
+			throw e;
+		} catch (RuntimeException ex) {
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return customerRequestResponse;
+	}
+	
 	@SuppressWarnings("null")
 	@Override
 	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, String serviceType) {
@@ -52,12 +85,12 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 			.add(Restrictions.between("rating", ratingAndLocation.get(0), ratingAndLocation.get(1)))
 			.add(Restrictions.like("serviceproviderExperties", "%"+serviceType+"%"))
 			.add(Restrictions.like("serviceProviderotherServices", "%"+serviceType+"%"))
-			.setProjection(Projections.projectionList().add(Projections.property("userId"), "userId")).
+			.setProjection(Projections.projectionList().add(Projections.property("serviceProviderId"), "serviceProviderId")).
 			setResultTransformer(Transformers.aliasToBean(ServiceProviderModel.class));
 			@SuppressWarnings("unchecked")
 			List<ServiceProviderModel> serviceProviderList = cr.list();
 			for(int i=0;i<serviceProviderList.size();i++) {
-				serviceProviderIDList.add(serviceProviderList.get(i).getUserId());
+				serviceProviderIDList.add(serviceProviderList.get(i).getServiceProviderId());
 			}
 			 System.out.println(serviceProviderList);
 		} catch (RSAException e) {
@@ -109,7 +142,7 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 			CustomerRequestModel ambulanceRequest =  (CustomerRequestModel) theSession.createCriteria(CustomerRequestModel.class, "customerModel")
 			.add(Restrictions.eq("issueId", issueID))
 			.setProjection(Projections.projectionList().add(Projections.property("issueStatus"), "issueStatus")).
-			setResultTransformer(Transformers.aliasToBean(CustomerRequestModel.class));
+			setResultTransformer(Transformers.aliasToBean(CustomerRequestModel.class)).uniqueResult();
 			issueStatus = ambulanceRequest.getIssueStatus();
 			 System.out.println(issueStatus);
 		} catch (RSAException e) {
@@ -122,5 +155,98 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 		}
 		return  issueStatus;
 	}
+
+	@Override
+	public String getGCMIDFromCustomerID(int customerId) {
+		Session theSession = null;
+		String gcmID = null;
+		try {
+			theSession = currentSession();
+			CustomerModel customerModel =  (CustomerModel) theSession.createCriteria(CustomerModel.class, "customerModel")
+			.add(Restrictions.eq("userId", customerId))
+			.setProjection(Projections.projectionList().add(Projections.property("gcmId"), "gcmId")).
+			setResultTransformer(Transformers.aliasToBean(CustomerModel.class)).uniqueResult();
+			gcmID = customerModel.getGcmId();
+			 System.out.println(gcmID);
+		} catch (RSAException e) {
+			throw e;
+		} catch (RuntimeException ex) {
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return  gcmID;
+	}
+
+	@Override
+	public int getServiceProviderIDFromEmployeeID(int employeeID) {
+		Session theSession = null;
+		int serviceProviderID = 0;
+		try {
+			theSession = currentSession();
+			EmployeeModel employeeModel =  (EmployeeModel) theSession.createCriteria(EmployeeModel.class, "customerModel")
+			.add(Restrictions.eq("userId", employeeID))
+			.setProjection(Projections.projectionList().add(Projections.property("serviceProviderID"), "serviceProviderID")).
+			setResultTransformer(Transformers.aliasToBean(EmployeeModel.class)).uniqueResult();
+			serviceProviderID = employeeModel.getServiceProviderID();
+			 System.out.println(serviceProviderID);
+		} catch (RSAException e) {
+			throw e;
+		} catch (RuntimeException ex) {
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return  serviceProviderID;
+	}
+
+	@Override
+	public ArrayList<Double> getServiceProviderLocationFromServiceProviderId(int serviceProviderID) {
+		Session theSession = null;
+		ArrayList<Double> location = new ArrayList<Double>();
+		try {
+			theSession = currentSession();
+			ServiceProviderModel serviceProviderModel =  (ServiceProviderModel) theSession.createCriteria(ServiceProviderModel.class, "customerModel")
+			.add(Restrictions.eq("serviceProviderId", serviceProviderID))
+			.setProjection(Projections.projectionList().add(Projections.property("serviceProviderLatitude"), "serviceProviderLatitude")
+			.add(Projections.property("serviceProviderLongitude"), "serviceProviderLongitude")).
+			setResultTransformer(Transformers.aliasToBean(ServiceProviderModel.class)).uniqueResult();
+			location.add(serviceProviderModel.getServiceProviderLatitude());
+			location.add(serviceProviderModel.getServiceProviderLongitude());
+			 System.out.println(serviceProviderID);
+		} catch (RSAException e) {
+			throw e;
+		} catch (RuntimeException ex) {
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return  location;
+	}
+
+	@Override
+	public EmployeeModel getEmployeeDataFromEmployeeID(int employeeID) {
+		Session theSession = null;
+		EmployeeModel employeeModel = null;
+		try {
+			theSession = currentSession();
+			employeeModel =  (EmployeeModel) theSession.createCriteria(EmployeeModel.class, "customerModel")
+			.add(Restrictions.eq("userId", employeeID)).uniqueResult();
+			 System.out.println(employeeModel);
+		} catch (RSAException e) {
+			throw e;
+		} catch (RuntimeException ex) {
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return  employeeModel;
+	}
+	
+	
 
 }
