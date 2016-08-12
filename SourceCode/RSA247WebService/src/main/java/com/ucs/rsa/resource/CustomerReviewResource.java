@@ -15,6 +15,7 @@ import com.ucs.rsa.common.dto.CustomerReviewsDTO;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerRequestModel;
 import com.ucs.rsa.model.CustomerReviewModel;
+import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.service.CustomerReviewService;
 
@@ -61,9 +62,9 @@ public class CustomerReviewResource {
 		customerRequestModel.setIssueId(iIssueId);
 		customerReviewModel.setCustomerRequestModel(customerRequestModel);
 		
-		ServiceProviderModel serviceProviderModel = new ServiceProviderModel();
-		serviceProviderModel.setUserId(iEmployeeId);
-		customerReviewModel.setServiceProviderModel(serviceProviderModel);
+		EmployeeModel employeeModel = new EmployeeModel();
+		employeeModel.setUserId(iEmployeeId);
+		customerReviewModel.setEmployeeModel(employeeModel);
 
 		CustomerReviewModel customerReviewModel1 = getCustomerReviewService().updateCustomerReview(customerReviewModel);
 
