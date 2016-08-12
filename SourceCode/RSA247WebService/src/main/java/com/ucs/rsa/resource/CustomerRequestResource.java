@@ -27,7 +27,7 @@ import com.ucs.rsa.common.dto.CustomerRequestsDTO;
 import com.ucs.rsa.common.notification.SendNotification;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerRequestModel;
-import com.ucs.rsa.model.ServiceProviderModel;
+import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceTypeModel;
 import com.ucs.rsa.service.CustomerRequestService;
 
@@ -58,7 +58,7 @@ public class CustomerRequestResource {
 		customerRequestModel.setCustomerLatitude(customerLatitude);
 		customerRequestModel.setCustomerLongitude(customerLongitude);
 		customerRequestModel.setIssueId(issueId);
-		customerRequestModel.setIssueStatus(issueStatus);
+		//customerRequestModel.setIssueStatus(issueStatus);
 
 		ServiceTypeModel serverType = new ServiceTypeModel();
 		serverType.setServiceTypeId(issueTypeId);
@@ -68,9 +68,9 @@ public class CustomerRequestResource {
 		customerModel.setUserId(customerId);
 		customerRequestModel.setCustomerModel(customerModel);
 		
-		ServiceProviderModel serviceProviderModel = new ServiceProviderModel();
-		serviceProviderModel.setUserId(employeeId);
-		customerRequestModel.setServiceProviderModel(serviceProviderModel);
+		/*EmployeeModel employeeModel = new EmployeeModel();
+		employeeModel.setUserId(employeeId);
+		customerRequestModel.setEmployeeModel(employeeModel);*/
 		
 		CustomerRequestModel customerRequestModel1 = getCustomerRequestService()
 				.updateCustomerRequest(customerRequestModel);
