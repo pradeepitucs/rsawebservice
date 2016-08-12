@@ -22,9 +22,9 @@ public class DefaultCustomerReviewService extends DefaultBaseService implements
 	public CustomerReviewModel updateCustomerReview(CustomerReviewModel iCustomerReviewModel) {
 		CustomerReviewModel customerReviewModel = null;
 		if (!"".equals(iCustomerReviewModel.getCustomerModel())
-				&& !"".equals(iCustomerReviewModel.getServiceProviderModel())
+				&& !"".equals(iCustomerReviewModel.getEmployeeModel())
 				&& !"".equals(iCustomerReviewModel.getRating())
-				&& !"".equals(iCustomerReviewModel.getServiceProviderModel().getUserId())
+				&& !"".equals(iCustomerReviewModel.getEmployeeModel().getUserId())
 				&& !"".equals(iCustomerReviewModel.getCustomerModel().getUserId())) {
 			customerReviewModel = customerReviewDAO.updateCustomerReview(
 					iCustomerReviewModel);
