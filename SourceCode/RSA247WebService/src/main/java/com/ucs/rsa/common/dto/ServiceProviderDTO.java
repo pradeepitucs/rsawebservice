@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "service_provider", namespace = "com.ucs.rsa.dto")
 public class ServiceProviderDTO {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private String serviceProviderName;
@@ -41,9 +41,9 @@ public class ServiceProviderDTO {
 	private double rating;
 
 	private Timestamp serviceProviderTimestamp;
-	
+
 	private boolean fourWheeler;
-	
+
 	private boolean twoWheeler;
 
 	private int olderServiceProviderId;
@@ -53,6 +53,10 @@ public class ServiceProviderDTO {
 	private boolean mechanicalType;
 
 	private boolean bodyRepair;
+
+	private long mobileNo;
+
+	private int userId;
 
 	public Timestamp getServiceProviderTimestamp() {
 		return serviceProviderTimestamp;
@@ -232,9 +236,8 @@ public class ServiceProviderDTO {
 
 	@Override
 	public String toString() {
-		return "ServiceProvider [ serviceProviderName="
-				+ serviceProviderName + ", imageFolderName=" + imageFolderName + ", rating=" + rating
-				+ ", serviceProviderCity=" + serviceProviderCity + ", serviceProviderComments ="
+		return "ServiceProvider [ serviceProviderName=" + serviceProviderName + ", imageFolderName=" + imageFolderName
+				+ ", rating=" + rating + ", serviceProviderCity=" + serviceProviderCity + ", serviceProviderComments ="
 				+ serviceProviderComments + ", serviceproviderExperties=" + serviceproviderExperties
 				+ ", serviceProviderLatitude=" + serviceProviderLatitude + ", serviceProviderLongitude="
 				+ serviceProviderLongitude + ", serviceProviderMaxDistanceToOperate="
@@ -245,6 +248,22 @@ public class ServiceProviderDTO {
 				+ ", serviceProviderNightOperation =" + serviceProviderNightOperation + ", electricalType ="
 				+ electricalType + ", mechanicalType =" + mechanicalType + ", isEnabled =" + isEnabled + "]"
 				+ super.toString();
+	}
+
+	public long getMobileNo() {
+		return mobileNo;
+	}
+
+	public void setMobileNo(long mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 }

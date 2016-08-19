@@ -180,7 +180,7 @@ public class UserManagementResource {
 
 		for (ServiceProviderModel serviceProviderModel : serviceProviderModels) {
 			ServiceProviderDTO serviceProviderDTO = new ServiceProviderDTO();
-			serviceProviderDTO.setIsEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
 			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
 			serviceProviderDTO.setUserId(serviceProviderModel.getServiceProviderId());
 			serviceProviderDTOs.add(serviceProviderDTO);
@@ -197,7 +197,7 @@ public class UserManagementResource {
 
 		ServiceProviderDTO serviceProviderDTO = new ServiceProviderDTO();
 		if (serviceProviderModel != null) {
-			serviceProviderDTO.setIsEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
 			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
 			serviceProviderDTO.setUserId(serviceProviderModel.getServiceProviderId());
 		}

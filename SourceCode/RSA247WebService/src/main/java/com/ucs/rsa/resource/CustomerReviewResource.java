@@ -44,7 +44,8 @@ public class CustomerReviewResource {
 			@RequestParam("rating") final float iRating, 
 			@RequestParam("blocked") final boolean iBlocked,
 			@RequestParam("issueid") final int iIssueId,
-			@RequestParam("employeeId") final int iEmployeeId) {
+			@RequestParam("employeeId") final int iEmployeeId,
+			@RequestParam("serviceProviderId") final int iServiceProviderId) {
 
 		CustomerReviewModel customerReviewModel = new CustomerReviewModel();
 		customerReviewModel.setApprovalStatus(iApprovalStatus);
@@ -54,6 +55,10 @@ public class CustomerReviewResource {
 		customerReviewModel.setHeadline(iHeadline);
 		customerReviewModel.setRating(iRating);
 
+		ServiceProviderModel serviceProviderModel = new ServiceProviderModel();
+		serviceProviderModel.setServiceProviderId(iServiceProviderId);
+		customerReviewModel.setServiceProviderModel(serviceProviderModel);
+		
 		CustomerModel customerModel = new CustomerModel();
 		customerModel.setUserId(iCustomerId);
 		customerReviewModel.setCustomerModel(customerModel);

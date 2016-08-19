@@ -49,6 +49,11 @@ public class CustomerReviewModel implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modification;
+	
+	// bi-directional many-to-one association to ServiceProviderModel
+	@ManyToOne
+	@JoinColumn(name = "service_provider_id")
+	private ServiceProviderModel serviceProviderModel;
 
 	// bi-directional many-to-one association to CustomerT
 	@ManyToOne
@@ -154,6 +159,14 @@ public class CustomerReviewModel implements Serializable {
 
 	public void setModification(Date modification) {
 		this.modification = modification;
+	}
+
+	public ServiceProviderModel getServiceProviderModel() {
+		return serviceProviderModel;
+	}
+
+	public void setServiceProviderModel(ServiceProviderModel serviceProviderModel) {
+		this.serviceProviderModel = serviceProviderModel;
 	}
 
 }
