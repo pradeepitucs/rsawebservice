@@ -4,6 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:citrus="http://www.citrusframework.org/schema/config"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/jdbc 
@@ -13,9 +14,14 @@
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-4.0.xsd
 		http://www.springframework.org/schema/mvc 
-		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.citrusframework.org/schema/config 
+		http://www.citrusframework.org/schema/config/citrus-config.xsd">
 
     <context:component-scan base-package="com.ucs.rsa" />
+    
+    <!-- Citrus Spring XML application context -->
+    <citrus:schema-repository id="schemaRepository" />
 
 	<mvc:annotation-driven
 		content-negotiation-manager="contentNegotiationManager" />
