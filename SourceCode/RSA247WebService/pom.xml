@@ -190,14 +190,14 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
 		</dependency>
-		
+
 		<!-- javamelody-core -->
 		<dependency>
 			<groupId>net.bull.javamelody</groupId>
 			<artifactId>javamelody-core</artifactId>
 			<version>1.60.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.gcm</groupId>
 			<artifactId>gcm-server</artifactId>
@@ -209,6 +209,11 @@
 			<version>20160212</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.consol.citrus</groupId>
+			<artifactId>citrus-http</artifactId>
+			<version>2.6</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
@@ -248,6 +253,12 @@
 				<configuration>
 					<locales>en,fr</locales>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.consol.citrus.mvn</groupId>
+				<artifactId>citrus-maven-plugin</artifactId>
+				<version>2.6</version>
 			</plugin>
 
 		</plugins>
