@@ -1,6 +1,6 @@
 package com.ucs.rsa.service;
 
-public interface BillGenerator extends BaseService {
+public interface BillGeneratorService extends BaseService {
 
 	public StringBuilder genertBill();
 	

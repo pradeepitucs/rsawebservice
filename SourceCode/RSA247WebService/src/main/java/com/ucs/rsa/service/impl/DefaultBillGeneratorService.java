@@ -8,18 +8,19 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.stereotype.Service;
 
-import com.ucs.rsa.service.BillGenerator;
+import com.ucs.rsa.service.BillGeneratorService;
 
 @Service
-public class DefaultBillGenerator extends DefaultBaseService implements BillGenerator {
+public class DefaultBillGeneratorService extends DefaultBaseService implements BillGeneratorService {
 
 	@Override
 	public StringBuilder genertBill() {
+		
 		String accessKey = "MERCHANT_ACCESS_KEY";
 		String secretKey = "MERCHANT_SECRET_KEY";
 		
 		// Need to Check the redirect URL
-		String returnUrl = "http://YOUR_SERVER/redirectURL.jsp";
+		String returnUrl = "http://localhost:8088/RSA247WebService/redirecturl/citruspayresponse";
 		
 		String txnID = String.valueOf(System.currentTimeMillis());
 		
@@ -49,7 +50,6 @@ public class DefaultBillGenerator extends DefaultBaseService implements BillGene
 					.append("\"merchantAccessKey\"").append(":").append("\"").append(accessKey).append("\"").append(",")
 					.append("\"returnUrl\"").append(":").append("\"").append(returnUrl).append("\"").append(",")
 					.append("\"amount\"").append(":").append("{").append(amountBuilder).append("}").append("}");
-			
 			System.out.println(resBuilder);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();

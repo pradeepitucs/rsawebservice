@@ -29,7 +29,7 @@ import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.RoleModel;
 import com.ucs.rsa.model.ServiceProviderModel;
-import com.ucs.rsa.service.BillGenerator;
+import com.ucs.rsa.service.BillGeneratorService;
 import com.ucs.rsa.service.UserService;
 
 @Controller
@@ -40,7 +40,7 @@ public class UserManagementResource {
 	UserService userService;
 	
 	@Autowired
-	BillGenerator billGenerator;
+	BillGeneratorService billGenerator;
 
 	@RequestMapping(value = "/updateCustomer", method = { RequestMethod.POST, RequestMethod.GET })
 	private ModelAndView updateCustomer(@RequestParam(value = "userid") final int iUserId,
@@ -511,11 +511,11 @@ public class UserManagementResource {
 		return new ModelAndView("xml", "result", result);
 	}
 
-	public BillGenerator getBillGenerator() {
+	public BillGeneratorService getBillGenerator() {
 		return billGenerator;
 	}
 
-	public void setBillGenerator(BillGenerator billGenerator) {
+	public void setBillGenerator(BillGeneratorService billGenerator) {
 		this.billGenerator = billGenerator;
 	}
 	
