@@ -71,15 +71,15 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 			String reqSignature = request.getParameter("signature");
 			System.out.println("txn ID : " + request.getParameter("TxId"));
 
-			// if(hmac.equals(reqSignature)) {
-			// CitrusResponse.pgResponse(reqValMap);
-			// } else {
-			// String responseObj = {
-			// "Error" : "Transaction Failed",
-			// "Reason" : "Signature Verfication Failed"
-			// };
-			// CitrusResponse.pgResponse(responseObj);
-			// }
+//			 if(hmac.equals(reqSignature)) {
+//			 CitrusResponse.pgResponse(reqValMap);
+//			 } else {
+//			 String responseObj = {
+//			 "Error" : "Transaction Failed",
+//			 "Reason" : "Signature Verfication Failed"
+//			 };
+//			 CitrusResponse.pgResponse(responseObj);
+//			 }
 
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();

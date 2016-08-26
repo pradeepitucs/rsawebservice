@@ -170,7 +170,7 @@ public class UserManagementResource {
 			customerDTO.setMobileNo(customerModel.getMobileNo());
 			customerDTO.setUserId(customerModel.getUserId());
 		}
-		return new ModelAndView("xml", "customer", customerDTO);
+		return new ModelAndView("customer", "customer", customerDTO);
 	}
 
 	@RequestMapping(value = "/serviceproviders", method = { RequestMethod.GET })

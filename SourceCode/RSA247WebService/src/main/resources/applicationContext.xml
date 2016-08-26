@@ -15,7 +15,7 @@
 		http://www.springframework.org/schema/mvc 
 		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
-    <context:component-scan base-package="com.ucs.rsa" />
+	<context:component-scan base-package="com.ucs.rsa" />
 
 	<mvc:annotation-driven
 		content-negotiation-manager="contentNegotiationManager" />
@@ -23,19 +23,20 @@
 	<bean id="contentNegotiationManager"
 		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 
-		<property name="favorPathExtension" value="false" />
-		<property name="favorParameter" value="true" />
-		<property name="parameterName" value="mediaType" />
-		<property name="ignoreAcceptHeader" value="false" />
+		<!-- https://dzone.com/articles/content-negotiation-using -->
+		<property name="favorPathExtension" value="true" />
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="defaultContentType" value="text/html" />
 		<property name="useJaf" value="false" />
-		
-		<!-- default Content Type  --> 
-		<property name="defaultContentType" value="application/json" />
+
 		<property name="mediaTypes">
 			<map>
-			    <entry key="json" value="application/json" />
+				<entry key="html" value="text/html" />
+				<entry key="json" value="application/json" />
+				<entry key="xml" value="application/xml" />
 			</map>
 		</property>
+
 	</bean>
 
 	<!-- JAXB Marshalling classes -->
@@ -91,37 +92,57 @@
 		<property name="defaultViews">
 			<list>
 				<bean id="JsonView"
-					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" >
+					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
 					<property name="prettyPrint" value="true" />
 				</bean>
 				
+				<!-- JAXB XML View -->
+		 		<bean id="xmlView" class="org.springframework.web.servlet.view.xml.MarshallingView">
+					<property name="marshaller" ref="jaxbMarshaller" />
+				</bean>
+
+			</list>
+		</property>
+
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" >
+					<property name="order"  value="2"/>
+				</bean>
+				
+				<bean
+					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<property name="prefix" value="/WEB-INF/pages/" />
+					<property name="suffix" value=".jsp" />
+					<property name="order"  value="3"/>
+				</bean>
 			</list>
 		</property>
 
 	</bean>
-	
+
 	<!-- Request Mapping Handler Mapping -->
 	<bean id="handlerMapping"
-	      class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
-	    <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
-	    <property name="useSuffixPatternMatch" value="true"/>
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<property name="contentNegotiationManager" ref="contentNegotiationManager" />
+		<!-- <property name="useSuffixPatternMatch" value="true" /> -->
 	</bean>
 
-<!-- 	<bean id="dataSource" -->
-<!-- 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
-<!-- 		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
-<!-- 		<property name="url" value="jdbc:mysql://localhost/mt2" /> -->
-<!-- 		<property name="username" value="root" /> -->
-<!-- 		<property name="password" value="root" /> -->
-<!-- 	</bean> -->
-	
+	<!-- <bean id="dataSource" -->
+	<!-- class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+	<!-- <property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+	<!-- <property name="url" value="jdbc:mysql://localhost/mt2" /> -->
+	<!-- <property name="username" value="root" /> -->
+	<!-- <property name="password" value="root" /> -->
+	<!-- </bean> -->
+
 	<!-- <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/UCSRSADB" 
 		/> -->
 
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/jdbc/UCSRSADB" />
 	</bean>
-	
+
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -156,7 +177,7 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<!--  Resolvers -->
+	<!-- Resolvers -->
 	<bean id="ResponseExceptionResolver"
 		class="org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver">
 		<property name="order">
@@ -168,10 +189,11 @@
 			<value>2</value>
 		</property>
 	</bean>
-	
-	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
-	     p:defaultEncoding="utf-8"> 
-	    <property name="maxUploadSize" value="50000000"/> 
-	</bean> 
-	
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+		p:defaultEncoding="utf-8">
+		<property name="maxUploadSize" value="50000000" />
+	</bean>
+
 </beans>
