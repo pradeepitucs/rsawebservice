@@ -71,6 +71,7 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 			String reqSignature = request.getParameter("signature");
 			System.out.println("txn ID : " + request.getParameter("TxId"));
 
+
 //			 if(hmac.equals(reqSignature)) {
 //			 CitrusResponse.pgResponse(reqValMap);
 //			 } else {
