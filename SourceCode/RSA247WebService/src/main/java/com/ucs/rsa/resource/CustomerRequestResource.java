@@ -1,3 +1,6 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.resource;
 
 import java.io.IOException;
@@ -27,32 +30,75 @@ import com.ucs.rsa.common.dto.CustomerRequestsDTO;
 import com.ucs.rsa.common.notification.SendNotification;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerRequestModel;
-import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceTypeModel;
 import com.ucs.rsa.service.CustomerRequestService;
 
+
+/**
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The Class CustomerRequestResource.
+ */
 @Controller
 @RequestMapping("/servicerequest")
-public class CustomerRequestResource {
+public class CustomerRequestResource
+{
 
+	/** The customer request service. */
 	@Autowired
 	private CustomerRequestService customerRequestService;
 
-	public CustomerRequestService getCustomerRequestService() {
+	/**
+	 * Gets the customer request service.
+	 *
+	 * @return the customer request service
+	 */
+	public CustomerRequestService getCustomerRequestService()
+	{
 		return customerRequestService;
 	}
 
-	public void setCustomerRequestService(CustomerRequestService customerRequestService) {
+	/**
+	 * Sets the customer request service.
+	 *
+	 * @param customerRequestService
+	 *           the new customer request service
+	 */
+	public void setCustomerRequestService(CustomerRequestService customerRequestService)
+	{
 		this.customerRequestService = customerRequestService;
 	}
 
-	@RequestMapping(value = "/updatecustomerrequest", method = { RequestMethod.POST })
+	/**
+	 * Update customer request.
+	 *
+	 * @param issueId
+	 *           the issue id
+	 * @param issueTypeId
+	 *           the issue type id
+	 * @param customerLatitude
+	 *           the customer latitude
+	 * @param customerLongitude
+	 *           the customer longitude
+	 * @param customerId
+	 *           the customer id
+	 * @param issueStatus
+	 *           the issue status
+	 * @param amount
+	 *           the amount
+	 * @param employeeId
+	 *           the employee id
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/updatecustomerrequest", method =
+	{ RequestMethod.POST })
 	private ModelAndView updateCustomerRequest(@RequestParam("issueId") final int issueId,
-			@RequestParam("issueTypeId") final int issueTypeId,
-			@RequestParam("customerLatitude") final double customerLatitude,
-			@RequestParam("customerLongitude") final double customerLongitude,
-			@RequestParam("customerId") final int customerId, @RequestParam("issueStatus") final String issueStatus,
-			@RequestParam("amount") final long amount, @RequestParam("employeeId") final int employeeId) {
+			@RequestParam("issueTypeId") final int issueTypeId, @RequestParam("customerLatitude") final double customerLatitude,
+			@RequestParam("customerLongitude") final double customerLongitude, @RequestParam("customerId") final int customerId,
+			@RequestParam("issueStatus") final String issueStatus, @RequestParam("amount") final long amount,
+			@RequestParam("employeeId") final int employeeId)
+	{
 
 		CustomerRequestModel customerRequestModel = new CustomerRequestModel();
 		customerRequestModel.setCustomerLatitude(customerLatitude);
@@ -67,33 +113,43 @@ public class CustomerRequestResource {
 		CustomerModel customerModel = new CustomerModel();
 		customerModel.setUserId(customerId);
 		customerRequestModel.setCustomerModel(customerModel);
-		
-		/*EmployeeModel employeeModel = new EmployeeModel();
-		employeeModel.setUserId(employeeId);
-		customerRequestModel.setEmployeeModel(employeeModel);*/
-		
-		CustomerRequestModel customerRequestModel1 = getCustomerRequestService()
-				.updateCustomerRequest(customerRequestModel);
+
+		/*
+		 * EmployeeModel employeeModel = new EmployeeModel(); employeeModel.setUserId(employeeId);
+		 * customerRequestModel.setEmployeeModel(employeeModel);
+		 */
+
+		CustomerRequestModel customerRequestModel1 = getCustomerRequestService().updateCustomerRequest(customerRequestModel);
 
 		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO();
 		customerRequestDTO.setCustomerLatitude(customerRequestModel1.getCustomerLatitude());
 		customerRequestDTO.setCustomerLongitude(customerRequestModel1.getCustomerLongitude());
 		customerRequestDTO.setIssueId(customerRequestModel1.getIssueId());
 		customerRequestDTO.setIssueStatus(customerRequestModel1.getIssueStatus());
-		if(customerRequestModel1!= null){
-			 Runnable r = new Runnable() {
-		         public void run() {
-		        	assigningIssueAndSendNotificationstatus(customerRequestModel1);
-		         }
-		     };
-		     new Thread(r).start();	
-			}
+		if (customerRequestModel1 != null)
+		{
+			Runnable r = new Runnable()
+			{
+				public void run()
+				{
+					assigningIssueAndSendNotificationstatus(customerRequestModel1);
+				}
+			};
+			new Thread(r).start();
+		}
 		return new ModelAndView("xml", "customerRequest", customerRequestDTO);
 
 	}
 
-	@RequestMapping(value = "/customerrequests", method = { RequestMethod.GET })
-	public ModelAndView getAllCustomerRequests() {
+	/**
+	 * Gets the all customer requests.
+	 *
+	 * @return the all customer requests
+	 */
+	@RequestMapping(value = "/customerrequests", method =
+	{ RequestMethod.GET })
+	public ModelAndView getAllCustomerRequests()
+	{
 
 		List<CustomerRequestModel> customerRequestModels = new ArrayList<>();
 		customerRequestModels = getCustomerRequestService().loadAll(CustomerRequestModel.class);
@@ -101,7 +157,8 @@ public class CustomerRequestResource {
 		CustomerRequestsDTO customerRequestsDTO = new CustomerRequestsDTO();
 		List<CustomerRequestDTO> CustomerRequestDTOs = new ArrayList<>();
 
-		for (CustomerRequestModel customerRequestModel : customerRequestModels) {
+		for (CustomerRequestModel customerRequestModel : customerRequestModels)
+		{
 			CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO();
 			customerRequestDTO.setCustomerLatitude(customerRequestModel.getCustomerLatitude());
 			customerRequestDTO.setCustomerLongitude(customerRequestModel.getCustomerLongitude());
@@ -113,14 +170,24 @@ public class CustomerRequestResource {
 		return new ModelAndView("xml", "customers", customerRequestsDTO);
 	}
 
-	@RequestMapping(value = "/customerrequest", method = { RequestMethod.GET })
-	public ModelAndView getCustomerRequest(@RequestParam("customerrequestid") final int iCustomerRequestId) {
+	/**
+	 * Gets the customer request.
+	 *
+	 * @param iCustomerRequestId
+	 *           the i customer request id
+	 * @return the customer request
+	 */
+	@RequestMapping(value = "/customerrequest", method =
+	{ RequestMethod.GET })
+	public ModelAndView getCustomerRequest(@RequestParam("customerrequestid") final int iCustomerRequestId)
+	{
 
 		CustomerRequestModel customerRequestModel = new CustomerRequestModel();
 		customerRequestModel = getCustomerRequestService().get(CustomerRequestModel.class, iCustomerRequestId);
 
 		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO();
-		if (customerRequestModel != null) {
+		if (customerRequestModel != null)
+		{
 			customerRequestDTO.setCustomerLatitude(customerRequestModel.getCustomerLatitude());
 			customerRequestDTO.setCustomerLongitude(customerRequestModel.getCustomerLongitude());
 			customerRequestDTO.setIssueId(customerRequestModel.getIssueId());
@@ -128,157 +195,238 @@ public class CustomerRequestResource {
 		}
 		return new ModelAndView("xml", "customerrequest", customerRequestDTO);
 	}
-	
-	private void assigningIssueAndSendNotificationstatus(CustomerRequestModel entities) {
-		 String notificationStatus = sendNotification(entities);
+
+	/**
+	 * Assigning issue and send notificationstatus.
+	 *
+	 * @param entities
+	 *           the entities
+	 */
+	private void assigningIssueAndSendNotificationstatus(CustomerRequestModel entities)
+	{
+		String notificationStatus = sendNotification(entities);
 		String newTime = "";
-		if(notificationStatus.contains("Notification Successfully")) {
+		if (notificationStatus.contains("Notification Successfully"))
+		{
 			String[] statusAndTime = notificationStatus.split(",");
-			TimerTask task = new TimerTask() {
-			      @Override
-			      public void run() {
-			        // task to run goes here
-			    	  checkForIssueStatus(entities.getIssueId());
-			      }
-			    };
-			    
-			    Timer timer = new Timer();
-			    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-		        Date d;
-				try {
-					d = df.parse(statusAndTime[1]);
-					Calendar cal1 = Calendar.getInstance();
-			        cal1.setTime(d);
-			        cal1.add(Calendar.MINUTE, 10);
-			        newTime = df.format(cal1.getTime());
-			        System.out.println(newTime);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				} 
-			    long delay = 0;
-			    long intevalPeriod = Long.parseLong(newTime); 
-			    
-			    // schedules the task to be run in an interval 
-			    timer.scheduleAtFixedRate(task, delay,
-			                                intevalPeriod);
-		
-		} else {
+			TimerTask task = new TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					// task to run goes here
+					checkForIssueStatus(entities.getIssueId());
+				}
+			};
+
+			Timer timer = new Timer();
+			SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+			Date d;
+			try
+			{
+				d = df.parse(statusAndTime[1]);
+				Calendar cal1 = Calendar.getInstance();
+				cal1.setTime(d);
+				cal1.add(Calendar.MINUTE, 10);
+				newTime = df.format(cal1.getTime());
+				System.out.println(newTime);
+			}
+			catch (ParseException e)
+			{
+				e.printStackTrace();
+			}
+			long delay = 0;
+			long intevalPeriod = Long.parseLong(newTime);
+
+			// schedules the task to be run in an interval 
+			timer.scheduleAtFixedRate(task, delay, intevalPeriod);
+
 		}
-		
+		else
+		{
+		}
+
 	}
-	
-	private	String sendNotification(CustomerRequestModel entities) {
-				double fixedRange = 0;
-				double lowStartRating = 0;
-				double lowEndRating = 0;
-				double highStartRating = 0 ;
-				double highEndRating = 0;
-				double incrementRange = 0;
-				int numberOfLoop = 0;
-				Properties prop = new Properties();
-				InputStream inputStream = CustomerRequestResource.class.getClassLoader()
-					.getResourceAsStream("/constant.properties");
-				try {
-				prop.load(inputStream);
-				String fixedRangeInString = prop.getProperty("FIXED_RADIUS_RANGE");
-				String lowStartRatingInString = prop.getProperty("LOW_RATING_START");
-				String lowEndRatingInString = prop.getProperty("LOW_RATING_END");
-				String highStartRatingInString = prop.getProperty("HIGH_RATING_START");
-				String highEndRatingInString = prop.getProperty("HIGH_RATING_END");
-				String incrementRangeInString = prop.getProperty("INCREASED_RADIUS_RANGE");
-				String numberOfLoopInString = prop.getProperty("NUMBER_OF_LOOP");
-				fixedRange = Double.parseDouble(fixedRangeInString);
-				lowStartRating = Double.parseDouble(lowStartRatingInString);
-				lowEndRating = Double.parseDouble(lowEndRatingInString);
-				highStartRating = Double.parseDouble(highStartRatingInString);
-				highEndRating = Double.parseDouble(highEndRatingInString);
-				incrementRange = Double.parseDouble(incrementRangeInString);
-				numberOfLoop = Integer.parseInt(numberOfLoopInString);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				String notificationStatus = null;
-			for (int i = 0; i < numberOfLoop; i++) {
-				if(i!=0) {
-					fixedRange = fixedRange + incrementRange;
-				}
-				ArrayList<Double> ratingArray = new ArrayList<Double>();
-				ratingArray.add(highStartRating);
-				ratingArray.add(highEndRating);
+
+	/**
+	 * Send notification.
+	 *
+	 * @param entities
+	 *           the entities
+	 * @return the string
+	 */
+	private String sendNotification(CustomerRequestModel entities)
+	{
+		double fixedRange = 0;
+		double lowStartRating = 0;
+		double lowEndRating = 0;
+		double highStartRating = 0;
+		double highEndRating = 0;
+		double incrementRange = 0;
+		int numberOfLoop = 0;
+		Properties prop = new Properties();
+		InputStream inputStream = CustomerRequestResource.class.getClassLoader().getResourceAsStream("/constant.properties");
+		try
+		{
+			prop.load(inputStream);
+			String fixedRangeInString = prop.getProperty("FIXED_RADIUS_RANGE");
+			String lowStartRatingInString = prop.getProperty("LOW_RATING_START");
+			String lowEndRatingInString = prop.getProperty("LOW_RATING_END");
+			String highStartRatingInString = prop.getProperty("HIGH_RATING_START");
+			String highEndRatingInString = prop.getProperty("HIGH_RATING_END");
+			String incrementRangeInString = prop.getProperty("INCREASED_RADIUS_RANGE");
+			String numberOfLoopInString = prop.getProperty("NUMBER_OF_LOOP");
+			fixedRange = Double.parseDouble(fixedRangeInString);
+			lowStartRating = Double.parseDouble(lowStartRatingInString);
+			lowEndRating = Double.parseDouble(lowEndRatingInString);
+			highStartRating = Double.parseDouble(highStartRatingInString);
+			highEndRating = Double.parseDouble(highEndRatingInString);
+			incrementRange = Double.parseDouble(incrementRangeInString);
+			numberOfLoop = Integer.parseInt(numberOfLoopInString);
+		}
+		catch (IOException e1)
+		{
+			e1.printStackTrace();
+		}
+		String notificationStatus = null;
+		for (int i = 0; i < numberOfLoop; i++)
+		{
+			if (i != 0)
+			{
+				fixedRange = fixedRange + incrementRange;
+			}
+			ArrayList<Double> ratingArray = new ArrayList<Double>();
+			ratingArray.add(highStartRating);
+			ratingArray.add(highEndRating);
 			ArrayList<Integer> serviceProviderID = new ArrayList<Integer>();
+			serviceProviderID = getServiceProviderList(entities, fixedRange, ratingArray);
+			if (serviceProviderID.isEmpty())
+			{
+				ratingArray.clear();
+				ratingArray.add(lowStartRating);
+				ratingArray.add(lowEndRating);
 				serviceProviderID = getServiceProviderList(entities, fixedRange, ratingArray);
-				if (serviceProviderID.isEmpty()) {
-					ratingArray.clear();
-					ratingArray.add(lowStartRating);
-					ratingArray.add(lowEndRating);
-					serviceProviderID = getServiceProviderList( entities, fixedRange, ratingArray);
-					if (serviceProviderID.isEmpty()) {
+				if (serviceProviderID.isEmpty())
+				{
 
-					} else {
-					 notificationStatus = sendGCMNotificationAndGetStatus(serviceProviderID,entities);
-					 break;
-					}
-				} else {
-					 notificationStatus = sendGCMNotificationAndGetStatus(serviceProviderID,entities);
-					 break;
+				}
+				else
+				{
+					notificationStatus = sendGCMNotificationAndGetStatus(serviceProviderID, entities);
+					break;
 				}
 			}
-				return notificationStatus;
+			else
+			{
+				notificationStatus = sendGCMNotificationAndGetStatus(serviceProviderID, entities);
+				break;
 			}
-		
-		private ArrayList<String> getServiceProviderDevicesIDWithServiceProviderID(ArrayList<Integer> listString) {
-			
-			ArrayList<String> listOfDevices = getCustomerRequestService().getDeviceIDSFromServiceProviderIDS(listString);
-			return listOfDevices;
 		}
+		return notificationStatus;
+	}
 
-		private String checkForIssueStatus(int issueID) {
-			String issueStatus = getCustomerRequestService().getIssueStatus(issueID);
-			return issueStatus;
-		}
+	/**
+	 * Gets the service provider devices ID with service provider ID.
+	 *
+	 * @param listString
+	 *           the list string
+	 * @return the service provider devices ID with service provider ID
+	 */
+	private ArrayList<String> getServiceProviderDevicesIDWithServiceProviderID(ArrayList<Integer> listString)
+	{
 
-		private ArrayList<Integer> getServiceProviderList( CustomerRequestModel entities,
-				double fixedRange, ArrayList<Double> ratingArray) {
-			ArrayList<Integer> serviceProviderID = new ArrayList<Integer>();
-			String issueType = getServiceTypeWithTypeID(entities.getServiceTypeModel().getServiceTypeId());
-			System.out.println(issueType);
-			double latStarted = entities.getCustomerLatitude() - fixedRange;
-			double latStoped = entities.getCustomerLatitude() + fixedRange;
-			double longStarted = entities.getCustomerLongitude() - fixedRange;
-			double longStoped = entities.getCustomerLongitude() + fixedRange;
-			ratingArray.add(latStarted);
-			ratingArray.add(latStoped);
-			ratingArray.add(longStarted);
-			ratingArray.add(longStoped);
-			serviceProviderID = getCustomerRequestService().getServiceProviderIDS(ratingArray, issueType);
-			return serviceProviderID;
-		}
+		ArrayList<String> listOfDevices = getCustomerRequestService().getDeviceIDSFromServiceProviderIDS(listString);
+		return listOfDevices;
+	}
 
-		private String getServiceTypeWithTypeID(int serviceTypeId) {
-			ServiceTypeModel serviceTypeModel = new ServiceTypeModel();
-			serviceTypeModel = getCustomerRequestService().get(ServiceTypeModel.class, serviceTypeId);
-			return serviceTypeModel.getServiceType();
+	/**
+	 * Check for issue status.
+	 *
+	 * @param issueID
+	 *           the issue ID
+	 * @return the string
+	 */
+	private String checkForIssueStatus(int issueID)
+	{
+		String issueStatus = getCustomerRequestService().getIssueStatus(issueID);
+		return issueStatus;
+	}
+
+	/**
+	 * Gets the service provider list.
+	 *
+	 * @param entities
+	 *           the entities
+	 * @param fixedRange
+	 *           the fixed range
+	 * @param ratingArray
+	 *           the rating array
+	 * @return the service provider list
+	 */
+	private ArrayList<Integer> getServiceProviderList(CustomerRequestModel entities, double fixedRange,
+			ArrayList<Double> ratingArray)
+	{
+		ArrayList<Integer> serviceProviderID = new ArrayList<Integer>();
+		String issueType = getServiceTypeWithTypeID(entities.getServiceTypeModel().getServiceTypeId());
+		System.out.println(issueType);
+		double latStarted = entities.getCustomerLatitude() - fixedRange;
+		double latStoped = entities.getCustomerLatitude() + fixedRange;
+		double longStarted = entities.getCustomerLongitude() - fixedRange;
+		double longStoped = entities.getCustomerLongitude() + fixedRange;
+		ratingArray.add(latStarted);
+		ratingArray.add(latStoped);
+		ratingArray.add(longStarted);
+		ratingArray.add(longStoped);
+		serviceProviderID = getCustomerRequestService().getServiceProviderIDS(ratingArray, issueType);
+		return serviceProviderID;
+	}
+
+	/**
+	 * Gets the service type with type ID.
+	 *
+	 * @param serviceTypeId
+	 *           the service type id
+	 * @return the service type with type ID
+	 */
+	private String getServiceTypeWithTypeID(int serviceTypeId)
+	{
+		ServiceTypeModel serviceTypeModel = new ServiceTypeModel();
+		serviceTypeModel = getCustomerRequestService().get(ServiceTypeModel.class, serviceTypeId);
+		return serviceTypeModel.getServiceType();
+	}
+
+	/**
+	 * Send GCM notification and get status.
+	 *
+	 * @param serviceProviderID
+	 *           the service provider ID
+	 * @param entities
+	 *           the entities
+	 * @return the string
+	 */
+	private String sendGCMNotificationAndGetStatus(ArrayList<Integer> serviceProviderID, CustomerRequestModel entities)
+	{
+		ArrayList<String> arraylistOfDevices = new ArrayList<String>();
+		JSONArray jsonArrayObj = new JSONArray();
+		JSONObject js = new JSONObject();
+		try
+		{
+			js.put("issueId", entities.getIssueId());
+			js.put("customerVehicleNumber", entities.getCustomerModel().getUserId());
+			js.put("customerPhoneNumber", entities.getCustomerModel().getMobileNo());
+			js.put("customerLocation", entities.getCustomerLatitude() + "," + entities.getCustomerLongitude());
+			js.put("issueType", entities.getServiceTypeModel().getServiceType());
 		}
-		
-		private String sendGCMNotificationAndGetStatus(ArrayList<Integer> serviceProviderID, CustomerRequestModel entities) {
-			ArrayList<String> arraylistOfDevices =  new ArrayList<String>();
-			JSONArray jsonArrayObj = new JSONArray();
-			JSONObject js = new JSONObject();
-			try {
-				js.put("issueId", entities.getIssueId());
-				js.put("customerVehicleNumber", entities.getCustomerModel().getUserId());
-				js.put("customerPhoneNumber", entities.getCustomerModel().getMobileNo());
-				js.put("customerLocation", entities.getCustomerLatitude()+","+entities.getCustomerLongitude());
-				js.put("issueType", entities.getServiceTypeModel().getServiceType());
-			} catch (JSONException e1) {
-				e1.printStackTrace();
-			}	
-			jsonArrayObj.put(js);
-			String msg = jsonArrayObj.toString();
-			System.out.println(jsonArrayObj.toString());
-			arraylistOfDevices = getServiceProviderDevicesIDWithServiceProviderID(serviceProviderID);
-			SendNotification sendNotification = new SendNotification();
-			String notificationStatus = sendNotification.sendNotificationData(arraylistOfDevices, msg); //sent it to the notification //sendGCMNotification(arraylistOfDevices, msg);
-			return notificationStatus;
+		catch (JSONException e1)
+		{
+			e1.printStackTrace();
 		}
+		jsonArrayObj.put(js);
+		String msg = jsonArrayObj.toString();
+		System.out.println(jsonArrayObj.toString());
+		arraylistOfDevices = getServiceProviderDevicesIDWithServiceProviderID(serviceProviderID);
+		SendNotification sendNotification = new SendNotification();
+		String notificationStatus = sendNotification.sendNotificationData(arraylistOfDevices, msg); //sent it to the notification //sendGCMNotification(arraylistOfDevices, msg);
+		return notificationStatus;
+	}
 }

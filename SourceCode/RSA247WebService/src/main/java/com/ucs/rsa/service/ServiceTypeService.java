@@ -1,9 +1,17 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.service;
 
-import com.ucs.rsa.model.ServiceTypeModel;
+/**
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The Interface ServiceTypeService.
+ */
+public interface ServiceTypeService extends BaseService
+{
 
-public interface ServiceTypeService extends BaseService {
-	
 	//public ServiceTypeModel updateServiceType(ServiceTypeModel servieTypeModel);
 
 }

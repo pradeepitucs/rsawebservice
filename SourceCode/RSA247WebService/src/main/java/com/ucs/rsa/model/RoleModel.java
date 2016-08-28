@@ -1,77 +1,163 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 /**
- * The persistent class for the role_t database table.
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The persistent class for the role_t database table.
  * 
  */
 @Entity
-@Table(name="role_t")
-@NamedQuery(name="RoleModel.findAll", query="SELECT r FROM RoleModel r")
-public class RoleModel implements Serializable {
+@Table(name = "role_t")
+@NamedQuery(name = "RoleModel.findAll", query = "SELECT r FROM RoleModel r")
+public class RoleModel implements Serializable
+{
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The role id. */
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="role_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "role_id")
 	private int roleId;
 
-	@Column(name="role_name")
+	/** The role name. */
+	@Column(name = "role_name")
 	private String roleName;
 
+	/** The user models. */
 	//bi-directional many-to-one association to UserModel
-	@OneToMany(mappedBy="roleModel", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "roleModel", fetch = FetchType.EAGER)
 	private List<UserModel> userModels;
 
-	public RoleModel() {
+	/**
+	 * Instantiates a new role model.
+	 */
+	public RoleModel()
+	{
 	}
 
-	public int getRoleId() {
+	/**
+	 * Gets the role id.
+	 *
+	 * @return the role id
+	 */
+	public int getRoleId()
+	{
 		return this.roleId;
 	}
 
-	public void setRoleId(int roleId) {
+	/**
+	 * Sets the role id.
+	 *
+	 * @param roleId
+	 *           the new role id
+	 */
+	public void setRoleId(int roleId)
+	{
 		this.roleId = roleId;
 	}
 
-	public String getRoleName() {
+	/**
+	 * Gets the role name.
+	 *
+	 * @return the role name
+	 */
+	public String getRoleName()
+	{
 		return this.roleName;
 	}
 
-	public void setRoleName(String roleName) {
+	/**
+	 * Sets the role name.
+	 *
+	 * @param roleName
+	 *           the new role name
+	 */
+	public void setRoleName(String roleName)
+	{
 		this.roleName = roleName;
 	}
 
-	public List<UserModel> getUserModels() {
+	/**
+	 * Gets the user models.
+	 *
+	 * @return the user models
+	 */
+	public List<UserModel> getUserModels()
+	{
 		return this.userModels;
 	}
 
-	public void setUserModels(List<UserModel> userModels) {
+	/**
+	 * Sets the user models.
+	 *
+	 * @param userModels
+	 *           the new user models
+	 */
+	public void setUserModels(List<UserModel> userModels)
+	{
 		this.userModels = userModels;
 	}
 
-	public UserModel addUserModel(UserModel userModel) {
+	/**
+	 * Adds the user model.
+	 *
+	 * @param userModel
+	 *           the user model
+	 * @return the user model
+	 */
+	public UserModel addUserModel(UserModel userModel)
+	{
 		getUserModels().add(userModel);
 		userModel.setRoleModel(this);
 
 		return userModel;
 	}
 
-	public UserModel removeUserModel(UserModel userModel) {
+	/**
+	 * Removes the user model.
+	 *
+	 * @param userModel
+	 *           the user model
+	 * @return the user model
+	 */
+	public UserModel removeUserModel(UserModel userModel)
+	{
 		getUserModels().remove(userModel);
 		userModel.setRoleModel(null);
 
 		return userModel;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "RoleModel [roleId=" + roleId + ", roleName=" + roleName + ", userModels=" + userModels + "]";
 	}
 
-	
+
 }

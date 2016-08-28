@@ -1,3 +1,6 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.common.dto;
 
 import java.io.Serializable;
@@ -5,74 +8,157 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
+/**
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The Class CustomerDTO.
+ */
 @XmlRootElement(name = "customer", namespace = "com.ucs.rsa.common.dto")
 
-public class CustomerDTO extends UserDTO implements Serializable {
+public class CustomerDTO extends UserDTO implements Serializable
+{
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The email id. */
 	private String emailId;
+
+	/** The first name. */
 	private String firstName;
+
+	/** The folder name. */
 	private String folderName;
+
+	/** The gcm id. */
 	private String gcmId;
+
+	/** The last name. */
 	private String lastName;
-//	private CityDTO cityDTO;
-//	private UserDTO userDTO;
+	//	private CityDTO cityDTO;
+	//	private UserDTO userDTO;
 
 
-	public String getEmailId() {
+	/**
+	 * Gets the email id.
+	 *
+	 * @return the email id
+	 */
+	public String getEmailId()
+	{
 		return this.emailId;
 	}
 
-	public void setEmailId(String emailId) {
+	/**
+	 * Sets the email id.
+	 *
+	 * @param emailId
+	 *           the new email id
+	 */
+	public void setEmailId(String emailId)
+	{
 		this.emailId = emailId;
 	}
 
-	public String getFirstName() {
+	/**
+	 * Gets the first name.
+	 *
+	 * @return the first name
+	 */
+	public String getFirstName()
+	{
 		return this.firstName;
 	}
 
-	public void setFirstName(String firstName) {
+	/**
+	 * Sets the first name.
+	 *
+	 * @param firstName
+	 *           the new first name
+	 */
+	public void setFirstName(String firstName)
+	{
 		this.firstName = firstName;
 	}
 
-	public String getFolderName() {
+	/**
+	 * Gets the folder name.
+	 *
+	 * @return the folder name
+	 */
+	public String getFolderName()
+	{
 		return this.folderName;
 	}
 
-	public void setFolderName(String folderName) {
+	/**
+	 * Sets the folder name.
+	 *
+	 * @param folderName
+	 *           the new folder name
+	 */
+	public void setFolderName(String folderName)
+	{
 		this.folderName = folderName;
 	}
 
-	public String getGcmId() {
+	/**
+	 * Gets the gcm id.
+	 *
+	 * @return the gcm id
+	 */
+	public String getGcmId()
+	{
 		return this.gcmId;
 	}
 
-	public void setGcmId(String gcmId) {
+	/**
+	 * Sets the gcm id.
+	 *
+	 * @param gcmId
+	 *           the new gcm id
+	 */
+	public void setGcmId(String gcmId)
+	{
 		this.gcmId = gcmId;
 	}
 
-	public String getLastName() {
+	/**
+	 * Gets the last name.
+	 *
+	 * @return the last name
+	 */
+	public String getLastName()
+	{
 		return this.lastName;
 	}
 
-	public void setLastName(String lastName) {
+	/**
+	 * Sets the last name.
+	 *
+	 * @param lastName
+	 *           the new last name
+	 */
+	public void setLastName(String lastName)
+	{
 		this.lastName = lastName;
 	}
 
-//	public CityDTO getCityModel() {
-//		return this.cityDTO;
-//	}
-//
-//	public void setCityModel(CityDTO cityDTO) {
-//		this.cityDTO = cityDTO;
-//	}
-//
-//	public UserDTO getUserModel() {
-//		return this.userDTO;
-//	}
-//
-//	public void setUserModel(UserDTO userDTO) {
-//		this.userDTO = userDTO;
-//	}
+	//	public CityDTO getCityModel() {
+	//		return this.cityDTO;
+	//	}
+	//
+	//	public void setCityModel(CityDTO cityDTO) {
+	//		this.cityDTO = cityDTO;
+	//	}
+	//
+	//	public UserDTO getUserModel() {
+	//		return this.userDTO;
+	//	}
+	//
+	//	public void setUserModel(UserDTO userDTO) {
+	//		this.userDTO = userDTO;
+	//	}
 
 }

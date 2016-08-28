@@ -1,88 +1,203 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.common.dto;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+
+/**
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The Class EmployeeDTO.
+ */
 @XmlRootElement(name = "employee", namespace = "com.ucs.rsa.dto")
-public class EmployeeDTO extends UserDTO {
-	
+public class EmployeeDTO extends UserDTO
+{
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
+
+	/** The employee name. */
 	private String employeeName;
 
+	/** The employee email. */
 	private String employeeEmail;
 
+	/** The is onwer. */
 	private boolean isOnwer;
 
+	/** The service provider ID. */
 	private int serviceProviderID;
 
+	/** The older employee ID. */
 	private int olderEmployeeID;
 
+	/** The gcm id. */
 	private String gcmId;
 
+	/** The is send arroval notification. */
 	private boolean isSendArrovalNotification;
 
-	public boolean isSendArrovalNotification() {
+	/**
+	 * Checks if is send arroval notification.
+	 *
+	 * @return true, if is send arroval notification
+	 */
+	public boolean isSendArrovalNotification()
+	{
 		return isSendArrovalNotification;
 	}
 
-	public void setSendArrovalNotification(boolean isSendArrovalNotification) {
+	/**
+	 * Sets the send arroval notification.
+	 *
+	 * @param isSendArrovalNotification
+	 *           the new send arroval notification
+	 */
+	public void setSendArrovalNotification(boolean isSendArrovalNotification)
+	{
 		this.isSendArrovalNotification = isSendArrovalNotification;
 	}
 
-	public String getEmployeeName() {
+	/**
+	 * Gets the employee name.
+	 *
+	 * @return the employee name
+	 */
+	public String getEmployeeName()
+	{
 		return employeeName;
 	}
 
-	public void setEmployeeName(String employeeName) {
+	/**
+	 * Sets the employee name.
+	 *
+	 * @param employeeName
+	 *           the new employee name
+	 */
+	public void setEmployeeName(String employeeName)
+	{
 		this.employeeName = employeeName;
 	}
 
-	public String getEmployeeEmail() {
+	/**
+	 * Gets the employee email.
+	 *
+	 * @return the employee email
+	 */
+	public String getEmployeeEmail()
+	{
 		return employeeEmail;
 	}
 
-	public void setEmployeeEmail(String employeeEmail) {
+	/**
+	 * Sets the employee email.
+	 *
+	 * @param employeeEmail
+	 *           the new employee email
+	 */
+	public void setEmployeeEmail(String employeeEmail)
+	{
 		this.employeeEmail = employeeEmail;
 	}
 
-	public boolean isOnwer() {
+	/**
+	 * Checks if is onwer.
+	 *
+	 * @return true, if is onwer
+	 */
+	public boolean isOnwer()
+	{
 		return isOnwer;
 	}
 
-	public void setOnwer(boolean isOnwer) {
+	/**
+	 * Sets the onwer.
+	 *
+	 * @param isOnwer
+	 *           the new onwer
+	 */
+	public void setOnwer(boolean isOnwer)
+	{
 		this.isOnwer = isOnwer;
 	}
 
-	public int getServiceProviderID() {
+	/**
+	 * Gets the service provider ID.
+	 *
+	 * @return the service provider ID
+	 */
+	public int getServiceProviderID()
+	{
 		return serviceProviderID;
 	}
 
-	public void setServiceProviderID(int serviceProviderID) {
+	/**
+	 * Sets the service provider ID.
+	 *
+	 * @param serviceProviderID
+	 *           the new service provider ID
+	 */
+	public void setServiceProviderID(int serviceProviderID)
+	{
 		this.serviceProviderID = serviceProviderID;
 	}
 
-	public int getOlderEmployeeID() {
+	/**
+	 * Gets the older employee ID.
+	 *
+	 * @return the older employee ID
+	 */
+	public int getOlderEmployeeID()
+	{
 		return olderEmployeeID;
 	}
 
-	public void setOlderEmployeeID(int olderEmployeeID) {
+	/**
+	 * Sets the older employee ID.
+	 *
+	 * @param olderEmployeeID
+	 *           the new older employee ID
+	 */
+	public void setOlderEmployeeID(int olderEmployeeID)
+	{
 		this.olderEmployeeID = olderEmployeeID;
 	}
 
-	public String getGcmId() {
+	/**
+	 * Gets the gcm id.
+	 *
+	 * @return the gcm id
+	 */
+	public String getGcmId()
+	{
 		return gcmId;
 	}
 
-	public void setGcmId(String gcmId) {
+	/**
+	 * Sets the gcm id.
+	 *
+	 * @param gcmId
+	 *           the new gcm id
+	 */
+	public void setGcmId(String gcmId)
+	{
 		this.gcmId = gcmId;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "ServiceProviderEmployee [ employeeName=" + employeeName + ", employeeEmail=" + employeeEmail
-				+ ", serviceProviderID=" + serviceProviderID + ", isSendArrovalNotification="
-				+ isSendArrovalNotification + ", isOnwer =" + isOnwer + ", gcmId=" + gcmId + ", olderEmployeeID="
-				+ olderEmployeeID + "]" + super.toString();
+				+ ", serviceProviderID=" + serviceProviderID + ", isSendArrovalNotification=" + isSendArrovalNotification
+				+ ", isOnwer =" + isOnwer + ", gcmId=" + gcmId + ", olderEmployeeID=" + olderEmployeeID + "]" + super.toString();
 	}
 
 }

@@ -1,3 +1,6 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.view.resolver;
 
 
@@ -10,23 +13,45 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.xml.MarshallingView;
 
-public class MarshallingXmlViewResolver implements ViewResolver {
 
+/**
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The Class MarshallingXmlViewResolver.
+ */
+public class MarshallingXmlViewResolver implements ViewResolver
+{
+
+	/** The marshaller. */
 	private Marshaller marshaller;
 
+	/**
+	 * Instantiates a new marshalling xml view resolver.
+	 *
+	 * @param marshaller
+	 *           the marshaller
+	 */
 	@Autowired
-	public MarshallingXmlViewResolver(Marshaller marshaller) {
+	public MarshallingXmlViewResolver(Marshaller marshaller)
+	{
 		this.marshaller = marshaller;
 	}
 
 	/**
 	 * Get the view to use.
-	 * 
-	 * 
+	 *
+	 * @param viewName
+	 *           the view name
+	 * @param locale
+	 *           the locale
+	 * @return the view
+	 * @throws Exception
+	 *            the exception
 	 */
 	@Override
-	public View resolveViewName(String viewName, Locale locale)
-			throws Exception {
+	public View resolveViewName(String viewName, Locale locale) throws Exception
+	{
 		MarshallingView view = new MarshallingView();
 		view.setMarshaller(marshaller);
 		return view;

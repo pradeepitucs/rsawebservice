@@ -1,3 +1,6 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.resource;
 
 import java.util.ArrayList;
@@ -19,33 +22,77 @@ import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.service.CustomerReviewService;
 
+
+/**
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The Class CustomerReviewResource.
+ */
 @Controller
 @RequestMapping("/servicereview")
-public class CustomerReviewResource {
+public class CustomerReviewResource
+{
 
+	/** The customer review service. */
 	@Autowired
 	private CustomerReviewService customerReviewService;
 
-	public CustomerReviewService getCustomerReviewService() {
+	/**
+	 * Gets the customer review service.
+	 *
+	 * @return the customer review service
+	 */
+	public CustomerReviewService getCustomerReviewService()
+	{
 		return customerReviewService;
 	}
 
-	public void setCustomerReviewService(CustomerReviewService customerReviewService) {
+	/**
+	 * Sets the customer review service.
+	 *
+	 * @param customerReviewService
+	 *           the new customer review service
+	 */
+	public void setCustomerReviewService(CustomerReviewService customerReviewService)
+	{
 		this.customerReviewService = customerReviewService;
 	}
 
-	@RequestMapping(value = "/updatecustomerreview", method = { RequestMethod.POST })
-	private ModelAndView updateCustomerReview(
-			@RequestParam("customerReviewId") final int iCustomerReviewId,
-			@RequestParam("customerId") final int iCustomerId, 
-			@RequestParam("comment") final String iComment,
-			@RequestParam("approvalstatus") final int iApprovalStatus, 
-			@RequestParam("headline") final String iHeadline,
-			@RequestParam("rating") final float iRating, 
-			@RequestParam("blocked") final boolean iBlocked,
-			@RequestParam("issueid") final int iIssueId,
-			@RequestParam("employeeId") final int iEmployeeId,
-			@RequestParam("serviceProviderId") final int iServiceProviderId) {
+	/**
+	 * Update customer review.
+	 *
+	 * @param iCustomerReviewId
+	 *           the i customer review id
+	 * @param iCustomerId
+	 *           the i customer id
+	 * @param iComment
+	 *           the i comment
+	 * @param iApprovalStatus
+	 *           the i approval status
+	 * @param iHeadline
+	 *           the i headline
+	 * @param iRating
+	 *           the i rating
+	 * @param iBlocked
+	 *           the i blocked
+	 * @param iIssueId
+	 *           the i issue id
+	 * @param iEmployeeId
+	 *           the i employee id
+	 * @param iServiceProviderId
+	 *           the i service provider id
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/updatecustomerreview", method =
+	{ RequestMethod.POST })
+	private ModelAndView updateCustomerReview(@RequestParam("customerReviewId") final int iCustomerReviewId,
+			@RequestParam("customerId") final int iCustomerId, @RequestParam("comment") final String iComment,
+			@RequestParam("approvalstatus") final int iApprovalStatus, @RequestParam("headline") final String iHeadline,
+			@RequestParam("rating") final float iRating, @RequestParam("blocked") final boolean iBlocked,
+			@RequestParam("issueid") final int iIssueId, @RequestParam("employeeId") final int iEmployeeId,
+			@RequestParam("serviceProviderId") final int iServiceProviderId)
+	{
 
 		CustomerReviewModel customerReviewModel = new CustomerReviewModel();
 		customerReviewModel.setApprovalStatus(iApprovalStatus);
@@ -58,15 +105,15 @@ public class CustomerReviewResource {
 		ServiceProviderModel serviceProviderModel = new ServiceProviderModel();
 		serviceProviderModel.setServiceProviderId(iServiceProviderId);
 		customerReviewModel.setServiceProviderModel(serviceProviderModel);
-		
+
 		CustomerModel customerModel = new CustomerModel();
 		customerModel.setUserId(iCustomerId);
 		customerReviewModel.setCustomerModel(customerModel);
-		
+
 		CustomerRequestModel customerRequestModel = new CustomerRequestModel();
 		customerRequestModel.setIssueId(iIssueId);
 		customerReviewModel.setCustomerRequestModel(customerRequestModel);
-		
+
 		EmployeeModel employeeModel = new EmployeeModel();
 		employeeModel.setUserId(iEmployeeId);
 		customerReviewModel.setEmployeeModel(employeeModel);
@@ -74,7 +121,8 @@ public class CustomerReviewResource {
 		CustomerReviewModel customerReviewModel1 = getCustomerReviewService().updateCustomerReview(customerReviewModel);
 
 		CustomerReviewDTO customerReviewDTO = new CustomerReviewDTO();
-		if (customerReviewModel1 != null) {
+		if (customerReviewModel1 != null)
+		{
 			customerReviewDTO.setApprovalStatus(customerReviewModel1.getApprovalStatus());
 			customerReviewDTO.setBlocked(customerReviewModel1.getBlocked());
 			customerReviewDTO.setComment(customerReviewModel1.getComment());
@@ -82,14 +130,21 @@ public class CustomerReviewResource {
 			customerReviewDTO.setCustomerReviewId(customerReviewModel1.getCustomerReviewId());
 			customerReviewDTO.setHeadline(customerReviewModel1.getHeadline());
 			customerReviewDTO.setRating(customerReviewModel1.getRating());
-			
+
 		}
 		return new ModelAndView("xml", "customerReview", customerReviewDTO);
 
 	}
 
-	@RequestMapping(value = "/customerreviews", method = { RequestMethod.GET })
-	public ModelAndView getAllCustomerReviews() {
+	/**
+	 * Gets the all customer reviews.
+	 *
+	 * @return the all customer reviews
+	 */
+	@RequestMapping(value = "/customerreviews", method =
+	{ RequestMethod.GET })
+	public ModelAndView getAllCustomerReviews()
+	{
 
 		List<CustomerReviewModel> customerReviewModels = new ArrayList<>();
 		customerReviewModels = getCustomerReviewService().loadAll(CustomerReviewModel.class);
@@ -97,7 +152,8 @@ public class CustomerReviewResource {
 		CustomerReviewsDTO customerReviewsDTO = new CustomerReviewsDTO();
 		List<CustomerReviewDTO> CustomerReviewDTOs = new ArrayList<>();
 
-		for (CustomerReviewModel customerReviewModel : customerReviewModels) {
+		for (CustomerReviewModel customerReviewModel : customerReviewModels)
+		{
 			CustomerReviewDTO customerReviewDTO = new CustomerReviewDTO();
 			customerReviewDTO.setApprovalStatus(customerReviewModel.getApprovalStatus());
 			customerReviewDTO.setBlocked(customerReviewModel.getBlocked());
@@ -112,14 +168,24 @@ public class CustomerReviewResource {
 		return new ModelAndView("xml", "customerreviews", customerReviewsDTO);
 	}
 
-	@RequestMapping(value = "/customerreview", method = { RequestMethod.GET })
-	public ModelAndView getCustomerReview(@RequestParam("customerrequestid") final int iCustomerReviewId) {
+	/**
+	 * Gets the customer review.
+	 *
+	 * @param iCustomerReviewId
+	 *           the i customer review id
+	 * @return the customer review
+	 */
+	@RequestMapping(value = "/customerreview", method =
+	{ RequestMethod.GET })
+	public ModelAndView getCustomerReview(@RequestParam("customerrequestid") final int iCustomerReviewId)
+	{
 
 		CustomerReviewModel customerReviewModel = new CustomerReviewModel();
 		customerReviewModel = getCustomerReviewService().get(CustomerReviewModel.class, iCustomerReviewId);
 
 		CustomerReviewDTO customerReviewDTO = new CustomerReviewDTO();
-		if (customerReviewModel != null) {
+		if (customerReviewModel != null)
+		{
 			customerReviewDTO.setApprovalStatus(customerReviewModel.getApprovalStatus());
 			customerReviewDTO.setBlocked(customerReviewModel.getBlocked());
 			customerReviewDTO.setComment(customerReviewModel.getComment());

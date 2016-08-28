@@ -1,100 +1,214 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 /**
- * The persistent class for the state_t database table.
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The persistent class for the state_t database table.
  * 
  */
 @Entity
-@Table(name="state_t")
-@NamedQuery(name="StateModel.findAll", query="SELECT s FROM StateModel s")
-public class StateModel implements Serializable {
+@Table(name = "state_t")
+@NamedQuery(name = "StateModel.findAll", query = "SELECT s FROM StateModel s")
+public class StateModel implements Serializable
+{
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The state id. */
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="state_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "state_id")
 	private int stateId;
 
-	@Column(name="is_enabled")
+	/** The is enabled. */
+	@Column(name = "is_enabled")
 	private boolean isEnabled;
 
-	@Column(name="state_code")
+	/** The state code. */
+	@Column(name = "state_code")
 	private String stateCode;
 
-	@Column(name="state_name")
+	/** The state name. */
+	@Column(name = "state_name")
 	private String stateName;
 
+	/** The city models. */
 	//bi-directional many-to-one association to CityModel
-	@OneToMany(mappedBy="stateModel", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "stateModel", fetch = FetchType.EAGER)
 	private List<CityModel> cityModels;
 
-	public StateModel() {
+	/**
+	 * Instantiates a new state model.
+	 */
+	public StateModel()
+	{
 	}
 
-	public int getStateId() {
+	/**
+	 * Gets the state id.
+	 *
+	 * @return the state id
+	 */
+	public int getStateId()
+	{
 		return this.stateId;
 	}
 
-	public void setStateId(int stateId) {
+	/**
+	 * Sets the state id.
+	 *
+	 * @param stateId
+	 *           the new state id
+	 */
+	public void setStateId(int stateId)
+	{
 		this.stateId = stateId;
 	}
 
-	public boolean getIsEnabled() {
+	/**
+	 * Gets the checks if is enabled.
+	 *
+	 * @return the checks if is enabled
+	 */
+	public boolean getIsEnabled()
+	{
 		return this.isEnabled;
 	}
 
-	public void setIsEnabled(boolean isEnabled) {
+	/**
+	 * Sets the checks if is enabled.
+	 *
+	 * @param isEnabled
+	 *           the new checks if is enabled
+	 */
+	public void setIsEnabled(boolean isEnabled)
+	{
 		this.isEnabled = isEnabled;
 	}
 
-	public String getStateCode() {
+	/**
+	 * Gets the state code.
+	 *
+	 * @return the state code
+	 */
+	public String getStateCode()
+	{
 		return this.stateCode;
 	}
 
-	public void setStateCode(String stateCode) {
+	/**
+	 * Sets the state code.
+	 *
+	 * @param stateCode
+	 *           the new state code
+	 */
+	public void setStateCode(String stateCode)
+	{
 		this.stateCode = stateCode;
 	}
 
-	public String getStateName() {
+	/**
+	 * Gets the state name.
+	 *
+	 * @return the state name
+	 */
+	public String getStateName()
+	{
 		return this.stateName;
 	}
 
-	public void setStateName(String stateName) {
+	/**
+	 * Sets the state name.
+	 *
+	 * @param stateName
+	 *           the new state name
+	 */
+	public void setStateName(String stateName)
+	{
 		this.stateName = stateName;
 	}
 
-	public List<CityModel> getCityModels() {
+	/**
+	 * Gets the city models.
+	 *
+	 * @return the city models
+	 */
+	public List<CityModel> getCityModels()
+	{
 		return this.cityModels;
 	}
 
-	public void setCityModels(List<CityModel> cityModels) {
+	/**
+	 * Sets the city models.
+	 *
+	 * @param cityModels
+	 *           the new city models
+	 */
+	public void setCityModels(List<CityModel> cityModels)
+	{
 		this.cityModels = cityModels;
 	}
 
-	public CityModel addCityModel(CityModel cityModel) {
+	/**
+	 * Adds the city model.
+	 *
+	 * @param cityModel
+	 *           the city model
+	 * @return the city model
+	 */
+	public CityModel addCityModel(CityModel cityModel)
+	{
 		getCityModels().add(cityModel);
 		cityModel.setStateModel(this);
 
 		return cityModel;
 	}
 
-	public CityModel removeCityModel(CityModel cityModel) {
+	/**
+	 * Removes the city model.
+	 *
+	 * @param cityModel
+	 *           the city model
+	 * @return the city model
+	 */
+	public CityModel removeCityModel(CityModel cityModel)
+	{
 		getCityModels().remove(cityModel);
 		cityModel.setStateModel(null);
 
 		return cityModel;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
-	public String toString() {
-		return "StateModel [stateId=" + stateId + ", isEnabled=" + isEnabled + ", stateCode=" + stateCode
-				+ ", stateName=" + stateName + ", cityModels=" + cityModels + "]";
+	public String toString()
+	{
+		return "StateModel [stateId=" + stateId + ", isEnabled=" + isEnabled + ", stateCode=" + stateCode + ", stateName="
+				+ stateName + ", cityModels=" + cityModels + "]";
 	}
-	
-	
+
+
 }

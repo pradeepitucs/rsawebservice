@@ -1,3 +1,6 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
@@ -16,142 +19,303 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
+/**
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The Class CustomerRequestModel.
+ */
 @Entity
 @Table(name = "customer_request_t")
 @NamedQuery(name = "CustomerRequestModel.findAll", query = "SELECT u FROM CustomerRequestModel u")
-public class CustomerRequestModel implements Serializable {
+public class CustomerRequestModel implements Serializable
+{
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The issue id. */
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "issue_id")
 	private int issueId;
 
+	/** The customer latitude. */
 	@Column(name = "customer_latitude")
 	private double customerLatitude;
 
+	/** The customer longitude. */
 	@Column(name = "customer_longitude")
 	private double customerLongitude;
 
+	/** The issue status. */
 	@Column(name = "issue_status")
 	private String issueStatus;
-	
+
+	/** The issue start time. */
 	@Column(name = "issue_start_time")
 	private Time issueStartTime;
 
-	public Time getIssueStartTime() {
+	/**
+	 * Gets the issue start time.
+	 *
+	 * @return the issue start time
+	 */
+	public Time getIssueStartTime()
+	{
 		return issueStartTime;
 	}
 
-	public void setIssueStartTime(Time issueStartTime) {
+	/**
+	 * Sets the issue start time.
+	 *
+	 * @param issueStartTime
+	 *           the new issue start time
+	 */
+	public void setIssueStartTime(Time issueStartTime)
+	{
 		this.issueStartTime = issueStartTime;
 	}
 
+	/** The service type model. */
 	//bi-directional many-to-one association to ServiceTypeModel
 	@ManyToOne
-	@JoinColumn(name="service_type_id")
+	@JoinColumn(name = "service_type_id")
 	private ServiceTypeModel serviceTypeModel;
 
+	/** The customer model. */
 	//bi-directional many-to-one association to CustomerModel
 	@ManyToOne
-	@JoinColumn(name="customer_id")
+	@JoinColumn(name = "customer_id")
 	private CustomerModel customerModel;
 
+	/** The employee model. */
 	//bi-directional many-to-one association to ServiceProviderModel
 	@ManyToOne
-	@JoinColumn(name="employee_id")
+	@JoinColumn(name = "employee_id")
 	private EmployeeModel employeeModel;
-	
-	public EmployeeModel getEmployeeModel() {
+
+	/**
+	 * Gets the employee model.
+	 *
+	 * @return the employee model
+	 */
+	public EmployeeModel getEmployeeModel()
+	{
 		return employeeModel;
 	}
 
-	public void setEmployeeModel(EmployeeModel employeeModel) {
+	/**
+	 * Sets the employee model.
+	 *
+	 * @param employeeModel
+	 *           the new employee model
+	 */
+	public void setEmployeeModel(EmployeeModel employeeModel)
+	{
 		this.employeeModel = employeeModel;
 	}
 
+	/** The customer review models. */
 	// bi-directional many-to-one association to CustomerReviewModel
 	@OneToMany(mappedBy = "customerRequestModel", fetch = FetchType.LAZY)
 	private List<CustomerReviewModel> customerReviewModels;
 
-	public CustomerRequestModel() {
+	/**
+	 * Instantiates a new customer request model.
+	 */
+	public CustomerRequestModel()
+	{
 	}
 
-	public int getIssueId() {
+	/**
+	 * Gets the issue id.
+	 *
+	 * @return the issue id
+	 */
+	public int getIssueId()
+	{
 		return issueId;
 	}
 
-	public void setIssueId(int issueId) {
+	/**
+	 * Sets the issue id.
+	 *
+	 * @param issueId
+	 *           the new issue id
+	 */
+	public void setIssueId(int issueId)
+	{
 		this.issueId = issueId;
 	}
 
-	public double getCustomerLatitude() {
+	/**
+	 * Gets the customer latitude.
+	 *
+	 * @return the customer latitude
+	 */
+	public double getCustomerLatitude()
+	{
 		return customerLatitude;
 	}
 
-	public void setCustomerLatitude(double customerLatitude) {
+	/**
+	 * Sets the customer latitude.
+	 *
+	 * @param customerLatitude
+	 *           the new customer latitude
+	 */
+	public void setCustomerLatitude(double customerLatitude)
+	{
 		this.customerLatitude = customerLatitude;
 	}
 
-	public double getCustomerLongitude() {
+	/**
+	 * Gets the customer longitude.
+	 *
+	 * @return the customer longitude
+	 */
+	public double getCustomerLongitude()
+	{
 		return customerLongitude;
 	}
 
-	public void setCustomerLongitude(double customerLongitude) {
+	/**
+	 * Sets the customer longitude.
+	 *
+	 * @param customerLongitude
+	 *           the new customer longitude
+	 */
+	public void setCustomerLongitude(double customerLongitude)
+	{
 		this.customerLongitude = customerLongitude;
 	}
 
-	public String getIssueStatus() {
+	/**
+	 * Gets the issue status.
+	 *
+	 * @return the issue status
+	 */
+	public String getIssueStatus()
+	{
 		return issueStatus;
 	}
 
-	public void setIssueStatus(String issueStatus) {
+	/**
+	 * Sets the issue status.
+	 *
+	 * @param issueStatus
+	 *           the new issue status
+	 */
+	public void setIssueStatus(String issueStatus)
+	{
 		this.issueStatus = issueStatus;
 	}
 
-	public ServiceTypeModel getServiceTypeModel() {
+	/**
+	 * Gets the service type model.
+	 *
+	 * @return the service type model
+	 */
+	public ServiceTypeModel getServiceTypeModel()
+	{
 		return serviceTypeModel;
 	}
 
-	public void setServiceTypeModel(ServiceTypeModel serviceTypeModel) {
+	/**
+	 * Sets the service type model.
+	 *
+	 * @param serviceTypeModel
+	 *           the new service type model
+	 */
+	public void setServiceTypeModel(ServiceTypeModel serviceTypeModel)
+	{
 		this.serviceTypeModel = serviceTypeModel;
 	}
 
-	public CustomerModel getCustomerModel() {
+	/**
+	 * Gets the customer model.
+	 *
+	 * @return the customer model
+	 */
+	public CustomerModel getCustomerModel()
+	{
 		return customerModel;
 	}
 
-	public void setCustomerModel(CustomerModel customerModel) {
+	/**
+	 * Sets the customer model.
+	 *
+	 * @param customerModel
+	 *           the new customer model
+	 */
+	public void setCustomerModel(CustomerModel customerModel)
+	{
 		this.customerModel = customerModel;
 	}
-	
-	public List<CustomerReviewModel> getCustomerReviewModels() {
+
+	/**
+	 * Gets the customer review models.
+	 *
+	 * @return the customer review models
+	 */
+	public List<CustomerReviewModel> getCustomerReviewModels()
+	{
 		return customerReviewModels;
 	}
 
-	public void setCustomerReviewModels(List<CustomerReviewModel> customerReviewModels) {
+	/**
+	 * Sets the customer review models.
+	 *
+	 * @param customerReviewModels
+	 *           the new customer review models
+	 */
+	public void setCustomerReviewModels(List<CustomerReviewModel> customerReviewModels)
+	{
 		this.customerReviewModels = customerReviewModels;
 	}
 
-	public CustomerReviewModel addCustomerReviewModel(CustomerReviewModel customerReviewModel) {
+	/**
+	 * Adds the customer review model.
+	 *
+	 * @param customerReviewModel
+	 *           the customer review model
+	 * @return the customer review model
+	 */
+	public CustomerReviewModel addCustomerReviewModel(CustomerReviewModel customerReviewModel)
+	{
 		getCustomerReviewModels().add(customerReviewModel);
 		customerReviewModel.setCustomerRequestModel(this);
 		return customerReviewModel;
 	}
 
-	public CustomerReviewModel removeCustomerReviewModel(CustomerReviewModel customerReviewModel) {
+	/**
+	 * Removes the customer review model.
+	 *
+	 * @param customerReviewModel
+	 *           the customer review model
+	 * @return the customer review model
+	 */
+	public CustomerReviewModel removeCustomerReviewModel(CustomerReviewModel customerReviewModel)
+	{
 		getCustomerReviewModels().remove(customerReviewModel);
 		customerReviewModel.setCustomerRequestModel(null);
 		return customerReviewModel;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
-	public String toString() {
-		return "CustomerRequestModel [ issueId=" + issueId + ", issueStatus=" + issueStatus
-				+ ", issueStartTime=" + issueStartTime + ", customerLatitude=" + customerLatitude + ", customerLongitude ="
-				+ customerLongitude + ", employeeModel=" + employeeModel
-				+ ", customerModel=" + customerModel + ", serviceTypeModel="
-				+ serviceTypeModel  + "]" + super.toString();
+	public String toString()
+	{
+		return "CustomerRequestModel [ issueId=" + issueId + ", issueStatus=" + issueStatus + ", issueStartTime=" + issueStartTime
+				+ ", customerLatitude=" + customerLatitude + ", customerLongitude =" + customerLongitude + ", employeeModel="
+				+ employeeModel + ", customerModel=" + customerModel + ", serviceTypeModel=" + serviceTypeModel + "]"
+				+ super.toString();
 	}
-	
+
 }

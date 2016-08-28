@@ -1,114 +1,207 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import java.util.List;
-
 
 /**
- * The persistent class for the vehicle_manufacturer_t database table.
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The persistent class for the vehicle_manufacturer_t database table.
  * 
  */
 @Entity
-@Table(name="vehicle_manufacturer_t")
-@NamedQuery(name="VehicleManufacturerModel.findAll", query="SELECT v FROM VehicleManufacturerModel v")
-public class VehicleManufacturerModel implements Serializable {
+@Table(name = "vehicle_manufacturer_t")
+@NamedQuery(name = "VehicleManufacturerModel.findAll", query = "SELECT v FROM VehicleManufacturerModel v")
+public class VehicleManufacturerModel implements Serializable
+{
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The manufacturer id. */
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="manufacturer_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "manufacturer_id")
 	private int manufacturerId;
 
-	@Column(name="is_enabled")
+	/** The is enabled. */
+	@Column(name = "is_enabled")
 	private boolean isEnabled;
 
-	@Column(name="manufacturer_name")
+	/** The manufacturer name. */
+	@Column(name = "manufacturer_name")
 	private String manufacturerName;
 
+	/** The vehicle models. */
 	//bi-directional many-to-one association to VehicleModel
-	@OneToMany(mappedBy="vehicleManufacturerModel", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "vehicleManufacturerModel", fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<VehicleModel> vehicleModels;
 
-//	//bi-directional many-to-one association to VehicleInformationModel
-//	@OneToMany(mappedBy="vehicleManufacturerModel", fetch=FetchType.EAGER)
-//	@Fetch(value = FetchMode.SUBSELECT)
-//	private List<VehicleInformationModel> vehicleInformationModels;
+	//	//bi-directional many-to-one association to VehicleInformationModel
+	//	@OneToMany(mappedBy="vehicleManufacturerModel", fetch=FetchType.EAGER)
+	//	@Fetch(value = FetchMode.SUBSELECT)
+	//	private List<VehicleInformationModel> vehicleInformationModels;
 
-	public VehicleManufacturerModel() {
+	/**
+	 * Instantiates a new vehicle manufacturer model.
+	 */
+	public VehicleManufacturerModel()
+	{
 	}
 
-	public int getManufacturerId() {
+	/**
+	 * Gets the manufacturer id.
+	 *
+	 * @return the manufacturer id
+	 */
+	public int getManufacturerId()
+	{
 		return this.manufacturerId;
 	}
 
-	public void setManufacturerId(int manufacturerId) {
+	/**
+	 * Sets the manufacturer id.
+	 *
+	 * @param manufacturerId
+	 *           the new manufacturer id
+	 */
+	public void setManufacturerId(int manufacturerId)
+	{
 		this.manufacturerId = manufacturerId;
 	}
 
-	public boolean getIsEnabled() {
+	/**
+	 * Gets the checks if is enabled.
+	 *
+	 * @return the checks if is enabled
+	 */
+	public boolean getIsEnabled()
+	{
 		return this.isEnabled;
 	}
 
-	public void setIsEnabled(boolean isEnabled) {
+	/**
+	 * Sets the checks if is enabled.
+	 *
+	 * @param isEnabled
+	 *           the new checks if is enabled
+	 */
+	public void setIsEnabled(boolean isEnabled)
+	{
 		this.isEnabled = isEnabled;
 	}
 
-	public String getManufacturerName() {
+	/**
+	 * Gets the manufacturer name.
+	 *
+	 * @return the manufacturer name
+	 */
+	public String getManufacturerName()
+	{
 		return this.manufacturerName;
 	}
 
-	public void setManufacturerName(String manufacturerName) {
+	/**
+	 * Sets the manufacturer name.
+	 *
+	 * @param manufacturerName
+	 *           the new manufacturer name
+	 */
+	public void setManufacturerName(String manufacturerName)
+	{
 		this.manufacturerName = manufacturerName;
 	}
 
-	public List<VehicleModel> getVehicleModels() {
+	/**
+	 * Gets the vehicle models.
+	 *
+	 * @return the vehicle models
+	 */
+	public List<VehicleModel> getVehicleModels()
+	{
 		return this.vehicleModels;
 	}
 
-	public void setVehicleModels(List<VehicleModel> vehicleModels) {
+	/**
+	 * Sets the vehicle models.
+	 *
+	 * @param vehicleModels
+	 *           the new vehicle models
+	 */
+	public void setVehicleModels(List<VehicleModel> vehicleModels)
+	{
 		this.vehicleModels = vehicleModels;
 	}
 
-	public VehicleModel addVehicleModel(VehicleModel vehicleModel) {
+	/**
+	 * Adds the vehicle model.
+	 *
+	 * @param vehicleModel
+	 *           the vehicle model
+	 * @return the vehicle model
+	 */
+	public VehicleModel addVehicleModel(VehicleModel vehicleModel)
+	{
 		getVehicleModels().add(vehicleModel);
 		vehicleModel.setVehicleManufacturerModel(this);
 
 		return vehicleModel;
 	}
 
-	public VehicleModel removeVehicleModel(VehicleModel vehicleModel) {
+	/**
+	 * Removes the vehicle model.
+	 *
+	 * @param vehicleModel
+	 *           the vehicle model
+	 * @return the vehicle model
+	 */
+	public VehicleModel removeVehicleModel(VehicleModel vehicleModel)
+	{
 		getVehicleModels().remove(vehicleModel);
 		vehicleModel.setVehicleManufacturerModel(null);
 
 		return vehicleModel;
 	}
 
-//	public List<VehicleInformationModel> getVehicleInformationModels() {
-//		return this.vehicleInformationModels;
-//	}
-//
-//	public void setVehicleInformationModels(List<VehicleInformationModel> vehicleInformationModels) {
-//		this.vehicleInformationModels = vehicleInformationModels;
-//	}
+	//	public List<VehicleInformationModel> getVehicleInformationModels() {
+	//		return this.vehicleInformationModels;
+	//	}
+	//
+	//	public void setVehicleInformationModels(List<VehicleInformationModel> vehicleInformationModels) {
+	//		this.vehicleInformationModels = vehicleInformationModels;
+	//	}
 
-//	public VehicleInformationModel addVehicleInformationModel(VehicleInformationModel vehicleInformationModel) {
-//		getVehicleInformationModels().add(vehicleInformationModel);
-//		vehicleInformationModel.setVehicleManufacturerModel(this);
-//
-//		return vehicleInformationModel;
-//	}
-//
-//	public VehicleInformationModel removeVehicleInformationModel(VehicleInformationModel vehicleInformationModel) {
-//		getVehicleInformationModels().remove(vehicleInformationModel);
-//		vehicleInformationModel.setVehicleManufacturerModel(null);
-//
-//		return vehicleInformationModel;
-//	}
-	
+	//	public VehicleInformationModel addVehicleInformationModel(VehicleInformationModel vehicleInformationModel) {
+	//		getVehicleInformationModels().add(vehicleInformationModel);
+	//		vehicleInformationModel.setVehicleManufacturerModel(this);
+	//
+	//		return vehicleInformationModel;
+	//	}
+	//
+	//	public VehicleInformationModel removeVehicleInformationModel(VehicleInformationModel vehicleInformationModel) {
+	//		getVehicleInformationModels().remove(vehicleInformationModel);
+	//		vehicleInformationModel.setVehicleManufacturerModel(null);
+	//
+	//		return vehicleInformationModel;
+	//	}
+
 }

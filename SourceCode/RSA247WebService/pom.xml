@@ -8,6 +8,27 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
+
+	<name>Roadside Assistance - RSA</name>
+	<url>http://www.rsa247.com</url>
+	<!-- http://www.rsa247.com/wp-content/uploads/2016/07/RSA-247-Logo.png -->
+	<description>
+			RSA247 is the culmination of the vision of its creators to provide a carefree and complete road experience for Indian motorists. 
+		The personal experiences of on-road services and observations across the country have made RSA247’s creators realize a fact that 
+		the currently available roadside assistance has a lot of limitations in serviceability and distance.
+		This realization has planted the seed for RSA247. To create a one-stop solution for all on-road needs of a motorist.
+	</description>
+
+	<organization>
+		<name>Uniqueware Consulting Services Pvt Ltd</name>
+		<url>http://www.ucs.consulting/</url>
+	</organization>
+
+	<issueManagement>
+		<system>Bugzilla</system>
+		<url>localhost</url>
+	</issueManagement>
+
 	<developers>
 		<developer>
 			<id>GuruajM</id>
@@ -28,6 +49,7 @@
 			</properties>
 		</developer>
 	</developers>
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
@@ -234,25 +256,22 @@
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
+					<port>9000</port>
+					<tempWebappDirectory>${basedir}/target/site/tempdir</tempWebappDirectory>
 					<locales>en,fr</locales>
 				</configuration>
+				<dependencies>
+					<dependency><!-- add support for ssh/scp -->
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-ssh</artifactId>
+						<version>1.0</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 
-			<!-- <plugin> -->
-			<!-- <groupId>com.consol.citrus.mvn</groupId> -->
-			<!-- <artifactId>citrus-maven-plugin</artifactId> -->
-			<!-- <version>2.6</version> -->
-			<!-- </plugin> -->
-
 		</plugins>
-	</build>
 
-	<!-- <distributionManagement> -->
-	<!-- <site> -->
-	<!-- <id>www.ucsconsulting.com</id> -->
-	<!-- <url>scp://www.ucsconsulting.com/www/docs/project/</url> -->
-	<!-- </site> -->
-	<!-- </distributionManagement> -->
+	</build>
 
 	<reporting>
 		<plugins>
@@ -300,19 +319,13 @@
 				<version>2.8.1</version>
 			</plugin>
 
-			<!-- Generates a source code report with the FindBugs Library. -->
-			<!-- 1) Go into your Start Menu and type regedit into the search field. 
-				2) Navigate to path HKEY_LOCAL_MACHINE\Software\JavaSoft (Windows 10 seems 
-				to now have this here: HKEY_LOCAL_MACHINE\Software\WOW6432Node\JavaSoft) 
-				3) Right click on the JavaSoft folder and click on New -> Key 4) Name the 
-				new Key Prefs and everything should work. -->
-			<!-- Unable to get XClass for java/io/ObjectInputStream java.lang.ArrayIndexOutOfBoundsException: 
-				27745 -->
-			<!-- <plugin> -->
-			<!-- <groupId>org.codehaus.mojo</groupId> -->
-			<!-- <artifactId>findbugs-maven-plugin</artifactId> -->
-			<!-- <version>2.5.5</version> -->
-			<!-- </plugin> -->
+			<!-- https://mvnrepository.com/artifact/org.codehaus.mojo/findbugs-maven-plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.1</version>
+			</plugin>
+
 
 			<!-- Report on various tags found in the code. -->
 			<plugin>

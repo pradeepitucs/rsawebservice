@@ -1,3 +1,6 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.web.resolver;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,28 +12,61 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ucs.rsa.common.dto.ExceptionDTO;
 import com.ucs.rsa.common.exception.RSAException;
 
-public class RSAExceptionResolver implements HandlerExceptionResolver {
 
+/**
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The Class RSAExceptionResolver.
+ */
+public class RSAExceptionResolver implements HandlerExceptionResolver
+{
+
+	/** The order. */
 	private int order;
 
-	public int getOrder() {
+	/**
+	 * Gets the order.
+	 *
+	 * @return the order
+	 */
+	public int getOrder()
+	{
 		return order;
 	}
 
-	public void setOrder(int order) {
+	/**
+	 * Sets the order.
+	 *
+	 * @param order
+	 *           the new order
+	 */
+	public void setOrder(int order)
+	{
 		this.order = order;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.web.servlet.HandlerExceptionResolver#resolveException(javax.servlet.http.HttpServletRequest,
+	 * javax.servlet.http.HttpServletResponse, java.lang.Object, java.lang.Exception)
+	 */
 	public ModelAndView resolveException(final HttpServletRequest iRequest, final HttpServletResponse iResponse,
-			final Object iHandler, final Exception iException) {
+			final Object iHandler, final Exception iException)
+	{
 		iException.printStackTrace();
 		final ExceptionDTO anExceptionDTO = new ExceptionDTO();
-		if (iException instanceof RSAException) {
+		if (iException instanceof RSAException)
+		{
 
 			anExceptionDTO.setErrorKey(((RSAException) iException).getError().getKey());
 			anExceptionDTO.setErrorMessage(((RSAException) iException).getError().getMessage());
 
-		} else {
+		}
+		else
+		{
 			anExceptionDTO.setErrorMessage(iException.getMessage());
 		}
 		return new ModelAndView("plist", "error", anExceptionDTO);

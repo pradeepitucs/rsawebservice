@@ -1,3 +1,6 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
 package com.ucs.rsa.common.dto;
 
 import java.io.Serializable;
@@ -5,79 +8,192 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+
+/**
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ *          The Class CustomerReviewDTO.
+ */
 @XmlRootElement(name = "customer_review", namespace = "com.ucs.rsa.dto")
-public class CustomerReviewDTO implements Serializable {
+public class CustomerReviewDTO implements Serializable
+{
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The customer review id. */
 	private int customerReviewId;
+
+	/** The approval status. */
 	private int approvalStatus;
 
+	/** The blocked. */
 	private boolean blocked;
 
+	/** The comment. */
 	private String comment;
 
+	/** The creation time. */
 	private Date creationTime;
 
+	/** The headline. */
 	private String headline;
 
+	/** The rating. */
 	private float rating;
 
-	public CustomerReviewDTO() {
+	/**
+	 * Instantiates a new customer review DTO.
+	 */
+	public CustomerReviewDTO()
+	{
 	}
 
-	public int getCustomerReviewId() {
+	/**
+	 * Gets the customer review id.
+	 *
+	 * @return the customer review id
+	 */
+	public int getCustomerReviewId()
+	{
 		return customerReviewId;
 	}
 
-	public void setCustomerReviewId(int customerReviewId) {
+	/**
+	 * Sets the customer review id.
+	 *
+	 * @param customerReviewId
+	 *           the new customer review id
+	 */
+	public void setCustomerReviewId(int customerReviewId)
+	{
 		this.customerReviewId = customerReviewId;
 	}
 
-	public int getApprovalStatus() {
+	/**
+	 * Gets the approval status.
+	 *
+	 * @return the approval status
+	 */
+	public int getApprovalStatus()
+	{
 		return approvalStatus;
 	}
 
-	public void setApprovalStatus(int approvalStatus) {
+	/**
+	 * Sets the approval status.
+	 *
+	 * @param approvalStatus
+	 *           the new approval status
+	 */
+	public void setApprovalStatus(int approvalStatus)
+	{
 		this.approvalStatus = approvalStatus;
 	}
 
-	public boolean getBlocked() {
+	/**
+	 * Gets the blocked.
+	 *
+	 * @return the blocked
+	 */
+	public boolean getBlocked()
+	{
 		return blocked;
 	}
 
-	public void setBlocked(boolean blocked) {
+	/**
+	 * Sets the blocked.
+	 *
+	 * @param blocked
+	 *           the new blocked
+	 */
+	public void setBlocked(boolean blocked)
+	{
 		this.blocked = blocked;
 	}
 
-	public String getComment() {
+	/**
+	 * Gets the comment.
+	 *
+	 * @return the comment
+	 */
+	public String getComment()
+	{
 		return comment;
 	}
 
-	public void setComment(String comment) {
+	/**
+	 * Sets the comment.
+	 *
+	 * @param comment
+	 *           the new comment
+	 */
+	public void setComment(String comment)
+	{
 		this.comment = comment;
 	}
 
-	public Date getCreationTime() {
+	/**
+	 * Gets the creation time.
+	 *
+	 * @return the creation time
+	 */
+	public Date getCreationTime()
+	{
 		return creationTime;
 	}
 
-	public void setCreationTime(Date creationTime) {
+	/**
+	 * Sets the creation time.
+	 *
+	 * @param creationTime
+	 *           the new creation time
+	 */
+	public void setCreationTime(Date creationTime)
+	{
 		this.creationTime = creationTime;
 	}
 
-	public String getHeadline() {
+	/**
+	 * Gets the headline.
+	 *
+	 * @return the headline
+	 */
+	public String getHeadline()
+	{
 		return headline;
 	}
 
-	public void setHeadline(String headline) {
+	/**
+	 * Sets the headline.
+	 *
+	 * @param headline
+	 *           the new headline
+	 */
+	public void setHeadline(String headline)
+	{
 		this.headline = headline;
 	}
 
-	public float getRating() {
+	/**
+	 * Gets the rating.
+	 *
+	 * @return the rating
+	 */
+	public float getRating()
+	{
 		return rating;
 	}
 
-	public void setRating(float rating) {
+	/**
+	 * Sets the rating.
+	 *
+	 * @param rating
+	 *           the new rating
+	 */
+	public void setRating(float rating)
+	{
 		this.rating = rating;
 	}
 
