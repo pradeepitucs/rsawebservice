@@ -6,8 +6,8 @@
 	pageEncoding="ISO-8859-1"%>
 <%
 	response.setContentType("application/json");
-	String accessKey = "C0Y7A5KUOVM6JR2BNFMK";
-	String secretKey = "75b829b3db348f0bcb2f5eb8ade9a4d410df146c";
+	String accessKey = "1YRKT64OZERXQ5NYULQQ";
+	String secretKey = "7fd89b14464b38a9292995c4d1b2ae650fdcf21d";
 	String returnUrl = "http://garage-rsa247.rhcloud.com/RSA247WebService/redirecturl/citruspayresponse";
 	String txnID = String.valueOf(System.currentTimeMillis());
 	String amount = request.getParameter("amount"); //Make sure the datatype of the value is STRING. 
