@@ -21,10 +21,10 @@ import javax.persistence.TemporalType;
 
 
 /**
+ * The Class CustomerReviewModel.
+ *
  * @author Gururaj A M
  * @version 1.0
- * 
- *          The persistent class for the customer_review_t database table.
  * 
  */
 @Entity

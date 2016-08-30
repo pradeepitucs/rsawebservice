@@ -9,10 +9,11 @@ import com.ucs.rsa.model.ServiceProviderModel;
 
 
 /**
+ * The Interface UserService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface UserService.
  */
 public interface UserService extends BaseService
 {

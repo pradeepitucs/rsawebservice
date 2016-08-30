@@ -23,10 +23,11 @@ import com.ucs.rsa.model.ServiceProviderModel;
 
 
 /**
+ * The Class DefaultCustomerRequestDAO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultCustomerRequestDAO.
  */
 @Repository(value = "customerRequestDAO")
 public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements CustomerRequestDAO

@@ -15,10 +15,11 @@ import com.ucs.rsa.service.BillGeneratorService;
 
 
 /**
+ * The Class DefaultBillGeneratorService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultBillGeneratorService.
  */
 @Service
 public class DefaultBillGeneratorService extends DefaultBaseService implements BillGeneratorService
@@ -37,7 +38,7 @@ public class DefaultBillGeneratorService extends DefaultBaseService implements B
 		String secretKey = "MERCHANT_SECRET_KEY";
 
 		// Need to Check the redirect URL
-		String returnUrl = "http://localhost:8088/RSA247WebService/redirecturl/citruspayresponse";
+		String returnUrl = "http://garage-rsa247.rhcloud.com/RSA247WebService/redirecturl/citruspayresponse";
 
 		String txnID = String.valueOf(System.currentTimeMillis());
 

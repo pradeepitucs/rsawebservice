@@ -15,10 +15,11 @@ import javax.persistence.Table;
 
 
 /**
+ * The Class ServiceTypeModel.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class ServiceTypeModel.
  */
 @Entity
 @Table(name = "service_type_t")

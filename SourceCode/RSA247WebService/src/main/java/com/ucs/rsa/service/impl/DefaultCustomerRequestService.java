@@ -18,10 +18,11 @@ import com.ucs.rsa.service.CustomerRequestService;
 
 
 /**
+ * The Class DefaultCustomerRequestService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultCustomerRequestService.
  */
 @Service
 public class DefaultCustomerRequestService extends DefaultBaseService implements CustomerRequestService

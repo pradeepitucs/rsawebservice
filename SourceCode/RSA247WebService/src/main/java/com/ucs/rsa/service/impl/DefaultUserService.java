@@ -18,10 +18,11 @@ import com.ucs.rsa.service.UserService;
 
 
 /**
+ * The Class DefaultUserService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultUserService.
  */
 @Service
 public class DefaultUserService extends DefaultBaseService implements UserService

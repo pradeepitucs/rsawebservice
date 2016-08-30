@@ -9,10 +9,11 @@ import com.ucs.rsa.model.ServiceProviderModel;
 
 
 /**
+ * The Interface UserDAO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface UserDAO.
  */
 public interface UserDAO extends BaseDAO
 {

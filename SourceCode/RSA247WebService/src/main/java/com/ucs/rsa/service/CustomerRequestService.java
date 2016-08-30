@@ -10,10 +10,11 @@ import com.ucs.rsa.model.EmployeeModel;
 
 
 /**
+ * The Interface CustomerRequestService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface CustomerRequestService.
  */
 public interface CustomerRequestService extends BaseService
 {

@@ -38,10 +38,11 @@ import com.ucs.rsa.service.UserVehicleService;
 
 
 /**
+ * The Class UserVehicleManagementResource.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class UserVehicleManagementResource.
  */
 @Controller
 @RequestMapping("/uservehicle")

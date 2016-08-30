@@ -15,10 +15,11 @@ import com.ucs.rsa.service.CustomerReviewService;
 
 
 /**
+ * The Class DefaultCustomerReviewService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultCustomerReviewService.
  */
 @Service
 public class DefaultCustomerReviewService extends DefaultBaseService implements CustomerReviewService

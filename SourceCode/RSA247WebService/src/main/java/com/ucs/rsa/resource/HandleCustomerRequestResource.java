@@ -23,10 +23,11 @@ import com.ucs.rsa.service.CustomerRequestService;
 
 
 /**
+ * The Class HandleCustomerRequestResource.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class HandleCustomerRequestResource.
  */
 @Controller
 @RequestMapping("/serviceProvider")
@@ -87,7 +88,7 @@ public class HandleCustomerRequestResource
 		serviceProviderModel.setUserId(emp_id);
 		customerRequestModel.setEmployeeModel(serviceProviderModel);
 
-		ArrayList<String> customerRequestResponse = getCustomerRequestService()
+		final ArrayList<String> customerRequestResponse = getCustomerRequestService()
 				.updateCustomerRequestByEmployee(customerRequestModel);
 		if (customerRequestResponse.get(1).equalsIgnoreCase("Accepted"))
 		{

@@ -12,10 +12,11 @@ import com.ucs.rsa.model.VehicleTypeModel;
 
 
 /**
+ * The Interface UserVehicleDAO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface UserVehicleDAO.
  */
 public interface UserVehicleDAO extends BaseDAO
 {

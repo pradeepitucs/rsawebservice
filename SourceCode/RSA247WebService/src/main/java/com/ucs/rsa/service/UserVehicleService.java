@@ -12,10 +12,11 @@ import com.ucs.rsa.model.VehicleTypeModel;
 
 
 /**
+ * The Interface UserVehicleService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface UserVehicleService.
  */
 public interface UserVehicleService extends BaseService
 {

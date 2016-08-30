@@ -82,6 +82,6 @@
 </script>
 </head>
 <body>
-
+	Redirect URL ${result}
 </body>
 </html>

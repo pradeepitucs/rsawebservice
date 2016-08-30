@@ -20,10 +20,10 @@ import javax.persistence.UniqueConstraint;
 
 
 /**
+ * The Class UserModel.
+ *
  * @author Gururaj A M
  * @version 1.0
- * 
- *          The persistent class for the user_t database table.
  * 
  */
 @Entity

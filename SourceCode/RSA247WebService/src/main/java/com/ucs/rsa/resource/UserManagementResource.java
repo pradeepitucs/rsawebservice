@@ -27,6 +27,7 @@ import com.ucs.rsa.common.dto.RoleDTO;
 import com.ucs.rsa.common.dto.RolesDTO;
 import com.ucs.rsa.common.dto.ServiceProviderDTO;
 import com.ucs.rsa.common.dto.ServiceProvidersDTO;
+import com.ucs.rsa.common.dto.StringBuilderDTO;
 import com.ucs.rsa.model.CityModel;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.EmployeeModel;
@@ -37,10 +38,11 @@ import com.ucs.rsa.service.UserService;
 
 
 /**
+ * The Class UserManagementResource.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class UserManagementResource.
  */
 @Controller
 @RequestMapping("/user")
@@ -766,7 +768,7 @@ public class UserManagementResource
 
 		String result = getUserService().login(iMobileNo, iGcmId);
 
-		return new ModelAndView("xml", "result", result);
+		return new ModelAndView("billGenerator", "result", result);
 	}
 
 	/**
@@ -778,7 +780,9 @@ public class UserManagementResource
 	public ModelAndView genertBill()
 	{
 		StringBuilder result = getBillGenerator().genertBill();
-		return new ModelAndView("xml", "result", result);
+		StringBuilderDTO stringBuilderDTO = new StringBuilderDTO();
+		stringBuilderDTO.setStrBuilder(result);
+		return new ModelAndView("billGenerator", "stringBuilderDTO", stringBuilderDTO);
 	}
 
 	/**

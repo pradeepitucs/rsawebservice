@@ -9,10 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class StateDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class StateDTO.
  */
 @XmlRootElement(name = "state", namespace = "com.ucs.rsa.common.dto")
 

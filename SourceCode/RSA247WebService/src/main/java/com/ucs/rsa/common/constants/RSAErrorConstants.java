@@ -4,10 +4,11 @@
 package com.ucs.rsa.common.constants;
 
 /**
+ * The Class RSAErrorConstants.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class RSAErrorConstants.
  */
 public class RSAErrorConstants
 {

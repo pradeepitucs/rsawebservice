@@ -8,10 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
+ * The Interface RedirectURLService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface RedirectURLService.
  */
 public interface RedirectURLService extends BaseService
 {

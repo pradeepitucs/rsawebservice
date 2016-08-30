@@ -7,10 +7,11 @@ import com.ucs.rsa.model.CustomerReviewModel;
 
 
 /**
+ * The Interface CustomerReviewDAO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface CustomerReviewDAO.
  */
 public interface CustomerReviewDAO extends BaseDAO
 {

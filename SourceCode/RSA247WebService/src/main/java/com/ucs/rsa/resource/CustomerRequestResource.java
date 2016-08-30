@@ -35,10 +35,11 @@ import com.ucs.rsa.service.CustomerRequestService;
 
 
 /**
+ * The Class CustomerRequestResource.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class CustomerRequestResource.
  */
 @Controller
 @RequestMapping("/servicerequest")
@@ -119,7 +120,7 @@ public class CustomerRequestResource
 		 * customerRequestModel.setEmployeeModel(employeeModel);
 		 */
 
-		CustomerRequestModel customerRequestModel1 = getCustomerRequestService().updateCustomerRequest(customerRequestModel);
+		final CustomerRequestModel customerRequestModel1 = getCustomerRequestService().updateCustomerRequest(customerRequestModel);
 
 		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO();
 		customerRequestDTO.setCustomerLatitude(customerRequestModel1.getCustomerLatitude());
@@ -202,7 +203,7 @@ public class CustomerRequestResource
 	 * @param entities
 	 *           the entities
 	 */
-	private void assigningIssueAndSendNotificationstatus(CustomerRequestModel entities)
+	private void assigningIssueAndSendNotificationstatus(final CustomerRequestModel entities)
 	{
 		String notificationStatus = sendNotification(entities);
 		String newTime = "";

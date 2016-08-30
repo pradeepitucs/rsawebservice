@@ -9,10 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class ServiceProviderDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class ServiceProviderDTO.
  */
 @XmlRootElement(name = "service_provider", namespace = "com.ucs.rsa.dto")
 public class ServiceProviderDTO

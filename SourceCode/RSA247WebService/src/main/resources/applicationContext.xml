@@ -79,6 +79,8 @@
 				<value>com.ucs.rsa.common.dto.CustomerReviewsDTO</value>
 				<value>com.ucs.rsa.common.dto.EmployeeDTO</value>
 				<value>com.ucs.rsa.common.dto.EmployeesDTO</value>
+				<value>com.ucs.rsa.common.dto.StringDTO</value>
+				<value>com.ucs.rsa.common.dto.StringBuilderDTO</value>
 			</list>
 		</property>
 	</bean>
@@ -137,11 +139,8 @@
 	<!-- <property name="password" value="root" /> -->
 	<!-- </bean> -->
 
-	<!-- <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/UCSRSADB" 
-		/> -->
-
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:comp/env/jdbc/UCSRSADB" />
+		<property name="jndiName" value="java:comp/env/jdbc/MySQLDS" />
 	</bean>
 
 	<bean id="sessionFactory"

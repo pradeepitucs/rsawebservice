@@ -7,10 +7,11 @@ import com.ucs.rsa.model.CustomerReviewModel;
 
 
 /**
+ * The Interface CustomerReviewService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface CustomerReviewService.
  */
 public interface CustomerReviewService extends BaseService
 {

@@ -4,10 +4,11 @@
 package com.ucs.rsa.service;
 
 /**
+ * The Interface BillGeneratorService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface BillGeneratorService.
  */
 public interface BillGeneratorService extends BaseService
 {

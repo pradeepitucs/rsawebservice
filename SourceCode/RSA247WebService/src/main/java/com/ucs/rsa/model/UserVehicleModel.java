@@ -17,10 +17,10 @@ import javax.persistence.Table;
 
 
 /**
+ * The Class UserVehicleModel.
+ *
  * @author Gururaj A M
  * @version 1.0
- * 
- *          The persistent class for the user_vehicle_t database table.
  * 
  */
 @Entity

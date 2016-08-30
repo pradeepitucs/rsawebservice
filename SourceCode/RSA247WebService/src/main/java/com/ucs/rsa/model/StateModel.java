@@ -18,10 +18,10 @@ import javax.persistence.Table;
 
 
 /**
+ * The Class StateModel.
+ *
  * @author Gururaj A M
  * @version 1.0
- * 
- *          The persistent class for the state_t database table.
  * 
  */
 @Entity

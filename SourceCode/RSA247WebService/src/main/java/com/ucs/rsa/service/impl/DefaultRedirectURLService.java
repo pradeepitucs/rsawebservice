@@ -19,10 +19,11 @@ import com.ucs.rsa.service.RedirectURLService;
 
 
 /**
+ * The Class DefaultRedirectURLService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultRedirectURLService.
  */
 @Service
 public class DefaultRedirectURLService extends DefaultBaseService implements RedirectURLService

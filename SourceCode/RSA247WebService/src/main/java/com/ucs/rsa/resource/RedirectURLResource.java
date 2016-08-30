@@ -11,15 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.ucs.rsa.common.dto.StringDTO;
 import com.ucs.rsa.service.RedirectURLService;
 
 
 /**
+ * The Class RedirectURLResource.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class RedirectURLResource.
  */
 @Controller
 @RequestMapping("/redirecturl")
@@ -43,12 +46,15 @@ public class RedirectURLResource extends HttpServlet
 	 */
 	@RequestMapping(value = "/citruspayresponse", method =
 	{ RequestMethod.POST, RequestMethod.GET })
-	public void redirectURL(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView redirectURL(HttpServletRequest request, HttpServletResponse response)
 	{
 		System.out.println(" HttpServletRequest " + request + " HttpServletResponse " + response);
 
 		redirectURLResource.redirectURL(request, response);
 
+		StringDTO stringDTO = new StringDTO();
+		stringDTO.setStr(getServletInfo());
+		return new ModelAndView("redirectURL", "stringDTO", stringDTO);
 	}
 
 

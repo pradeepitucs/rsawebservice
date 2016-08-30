@@ -7,10 +7,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class EmployeeDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class EmployeeDTO.
  */
 @XmlRootElement(name = "employee", namespace = "com.ucs.rsa.dto")
 public class EmployeeDTO extends UserDTO

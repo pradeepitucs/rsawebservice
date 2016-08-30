@@ -11,10 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class CitiesDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class CitiesDTO.
  */
 @XmlRootElement(name = "cities", namespace = "com.ucs.rsa.common.dto")
 

@@ -19,10 +19,10 @@ import javax.persistence.Table;
 
 
 /**
+ * The Class VehicleInformationModel.
+ *
  * @author Gururaj A M
  * @version 1.0
- * 
- *          The persistent class for the vehicle_information_model_t database table.
  * 
  */
 @Entity

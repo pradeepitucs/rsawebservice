@@ -9,10 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class VehicleManufacturerDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class VehicleManufacturerDTO.
  */
 @XmlRootElement(name = "vehicleManufacturer", namespace = "com.ucs.rsa.common.dto")
 

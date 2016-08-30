@@ -16,10 +16,11 @@ import javax.persistence.Table;
 
 
 /**
+ * The Class ServiceProviderModel.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class ServiceProviderModel.
  */
 @Entity
 @Table(name = "service_provider_t")

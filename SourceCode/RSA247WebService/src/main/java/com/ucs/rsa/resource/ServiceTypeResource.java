@@ -19,10 +19,11 @@ import com.ucs.rsa.service.ServiceTypeService;
 
 
 /**
+ * The Class ServiceTypeResource.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class ServiceTypeResource.
  */
 @Controller
 @RequestMapping("/servicetype")

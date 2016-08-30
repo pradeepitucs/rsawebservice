@@ -16,10 +16,11 @@ import com.ucs.rsa.model.ServiceProviderModel;
 
 
 /**
+ * The Class DefaultUserDAO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultUserDAO.
  */
 @Repository(value = "defaultUserDAO")
 public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO

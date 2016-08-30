@@ -17,10 +17,11 @@ import com.ucs.rsa.service.BaseService;
 
 
 /**
+ * The Class DefaultBaseService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultBaseService.
  */
 @Service
 public class DefaultBaseService implements BaseService

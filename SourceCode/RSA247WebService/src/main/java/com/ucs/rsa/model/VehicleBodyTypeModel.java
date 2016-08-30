@@ -18,10 +18,10 @@ import javax.persistence.Table;
 
 
 /**
+ * The Class VehicleBodyTypeModel.
+ *
  * @author Gururaj A M
  * @version 1.0
- * 
- *          The persistent class for the vehicle_body_type_t database table.
  * 
  */
 @Entity

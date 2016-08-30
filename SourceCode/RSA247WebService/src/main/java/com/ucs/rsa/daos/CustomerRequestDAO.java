@@ -10,10 +10,11 @@ import com.ucs.rsa.model.EmployeeModel;
 
 
 /**
+ * The Interface CustomerRequestDAO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface CustomerRequestDAO.
  */
 public interface CustomerRequestDAO extends BaseDAO
 {

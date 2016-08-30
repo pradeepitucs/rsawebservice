@@ -24,10 +24,11 @@ import com.ucs.rsa.model.VehicleTypeModel;
 
 
 /**
+ * The Class DefaultUserVehicleDAO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultUserVehicleDAO.
  */
 @Repository(value = "defaultUserVehicleDAO")
 public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicleDAO
