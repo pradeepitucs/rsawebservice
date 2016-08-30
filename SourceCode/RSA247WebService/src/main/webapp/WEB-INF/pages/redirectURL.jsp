@@ -7,7 +7,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%
-	String secretKey = "75b829b3db348f0bcb2f5eb8ade9a4d410df146c";
+	String secretKey = "7fd89b14464b38a9292995c4d1b2ae650fdcf21d";
 	Hashtable<String, String> reqValMap = new Hashtable<String, String>() {
 		public synchronized String toString() {
 			Enumeration<String> keys = keys();
