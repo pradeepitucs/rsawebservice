@@ -7,7 +7,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%
-	String secretKey = "MERCHANT_SECRET_KEY";
+	String secretKey = "75b829b3db348f0bcb2f5eb8ade9a4d410df146c";
 	Hashtable<String, String> reqValMap = new Hashtable<String, String>() {
 		public synchronized String toString() {
 			Enumeration<String> keys = keys();
@@ -82,6 +82,6 @@
 </script>
 </head>
 <body>
-	Redirect URL ${result}
+	Redirect URL ${stringDTO}
 </body>
 </html>

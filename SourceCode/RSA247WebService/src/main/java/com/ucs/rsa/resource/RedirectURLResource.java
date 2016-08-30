@@ -53,7 +53,8 @@ public class RedirectURLResource extends HttpServlet
 		redirectURLResource.redirectURL(request, response);
 
 		StringDTO stringDTO = new StringDTO();
-		stringDTO.setStr(getServletInfo());
+		stringDTO.setStr(" HttpServletRequest " + request.toString() + "\n HttpServletResponse " + response.toString());
+		System.out.println(stringDTO.getStr());
 		return new ModelAndView("redirectURL", "stringDTO", stringDTO);
 	}
 

@@ -34,8 +34,8 @@ public class DefaultBillGeneratorService extends DefaultBaseService implements B
 	public StringBuilder genertBill()
 	{
 
-		String accessKey = "MERCHANT_ACCESS_KEY";
-		String secretKey = "MERCHANT_SECRET_KEY";
+		String accessKey = "C0Y7A5KUOVM6JR2BNFMK";
+		String secretKey = "75b829b3db348f0bcb2f5eb8ade9a4d410df146c";
 
 		// Need to Check the redirect URL
 		String returnUrl = "http://garage-rsa247.rhcloud.com/RSA247WebService/redirecturl/citruspayresponse";

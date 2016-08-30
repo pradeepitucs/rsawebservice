@@ -6,9 +6,9 @@
 	pageEncoding="ISO-8859-1"%>
 <%
 	response.setContentType("application/json");
-	String accessKey = "MERCHANT_ACCESS_KEY";
-	String secretKey = "MERCHANT_SECRET_KEY";
-	String returnUrl = "http://YOUR_SERVER/redirectURL.jsp";
+	String accessKey = "C0Y7A5KUOVM6JR2BNFMK";
+	String secretKey = "75b829b3db348f0bcb2f5eb8ade9a4d410df146c";
+	String returnUrl = "http://garage-rsa247.rhcloud.com/RSA247WebService/redirecturl/citruspayresponse";
 	String txnID = String.valueOf(System.currentTimeMillis());
 	String amount = request.getParameter("amount"); //Make sure the datatype of the value is STRING. 
 	String dataString = "merchantAccessKey=" + accessKey + "&transactionId=" + txnID + "&amount=" + amount;
