@@ -46,6 +46,8 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 
 			Hashtable<String, String> reqValMap = new Hashtable<String, String>()
 			{
+				private static final long serialVersionUID = 1L;
+
 				public synchronized String toString()
 				{
 					Enumeration<String> keys = keys();
@@ -77,6 +79,7 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 					.append(request.getParameter("issuerRefNo")).append(request.getParameter("authIdCode"))
 					.append(request.getParameter("firstName")).append(request.getParameter("lastName"))
 					.append(request.getParameter("pgRespCode")).append(request.getParameter("addressZip")).toString();
+
 			SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA1");
 			Mac mac;
 
