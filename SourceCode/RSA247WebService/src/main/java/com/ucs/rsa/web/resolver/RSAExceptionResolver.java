@@ -70,6 +70,6 @@ public class RSAExceptionResolver implements HandlerExceptionResolver
 		{
 			anExceptionDTO.setErrorMessage(iException.getMessage());
 		}
-		return new ModelAndView("plist", "error", anExceptionDTO);
+		return new ModelAndView("error", "error", anExceptionDTO);
 	}
 }

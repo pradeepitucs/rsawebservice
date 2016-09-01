@@ -79,6 +79,13 @@ public class RSAErrorConstants
 	/** The Constant INVALID_USER_MODEL_KEY. */
 	public static final String INVALID_USER_MODEL_KEY = "RSA_013";
 
+	/** The Constant TRANSACTION_FAILED_MSG. */
+	public static final String TRANSACTION_FAILED_MSG = "SIGNATURE_VERFICATION_FAILED";
+
+	/** The Constant TRANSACTION_FAILED_KEY. */
+	public static final String TRANSACTION_FAILED_KEY = "RSA_015";
+
+
 	/**
 	 * The Enum ErrorCode.
 	 */
@@ -117,8 +124,11 @@ public class RSAErrorConstants
 
 		/** The invalid user model id error. */
 		INVALID_USER_MODEL_ID_ERROR("RSA_013", "INVALID_USER_MODEL"),
+
 		/** The vehicle information already exists for this user error. */
-		VEHICLE_INFORMATION_ALREADY_EXISTS_FOR_THIS_USER_ERROR("RSA_014", "VEHICLE_INFORMATION_ALREADY_EXISTS_FOR_THIS_USER");
+		VEHICLE_INFORMATION_ALREADY_EXISTS_FOR_THIS_USER_ERROR("RSA_014", "VEHICLE_INFORMATION_ALREADY_EXISTS_FOR_THIS_USER"),
+
+		TRANSACTION_FAILED_ERROR("RSA_015", "SIGNATURE_VERFICATION_FAILED");
 
 		/** The key. */
 		private String key;

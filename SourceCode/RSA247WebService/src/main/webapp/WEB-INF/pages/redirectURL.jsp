@@ -82,6 +82,6 @@
 </script>
 </head>
 <body>
-	Redirect URL ${stringDTO}
+	Redirect URL ${paymentDTO}
 </body>
 </html>

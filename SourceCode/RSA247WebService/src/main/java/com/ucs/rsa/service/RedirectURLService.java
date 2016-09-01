@@ -3,6 +3,8 @@
  */
 package com.ucs.rsa.service;
 
+import java.util.Hashtable;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,6 +27,6 @@ public interface RedirectURLService extends BaseService
 	 * @param response
 	 *           the response
 	 */
-	public void redirectURL(HttpServletRequest request, HttpServletResponse response);
+	public Hashtable<String, String> redirectURL(HttpServletRequest request, HttpServletResponse response);
 
 }

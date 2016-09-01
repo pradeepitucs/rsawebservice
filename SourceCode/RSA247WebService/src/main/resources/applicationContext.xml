@@ -81,6 +81,7 @@
 				<value>com.ucs.rsa.common.dto.EmployeesDTO</value>
 				<value>com.ucs.rsa.common.dto.StringDTO</value>
 				<value>com.ucs.rsa.common.dto.StringBuilderDTO</value>
+				<value>com.ucs.rsa.common.dto.PaymentDTO</value>
 			</list>
 		</property>
 	</bean>
@@ -165,6 +166,8 @@
 				<value>com.ucs.rsa.model.CustomerRequestModel</value>
 				<value>com.ucs.rsa.model.CustomerReviewModel</value>
 				<value>com.ucs.rsa.model.EmployeeModel</value>
+				<value>com.ucs.rsa.model.PaymentModel</value>
+
 			</list>
 		</property>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml" />

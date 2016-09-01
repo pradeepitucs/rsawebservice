@@ -3,6 +3,8 @@
  */
 package com.ucs.rsa.resource;
 
+import java.util.Hashtable;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ucs.rsa.common.dto.StringDTO;
+import com.ucs.rsa.common.constants.RSAErrorConstants;
+import com.ucs.rsa.common.dto.PaymentDTO;
+import com.ucs.rsa.common.exception.RSAException;
 import com.ucs.rsa.service.RedirectURLService;
 
 
@@ -50,12 +54,19 @@ public class RedirectURLResource extends HttpServlet
 	{
 		System.out.println(" HttpServletRequest " + request + " HttpServletResponse " + response);
 
-		redirectURLResource.redirectURL(request, response);
-
-		StringDTO stringDTO = new StringDTO();
-		stringDTO.setStr(" HttpServletRequest " + request.toString() + "\n HttpServletResponse " + response.toString());
-		System.out.println(stringDTO.getStr());
-		return new ModelAndView("redirectURL", "stringDTO", stringDTO);
+		Hashtable<String, String> hashTable = redirectURLResource.redirectURL(request, response);
+		PaymentDTO paymentDTO = new PaymentDTO();
+		if (!hashTable.isEmpty())
+		{
+			paymentDTO.setHashTable(hashTable);
+		}
+		else
+		{
+			RSAException rsaException = new RSAException();
+			rsaException.setError(RSAErrorConstants.ErrorCode.TRANSACTION_FAILED_ERROR);
+			throw rsaException;
+		}
+		return new ModelAndView("redirectURL", "paymentDTO", paymentDTO);
 	}
 
 

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
+import com.ucs.rsa.model.PaymentModel;
 import com.ucs.rsa.service.RedirectURLService;
 
 
@@ -36,13 +37,13 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 	 * javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public void redirectURL(final HttpServletRequest request, HttpServletResponse response)
+	public Hashtable<String, String> redirectURL(final HttpServletRequest request, HttpServletResponse response)
 	{
 
 		try
 		{
 
-			String secretKey = "MERCHANT_SECRET_KEY";
+			String secretKey = "7fd89b14464b38a9292995c4d1b2ae650fdcf21d";
 
 			Hashtable<String, String> reqValMap = new Hashtable<String, String>()
 			{
@@ -97,16 +98,29 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 			String reqSignature = request.getParameter("signature");
 			System.out.println("txn ID : " + request.getParameter("TxId"));
 
+			PaymentModel paymentModel = new PaymentModel();
+			paymentModel.setTxId(request.getParameter("TxId"));
+			paymentModel.setTxStatus(request.getParameter("TxStatus"));
+			paymentModel.setAmount(request.getParameter("amount"));
+			paymentModel.setPgTxnNo(request.getParameter("pgTxnNo"));
+			paymentModel.setIssuerRefNo(request.getParameter("issuerRefNo"));
+			paymentModel.setAuthIdCode(request.getParameter("authIdCode"));
+			paymentModel.setFirstName(request.getParameter("firstName"));
+			paymentModel.setLastName(request.getParameter("lastName"));
+			paymentModel.setPgRespCode(request.getParameter("pgRespCode"));
+			paymentModel.setAddressZip(request.getParameter("addressZip"));
+			paymentModel.setSignature(request.getParameter("signature"));
+			paymentModel.setTxRefNo(request.getParameter("txRefNo"));
+			paymentModel.setTxMsg(request.getParameter("txMsg"));
+			paymentModel.setTransactionId(request.getParameter("transactionId"));
+			paymentModel.setInfo(reqValMap.toString());
 
-			//			 if(hmac.equals(reqSignature)) {
-			//			 CitrusResponse.pgResponse(reqValMap);
-			//			 } else {
-			//			 String responseObj = {
-			//			 "Error" : "Transaction Failed",
-			//			 "Reason" : "Signature Verfication Failed"
-			//			 };
-			//			 CitrusResponse.pgResponse(responseObj);
-			//			 }
+			save(paymentModel);
+
+			if (hmac.equals(reqSignature))
+			{
+				return reqValMap;
+			}
 
 		}
 		catch (NoSuchAlgorithmException e)
@@ -118,6 +132,7 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 			e.printStackTrace();
 		}
 
+		return new Hashtable<String, String>();
 	}
 
 }
