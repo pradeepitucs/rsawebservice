@@ -1,0 +1,12 @@
+com.ucs.rsa.common.constants
+com.ucs.rsa.common.dto
+com.ucs.rsa.common.exception
+com.ucs.rsa.common.notification
+com.ucs.rsa.daos
+com.ucs.rsa.daos.impl
+com.ucs.rsa.model
+com.ucs.rsa.resource
+com.ucs.rsa.service
+com.ucs.rsa.service.impl
+com.ucs.rsa.view.resolver
+com.ucs.rsa.web.resolver
