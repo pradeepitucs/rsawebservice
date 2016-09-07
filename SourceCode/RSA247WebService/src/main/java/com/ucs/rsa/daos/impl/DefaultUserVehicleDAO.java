@@ -1,6 +1,3 @@
-/*
- * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
- */
 package com.ucs.rsa.daos.impl;
 
 import java.util.ArrayList;
@@ -22,50 +19,29 @@ import com.ucs.rsa.model.VehicleManufacturerModel;
 import com.ucs.rsa.model.VehicleModel;
 import com.ucs.rsa.model.VehicleTypeModel;
 
-
-/**
- * The Class DefaultUserVehicleDAO.
- *
- * @author Gururaj A M
- * @version 1.0
- * 
- */
 @Repository(value = "defaultUserVehicleDAO")
-public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicleDAO
-{
+public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicleDAO {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ucs.rsa.daos.UserVehicleDAO#getVehiclesByManufacturer(int)
-	 */
 	@Override
-	public List<VehicleModel> getVehiclesByManufacturer(int manufacturerId)
-	{
+	public List<VehicleModel> getVehiclesByManufacturer(int manufacturerId) {
 		List<VehicleModel> vehicleModels = new ArrayList<>();
 		Session theSession = null;
-		try
-		{
+		try {
 			theSession = currentSession();
 
 			/**** Check for invalid manufacturer id ****/
 			VehicleManufacturerModel vehicleManufacturerModel = (VehicleManufacturerModel) theSession
 					.createCriteria(VehicleManufacturerModel.class, "vehicleManufacturerModel")
 					.add(Restrictions.eq("manufacturerId", manufacturerId)).uniqueResult();
-			if (vehicleManufacturerModel != null)
-			{
-				Criteria theCriteria = theSession.createCriteria(VehicleModel.class, "vehicleModel")
-						.add(Restrictions.eq("vehicleManufacturerModel.manufacturerId", vehicleManufacturerModel.getManufacturerId()));
+			if (vehicleManufacturerModel != null) {
+				Criteria theCriteria = theSession.createCriteria(VehicleModel.class, "vehicleModel").add(Restrictions
+						.eq("vehicleManufacturerModel.manufacturerId", vehicleManufacturerModel.getManufacturerId()));
 				vehicleModels = (List<VehicleModel>) theCriteria.list();
 			}
 
-		}
-		catch (RSAException e)
-		{
+		} catch (RSAException e) {
 			throw e;
-		}
-		catch (RuntimeException ex)
-		{
+		} catch (RuntimeException ex) {
 			RSAException rsaEx = new RSAException();
 			rsaEx.setRootCause(ex);
 			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
@@ -74,20 +50,12 @@ public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicle
 		return vehicleModels;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ucs.rsa.daos.UserVehicleDAO#updateUserVehicle(com.ucs.rsa.model.UserVehicleModel,
-	 * com.ucs.rsa.model.VehicleModel, com.ucs.rsa.model.VehicleFuelTypeModel, com.ucs.rsa.model.VehicleTypeModel)
-	 */
 	@Override
 	public UserVehicleModel updateUserVehicle(UserVehicleModel iUserVehicleModel, VehicleModel iVehicleModel,
-			VehicleFuelTypeModel iVehicleFuelTypeModel, VehicleTypeModel iVehicleTypeModel)
-	{
+			VehicleFuelTypeModel iVehicleFuelTypeModel, VehicleTypeModel iVehicleTypeModel) {
 		UserVehicleModel userVehicleModel1 = iUserVehicleModel;
 		Session theSession = null;
-		try
-		{
+		try {
 			theSession = currentSession();
 
 			/**** Check for invalid user id ****/
@@ -96,8 +64,7 @@ public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicle
 			/**** Check for invalid vehicle model id ****/
 			VehicleModel theVehicleModel = (VehicleModel) theSession.createCriteria(VehicleModel.class, "vehicleModel")
 					.add(Restrictions.eq("vehicleModelId", iVehicleModel.getVehicleModelId())).uniqueResult();
-			if (theVehicleModel == null)
-			{
+			if (theVehicleModel == null) {
 				RSAException rsaEx = new RSAException();
 				rsaEx.setError(RSAErrorConstants.ErrorCode.INVALID_VEHICLE_MODEL_ID_ERROR);
 				throw rsaEx;
@@ -106,9 +73,9 @@ public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicle
 			/**** Check for invalid vehicle model id ****/
 			VehicleFuelTypeModel theVehicleFuelTypeModel = (VehicleFuelTypeModel) theSession
 					.createCriteria(VehicleFuelTypeModel.class, "vehicleFuelTypeModel")
-					.add(Restrictions.eq("vehicleFuelTypeId", iVehicleFuelTypeModel.getVehicleFuelTypeId())).uniqueResult();
-			if (theVehicleFuelTypeModel == null)
-			{
+					.add(Restrictions.eq("vehicleFuelTypeId", iVehicleFuelTypeModel.getVehicleFuelTypeId()))
+					.uniqueResult();
+			if (theVehicleFuelTypeModel == null) {
 				RSAException rsaEx = new RSAException();
 				rsaEx.setError(RSAErrorConstants.ErrorCode.INVALID_VEHICLE_FUEL_TYPE_MODEL_ID_ERROR);
 				throw rsaEx;
@@ -118,8 +85,7 @@ public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicle
 			VehicleTypeModel theVehicleTypeModel = (VehicleTypeModel) theSession
 					.createCriteria(VehicleTypeModel.class, "vehicleTypeModel")
 					.add(Restrictions.eq("vehicleTypeId", iVehicleTypeModel.getVehicleTypeId())).uniqueResult();
-			if (theVehicleTypeModel == null)
-			{
+			if (theVehicleTypeModel == null) {
 				RSAException rsaEx = new RSAException();
 				rsaEx.setError(RSAErrorConstants.ErrorCode.INVALID_VEHICLE_TYPE_MODEL_ID_ERROR);
 				throw rsaEx;
@@ -127,11 +93,10 @@ public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicle
 
 			/**** Check for invalid vehicle model id ****/
 			VehicleManufacturerModel theVehicleManufacturerModel = (VehicleManufacturerModel) theSession
-					.createCriteria(VehicleManufacturerModel.class, "vehicleManufacturerModel")
-					.add(Restrictions.eq("manufacturerId", iVehicleModel.getVehicleManufacturerModel().getManufacturerId()))
+					.createCriteria(VehicleManufacturerModel.class, "vehicleManufacturerModel").add(Restrictions
+							.eq("manufacturerId", iVehicleModel.getVehicleManufacturerModel().getManufacturerId()))
 					.uniqueResult();
-			if (theVehicleManufacturerModel == null)
-			{
+			if (theVehicleManufacturerModel == null) {
 				RSAException rsaEx = new RSAException();
 				rsaEx.setError(RSAErrorConstants.ErrorCode.INVALID_VEHICLE_MANUFACTURER_MODEL_ID_ERROR);
 				throw rsaEx;
@@ -140,8 +105,7 @@ public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicle
 			/**** Check for invalid vehicle model id ****/
 			UserModel theUserModel = (UserModel) theSession.createCriteria(UserModel.class, "userModel")
 					.add(Restrictions.eq("userId", iUserVehicleModel.getUserId())).uniqueResult();
-			if (theUserModel == null)
-			{
+			if (theUserModel == null) {
 				RSAException rsaEx = new RSAException();
 				rsaEx.setError(RSAErrorConstants.ErrorCode.USER_NOT_FOUND_ERROR);
 				throw rsaEx;
@@ -151,48 +115,41 @@ public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicle
 			VehicleInformationModel vehicleInformationModel = (VehicleInformationModel) theSession
 					.createCriteria(VehicleInformationModel.class, "vehicleInformationModel")
 					.createAlias("vehicleModel.vehicleManufacturerModel", "vehicleManufacturerModel")
-					.add(Restrictions.eq("vehicleFuelTypeModel.vehicleFuelTypeId", iVehicleTypeModel.getVehicleTypeId()))
+					.add(Restrictions.eq("vehicleFuelTypeModel.vehicleFuelTypeId",
+							iVehicleTypeModel.getVehicleTypeId()))
 					.add(Restrictions.eq("vehicleModel.vehicleModelId", iVehicleModel.getVehicleModelId()))
 					.add(Restrictions.eq("vehicleTypeModel.vehicleTypeId", iVehicleTypeModel.getVehicleTypeId()))
-					.add(Restrictions.eq("vehicleManufacturerModel.manufacturerId",
-							iVehicleModel.getVehicleManufacturerModel().getManufacturerId()))
+					/*.add(Restrictions.eq("vehicleManufacturerModel.manufacturerId",
+							iVehicleModel.getVehicleManufacturerModel().getManufacturerId()))*/
 					.uniqueResult();
 
 			/**** Check for user reg the vehicle ****/
-			UserVehicleModel vehicleModel = (UserVehicleModel) theSession.createCriteria(UserVehicleModel.class, "userVehicleModel")
+			UserVehicleModel vehicleModel = (UserVehicleModel) theSession
+					.createCriteria(UserVehicleModel.class, "userVehicleModel")
 					.add(Restrictions.eq("userId", userVehicleModel1.getUserId()))
 					.add(Restrictions.eq("vehicleRegNo", userVehicleModel1.getVehicleRegNo())).uniqueResult();
 
-			if (vehicleInformationModel != null)
-			{
+			if (vehicleInformationModel != null) {
 				userVehicleModel1.setVehicleInformationModel(vehicleInformationModel);
-
-				if (userVehicleModel1.getVehicleId() == 0)
-				{
-					if (vehicleModel != null)
-					{
+				
+				if(userVehicleModel1.getVehicleId() == 0) {
+					if(vehicleModel != null) {
 						RSAException rsaEx = new RSAException();
 						rsaEx.setError(RSAErrorConstants.ErrorCode.VEHICLE_INFORMATION_ALREADY_EXISTS_FOR_THIS_USER_ERROR);
 						throw rsaEx;
 					}
 				}
-
+				
 				theSession.saveOrUpdate(userVehicleModel1);
-			}
-			else
-			{
+			} else {
 				RSAException rsaEx = new RSAException();
 				rsaEx.setError(RSAErrorConstants.ErrorCode.INVALID_VEHICLE_INFORMATION_MODEL_ID_ERROR);
 				throw rsaEx;
 			}
 
-		}
-		catch (RSAException e)
-		{
+		} catch (RSAException e) {
 			throw e;
-		}
-		catch (RuntimeException ex)
-		{
+		} catch (RuntimeException ex) {
 			RSAException rsaEx = new RSAException();
 			rsaEx.setRootCause(ex);
 			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
