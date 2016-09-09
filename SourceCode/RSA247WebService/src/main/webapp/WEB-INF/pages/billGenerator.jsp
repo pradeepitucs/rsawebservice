@@ -10,8 +10,11 @@
 	String secretKey = "7fd89b14464b38a9292995c4d1b2ae650fdcf21d";
 	String returnUrl = "http://garage-rsa247.rhcloud.com/RSA247WebService/redirecturl/citruspayresponse";
 	String txnID = String.valueOf(System.currentTimeMillis());
-	String amount = request.getParameter("amount"); //Make sure the datatype of the value is STRING. 
-	String dataString = "merchantAccessKey=" + accessKey + "&transactionId=" + txnID + "&amount=" + amount;
+	String amount = request.getParameter("amount"); //Make sure the datatype of the value is STRING.
+	String customParameters = request.getParameter("customParameters");
+	String issue_id ="1";
+	String user_id = "1";
+	String dataString = "merchantAccessKey=" + accessKey + "&transactionId=" + txnID + "&amount=" + amount + "&customParameters=" + customParameters;
 	SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA1");
 	Mac mac = Mac.getInstance("HmacSHA1");
 	mac.init(secretKeySpec);
@@ -23,12 +26,18 @@
 	String hmac = build.toString();
 	StringBuilder amountBuilder = new StringBuilder();
 	amountBuilder.append("\"value\":\"").append(amount).append("\"").append(",\"currency\":\"INR\"");
+	
+	StringBuilder customBuilder = new StringBuilder();
+	customBuilder.append("\"param1\":\"").append(user_id).append("\"").append(",\"param2\":\"").append(issue_id).append("\"");
+	
 	StringBuilder resBuilder = new StringBuilder("{");
 
 	resBuilder.append("\"merchantTxnId\"").append(":").append("\"").append(txnID).append("\"").append(",")
 			.append("\"requestSignature\"").append(":").append("\"").append(hmac).append("\"").append(",")
 			.append("\"merchantAccessKey\"").append(":").append("\"").append(accessKey).append("\"").append(",")
 			.append("\"returnUrl\"").append(":").append("\"").append(returnUrl).append("\"").append(",")
-			.append("\"amount\"").append(":").append("{").append(amountBuilder).append("}").append("}");
+			.append("\"amount\"").append(":").append("{").append(amountBuilder).append("}")
+			.append("\"").append(",").append("\"customParameters\"")
+			.append(":").append("{").append(customBuilder).append("}").append("}");
 	out.print(resBuilder);
 %>
