@@ -108,6 +108,18 @@ public class CustomerRequestModel implements Serializable {
 	@OneToMany(mappedBy = "customerRequestModel", fetch = FetchType.LAZY)
 	private List<CustomerReviewModel> customerReviewModels;
 	
+	// bi-directional many-to-one association to CustomerPaymentModel
+		@OneToMany(mappedBy = "customerRequestModel", fetch = FetchType.LAZY)
+		private List<IssuePaymentModel> issuePaymentModel;
+
+	public List<IssuePaymentModel> getIssuePaymentModel() {
+			return issuePaymentModel;
+		}
+
+		public void setIssuePaymentModel(List<IssuePaymentModel> issuePaymentModel) {
+			this.issuePaymentModel = issuePaymentModel;
+		}
+
 	// bi-directional many-to-one association to CustomerRequestModel
 	@OneToMany(mappedBy = "customerRequestModel", fetch = FetchType.LAZY)
 	private List<CustomerSubIssueModel> customerSubIssueModel;
@@ -190,6 +202,18 @@ public class CustomerRequestModel implements Serializable {
 		this.customerReviewModels = customerReviewModels;
 	}
 
+	public IssuePaymentModel addIssuePaymentModel(IssuePaymentModel issuePaymentModel) {
+		getIssuePaymentModel().add(issuePaymentModel);
+		issuePaymentModel.setCustomerRequestModel(this);
+		return issuePaymentModel;
+	}
+
+	public IssuePaymentModel removeIssuePaymentModel(IssuePaymentModel issuePaymentModel) {
+		getIssuePaymentModel().remove(issuePaymentModel);
+		issuePaymentModel.setCustomerRequestModel(null);
+		return issuePaymentModel;
+	}
+	
 	public CustomerReviewModel addCustomerReviewModel(CustomerReviewModel customerReviewModel) {
 		getCustomerReviewModels().add(customerReviewModel);
 		customerReviewModel.setCustomerRequestModel(this);
