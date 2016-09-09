@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
+import com.ucs.rsa.model.CustomerModel;
+import com.ucs.rsa.model.CustomerPaymentModel;
+import com.ucs.rsa.model.CustomerRequestModel;
+import com.ucs.rsa.model.IssuePaymentModel;
 import com.ucs.rsa.model.PaymentModel;
 import com.ucs.rsa.service.RedirectURLService;
 
@@ -79,7 +83,8 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 					.append(request.getParameter("amount")).append(request.getParameter("pgTxnNo"))
 					.append(request.getParameter("issuerRefNo")).append(request.getParameter("authIdCode"))
 					.append(request.getParameter("firstName")).append(request.getParameter("lastName"))
-					.append(request.getParameter("pgRespCode")).append(request.getParameter("addressZip")).toString();
+					.append(request.getParameter("pgRespCode")).append(request.getParameter("addressZip"))
+					.append(request.getParameter("customParameters")).toString();
 
 			SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA1");
 			Mac mac;
@@ -97,25 +102,53 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 
 			String reqSignature = request.getParameter("signature");
 			System.out.println("txn ID : " + request.getParameter("TxId"));
+			if(request.getParameter("issue_id").equals(null)) {
+				CustomerPaymentModel paymentModel = new CustomerPaymentModel();
+				CustomerModel customerModel = new CustomerModel();
+				customerModel.setUserId(Integer.parseInt(request.getParameter("user_d")));
+				paymentModel.setCustomerModel(customerModel);
+				paymentModel.setTxId(request.getParameter("TxId"));
+				paymentModel.setTxStatus(request.getParameter("TxStatus"));
+				paymentModel.setAmount(request.getParameter("amount"));
+				paymentModel.setPgTxnNo(request.getParameter("pgTxnNo"));
+				paymentModel.setIssuerRefNo(request.getParameter("issuerRefNo"));
+				paymentModel.setAuthIdCode(request.getParameter("authIdCode"));
+				paymentModel.setFirstName(request.getParameter("firstName"));
+				paymentModel.setLastName(request.getParameter("lastName"));
+				paymentModel.setPgRespCode(request.getParameter("pgRespCode"));
+				paymentModel.setAddressZip(request.getParameter("addressZip"));
+				paymentModel.setSignature(request.getParameter("signature"));
+				paymentModel.setTxRefNo(request.getParameter("txRefNo"));
+				paymentModel.setTxMsg(request.getParameter("txMsg"));
+				paymentModel.setTransactionId(request.getParameter("transactionId"));
+				paymentModel.setInfo(reqValMap.toString());
 
-			PaymentModel paymentModel = new PaymentModel();
-			paymentModel.setTxId(request.getParameter("TxId"));
-			paymentModel.setTxStatus(request.getParameter("TxStatus"));
-			paymentModel.setAmount(request.getParameter("amount"));
-			paymentModel.setPgTxnNo(request.getParameter("pgTxnNo"));
-			paymentModel.setIssuerRefNo(request.getParameter("issuerRefNo"));
-			paymentModel.setAuthIdCode(request.getParameter("authIdCode"));
-			paymentModel.setFirstName(request.getParameter("firstName"));
-			paymentModel.setLastName(request.getParameter("lastName"));
-			paymentModel.setPgRespCode(request.getParameter("pgRespCode"));
-			paymentModel.setAddressZip(request.getParameter("addressZip"));
-			paymentModel.setSignature(request.getParameter("signature"));
-			paymentModel.setTxRefNo(request.getParameter("txRefNo"));
-			paymentModel.setTxMsg(request.getParameter("txMsg"));
-			paymentModel.setTransactionId(request.getParameter("transactionId"));
-			paymentModel.setInfo(reqValMap.toString());
+				save(paymentModel);
+			} else {
+				
+				IssuePaymentModel paymentModel = new IssuePaymentModel();
+				CustomerRequestModel customerRequestModel = new CustomerRequestModel();
+				customerRequestModel.setIssueId(Integer.parseInt(request.getParameter("issue_id")));
+				paymentModel.setCustomerRequestModel(customerRequestModel);
+				paymentModel.setTxId(request.getParameter("TxId"));
+				paymentModel.setTxStatus(request.getParameter("TxStatus"));
+				paymentModel.setAmount(request.getParameter("amount"));
+				paymentModel.setPgTxnNo(request.getParameter("pgTxnNo"));
+				paymentModel.setIssuerRefNo(request.getParameter("issuerRefNo"));
+				paymentModel.setAuthIdCode(request.getParameter("authIdCode"));
+				paymentModel.setFirstName(request.getParameter("firstName"));
+				paymentModel.setLastName(request.getParameter("lastName"));
+				paymentModel.setPgRespCode(request.getParameter("pgRespCode"));
+				paymentModel.setAddressZip(request.getParameter("addressZip"));
+				paymentModel.setSignature(request.getParameter("signature"));
+				paymentModel.setTxRefNo(request.getParameter("txRefNo"));
+				paymentModel.setTxMsg(request.getParameter("txMsg"));
+				paymentModel.setTransactionId(request.getParameter("transactionId"));
+				paymentModel.setInfo(reqValMap.toString());
 
-			save(paymentModel);
+				save(paymentModel);
+			}
+			
 
 			if (hmac.equals(reqSignature))
 			{
