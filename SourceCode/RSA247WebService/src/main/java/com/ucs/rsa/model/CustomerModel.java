@@ -13,9 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 /**
  * The persistent class for the customer_t database table.
  * 
@@ -54,6 +51,18 @@ public class CustomerModel extends UserModel implements Serializable {
 	@OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
 	//@Fetch(value = FetchMode.SUBSELECT)
 	private List<CustomerRequestModel> customerRequestModels;
+	
+	@OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
+	//@Fetch(value = FetchMode.SUBSELECT)
+	private List<CustomerPaymentModel> customerPaymentModel;
+
+	public List<CustomerPaymentModel> getCustomerPaymentModel() {
+		return customerPaymentModel;
+	}
+
+	public void setCustomerPaymentModel(List<CustomerPaymentModel> customerPaymentModel) {
+		this.customerPaymentModel = customerPaymentModel;
+	}
 
 	// bi-directional many-to-one association to CustomerReviewModel
 	@OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
@@ -145,6 +154,18 @@ public class CustomerModel extends UserModel implements Serializable {
 		getCustomerRequestModels().remove(customerRequestModel);
 		customerRequestModel.setCustomerModel(null);
 		return customerRequestModel;
+	}
+	
+	public CustomerPaymentModel addCustomerPaymentModel(CustomerPaymentModel customerPaymentModel) {
+		getCustomerPaymentModel().add(customerPaymentModel);
+		customerPaymentModel.setCustomerModel(this);
+		return customerPaymentModel;
+	}
+
+	public CustomerPaymentModel removeCustomerPaymentModel(CustomerPaymentModel customerPaymentModel) {
+		getCustomerPaymentModel().remove(customerPaymentModel);
+		customerPaymentModel.setCustomerModel(null);
+		return customerPaymentModel;
 	}
 
 	public CustomerReviewModel addCustomerReviewModel(CustomerReviewModel customerReviewModel) {
