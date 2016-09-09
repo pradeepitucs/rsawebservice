@@ -31,7 +31,7 @@ public class DefaultBillGeneratorService extends DefaultBaseService implements B
 	 * @see com.ucs.rsa.service.BillGeneratorService#genertBill()
 	 */
 	@Override
-	public StringBuilder genertBill()
+	public StringBuilder genertBill(int userID, int issueID,String amount)
 	{
 
 		String accessKey = "1YRKT64OZERXQ5NYULQQ";
@@ -43,7 +43,9 @@ public class DefaultBillGeneratorService extends DefaultBaseService implements B
 		String txnID = String.valueOf(System.currentTimeMillis());
 
 		// Need to calculate
-		String amount = "100"; //request.getParameter("amount"); //Make sure the datatype of the value is STRING. 
+		//String amount = "100"; //request.getParameter("amount"); //Make sure the datatype of the value is STRING.
+		String issue_id =String.valueOf(issueID);
+		String user_id = String.valueOf(userID);
 
 		String dataString = "merchantAccessKey=" + accessKey + "&transactionId=" + txnID + "&amount=" + amount;
 		SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA1");
@@ -63,13 +65,18 @@ public class DefaultBillGeneratorService extends DefaultBaseService implements B
 			String hmac = build.toString();
 			StringBuilder amountBuilder = new StringBuilder();
 			amountBuilder.append("\"value\":\"").append(amount).append("\"").append(",\"currency\":\"INR\"");
+			
+			StringBuilder customBuilder = new StringBuilder();
+			customBuilder.append("\"param1\":\"").append(user_id).append("\"").append(",\"param2\":\"").append(issue_id).append("\"");
 
 			// Need to check the all value
 			resBuilder.append("{\"merchantTxnId\"").append(":").append("\"").append(txnID).append("\"").append(",")
 					.append("\"requestSignature\"").append(":").append("\"").append(hmac).append("\"").append(",")
 					.append("\"merchantAccessKey\"").append(":").append("\"").append(accessKey).append("\"").append(",")
 					.append("\"returnUrl\"").append(":").append("\"").append(returnUrl).append("\"").append(",").append("\"amount\"")
-					.append(":").append("{").append(amountBuilder).append("}").append("}");
+					.append(":").append("{").append(amountBuilder).append("}")
+					.append("\"").append(",").append("\"customParameters\"")
+					.append(":").append("{").append(customBuilder).append("}").append("}");
 			System.out.println(resBuilder);
 		}
 		catch (NoSuchAlgorithmException e)
