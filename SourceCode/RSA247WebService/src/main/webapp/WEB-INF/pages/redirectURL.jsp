@@ -37,7 +37,8 @@
 			.append(request.getParameter("pgTxnNo")).append(request.getParameter("issuerRefNo"))
 			.append(request.getParameter("authIdCode")).append(request.getParameter("firstName"))
 			.append(request.getParameter("lastName")).append(request.getParameter("pgRespCode"))
-			.append(request.getParameter("addressZip")).toString();
+			.append(request.getParameter("addressZip"))
+			.append(request.getParameter("customParameters")).toString();
 	SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA1");
 	Mac mac = Mac.getInstance("HmacSHA1");
 	mac.init(secretKeySpec);
