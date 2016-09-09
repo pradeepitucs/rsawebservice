@@ -171,6 +171,8 @@
 				<value>com.ucs.rsa.model.ServiceProviderCommentModel</value>
 				<value>com.ucs.rsa.model.ServiceProviderServiceMatchingModel</value>
 				<value>com.ucs.rsa.model.PaymentModel</value>
+				<value>com.ucs.rsa.model.IssuePaymentModel</value>
+				<value>com.ucs.rsa.model.CustomerPaymentModel</value>
 
 			</list>
 		</property>
