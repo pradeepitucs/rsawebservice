@@ -1032,9 +1032,11 @@ public class UserManagementResource {
 	 *
 	 * @return the model and view
 	 */
-	@RequestMapping(value = "/genertbill", method = RequestMethod.GET)
-	public ModelAndView genertBill() {
-		StringBuilder result = getBillGenerator().genertBill();
+	@RequestMapping(value = "/genertbill", method = RequestMethod.POST)
+	public ModelAndView genertBill(@RequestParam("user_id") final int user_id,
+			@RequestParam("issue_id") final int issue_id
+			,@RequestParam("amount") final String amount) {
+		StringBuilder result = getBillGenerator().genertBill(user_id,issue_id,amount);
 		StringBuilderDTO stringBuilderDTO = new StringBuilderDTO();
 		stringBuilderDTO.setStrBuilder(result);
 		return new ModelAndView("billGenerator", "stringBuilderDTO", stringBuilderDTO);
