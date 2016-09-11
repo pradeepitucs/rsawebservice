@@ -31,7 +31,7 @@ public class DefaultBillGeneratorService extends DefaultBaseService implements B
 	 * @see com.ucs.rsa.service.BillGeneratorService#genertBill()
 	 */
 	@Override
-	public StringBuilder genertBill(int userID, int issueID,String amount)
+	public StringBuilder genertBill()
 	{
 
 		String accessKey = "1YRKT64OZERXQ5NYULQQ";
@@ -43,9 +43,9 @@ public class DefaultBillGeneratorService extends DefaultBaseService implements B
 		String txnID = String.valueOf(System.currentTimeMillis());
 
 		// Need to calculate
-		//String amount = "100"; //request.getParameter("amount"); //Make sure the datatype of the value is STRING.
-		String issue_id =String.valueOf(issueID);
-		String user_id = String.valueOf(userID);
+		String amount = "100"; //request.getParameter("amount"); //Make sure the datatype of the value is STRING.
+		String issue_id =String.valueOf("1");
+		String user_id = String.valueOf("1");
 
 		String dataString = "merchantAccessKey=" + accessKey + "&transactionId=" + txnID + "&amount=" + amount;
 		SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA1");
