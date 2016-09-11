@@ -28,6 +28,8 @@ import com.ucs.rsa.common.dto.CitiesDTO;
 import com.ucs.rsa.common.dto.CityDTO;
 import com.ucs.rsa.common.dto.CustomerDTO;
 import com.ucs.rsa.common.dto.CustomersDTO;
+import com.ucs.rsa.common.dto.EmployeeDTO;
+import com.ucs.rsa.common.dto.EmployeesDTO;
 import com.ucs.rsa.common.dto.RoleDTO;
 import com.ucs.rsa.common.dto.RolesDTO;
 import com.ucs.rsa.common.dto.ServiceProviderDTO;
@@ -1033,10 +1035,8 @@ public class UserManagementResource {
 	 * @return the model and view
 	 */
 	@RequestMapping(value = "/genertbill", method = RequestMethod.POST)
-	public ModelAndView genertBill(@RequestParam("user_id") final int user_id,
-			@RequestParam("issue_id") final int issue_id
-			,@RequestParam("amount") final String amount) {
-		StringBuilder result = getBillGenerator().genertBill(user_id,issue_id,amount);
+	public ModelAndView genertBill() {
+		StringBuilder result = getBillGenerator().genertBill();
 		StringBuilderDTO stringBuilderDTO = new StringBuilderDTO();
 		stringBuilderDTO.setStrBuilder(result);
 		return new ModelAndView("billGenerator", "stringBuilderDTO", stringBuilderDTO);
@@ -1059,6 +1059,49 @@ public class UserManagementResource {
 	 */
 	public void setBillGenerator(BillGeneratorService billGenerator) {
 		this.billGenerator = billGenerator;
+	}
+	
+	@RequestMapping(value = "/employees", method = { RequestMethod.GET })
+	public ModelAndView getAllEmployees() {
+
+		List<EmployeeModel> employeeModels = new ArrayList<>();
+		employeeModels = getUserService().loadAll(EmployeeModel.class);
+
+		EmployeesDTO employeesDTO = new EmployeesDTO();
+		List<EmployeeDTO> employeesDTOs = new ArrayList<>();
+
+		for (EmployeeModel employeeModel : employeeModels) {
+			EmployeeDTO employeeDTO = new EmployeeDTO();
+			employeeDTO.setIsEnabled(employeeModel.getIsEnabled());
+			employeeDTO.setEmployeeEmail(employeeModel.getEmployeeEmail());
+			employeeDTO.setEmployeeName(employeeModel.getEmployeeName());
+			employeeDTO.setGcmId(employeeModel.getGcmId());
+			employeeDTO.setOnwer(employeeModel.isOnwer());
+			employeeDTO.setMobileNo(employeeModel.getMobileNo());
+			employeeDTO.setUserId(employeeModel.getUserId());
+			employeesDTOs.add(employeeDTO);
+		}
+		employeesDTO.setEmployeeDTO(employeesDTOs);
+		return new ModelAndView("xml", "customers", employeesDTO);
+	}
+
+	@RequestMapping(value = "/employee", method = { RequestMethod.GET })
+	public ModelAndView getEmployee(@RequestParam("employeeid") final int employeeID) {
+
+		EmployeeModel employeeModel = new EmployeeModel();
+		employeeModel = getUserService().get(EmployeeModel.class, employeeID);
+
+		EmployeeDTO employeeDTO = new EmployeeDTO();
+		if (employeeModel != null) {
+			employeeDTO.setIsEnabled(employeeModel.getIsEnabled());
+			employeeDTO.setEmployeeEmail(employeeModel.getEmployeeEmail());
+			employeeDTO.setEmployeeName(employeeModel.getEmployeeName());
+			employeeDTO.setGcmId(employeeModel.getGcmId());
+			employeeDTO.setOnwer(employeeModel.isOnwer());
+			employeeDTO.setMobileNo(employeeModel.getMobileNo());
+			employeeDTO.setUserId(employeeModel.getUserId());
+		}
+		return new ModelAndView("xml", "customer", employeeDTO);
 	}
 
 }
