@@ -18,6 +18,6 @@ public interface BillGeneratorService extends BaseService
 	 *
 	 * @return the string builder
 	 */
-	public StringBuilder genertBill(int userID, int issueID,String amount);
+	public StringBuilder genertBill();
 
 }
