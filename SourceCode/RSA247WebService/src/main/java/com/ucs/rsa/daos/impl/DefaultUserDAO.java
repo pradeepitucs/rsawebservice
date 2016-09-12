@@ -299,7 +299,7 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 				theSession.saveOrUpdate(employeeModel);
 				approvalStatus= "Approved";
 				} else {
-					approvalStatus= "Terms And Condition not accepted";
+					approvalStatus= "ServicePrvoder not yet approved";
 				} 
 				}
 				
