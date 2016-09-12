@@ -35,8 +35,8 @@ public interface UserDAO extends BaseDAO {
 	
 	public UserVehicleModel getUservehicleDetail(int userId);
 	
-	public EmployeeModel getEmployeeIdFromNumber(long employeeNumber);
-	
-	public ServiceProviderModel getServiceProviderIdFromNumber(long serviceProviderNumber);
+	public EmployeeModel getEmployeeFromNumber(long employeeNumber);
+		
+	public ServiceProviderModel getServiceProviderFromNumber(long serviceProviderNumber);
 	
 }
