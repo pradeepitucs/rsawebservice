@@ -35,8 +35,8 @@ public interface UserService extends BaseService {
 	
 	public UserVehicleModel getUservehicleDetail(int userId);
 	
-	public EmployeeModel getEmployeeIdFromNumber(long employeeNumber);
-	
-	public ServiceProviderModel getServiceProviderIdFromNumber(long serviceProviderNumber);
+	public EmployeeModel getEmployeeFromNumber(long employeeNumber);
+		
+	public ServiceProviderModel getServiceProviderFromNumber(long serviceProviderNumber);
 
 }
