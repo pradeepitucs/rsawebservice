@@ -387,7 +387,7 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 	}
 
 	@Override
-	public EmployeeModel getEmployeeIdFromNumber(long employeeNumber) {
+	public EmployeeModel getEmployeeFromNumber(long employeeNumber) {
 		EmployeeModel employeeModel = null;
 		Session theSession = null;
 		try {
@@ -410,9 +410,9 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 		}
 		return employeeModel;
 	}
-
+	
 	@Override
-	public ServiceProviderModel getServiceProviderIdFromNumber(long serviceProviderNumber) {
+	public ServiceProviderModel getServiceProviderFromNumber(long serviceProviderNumber) {
 		ServiceProviderModel employeeModel = null;
 		Session theSession = null;
 		try {
