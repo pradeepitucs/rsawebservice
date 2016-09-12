@@ -227,8 +227,31 @@ public class UserManagementResource {
 			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
 			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
 			serviceProviderDTO.setUserId(serviceProviderModel.getServiceProviderId());
+			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
+			serviceProviderDTO.setBodyRepair(serviceProviderModel.isBodyRepair());
+			serviceProviderDTO.setElectricalType(serviceProviderModel.isElectricalType());
+			serviceProviderDTO.setFourWheeler(serviceProviderModel.getFourWheeler());
+			serviceProviderDTO.setImageFolderName(serviceProviderModel.getImageFolderName());
+			serviceProviderDTO.setMechanicalType(serviceProviderModel.isMechanicalType());
+			serviceProviderDTO.setOlderServiceProviderId(serviceProviderModel.getOlderServiceProviderId());
+			serviceProviderDTO.setRating(serviceProviderModel.getRating());
+			serviceProviderDTO.setServiceProviderCity(serviceProviderModel.getServiceProviderCity());
+			serviceProviderDTO.setServiceProviderComments(serviceProviderModel.getServiceProviderComments());
+			serviceProviderDTO.setServiceProviderLatitude(serviceProviderModel.getServiceProviderLatitude());
+			serviceProviderDTO.setServiceProviderLongitude(serviceProviderModel.getServiceProviderLongitude());
+			serviceProviderDTO.setServiceProviderMaxDistanceToOperate(
+			serviceProviderModel.getServiceProviderMaxDistanceToOperate());
+			serviceProviderDTO.setServiceProviderName(serviceProviderModel.getServiceProviderName());
+			serviceProviderDTO.setServiceProviderNightOperation(serviceProviderModel.isServiceProviderNightOperation());
+			serviceProviderDTO.setServiceProviderPremium(serviceProviderModel.getServiceProviderPremium());
+			serviceProviderDTO.setServiceProviderTimestamp(serviceProviderModel.getServiceProviderTimestamp());
+			serviceProviderDTO.setServiceProvidertiming(serviceProviderModel.getServiceProvidertiming());
+			serviceProviderDTO.setServiceProviderWebsite(serviceProviderModel.getServiceProviderWebsite());
+			serviceProviderDTO.setTwoWheeler(serviceProviderModel.isTwoWheeler());
 			serviceProviderDTOs.add(serviceProviderDTO);
 		}
+
 		serviceProvidersDTO.setServiceProviderDTOs(serviceProviderDTOs);
 		return new ModelAndView("xml", "serviceproviders", serviceProvidersDTO);
 	}
@@ -244,6 +267,28 @@ public class UserManagementResource {
 			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
 			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
 			serviceProviderDTO.setUserId(serviceProviderModel.getServiceProviderId());
+			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
+			serviceProviderDTO.setBodyRepair(serviceProviderModel.isBodyRepair());
+			serviceProviderDTO.setElectricalType(serviceProviderModel.isElectricalType());
+			serviceProviderDTO.setFourWheeler(serviceProviderModel.getFourWheeler());
+			serviceProviderDTO.setImageFolderName(serviceProviderModel.getImageFolderName());
+			serviceProviderDTO.setMechanicalType(serviceProviderModel.isMechanicalType());
+			serviceProviderDTO.setOlderServiceProviderId(serviceProviderModel.getOlderServiceProviderId());
+			serviceProviderDTO.setRating(serviceProviderModel.getRating());
+			serviceProviderDTO.setServiceProviderCity(serviceProviderModel.getServiceProviderCity());
+			serviceProviderDTO.setServiceProviderComments(serviceProviderModel.getServiceProviderComments());
+			serviceProviderDTO.setServiceProviderLatitude(serviceProviderModel.getServiceProviderLatitude());
+			serviceProviderDTO.setServiceProviderLongitude(serviceProviderModel.getServiceProviderLongitude());
+			serviceProviderDTO.setServiceProviderMaxDistanceToOperate(
+			serviceProviderModel.getServiceProviderMaxDistanceToOperate());
+			serviceProviderDTO.setServiceProviderName(serviceProviderModel.getServiceProviderName());
+			serviceProviderDTO.setServiceProviderNightOperation(serviceProviderModel.isServiceProviderNightOperation());
+			serviceProviderDTO.setServiceProviderPremium(serviceProviderModel.getServiceProviderPremium());
+			serviceProviderDTO.setServiceProviderTimestamp(serviceProviderModel.getServiceProviderTimestamp());
+			serviceProviderDTO.setServiceProvidertiming(serviceProviderModel.getServiceProvidertiming());
+			serviceProviderDTO.setServiceProviderWebsite(serviceProviderModel.getServiceProviderWebsite());
+			serviceProviderDTO.setTwoWheeler(serviceProviderModel.isTwoWheeler());
 		}
 		return new ModelAndView("xml", "serviceProvider", serviceProviderDTO);
 	}
@@ -480,46 +525,45 @@ public class UserManagementResource {
 						+ "Thank you" + "\n\n" + "RSA247";
 				getGmailService().readyToSendEmail("aditya.s@ucs.consulting", employeeModel1.getEmployeeEmail(),
 						"Successful Service Provider Registration", msg);
-					String[] mobiles = employeeMobileNumber.split(",");
-					String[] names = employeeName.split(",");
-					for (int i = 0; i < mobiles.length; i++) {
-						EmployeeModel employee = new EmployeeModel();
-						employee.setIsEnabled(false);
-						employee.setMobileNo(Long.parseLong(mobiles[i]));
-						if (names[i] == null) {
-							employee.setEmployeeName(null);
-						} else {
-							employee.setEmployeeName(names[i]);
-						}
-						employee.setSendArrovalNotification(false);
-
-						RoleModel roleModel1 = new RoleModel();
-						roleModel1.setRoleId(3);
-
-						employee.setRoleModel(roleModel1);
-						employee.setUserId(userId);
-						employee.setOnwer(false);
-						employee.setServiceProviderID(userModel.getServiceProviderId());
-						employee.setOlderEmployeeID(1);
-						employeeModels.add(employee);
-						EmployeeModel employeeModel = getUserService().insertEmployeesData(employee);
-						System.out.println(employeeModel);
-						if (employeeModel != null) {
-							status = "Inserted Data";
-							String smsForEmployees = " Mr " + employeeModel.getEmployeeName()
-									+ ", Your boss has registered you in the RSA 247 network. Please click the link below to complete the registration. Please use this number for registration.";
-							SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(),
-									smsForEmployees, "WebSMS", "0");
-
-						}
+				String[] mobiles = employeeMobileNumber.split(",");
+				String[] names = employeeName.split(",");
+				for (int i = 0; i < mobiles.length; i++) {
+					EmployeeModel employee = new EmployeeModel();
+					employee.setIsEnabled(false);
+					employee.setMobileNo(Long.parseLong(mobiles[i]));
+					if (names[i] == null) {
+						employee.setEmployeeName(null);
+					} else {
+						employee.setEmployeeName(names[i]);
 					}
-				} else {
-					status = "Inserted Data";
+					employee.setSendArrovalNotification(false);
+
+					RoleModel roleModel1 = new RoleModel();
+					roleModel1.setRoleId(3);
+
+					employee.setRoleModel(roleModel1);
+					employee.setUserId(userId);
+					employee.setOnwer(false);
+					employee.setServiceProviderID(userModel.getServiceProviderId());
+					employee.setOlderEmployeeID(1);
+					employeeModels.add(employee);
+					EmployeeModel employeeModel = getUserService().insertEmployeesData(employee);
+					System.out.println(employeeModel);
+					if (employeeModel != null) {
+						status = "Inserted Data";
+						String smsForEmployees = " Mr " + employeeModel.getEmployeeName()
+								+ ", Your boss has registered you in the RSA 247 network. Please click the link below to complete the registration. Please use this number for registration.";
+						SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(),
+								smsForEmployees, "WebSMS", "0");
+
+					}
 				}
-			
+			} else {
+				status = "Inserted Data";
+			}
 
 		} else {
-			status= "error";
+			status = "error";
 		}
 		System.out.println("UserDTO " + userModel);
 		return new ModelAndView("xml", "userDTO", status);
@@ -780,7 +824,7 @@ public class UserManagementResource {
 	@RequestMapping(value = "/getEmployeeIdFromNumber", method = RequestMethod.POST)
 	public ModelAndView getEmployeeIdFromNumber(@RequestParam(value = "employeeNumber") final long employeeNumber) {
 
-		EmployeeModel employeeModel = getUserService().getEmployeeIdFromNumber(employeeNumber);
+		EmployeeModel employeeModel = getUserService().getEmployeeFromNumber(employeeNumber);
 
 		return new ModelAndView("xml", "employeeId", employeeModel.getUserId());
 	}
@@ -790,7 +834,7 @@ public class UserManagementResource {
 			@RequestParam(value = "serviceProviderNumber") final long serviceProviderNumber) {
 
 		ServiceProviderModel serviceProviderModel = getUserService()
-				.getServiceProviderIdFromNumber(serviceProviderNumber);
+				.getServiceProviderFromNumber(serviceProviderNumber);
 
 		return new ModelAndView("xml", "serviceProviderId", serviceProviderModel.getServiceProviderId());
 	}
@@ -1060,7 +1104,7 @@ public class UserManagementResource {
 	public void setBillGenerator(BillGeneratorService billGenerator) {
 		this.billGenerator = billGenerator;
 	}
-	
+
 	@RequestMapping(value = "/employees", method = { RequestMethod.GET })
 	public ModelAndView getAllEmployees() {
 
@@ -1101,7 +1145,61 @@ public class UserManagementResource {
 			employeeDTO.setMobileNo(employeeModel.getMobileNo());
 			employeeDTO.setUserId(employeeModel.getUserId());
 		}
-		return new ModelAndView("xml", "customer", employeeDTO);
+		return new ModelAndView("xml", "Employee", employeeDTO);
+	}
+	
+	@RequestMapping(value = "/getServiceProviderFromNumber", method = RequestMethod.POST)
+	public ModelAndView getServiceProviderFromNumber(
+			@RequestParam(value = "serviceProviderNumber") final long serviceProviderNumber) {
+
+		ServiceProviderModel serviceProviderModel = getUserService()
+				.getServiceProviderFromNumber(serviceProviderNumber);
+		ServiceProviderDTO serviceProviderDTO = new ServiceProviderDTO();
+		if (serviceProviderModel != null) {
+			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
+			serviceProviderDTO.setUserId(serviceProviderModel.getServiceProviderId());
+			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
+			serviceProviderDTO.setBodyRepair(serviceProviderModel.isBodyRepair());
+			serviceProviderDTO.setElectricalType(serviceProviderModel.isElectricalType());
+			serviceProviderDTO.setFourWheeler(serviceProviderModel.getFourWheeler());
+			serviceProviderDTO.setImageFolderName(serviceProviderModel.getImageFolderName());
+			serviceProviderDTO.setMechanicalType(serviceProviderModel.isMechanicalType());
+			serviceProviderDTO.setOlderServiceProviderId(serviceProviderModel.getOlderServiceProviderId());
+			serviceProviderDTO.setRating(serviceProviderModel.getRating());
+			serviceProviderDTO.setServiceProviderCity(serviceProviderModel.getServiceProviderCity());
+			serviceProviderDTO.setServiceProviderComments(serviceProviderModel.getServiceProviderComments());
+			serviceProviderDTO.setServiceProviderLatitude(serviceProviderModel.getServiceProviderLatitude());
+			serviceProviderDTO.setServiceProviderLongitude(serviceProviderModel.getServiceProviderLongitude());
+			serviceProviderDTO.setServiceProviderMaxDistanceToOperate(
+			serviceProviderModel.getServiceProviderMaxDistanceToOperate());
+			serviceProviderDTO.setServiceProviderName(serviceProviderModel.getServiceProviderName());
+			serviceProviderDTO.setServiceProviderNightOperation(serviceProviderModel.isServiceProviderNightOperation());
+			serviceProviderDTO.setServiceProviderPremium(serviceProviderModel.getServiceProviderPremium());
+			serviceProviderDTO.setServiceProviderTimestamp(serviceProviderModel.getServiceProviderTimestamp());
+			serviceProviderDTO.setServiceProvidertiming(serviceProviderModel.getServiceProvidertiming());
+			serviceProviderDTO.setServiceProviderWebsite(serviceProviderModel.getServiceProviderWebsite());
+			serviceProviderDTO.setTwoWheeler(serviceProviderModel.isTwoWheeler());
+		}
+		return new ModelAndView("xml", "serviceProviderDTO", serviceProviderDTO);
+	}
+	
+	@RequestMapping(value = "/getEmployeeFromNumber", method = RequestMethod.POST)
+	public ModelAndView getEmployeeFromNumber(@RequestParam(value = "employeeNumber") final long employeeNumber) {
+
+		EmployeeModel employeeModel = getUserService().getEmployeeFromNumber(employeeNumber);
+		EmployeeDTO employeeDTO = new EmployeeDTO();
+		if (employeeModel != null) {
+			employeeDTO.setIsEnabled(employeeModel.getIsEnabled());
+			employeeDTO.setEmployeeEmail(employeeModel.getEmployeeEmail());
+			employeeDTO.setEmployeeName(employeeModel.getEmployeeName());
+			employeeDTO.setGcmId(employeeModel.getGcmId());
+			employeeDTO.setOnwer(employeeModel.isOnwer());
+			employeeDTO.setMobileNo(employeeModel.getMobileNo());
+			employeeDTO.setUserId(employeeModel.getUserId());
+		}
+		return new ModelAndView("xml", "employee", employeeDTO);
 	}
 
 }
