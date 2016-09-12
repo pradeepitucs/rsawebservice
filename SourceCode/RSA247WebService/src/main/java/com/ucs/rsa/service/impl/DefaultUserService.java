@@ -201,10 +201,10 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 	}
 
 	@Override
-	public EmployeeModel getEmployeeIdFromNumber(long employeeNumber) {
+	public EmployeeModel getEmployeeFromNumber(long employeeNumber) {
 		EmployeeModel employeeModel = null;
 		if (employeeNumber!=0) {
-			employeeModel = userDAO.getEmployeeIdFromNumber(employeeNumber);
+			employeeModel = userDAO.getEmployeeFromNumber(employeeNumber);
 		} else {
 			RSAException rsaEx = new RSAException();
 			rsaEx.setError(RSAErrorConstants.ErrorCode.INVALID_INPUT_PARAM_ERROR);
@@ -212,12 +212,12 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 		}
 		return employeeModel;
 	}
-
+	
 	@Override
-	public ServiceProviderModel getServiceProviderIdFromNumber(long serviceProviderNumber) {
+	public ServiceProviderModel getServiceProviderFromNumber(long serviceProviderNumber) {
 		ServiceProviderModel employeeModel = null;
 		if (serviceProviderNumber!=0) {
-			employeeModel = userDAO.getServiceProviderIdFromNumber(serviceProviderNumber);
+			employeeModel = userDAO.getServiceProviderFromNumber(serviceProviderNumber);
 		} else {
 			RSAException rsaEx = new RSAException();
 			rsaEx.setError(RSAErrorConstants.ErrorCode.INVALID_INPUT_PARAM_ERROR);
