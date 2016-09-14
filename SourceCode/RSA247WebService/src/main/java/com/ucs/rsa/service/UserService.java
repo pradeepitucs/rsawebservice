@@ -1,6 +1,7 @@
 package com.ucs.rsa.service;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.EmployeeModel;
@@ -38,5 +39,7 @@ public interface UserService extends BaseService {
 	public EmployeeModel getEmployeeFromNumber(long employeeNumber);
 		
 	public ServiceProviderModel getServiceProviderFromNumber(long serviceProviderNumber);
+	
+	//public String paymentResponse(Hashtable<String, String> reqValMap);
 
 }
