@@ -10,7 +10,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "customer_payment_t")
+@Table(name = "issue_payment_t")
 @PrimaryKeyJoinColumn(name = "payment_id")
 @NamedQuery(name = "IssuePaymentModel.findAll", query = "SELECT c FROM IssuePaymentModel c")
 public class IssuePaymentModel extends PaymentModel implements Serializable {
@@ -27,6 +27,12 @@ public class IssuePaymentModel extends PaymentModel implements Serializable {
 
 	public void setCustomerRequestModel(CustomerRequestModel customerRequestModel) {
 		this.customerRequestModel = customerRequestModel;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "IssuePaymentModel [customerRequestModel=" + customerRequestModel + "]";
 	}
 
 }
