@@ -13,6 +13,9 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.ucs.rsa.model.CustomerModel;
@@ -169,54 +172,63 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 	}*/
 	
 	@Override
-	public String paymentResponse(Hashtable<String, String> reqValMap) {
-		
-		if(reqValMap.get("param2").equals("0")) {
-			CustomerPaymentModel paymentModel = new CustomerPaymentModel();
-			CustomerModel customerModel = new CustomerModel();
-			customerModel.setUserId(Integer.parseInt(reqValMap.get("param1")));
-			paymentModel.setCustomerModel(customerModel);
-			paymentModel.setTxId(reqValMap.get("TxId"));
-			paymentModel.setTxStatus(reqValMap.get("TxStatus"));
-			paymentModel.setAmount(reqValMap.get("amount"));
-			paymentModel.setPgTxnNo(reqValMap.get("pgTxnNo"));
-			paymentModel.setIssuerRefNo(reqValMap.get("issuerRefNo"));
-			paymentModel.setAuthIdCode(reqValMap.get("authIdCode"));
-			paymentModel.setFirstName(reqValMap.get("firstName"));
-			paymentModel.setLastName(reqValMap.get("lastName"));
-			paymentModel.setPgRespCode(reqValMap.get("pgRespCode"));
-			paymentModel.setAddressZip(reqValMap.get("addressZip"));
-			paymentModel.setSignature(reqValMap.get("signature"));
-			paymentModel.setTxRefNo(reqValMap.get("txRefNo"));
-			paymentModel.setTxMsg(reqValMap.get("txMsg"));
-			paymentModel.setTransactionId(reqValMap.get("transactionId"));
-			paymentModel.setInfo(reqValMap.toString());
+	public String paymentResponse( String reqValMap) {
+		JSONArray jsonData = null;
+		try {
+			jsonData = new JSONArray(reqValMap);
+			for (int i = 0; i < jsonData.length(); i++) {
+				JSONObject jsonData1 = jsonData.getJSONObject(i);
+			if(jsonData1.getString("param2").equals("0")) {
+				CustomerPaymentModel paymentModel = new CustomerPaymentModel();
+				CustomerModel customerModel = new CustomerModel();
+				customerModel.setUserId(Integer.parseInt(jsonData1.getString("param1")));
+				paymentModel.setCustomerModel(customerModel);
+				paymentModel.setTxId(jsonData1.getString("TxId"));
+				paymentModel.setTxStatus(jsonData1.getString("TxStatus"));
+				paymentModel.setAmount(jsonData1.getString("amount"));
+				paymentModel.setPgTxnNo(jsonData1.getString("pgTxnNo"));
+				paymentModel.setIssuerRefNo(jsonData1.getString("issuerRefNo"));
+				paymentModel.setAuthIdCode(jsonData1.getString("authIdCode"));
+			//	paymentModel.setFirstName(jsonData1.getString("firstName"));
+			//	paymentModel.setLastName(jsonData1.getString("lastName"));
+				paymentModel.setPgRespCode(jsonData1.getString("pgRespCode"));
+			//	paymentModel.setAddressZip(jsonData1.getString("addressZip"));
+				paymentModel.setSignature(jsonData1.getString("signature"));
+				paymentModel.setTxRefNo(jsonData1.getString("txRefNo"));
+				paymentModel.setTxMsg(jsonData1.getString("txMsg"));
+				paymentModel.setTransactionId(jsonData1.getString("transactionId"));
+			//	paymentModel.setInfo("");
 
-			save(paymentModel);
-		} else {
-			
-			IssuePaymentModel paymentModel = new IssuePaymentModel();
-			CustomerRequestModel customerRequestModel = new CustomerRequestModel();
-			customerRequestModel.setIssueId(Integer.parseInt(reqValMap.get("param2")));
-			paymentModel.setCustomerRequestModel(customerRequestModel);
-			paymentModel.setTxId(reqValMap.get("TxId"));
-			paymentModel.setTxStatus(reqValMap.get("TxStatus"));
-			paymentModel.setAmount(reqValMap.get("amount"));
-			paymentModel.setPgTxnNo(reqValMap.get("pgTxnNo"));
-			paymentModel.setIssuerRefNo(reqValMap.get("issuerRefNo"));
-			paymentModel.setAuthIdCode(reqValMap.get("authIdCode"));
-			paymentModel.setFirstName(reqValMap.get("firstName"));
-			paymentModel.setLastName(reqValMap.get("lastName"));
-			paymentModel.setPgRespCode(reqValMap.get("pgRespCode"));
-			paymentModel.setAddressZip(reqValMap.get("addressZip"));
-			paymentModel.setSignature(reqValMap.get("signature"));
-			paymentModel.setTxRefNo(reqValMap.get("txRefNo"));
-			paymentModel.setTxMsg(reqValMap.get("txMsg"));
-			paymentModel.setTransactionId(reqValMap.get("transactionId"));
-			paymentModel.setInfo(reqValMap.toString());
+				save(paymentModel);
+			} else {
+				
+				IssuePaymentModel paymentModel = new IssuePaymentModel();
+				CustomerRequestModel customerRequestModel = new CustomerRequestModel();
+				customerRequestModel.setIssueId(Integer.parseInt(jsonData1.getString("param2")));
+				paymentModel.setCustomerRequestModel(customerRequestModel);
+				paymentModel.setTxId(jsonData1.getString("TxId"));
+				paymentModel.setTxStatus(jsonData1.getString("TxStatus"));
+				paymentModel.setAmount(jsonData1.getString("amount"));
+				paymentModel.setPgTxnNo(jsonData1.getString("pgTxnNo"));
+				paymentModel.setIssuerRefNo(jsonData1.getString("issuerRefNo"));
+				paymentModel.setAuthIdCode(jsonData1.getString("authIdCode"));
+			//	paymentModel.setFirstName(jsonData1.getString("firstName"));
+			//	paymentModel.setLastName(jsonData1.getString("lastName"));
+				paymentModel.setPgRespCode(jsonData1.getString("pgRespCode"));
+			//	paymentModel.setAddressZip(jsonData1.getString("addressZip"));
+				paymentModel.setSignature(jsonData1.getString("signature"));
+				paymentModel.setTxRefNo(jsonData1.getString("txRefNo"));
+				paymentModel.setTxMsg(jsonData1.getString("txMsg"));
+				paymentModel.setTransactionId(jsonData1.getString("transactionId"));
+			//	paymentModel.setInfo("");
 
-			save(paymentModel);
+				save(paymentModel);
+			}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
+		
 		return "";
 	}
 
