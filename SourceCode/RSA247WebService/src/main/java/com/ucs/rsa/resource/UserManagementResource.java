@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.ucs.rsa.common.dto.CitiesDTO;
 import com.ucs.rsa.common.dto.CityDTO;
 import com.ucs.rsa.common.dto.CustomerDTO;
@@ -1332,5 +1334,18 @@ public class UserManagementResource {
 		return imagesByteArray;
 
 	}
+	
+	/*@RequestMapping(value = "/returnUrlResponse", method = RequestMethod.POST)
+	public @ResponseBody void returnUrlResponse(Hashtable<String, String> reqValMap){
+		try {
+		if(reqValMap!=null) {
+			System.out.println("---------------------" +reqValMap.toString());
+			getUserService().paymentResponse(reqValMap);
+		}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(reqValMap);
+	}*/
 
 }
