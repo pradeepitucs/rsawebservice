@@ -29,6 +29,6 @@ public interface RedirectURLService extends BaseService
 	 */
 	//public Hashtable<String, String> redirectURL(HttpServletRequest request, HttpServletResponse response);
 	
-	public String paymentResponse(Hashtable<String, String> reqValMap);
+	public String paymentResponse(String reqValMap);
 
 }
