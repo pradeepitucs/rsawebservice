@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,6 +59,10 @@ public class UserManagementResource {
 
 	@Autowired
 	GmailService gmailService;
+	
+	public void abc(String aa){
+		System.out.println(aa);
+	}
 
 	/** The bill generator. */
 	@Autowired
@@ -210,7 +215,7 @@ public class UserManagementResource {
 			customerDTO.setMobileNo(customerModel.getMobileNo());
 			customerDTO.setUserId(customerModel.getUserId());
 		}
-		return new ModelAndView("xml", "customer", customerDTO);
+		return new ModelAndView("customer", "customer", customerDTO);
 	}
 
 	@RequestMapping(value = "/serviceproviders", method = { RequestMethod.GET })
@@ -241,7 +246,7 @@ public class UserManagementResource {
 			serviceProviderDTO.setServiceProviderLatitude(serviceProviderModel.getServiceProviderLatitude());
 			serviceProviderDTO.setServiceProviderLongitude(serviceProviderModel.getServiceProviderLongitude());
 			serviceProviderDTO.setServiceProviderMaxDistanceToOperate(
-			serviceProviderModel.getServiceProviderMaxDistanceToOperate());
+					serviceProviderModel.getServiceProviderMaxDistanceToOperate());
 			serviceProviderDTO.setServiceProviderName(serviceProviderModel.getServiceProviderName());
 			serviceProviderDTO.setServiceProviderNightOperation(serviceProviderModel.isServiceProviderNightOperation());
 			serviceProviderDTO.setServiceProviderPremium(serviceProviderModel.getServiceProviderPremium());
@@ -281,7 +286,7 @@ public class UserManagementResource {
 			serviceProviderDTO.setServiceProviderLatitude(serviceProviderModel.getServiceProviderLatitude());
 			serviceProviderDTO.setServiceProviderLongitude(serviceProviderModel.getServiceProviderLongitude());
 			serviceProviderDTO.setServiceProviderMaxDistanceToOperate(
-			serviceProviderModel.getServiceProviderMaxDistanceToOperate());
+					serviceProviderModel.getServiceProviderMaxDistanceToOperate());
 			serviceProviderDTO.setServiceProviderName(serviceProviderModel.getServiceProviderName());
 			serviceProviderDTO.setServiceProviderNightOperation(serviceProviderModel.isServiceProviderNightOperation());
 			serviceProviderDTO.setServiceProviderPremium(serviceProviderModel.getServiceProviderPremium());
@@ -659,7 +664,7 @@ public class UserManagementResource {
 	 *             the exception
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "uploadIDSImg", headers = "content-type=multipart/form-data")
-	public @ResponseBody String uploadIDSImg(@RequestParam("file") MultipartFile file,
+	public @ResponseBody String uploadIDSImg(@RequestParam("file") MultipartFile[] files,
 			@RequestParam("fileName") String foldername) throws Exception {
 		String imageInserted = null;
 		String rootPath = System.getProperty("catalina.home");
@@ -691,25 +696,27 @@ public class UserManagementResource {
 						se.printStackTrace();
 					}
 					if (result1) {
-						if (file != null) {
-							try {
-								byte[] bytes = file.getBytes();
-								BufferedOutputStream stream = new BufferedOutputStream(
-										new FileOutputStream(finalEmpl.getPath() + "/" + "ID" + ".jpg"));
-								stream.write(bytes);
-								stream.flush();
-								stream.close();
-							} catch (Exception e) {
-								e.printStackTrace();
+						if (files != null && files.length > 0) {
+							for (int i = 0; i < files.length; i++) {
+								try {
+									byte[] bytes = files[i].getBytes();
+									BufferedOutputStream stream = new BufferedOutputStream(
+											new FileOutputStream(finalEmpl.getPath() + "/" + "ID" + i + ".jpg"));
+									stream.write(bytes);
+									stream.flush();
+									stream.close();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
 							}
 						} else {
-							throw new Exception("File not found ");
-						}
-						imageInserted = "Inserted Data";
+						throw new Exception("File not found ");
+					}
+					imageInserted = "Inserted Data";
 					}
 				} else {
-					imageInserted = "Inserted Data";
-					System.out.println("File Already exist");
+						System.out.println("File Already exist");
+						imageInserted = "Inserted Data";
 				}
 			}
 		} else {
@@ -724,27 +731,29 @@ public class UserManagementResource {
 					se.printStackTrace();
 				}
 				if (result1) {
-					if (file != null) {
-						try {
-							byte[] bytes = file.getBytes();
-							BufferedOutputStream stream = new BufferedOutputStream(
-									new FileOutputStream(finalEmpl.getPath() + "/" + "ID" + ".jpg"));
-							stream.write(bytes);
-							stream.flush();
-							stream.close();
-						} catch (Exception e) {
-							e.printStackTrace();
+					if (files != null && files.length > 0) {
+						for (int i = 0; i < files.length; i++) {
+							try {
+								byte[] bytes = files[i].getBytes();
+								BufferedOutputStream stream = new BufferedOutputStream(
+										new FileOutputStream(finalEmpl.getPath() + "/" + "ID" + i + ".jpg"));
+								stream.write(bytes);
+								stream.flush();
+								stream.close();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
 					} else {
-						throw new Exception("File not found ");
-					}
-					imageInserted = "Inserted Data";
+					throw new Exception("File not found ");
+				}
+				imageInserted = "Inserted Data";
 				}
 			} else {
-				System.out.println("File Already exist");
 				imageInserted = "Inserted Data";
+				System.out.println("File Already exist");
 			}
-
+		
 		}
 
 		return imageInserted;
@@ -1078,7 +1087,7 @@ public class UserManagementResource {
 	 *
 	 * @return the model and view
 	 */
-	@RequestMapping(value = "/genertbill", method = RequestMethod.POST)
+	@RequestMapping(value = "/genertbill", method = RequestMethod.GET)
 	public ModelAndView genertBill() {
 		StringBuilder result = getBillGenerator().genertBill();
 		StringBuilderDTO stringBuilderDTO = new StringBuilderDTO();
@@ -1147,7 +1156,7 @@ public class UserManagementResource {
 		}
 		return new ModelAndView("xml", "Employee", employeeDTO);
 	}
-	
+
 	@RequestMapping(value = "/getServiceProviderFromNumber", method = RequestMethod.POST)
 	public ModelAndView getServiceProviderFromNumber(
 			@RequestParam(value = "serviceProviderNumber") final long serviceProviderNumber) {
@@ -1173,7 +1182,7 @@ public class UserManagementResource {
 			serviceProviderDTO.setServiceProviderLatitude(serviceProviderModel.getServiceProviderLatitude());
 			serviceProviderDTO.setServiceProviderLongitude(serviceProviderModel.getServiceProviderLongitude());
 			serviceProviderDTO.setServiceProviderMaxDistanceToOperate(
-			serviceProviderModel.getServiceProviderMaxDistanceToOperate());
+					serviceProviderModel.getServiceProviderMaxDistanceToOperate());
 			serviceProviderDTO.setServiceProviderName(serviceProviderModel.getServiceProviderName());
 			serviceProviderDTO.setServiceProviderNightOperation(serviceProviderModel.isServiceProviderNightOperation());
 			serviceProviderDTO.setServiceProviderPremium(serviceProviderModel.getServiceProviderPremium());
@@ -1184,7 +1193,7 @@ public class UserManagementResource {
 		}
 		return new ModelAndView("xml", "serviceProviderDTO", serviceProviderDTO);
 	}
-	
+
 	@RequestMapping(value = "/getEmployeeFromNumber", method = RequestMethod.POST)
 	public ModelAndView getEmployeeFromNumber(@RequestParam(value = "employeeNumber") final long employeeNumber) {
 
@@ -1200,6 +1209,128 @@ public class UserManagementResource {
 			employeeDTO.setUserId(employeeModel.getUserId());
 		}
 		return new ModelAndView("xml", "employee", employeeDTO);
+	}
+
+	/**
+	 * Gets the service provider images.
+	 *
+	 * @param empID
+	 *            the emp id
+	 * @param request
+	 *            the request
+	 * @return the service provider images
+	 */
+	@RequestMapping(value = "/getServiceProviderImages", method = RequestMethod.POST)
+	public @ResponseBody byte[][] getServiceProviderImages(
+			@RequestParam("serviceProviderID") final int serviceProviderID, HttpServletRequest request) {
+		ServiceProviderModel serviceProviderModel = new ServiceProviderModel();
+		serviceProviderModel = getUserService().get(ServiceProviderModel.class, serviceProviderID);
+		String imageFolderName = serviceProviderModel.getImageFolderName();
+		Properties prop = new Properties();
+		InputStream inputStream = UserManagementResource.class.getClassLoader()
+				.getResourceAsStream("/constant.properties");
+		try {
+			prop.load(inputStream);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		byte[][] imagesByteArray = null;
+		String rootPath = System.getProperty("catalina.home");
+		if (imageFolderName != null) {
+			try {
+				int numberOfFiles = new File(rootPath + prop.getProperty("App_Name") + imageFolderName)
+						.listFiles().length;
+				if (numberOfFiles != 0) {
+					imagesByteArray = new byte[numberOfFiles][];
+					for (int i = 0; i < numberOfFiles; i++) {
+						try {
+							// Retrieve image from the classpath
+							String path = rootPath + prop.getProperty("App_Name") + imageFolderName + "/"
+									+ imageFolderName + i + ".jpg";
+							InputStream is = new FileInputStream(path);
+							// Prepare buffered image
+							BufferedImage img = ImageIO.read(is);
+
+							// Create a byte array output stream
+							ByteArrayOutputStream bao = new ByteArrayOutputStream();
+
+							// Write to output stream
+							ImageIO.write(img, "jpg", bao);
+							imagesByteArray[i] = bao.toByteArray();
+						} catch (Exception e) {
+
+						}
+					}
+				} else {
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+		return imagesByteArray;
+
+	}
+
+	/**
+	 * Gets the IDS images.
+	 *
+	 * @param empID
+	 *            the emp id
+	 * @param request
+	 *            the request
+	 * @return the IDS images
+	 */
+	@RequestMapping(value = "/getIDSImages", method = RequestMethod.POST)
+	public @ResponseBody byte[][] getIDSImages(@RequestParam("serviceProviderID") final int serviceProviderID,
+			HttpServletRequest request) {
+		ServiceProviderModel serviceProviderModel = new ServiceProviderModel();
+		serviceProviderModel = getUserService().get(ServiceProviderModel.class, serviceProviderID);
+		String imageFolderName = serviceProviderModel.getImageFolderName();
+		Properties prop = new Properties();
+		InputStream inputStream = UserManagementResource.class.getClassLoader()
+				.getResourceAsStream("/constant.properties");
+		try {
+			prop.load(inputStream);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		byte[][] imagesByteArray = null;
+		String rootPath = System.getProperty("catalina.home");
+		if (imageFolderName != null) {
+			try {
+				int numberOfFiles = new File(rootPath + prop.getProperty("App_Name") + imageFolderName + "/ID")
+						.listFiles().length;
+				if (numberOfFiles != 0) {
+					imagesByteArray = new byte[numberOfFiles][];
+					for (int i = 0; i < numberOfFiles; i++) {
+						try {
+							// Retrieve image from the classpath
+							String path = rootPath + prop.getProperty("App_Name") + imageFolderName + "/ID" + "/ID" + i
+									+ ".jpg";
+							InputStream is = new FileInputStream(path);
+							// Prepare buffered image
+							BufferedImage img = ImageIO.read(is);
+
+							// Create a byte array output stream
+							ByteArrayOutputStream bao = new ByteArrayOutputStream();
+
+							// Write to output stream
+							ImageIO.write(img, "jpg", bao);
+							imagesByteArray[i] = bao.toByteArray();
+						} catch (Exception e) {
+
+						}
+					}
+				} else {
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+		return imagesByteArray;
+
 	}
 
 }
