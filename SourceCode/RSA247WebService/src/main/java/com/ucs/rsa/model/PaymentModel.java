@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -23,7 +25,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "payment_t")
-@NamedQuery(name = "PaymentModel.findAll", query = "SELECT p FROM PaymentModel p")
+@Inheritance(strategy = InheritanceType.JOINED)
+@NamedQuery(name = "PaymentModel.findAll", query = "SELECT u FROM PaymentModel u")
 public class PaymentModel implements Serializable
 {
 
@@ -36,8 +39,8 @@ public class PaymentModel implements Serializable
 	@Column(name = "payment_id")
 	private String paymentId;
 
-	/** The address zip. */
-	private String addressZip;
+	/** The address zip. *//*
+	private String addressZip;*/
 
 	/** The amount. */
 	private String amount;
@@ -45,18 +48,18 @@ public class PaymentModel implements Serializable
 	/** The auth id code. */
 	private String authIdCode;
 
-	/** The first name. */
+	/** The first name. *//*
 	private String firstName;
 
-	/** The info. */
+	*//** The info. *//*
 	@Lob
-	private String info;
+	private String info;*/
 
 	/** The issuer ref no. */
 	private String issuerRefNo;
 
-	/** The last name. */
-	private String lastName;
+	/** The last name. *//*
+	private String lastName;*/
 
 	/** The pg resp code. */
 	private String pgRespCode;
@@ -115,21 +118,21 @@ public class PaymentModel implements Serializable
 	 *
 	 * @return the address zip
 	 */
-	public String getAddressZip()
+	/*public String getAddressZip()
 	{
 		return this.addressZip;
 	}
 
-	/**
+	*//**
 	 * Sets the address zip.
 	 *
 	 * @param addressZip
 	 *           the new address zip
-	 */
+	 *//*
 	public void setAddressZip(String addressZip)
 	{
 		this.addressZip = addressZip;
-	}
+	}*/
 
 	/**
 	 * Gets the amount.
@@ -177,43 +180,43 @@ public class PaymentModel implements Serializable
 	 * Gets the first name.
 	 *
 	 * @return the first name
-	 */
+	 *//*
 	public String getFirstName()
 	{
 		return this.firstName;
 	}
 
-	/**
+	*//**
 	 * Sets the first name.
 	 *
 	 * @param firstName
 	 *           the new first name
-	 */
+	 *//*
 	public void setFirstName(String firstName)
 	{
 		this.firstName = firstName;
 	}
 
-	/**
+	*//**
 	 * Gets the info.
 	 *
 	 * @return the info
-	 */
+	 *//*
 	public String getInfo()
 	{
 		return this.info;
 	}
 
-	/**
+	*//**
 	 * Sets the info.
 	 *
 	 * @param info
 	 *           the new info
-	 */
+	 *//*
 	public void setInfo(String info)
 	{
 		this.info = info;
-	}
+	}*/
 
 	/**
 	 * Gets the issuer ref no.
@@ -241,21 +244,21 @@ public class PaymentModel implements Serializable
 	 *
 	 * @return the last name
 	 */
-	public String getLastName()
+	/*public String getLastName()
 	{
 		return this.lastName;
 	}
 
-	/**
+	*//**
 	 * Sets the last name.
 	 *
 	 * @param lastName
 	 *           the new last name
-	 */
+	 *//*
 	public void setLastName(String lastName)
 	{
 		this.lastName = lastName;
-	}
+	}*/
 
 	/**
 	 * Gets the pg resp code.
