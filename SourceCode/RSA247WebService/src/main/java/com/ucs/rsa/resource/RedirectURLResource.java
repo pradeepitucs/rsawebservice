@@ -20,6 +20,7 @@ import com.ucs.rsa.common.constants.RSAErrorConstants;
 import com.ucs.rsa.common.dto.PaymentDTO;
 import com.ucs.rsa.common.exception.RSAException;
 import com.ucs.rsa.service.RedirectURLService;
+import com.ucs.rsa.service.impl.DefaultRedirectURLService;
 
 
 /**
@@ -39,7 +40,7 @@ public class RedirectURLResource extends HttpServlet
 
 	/** The redirect URL resource. */
 	@Autowired
-	RedirectURLService redirectURLResource;
+	RedirectURLService redirectURLResource ;
 
 	/**
 	 * Redirect URL.
@@ -101,15 +102,33 @@ public class RedirectURLResource extends HttpServlet
 		return new ModelAndView("redirectURL", "paymentDTO", "");
 	}*/
 	
-	public void returnUrlResponse(Hashtable<String, String> reqValMap){
+	@RequestMapping(value = "/response", method =
+		{ RequestMethod.POST, RequestMethod.GET })
+	public void returnUrlResponse(@RequestParam(value = "response") final  String reqValMap){
+		System.out.print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		try {
 		if(reqValMap!=null) {
-		redirectURLResource.paymentResponse(reqValMap);
+			System.out.println("---------------------" +reqValMap.toString());
+			redirectURLResource.paymentResponse(reqValMap);
 		}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println(reqValMap);
+	}
+
+	/**
+	 * @return the redirectURLResource
+	 */
+	public RedirectURLService getRedirectURLResource() {
+		return redirectURLResource;
+	}
+
+	/**
+	 * @param redirectURLResource the redirectURLResource to set
+	 */
+	public void setRedirectURLResource(RedirectURLService redirectURLResource) {
+		this.redirectURLResource = redirectURLResource;
 	}
 
 
