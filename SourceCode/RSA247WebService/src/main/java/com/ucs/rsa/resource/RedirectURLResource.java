@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ucs.rsa.common.constants.RSAErrorConstants;
@@ -47,7 +48,7 @@ public class RedirectURLResource extends HttpServlet
 	 *           the request
 	 * @param response
 	 *           the response
-	 */
+	 *//*
 	@RequestMapping(value = "/citruspayresponse", method =
 	{ RequestMethod.POST, RequestMethod.GET })
 	public ModelAndView redirectURL(HttpServletRequest request, HttpServletResponse response)
@@ -67,6 +68,48 @@ public class RedirectURLResource extends HttpServlet
 			throw rsaException;
 		}
 		return new ModelAndView("redirectURL", "paymentDTO", paymentDTO);
+	}
+	
+	*//**
+	 * Redirect URL.
+	 *
+	 * @param request
+	 *           the request
+	 * @param response
+	 *           the response
+	 *//*
+	@RequestMapping(value = "/citruspayresponse", method =
+	{ RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView redirectURL(@RequestParam(value = "userresponse") final String iUserId )
+	{
+		System.out.println(iUserId);
+		
+		//System.out.println(" HttpServletRequest " + request + " HttpServletResponse " + response);
+
+		Hashtable<String, String> hashTable = redirectURLResource.redirectURL(request, response);
+		PaymentDTO paymentDTO = new PaymentDTO();
+		if (!hashTable.isEmpty())
+		{
+			paymentDTO.setHashTable(hashTable);
+		}
+		else
+		{
+			RSAException rsaException = new RSAException();
+			rsaException.setError(RSAErrorConstants.ErrorCode.TRANSACTION_FAILED_ERROR);
+			throw rsaException;
+		}
+		return new ModelAndView("redirectURL", "paymentDTO", "");
+	}*/
+	
+	public void returnUrlResponse(Hashtable<String, String> reqValMap){
+		try {
+		if(reqValMap!=null) {
+		redirectURLResource.paymentResponse(reqValMap);
+		}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(reqValMap);
 	}
 
 
