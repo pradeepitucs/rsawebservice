@@ -39,7 +39,7 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 	 * 
 	 * @see com.ucs.rsa.service.RedirectURLService#redirectURL(javax.servlet.http.HttpServletRequest,
 	 * javax.servlet.http.HttpServletResponse)
-	 */
+	 
 	@Override
 	public Hashtable<String, String> redirectURL(final HttpServletRequest request, HttpServletResponse response)
 	{
@@ -166,6 +166,58 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 		}
 
 		return new Hashtable<String, String>();
+	}*/
+	
+	@Override
+	public String paymentResponse(Hashtable<String, String> reqValMap) {
+		
+		if(reqValMap.get("param2").equals("0")) {
+			CustomerPaymentModel paymentModel = new CustomerPaymentModel();
+			CustomerModel customerModel = new CustomerModel();
+			customerModel.setUserId(Integer.parseInt(reqValMap.get("param1")));
+			paymentModel.setCustomerModel(customerModel);
+			paymentModel.setTxId(reqValMap.get("TxId"));
+			paymentModel.setTxStatus(reqValMap.get("TxStatus"));
+			paymentModel.setAmount(reqValMap.get("amount"));
+			paymentModel.setPgTxnNo(reqValMap.get("pgTxnNo"));
+			paymentModel.setIssuerRefNo(reqValMap.get("issuerRefNo"));
+			paymentModel.setAuthIdCode(reqValMap.get("authIdCode"));
+			paymentModel.setFirstName(reqValMap.get("firstName"));
+			paymentModel.setLastName(reqValMap.get("lastName"));
+			paymentModel.setPgRespCode(reqValMap.get("pgRespCode"));
+			paymentModel.setAddressZip(reqValMap.get("addressZip"));
+			paymentModel.setSignature(reqValMap.get("signature"));
+			paymentModel.setTxRefNo(reqValMap.get("txRefNo"));
+			paymentModel.setTxMsg(reqValMap.get("txMsg"));
+			paymentModel.setTransactionId(reqValMap.get("transactionId"));
+			paymentModel.setInfo(reqValMap.toString());
+
+			save(paymentModel);
+		} else {
+			
+			IssuePaymentModel paymentModel = new IssuePaymentModel();
+			CustomerRequestModel customerRequestModel = new CustomerRequestModel();
+			customerRequestModel.setIssueId(Integer.parseInt(reqValMap.get("param2")));
+			paymentModel.setCustomerRequestModel(customerRequestModel);
+			paymentModel.setTxId(reqValMap.get("TxId"));
+			paymentModel.setTxStatus(reqValMap.get("TxStatus"));
+			paymentModel.setAmount(reqValMap.get("amount"));
+			paymentModel.setPgTxnNo(reqValMap.get("pgTxnNo"));
+			paymentModel.setIssuerRefNo(reqValMap.get("issuerRefNo"));
+			paymentModel.setAuthIdCode(reqValMap.get("authIdCode"));
+			paymentModel.setFirstName(reqValMap.get("firstName"));
+			paymentModel.setLastName(reqValMap.get("lastName"));
+			paymentModel.setPgRespCode(reqValMap.get("pgRespCode"));
+			paymentModel.setAddressZip(reqValMap.get("addressZip"));
+			paymentModel.setSignature(reqValMap.get("signature"));
+			paymentModel.setTxRefNo(reqValMap.get("txRefNo"));
+			paymentModel.setTxMsg(reqValMap.get("txMsg"));
+			paymentModel.setTransactionId(reqValMap.get("transactionId"));
+			paymentModel.setInfo(reqValMap.toString());
+
+			save(paymentModel);
+		}
+		return "";
 	}
 
 }
