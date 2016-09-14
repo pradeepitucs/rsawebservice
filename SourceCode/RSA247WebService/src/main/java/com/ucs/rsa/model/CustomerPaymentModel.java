@@ -1,6 +1,7 @@
 package com.ucs.rsa.model;
 
 import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,6 +27,12 @@ public class CustomerPaymentModel extends PaymentModel implements Serializable {
 
 	public void setCustomerModel(CustomerModel customerModel) {
 		this.customerModel = customerModel;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "CustomerPaymentModel [customerModel=" + customerModel + "]";
 	}
 	
 }
