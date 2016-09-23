@@ -35,7 +35,15 @@ public class ServiceProviderDTO
 	private boolean isEnabled;
 
 	/** The serviceprovider experties. */
-	private String serviceproviderExperties;
+	private ServiceTypeDTO serviceproviderExperties;
+
+	public ServiceTypeDTO getServiceproviderExperties() {
+		return serviceproviderExperties;
+	}
+
+	public void setServiceproviderExperties(ServiceTypeDTO serviceproviderExperties) {
+		this.serviceproviderExperties = serviceproviderExperties;
+	}
 
 	/** The service providerother services. */
 	private String serviceProviderotherServices;
@@ -365,27 +373,6 @@ public class ServiceProviderDTO
 	public void setServiceProvidertiming(String serviceProvidertiming)
 	{
 		this.serviceProvidertiming = serviceProvidertiming;
-	}
-
-	/**
-	 * Gets the serviceprovider experties.
-	 *
-	 * @return the serviceprovider experties
-	 */
-	public String getServiceproviderExperties()
-	{
-		return serviceproviderExperties;
-	}
-
-	/**
-	 * Sets the serviceprovider experties.
-	 *
-	 * @param serviceproviderExperties
-	 *           the new serviceprovider experties
-	 */
-	public void setServiceproviderExperties(String serviceproviderExperties)
-	{
-		this.serviceproviderExperties = serviceproviderExperties;
 	}
 
 	/**
