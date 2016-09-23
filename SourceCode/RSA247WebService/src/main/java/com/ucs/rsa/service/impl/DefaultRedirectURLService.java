@@ -5,6 +5,7 @@ package com.ucs.rsa.service.impl;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -18,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.ucs.rsa.common.notification.SendNotification;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerPaymentModel;
 import com.ucs.rsa.model.CustomerRequestModel;
@@ -36,140 +38,6 @@ import com.ucs.rsa.service.RedirectURLService;
 @Service
 public class DefaultRedirectURLService extends DefaultBaseService implements RedirectURLService
 {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ucs.rsa.service.RedirectURLService#redirectURL(javax.servlet.http.HttpServletRequest,
-	 * javax.servlet.http.HttpServletResponse)
-	 
-	@Override
-	public Hashtable<String, String> redirectURL(final HttpServletRequest request, HttpServletResponse response)
-	{
-
-		try
-		{
-
-			String secretKey = "7fd89b14464b38a9292995c4d1b2ae650fdcf21d";
-
-			Hashtable<String, String> reqValMap = new Hashtable<String, String>()
-			{
-				private static final long serialVersionUID = 1L;
-
-				public synchronized String toString()
-				{
-					Enumeration<String> keys = keys();
-					StringBuffer buff = new StringBuffer("{");
-					while (keys.hasMoreElements())
-					{
-						String key = keys.nextElement();
-						String value = get(key);
-
-						buff.append("'").append(key).append("'").append(":").append("'").append(value).append("'").append(',');
-					}
-					buff = new StringBuffer(buff.toString().substring(0, buff.toString().length() - 1));
-					buff.append("}");
-					return buff.toString();
-				}
-			};
-
-			Enumeration<String> parameterList = request.getParameterNames();
-
-			while (parameterList.hasMoreElements())
-			{
-				String paramName = parameterList.nextElement();
-				String paramValue = request.getParameter(paramName);
-				reqValMap.put(paramName, paramValue);
-			}
-
-			String dataString = new StringBuilder().append(request.getParameter("TxId")).append(request.getParameter("TxStatus"))
-					.append(request.getParameter("amount")).append(request.getParameter("pgTxnNo"))
-					.append(request.getParameter("issuerRefNo")).append(request.getParameter("authIdCode"))
-					.append(request.getParameter("firstName")).append(request.getParameter("lastName"))
-					.append(request.getParameter("pgRespCode")).append(request.getParameter("addressZip"))
-					.append(request.getParameter("customParameters")).toString();
-
-			SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA1");
-			Mac mac;
-
-			mac = Mac.getInstance("HmacSHA1");
-			mac.init(secretKeySpec);
-
-			byte[] hmacArr = mac.doFinal(dataString.getBytes());
-			StringBuilder build = new StringBuilder();
-			for (byte b : hmacArr)
-			{
-				build.append(String.format("%02x", b));
-			}
-			String hmac = build.toString();
-
-			String reqSignature = request.getParameter("signature");
-			System.out.println("txn ID : " + request.getParameter("TxId"));
-			if(request.getParameter("issue_id").equals(null)) {
-				CustomerPaymentModel paymentModel = new CustomerPaymentModel();
-				CustomerModel customerModel = new CustomerModel();
-				customerModel.setUserId(Integer.parseInt(request.getParameter("user_d")));
-				paymentModel.setCustomerModel(customerModel);
-				paymentModel.setTxId(request.getParameter("TxId"));
-				paymentModel.setTxStatus(request.getParameter("TxStatus"));
-				paymentModel.setAmount(request.getParameter("amount"));
-				paymentModel.setPgTxnNo(request.getParameter("pgTxnNo"));
-				paymentModel.setIssuerRefNo(request.getParameter("issuerRefNo"));
-				paymentModel.setAuthIdCode(request.getParameter("authIdCode"));
-				paymentModel.setFirstName(request.getParameter("firstName"));
-				paymentModel.setLastName(request.getParameter("lastName"));
-				paymentModel.setPgRespCode(request.getParameter("pgRespCode"));
-				paymentModel.setAddressZip(request.getParameter("addressZip"));
-				paymentModel.setSignature(request.getParameter("signature"));
-				paymentModel.setTxRefNo(request.getParameter("txRefNo"));
-				paymentModel.setTxMsg(request.getParameter("txMsg"));
-				paymentModel.setTransactionId(request.getParameter("transactionId"));
-				paymentModel.setInfo(reqValMap.toString());
-
-				save(paymentModel);
-			} else {
-				
-				IssuePaymentModel paymentModel = new IssuePaymentModel();
-				CustomerRequestModel customerRequestModel = new CustomerRequestModel();
-				customerRequestModel.setIssueId(Integer.parseInt(request.getParameter("issue_id")));
-				paymentModel.setCustomerRequestModel(customerRequestModel);
-				paymentModel.setTxId(request.getParameter("TxId"));
-				paymentModel.setTxStatus(request.getParameter("TxStatus"));
-				paymentModel.setAmount(request.getParameter("amount"));
-				paymentModel.setPgTxnNo(request.getParameter("pgTxnNo"));
-				paymentModel.setIssuerRefNo(request.getParameter("issuerRefNo"));
-				paymentModel.setAuthIdCode(request.getParameter("authIdCode"));
-				paymentModel.setFirstName(request.getParameter("firstName"));
-				paymentModel.setLastName(request.getParameter("lastName"));
-				paymentModel.setPgRespCode(request.getParameter("pgRespCode"));
-				paymentModel.setAddressZip(request.getParameter("addressZip"));
-				paymentModel.setSignature(request.getParameter("signature"));
-				paymentModel.setTxRefNo(request.getParameter("txRefNo"));
-				paymentModel.setTxMsg(request.getParameter("txMsg"));
-				paymentModel.setTransactionId(request.getParameter("transactionId"));
-				paymentModel.setInfo(reqValMap.toString());
-
-				save(paymentModel);
-			}
-			
-
-			if (hmac.equals(reqSignature))
-			{
-				return reqValMap;
-			}
-
-		}
-		catch (NoSuchAlgorithmException e)
-		{
-			e.printStackTrace();
-		}
-		catch (InvalidKeyException e)
-		{
-			e.printStackTrace();
-		}
-
-		return new Hashtable<String, String>();
-	}*/
 	
 	@Override
 	public String paymentResponse( String reqValMap) {
@@ -189,15 +57,11 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 				paymentModel.setPgTxnNo(jsonData1.getString("pgTxnNo"));
 				paymentModel.setIssuerRefNo(jsonData1.getString("issuerRefNo"));
 				paymentModel.setAuthIdCode(jsonData1.getString("authIdCode"));
-			//	paymentModel.setFirstName(jsonData1.getString("firstName"));
-			//	paymentModel.setLastName(jsonData1.getString("lastName"));
 				paymentModel.setPgRespCode(jsonData1.getString("pgRespCode"));
-			//	paymentModel.setAddressZip(jsonData1.getString("addressZip"));
 				paymentModel.setSignature(jsonData1.getString("signature"));
 				paymentModel.setTxRefNo(jsonData1.getString("txRefNo"));
 				paymentModel.setTxMsg(jsonData1.getString("txMsg"));
 				paymentModel.setTransactionId(jsonData1.getString("transactionId"));
-			//	paymentModel.setInfo("");
 
 				save(paymentModel);
 			} else {
@@ -212,18 +76,29 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 				paymentModel.setPgTxnNo(jsonData1.getString("pgTxnNo"));
 				paymentModel.setIssuerRefNo(jsonData1.getString("issuerRefNo"));
 				paymentModel.setAuthIdCode(jsonData1.getString("authIdCode"));
-			//	paymentModel.setFirstName(jsonData1.getString("firstName"));
-			//	paymentModel.setLastName(jsonData1.getString("lastName"));
 				paymentModel.setPgRespCode(jsonData1.getString("pgRespCode"));
-			//	paymentModel.setAddressZip(jsonData1.getString("addressZip"));
 				paymentModel.setSignature(jsonData1.getString("signature"));
 				paymentModel.setTxRefNo(jsonData1.getString("txRefNo"));
 				paymentModel.setTxMsg(jsonData1.getString("txMsg"));
 				paymentModel.setTransactionId(jsonData1.getString("transactionId"));
-			//	paymentModel.setInfo("");
 
 				save(paymentModel);
 			}
+				CustomerModel customer = new CustomerModel();
+				customer = get(CustomerModel.class,Integer.parseInt(jsonData1.getString("param1")));
+				ArrayList<String> deviceID = new ArrayList<>();
+				deviceID.add(customer.getGcmId());
+				JSONArray jsonArrayObj = new JSONArray();
+				JSONObject js = new JSONObject();
+				try {
+					js.put("Statua", jsonData1.getString("TxStatus"));
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}	
+				jsonArrayObj.put(js);
+				String msg = jsonArrayObj.toString();
+				SendNotification sendNotification = new SendNotification();
+				sendNotification.sendNotificationData(deviceID, msg); 
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
