@@ -16,7 +16,7 @@
     String secretKey = "7fd89b14464b38a9292995c4d1b2ae650fdcf21d";
     
    
-    String returnUrl = "http://45.124.51.6:8080/RSA247WebService/returncode.jsp";  
+    String returnUrl = "http://54.70.41.135:8080/RSA247WebService/returncode.jsp";  
     String txnID = String.valueOf(System.currentTimeMillis());     
     String amount = request.getParameter("amount");  
     
