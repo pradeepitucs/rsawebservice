@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ucs.rsa.common.dto.CustomerDTO;
 import com.ucs.rsa.common.dto.CustomerRequestDTO;
 import com.ucs.rsa.common.dto.CustomerRequestsDTO;
 import com.ucs.rsa.common.dto.ServiceTypeDTO;
@@ -67,6 +68,7 @@ public class CustomerRequestResource {
 		customerRequestModel.setCustomerLatitude(customerLatitude);
 		customerRequestModel.setCustomerLongitude(customerLongitude);
 		customerRequestModel.setIssueId(issueId);
+		customerRequestModel.setIssueStatus("Open");
 		customerRequestModel.setCustomerVehicleNumber(customerVehicleNumber);
 		//customerRequestModel.setIssueStatus(issueStatus);
 	    java.sql.Date startDate = new java.sql.Date(System.currentTimeMillis());
@@ -126,6 +128,15 @@ public class CustomerRequestResource {
 			customerRequestDTO.setCustomerLongitude(customerRequestModel.getCustomerLongitude());
 			customerRequestDTO.setIssueId(customerRequestModel.getIssueId());
 			customerRequestDTO.setIssueStatus(customerRequestModel.getIssueStatus());
+			customerRequestDTO.setIssueStartTime(customerRequestModel.getIssueStartTime());
+			customerRequestDTO.setCustomerVehicleNumber(customerRequestModel.getCustomerVehicleNumber());
+			customerRequestDTO.setIssueDate(customerRequestModel.getIssueDate());
+			customerRequestDTO.setIssueTime(customerRequestModel.getIssueTime());
+			ServiceTypeModel abc = new ServiceTypeModel();
+			abc = customerRequestModel.getServiceTypeModel();
+			ServiceTypeDTO abc2 = new ServiceTypeDTO();
+			abc2.setServiceTypeId(abc.getServiceTypeId());
+			customerRequestDTO.setServiceTypeModel(abc2);
 			CustomerRequestDTOs.add(customerRequestDTO);
 		}
 		customerRequestsDTO.setCustomerRequests(CustomerRequestDTOs);
@@ -334,6 +345,7 @@ public class CustomerRequestResource {
 			try {
 				js.put("issueId", entities.getIssueId());
 				js.put("issueTime", time);
+				js.put("issueDate", entities.getIssueDate());
 				js.put("customerVehicleNumber", userVehicle.getVehicleRegNo());
 				js.put("customerPhoneNumber", customer.getMobileNo());
 				js.put("customerLocation", entities.getCustomerLatitude()+","+entities.getCustomerLongitude());
