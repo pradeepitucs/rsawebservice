@@ -73,7 +73,7 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 			// CustomerRequestModel customerRequestList = cr.list();
 			int customer_id = customerRequestList.getCustomerModel().getUserId();
 			customerRequestResponse.add(String.valueOf(customerRequestList.getCustomerModel().getUserId()));
-			if (customerRequestList.getIssueStatus() == null || customerRequestList.getIssueStatus().isEmpty()) {
+			if (customerRequestList.getIssueStatus().equals("Open" )) {
 				customerRequestList.setIssueStartTime(iCustomerRequestModel.getIssueStartTime());
 				customerRequestList.setIssueStatus(iCustomerRequestModel.getIssueStatus());
 				customerRequestList.setEmployeeModel(iCustomerRequestModel.getEmployeeModel());
@@ -418,15 +418,17 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 					.createCriteria(CustomerSubIssueModel.class, "customerRequestModel")
 					.add(Restrictions.eq("customerRequestModel", customerRequestList));
 			List<CustomerSubIssueModel> listOfSubIssue = criteria.list();
+			boolean status = false;
 			for(CustomerSubIssueModel customerSubissue : listOfSubIssue){
-				
+			
 				ServiceTypeModel serviceType = new ServiceTypeModel();
 				serviceType = customerSubissue.getServiceTypeModel();
+				if(status==false){
 				if(serviceType.getServiceTypeId()==3 || serviceType.getServiceTypeId()==4 ||
 						serviceType.getServiceTypeId()==5 || serviceType.getServiceTypeId()==6 ||
 								serviceType.getServiceTypeId()==7 || serviceType.getServiceTypeId()==8) {
 					
-					
+					status = true;
 					try {
 						String string1 = "08:00:00";
 					    Date time1 = new SimpleDateFormat("HH:mm:ss").parse(string1);
@@ -467,6 +469,7 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 						e.printStackTrace();
 					}			    
 				}
+			}
 				ServiceTypeModel serviceTypeModel = (ServiceTypeModel) theSession
 						.createCriteria(ServiceTypeModel.class, "serviceTypeModel")
 						.add(Restrictions.eq("serviceTypeId", serviceType.getServiceTypeId())).uniqueResult();
@@ -499,14 +502,16 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 					.createCriteria(CustomerSubIssueModel.class, "customerRequestModel")
 					.add(Restrictions.eq("customerRequestModel", customer));
 			List<CustomerSubIssueModel> listOfSubIssue = criteria.list();
+			boolean status = false;
 			for(CustomerSubIssueModel customerSubissue : listOfSubIssue){
 				
 				ServiceTypeModel serviceType = new ServiceTypeModel();
 				serviceType = customerSubissue.getServiceTypeModel();
+				if(status == false){
 				if(serviceType.getServiceTypeId()==3 || serviceType.getServiceTypeId()==4 ||
 						serviceType.getServiceTypeId()==5 || serviceType.getServiceTypeId()==6 ||
 								serviceType.getServiceTypeId()==7 || serviceType.getServiceTypeId()==8) {
-					
+					status = true;
 					
 					try {
 						String string1 = "08:00:00";
@@ -552,6 +557,7 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 					}
 				    
 				}
+			}
 				//serviceTypeId.add(serviceType.getServiceTypeId());
 				ServiceTypeModel serviceTypeModel = (ServiceTypeModel) theSession
 						.createCriteria(ServiceTypeModel.class, "serviceTypeModel")
