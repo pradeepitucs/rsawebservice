@@ -265,7 +265,7 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 				if(serviceproviderModel.isAcceptTermCondition()==true) {
 				serviceproviderModel.setEnabled(true);
 				theSession.saveOrUpdate(serviceproviderModel);
-				approvalStatus= "Approvad";
+				approvalStatus= "Approved";
 				} else {
 					approvalStatus= "Terms And Condition not accepted";
 				}
