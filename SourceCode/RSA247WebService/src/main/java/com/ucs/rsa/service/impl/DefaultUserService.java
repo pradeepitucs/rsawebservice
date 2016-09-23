@@ -1,7 +1,6 @@
 package com.ucs.rsa.service.impl;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,10 +13,7 @@ import com.ucs.rsa.daos.UserDAO;
 import org.springframework.util.StringUtils;
 
 import com.ucs.rsa.model.CustomerModel;
-import com.ucs.rsa.model.CustomerPaymentModel;
-import com.ucs.rsa.model.CustomerRequestModel;
 import com.ucs.rsa.model.EmployeeModel;
-import com.ucs.rsa.model.IssuePaymentModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.model.ServiceProviderServiceMatchingModel;
 import com.ucs.rsa.model.UserVehicleModel;
@@ -232,57 +228,5 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 		}
 		return employeeModel;
 	}
-	
-/*	@Override
-	public String paymentResponse(Hashtable<String, String> reqValMap) {
-		
-		if(reqValMap.get("param2").equals("0")) {
-			CustomerPaymentModel paymentModel = new CustomerPaymentModel();
-			CustomerModel customerModel = new CustomerModel();
-			customerModel.setUserId(Integer.parseInt(reqValMap.get("param1")));
-			paymentModel.setCustomerModel(customerModel);
-			paymentModel.setTxId(reqValMap.get("TxId"));
-			paymentModel.setTxStatus(reqValMap.get("TxStatus"));
-			paymentModel.setAmount(reqValMap.get("amount"));
-			paymentModel.setPgTxnNo(reqValMap.get("pgTxnNo"));
-			paymentModel.setIssuerRefNo(reqValMap.get("issuerRefNo"));
-			paymentModel.setAuthIdCode(reqValMap.get("authIdCode"));
-			paymentModel.setFirstName(reqValMap.get("firstName"));
-			paymentModel.setLastName(reqValMap.get("lastName"));
-			paymentModel.setPgRespCode(reqValMap.get("pgRespCode"));
-			paymentModel.setAddressZip(reqValMap.get("addressZip"));
-			paymentModel.setSignature(reqValMap.get("signature"));
-			paymentModel.setTxRefNo(reqValMap.get("txRefNo"));
-			paymentModel.setTxMsg(reqValMap.get("txMsg"));
-			paymentModel.setTransactionId(reqValMap.get("transactionId"));
-			paymentModel.setInfo(reqValMap.toString());
-
-			save(paymentModel);
-		} else {
-			
-			IssuePaymentModel paymentModel = new IssuePaymentModel();
-			CustomerRequestModel customerRequestModel = new CustomerRequestModel();
-			customerRequestModel.setIssueId(Integer.parseInt(reqValMap.get("param2")));
-			paymentModel.setCustomerRequestModel(customerRequestModel);
-			paymentModel.setTxId(reqValMap.get("TxId"));
-			paymentModel.setTxStatus(reqValMap.get("TxStatus"));
-			paymentModel.setAmount(reqValMap.get("amount"));
-			paymentModel.setPgTxnNo(reqValMap.get("pgTxnNo"));
-			paymentModel.setIssuerRefNo(reqValMap.get("issuerRefNo"));
-			paymentModel.setAuthIdCode(reqValMap.get("authIdCode"));
-			paymentModel.setFirstName(reqValMap.get("firstName"));
-			paymentModel.setLastName(reqValMap.get("lastName"));
-			paymentModel.setPgRespCode(reqValMap.get("pgRespCode"));
-			paymentModel.setAddressZip(reqValMap.get("addressZip"));
-			paymentModel.setSignature(reqValMap.get("signature"));
-			paymentModel.setTxRefNo(reqValMap.get("txRefNo"));
-			paymentModel.setTxMsg(reqValMap.get("txMsg"));
-			paymentModel.setTransactionId(reqValMap.get("transactionId"));
-			paymentModel.setInfo(reqValMap.toString());
-
-			save(paymentModel);
-		}
-		return "";
-	}*/
 	
 }
