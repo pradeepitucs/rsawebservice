@@ -4,8 +4,13 @@
 package com.ucs.rsa.common.dto;
 
 import java.io.Serializable;
-
+import java.sql.Date;
+import java.sql.Time;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.ucs.rsa.model.CustomerModel;
+import com.ucs.rsa.model.EmployeeModel;
+import com.ucs.rsa.model.ServiceTypeModel;
 
 
 /**
@@ -33,6 +38,77 @@ public class CustomerRequestDTO implements Serializable
 
 	/** The issue status. */
 	private String issueStatus;
+	
+	private Time issueStartTime;
+	
+	private String customerVehicleNumber;
+	
+	private Date issueDate;
+	
+	private Time issueTime;
+	
+	private ServiceTypeDTO serviceTypeModel;
+
+	private CustomerDTO customerModel;
+
+	private EmployeeDTO employeeModel;
+
+
+	public ServiceTypeDTO getServiceTypeModel() {
+		return serviceTypeModel;
+	}
+
+	public void setServiceTypeModel(ServiceTypeDTO serviceTypeModel) {
+		this.serviceTypeModel = serviceTypeModel;
+	}
+
+	public CustomerDTO getCustomerModel() {
+		return customerModel;
+	}
+
+	public void setCustomerModel(CustomerDTO customerModel) {
+		this.customerModel = customerModel;
+	}
+
+	public EmployeeDTO getEmployeeModel() {
+		return employeeModel;
+	}
+
+	public void setEmployeeModel(EmployeeDTO employeeModel) {
+		this.employeeModel = employeeModel;
+	}
+
+	public Time getIssueStartTime() {
+		return issueStartTime;
+	}
+
+	public void setIssueStartTime(Time issueStartTime) {
+		this.issueStartTime = issueStartTime;
+	}
+
+	public String getCustomerVehicleNumber() {
+		return customerVehicleNumber;
+	}
+
+	public void setCustomerVehicleNumber(String customerVehicleNumber) {
+		this.customerVehicleNumber = customerVehicleNumber;
+	}
+
+	public Date getIssueDate() {
+		return issueDate;
+	}
+
+	public void setIssueDate(Date issueDate) {
+		this.issueDate = issueDate;
+	}
+
+	public Time getIssueTime() {
+		return issueTime;
+	}
+
+	public void setIssueTime(Time issueTime) {
+		this.issueTime = issueTime;
+	}
 
 	/**
 	 * Gets the issue status.
