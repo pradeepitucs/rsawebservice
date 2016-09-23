@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +35,7 @@ import com.ucs.rsa.common.dto.RoleDTO;
 import com.ucs.rsa.common.dto.RolesDTO;
 import com.ucs.rsa.common.dto.ServiceProviderDTO;
 import com.ucs.rsa.common.dto.ServiceProvidersDTO;
+import com.ucs.rsa.common.dto.ServiceTypeDTO;
 import com.ucs.rsa.common.dto.StringBuilderDTO;
 import com.ucs.rsa.common.notification.SendNotification;
 import com.ucs.rsa.common.sms.SmsLane;
@@ -140,24 +139,24 @@ public class UserManagementResource {
 			@RequestParam(value = "olderEmployeeId") final int olderEmployeeId,
 			@RequestParam(value = "serviceProviderId") final int serviceProviderId) {
 
-		EmployeeModel customerModel = new EmployeeModel();
-		customerModel.setIsEnabled(isEnabled);
-		customerModel.setMobileNo(iMobileNo);
-		customerModel.setGcmId(iGcmId);
-		customerModel.setEmployeeEmail(employeeEmail);
-		customerModel.setEmployeeName(employeeName);
-		customerModel.setSendArrovalNotification(isSendApprovalNotification);
+		EmployeeModel employeeModel = new EmployeeModel();
+		employeeModel.setIsEnabled(isEnabled);
+		employeeModel.setMobileNo(iMobileNo);
+		employeeModel.setGcmId(iGcmId);
+		employeeModel.setEmployeeEmail(employeeEmail);
+		employeeModel.setEmployeeName(employeeName);
+		employeeModel.setSendArrovalNotification(isSendApprovalNotification);
 
 		RoleModel roleModel = new RoleModel();
 		roleModel.setRoleId(iRoleId);
 
-		customerModel.setRoleModel(roleModel);
-		customerModel.setUserId(iUserId);
-		customerModel.setOnwer(isOnwer);
-		customerModel.setServiceProviderID(serviceProviderId);
-		customerModel.setOlderEmployeeID(olderEmployeeId);
+		employeeModel.setRoleModel(roleModel);
+		employeeModel.setUserId(iUserId);
+		employeeModel.setOnwer(isOnwer);
+		employeeModel.setServiceProviderID(serviceProviderId);
+		employeeModel.setOlderEmployeeID(olderEmployeeId);
 
-		EmployeeModel customerModel1 = getUserService().updateEmployee(customerModel);
+		EmployeeModel customerModel1 = getUserService().updateEmployee(employeeModel);
 		if (customerModel1 != null) {
 			String smsForEmployee = " Mr " + customerModel1.getEmployeeName()
 					+ ", You has successfully registered in the RSA 247 network.";
@@ -172,7 +171,7 @@ public class UserManagementResource {
 
 		}
 
-		return new ModelAndView("xml", "customer", "Inserted Data");
+		return new ModelAndView("xml", "employee", "Inserted Data");
 	}
 
 	@RequestMapping(value = "/customers", method = { RequestMethod.GET })
@@ -256,6 +255,11 @@ public class UserManagementResource {
 			serviceProviderDTO.setServiceProvidertiming(serviceProviderModel.getServiceProvidertiming());
 			serviceProviderDTO.setServiceProviderWebsite(serviceProviderModel.getServiceProviderWebsite());
 			serviceProviderDTO.setTwoWheeler(serviceProviderModel.isTwoWheeler());
+			ServiceTypeModel abc = new ServiceTypeModel();
+			abc = serviceProviderModel.getServiceTypeModel();
+			ServiceTypeDTO abc1 = new ServiceTypeDTO();
+			abc1.setServiceTypeId(abc.getServiceTypeId());
+			serviceProviderDTO.setServiceproviderExperties(abc1);
 			serviceProviderDTOs.add(serviceProviderDTO);
 		}
 
@@ -573,7 +577,7 @@ public class UserManagementResource {
 			status = "error";
 		}
 		System.out.println("UserDTO " + userModel);
-		return new ModelAndView("xml", "userDTO", status);
+		return new ModelAndView("xml", "employees", status);
 	}
 
 	@RequestMapping(value = "/update", method = { RequestMethod.POST })
@@ -650,7 +654,7 @@ public class UserManagementResource {
 			}
 		}
 		System.out.println("UserDTO " + userModel);
-		return new ModelAndView("xml", "userDTO", status);
+		return new ModelAndView("xml", "serviceprovider", status);
 
 	}
 
@@ -1046,7 +1050,7 @@ public class UserManagementResource {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		byte[][] imagesByteArray = null;
+		byte[][] imagesByteArray = new byte[0][0];
 		String rootPath = System.getProperty("catalina.home");
 		if (imageFolderName != null) {
 			try {
@@ -1134,10 +1138,11 @@ public class UserManagementResource {
 			employeeDTO.setOnwer(employeeModel.isOnwer());
 			employeeDTO.setMobileNo(employeeModel.getMobileNo());
 			employeeDTO.setUserId(employeeModel.getUserId());
+			employeeDTO.setServiceProviderID(employeeModel.getServiceProviderID());
 			employeesDTOs.add(employeeDTO);
 		}
 		employeesDTO.setEmployeeDTO(employeesDTOs);
-		return new ModelAndView("xml", "customers", employeesDTO);
+		return new ModelAndView("xml", "employees", employeesDTO);
 	}
 
 	@RequestMapping(value = "/employee", method = { RequestMethod.GET })
@@ -1156,7 +1161,7 @@ public class UserManagementResource {
 			employeeDTO.setMobileNo(employeeModel.getMobileNo());
 			employeeDTO.setUserId(employeeModel.getUserId());
 		}
-		return new ModelAndView("xml", "Employee", employeeDTO);
+		return new ModelAndView("xml", "employee", employeeDTO);
 	}
 
 	@RequestMapping(value = "/getServiceProviderFromNumber", method = RequestMethod.POST)
@@ -1191,6 +1196,11 @@ public class UserManagementResource {
 			serviceProviderDTO.setServiceProviderTimestamp(serviceProviderModel.getServiceProviderTimestamp());
 			serviceProviderDTO.setServiceProvidertiming(serviceProviderModel.getServiceProvidertiming());
 			serviceProviderDTO.setServiceProviderWebsite(serviceProviderModel.getServiceProviderWebsite());
+			ServiceTypeModel abc = new ServiceTypeModel();
+			abc = serviceProviderModel.getServiceTypeModel();
+			ServiceTypeDTO abc1 = new ServiceTypeDTO();
+			abc1.setServiceTypeId(abc.getServiceTypeId());
+			serviceProviderDTO.setServiceproviderExperties(abc1);
 			serviceProviderDTO.setTwoWheeler(serviceProviderModel.isTwoWheeler());
 		}
 		return new ModelAndView("xml", "serviceProviderDTO", serviceProviderDTO);
@@ -1237,12 +1247,13 @@ public class UserManagementResource {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		byte[][] imagesByteArray = null;
+		byte[][] imagesByteArray = new byte[0][0];
 		String rootPath = System.getProperty("catalina.home");
 		if (imageFolderName != null) {
 			try {
 				int numberOfFiles = new File(rootPath + prop.getProperty("App_Name") + imageFolderName)
 						.listFiles().length;
+				numberOfFiles = 1; 
 				if (numberOfFiles != 0) {
 					imagesByteArray = new byte[numberOfFiles][];
 					for (int i = 0; i < numberOfFiles; i++) {
@@ -1298,7 +1309,7 @@ public class UserManagementResource {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		byte[][] imagesByteArray = null;
+		byte[][] imagesByteArray = new byte[0][0];
 		String rootPath = System.getProperty("catalina.home");
 		if (imageFolderName != null) {
 			try {
@@ -1334,18 +1345,5 @@ public class UserManagementResource {
 		return imagesByteArray;
 
 	}
-	
-	/*@RequestMapping(value = "/returnUrlResponse", method = RequestMethod.POST)
-	public @ResponseBody void returnUrlResponse(Hashtable<String, String> reqValMap){
-		try {
-		if(reqValMap!=null) {
-			System.out.println("---------------------" +reqValMap.toString());
-			getUserService().paymentResponse(reqValMap);
-		}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println(reqValMap);
-	}*/
 
 }
