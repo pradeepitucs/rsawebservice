@@ -132,13 +132,13 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 			if(employee!= null) {	
 				if(employee.getIsEnabled()){
 					if (employee.getGcmId()==iGcmId) {
-						result = "no change,employeeId:"+ employee.getUserId();
+						result = "approval_status:no change,employeeId:"+ employee.getUserId()+",serviceproviderId:"+employee.getServiceProviderID()+",owner:"+employee.isOnwer();
 					} else {
 						employee.setGcmId(iGcmId);
 						System.out.println("Before update");
 						theSession.update(employee);
 						System.out.println("After update");
-						result = "updated,employeeId:"+ employee.getUserId();
+						result = "approval_status:updated,employeeId:"+ employee.getUserId()+",serviceproviderId:"+employee.getServiceProviderID()+",owner:"+employee.isOnwer();
 					}
 				} else {
 					if(employee.getGcmId()==null) {
