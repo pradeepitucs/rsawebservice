@@ -16,6 +16,9 @@ import java.util.Properties;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -156,18 +159,33 @@ public class UserManagementResource {
 		employeeModel.setServiceProviderID(serviceProviderId);
 		employeeModel.setOlderEmployeeID(olderEmployeeId);
 
-		EmployeeModel customerModel1 = getUserService().updateEmployee(employeeModel);
+		final EmployeeModel customerModel1 = getUserService().updateEmployee(employeeModel);
 		if (customerModel1 != null) {
-			String smsForEmployee = " Mr " + customerModel1.getEmployeeName()
+			final String smsForEmployee = " Mr " + customerModel1.getEmployeeName()
 					+ ", You has successfully registered in the RSA 247 network.";
-			SmsLane.SMSSender("pradeepit", "pradeep143", "91" + customerModel1.getMobileNo(), smsForEmployee, "WebSMS",
-					"0");
-			String msg = ",\n\n" + "\t Welcome to RSA247 Provider Network"
+			//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + customerModel1.getMobileNo(), smsForEmployee, "WebSMS",
+					//"0");
+			Runnable r2 = new Runnable() {
+		         public void run() {
+		        	
+		        	sendSMS(smsForEmployee,customerModel1.getMobileNo());
+		        	
+		         }	
+		     };
+		     new Thread(r2).start();
+			final String msg = ",\n\n" + "\t Welcome to RSA247 Provider Network"
 					+ "\n  Congratulations, you are a member of the provider network in RSA247. We will review your details and documents and approve your registration."
 					+ " Please wait for the mobile app notification to start using the app." + "\n\n" + "\n\n"
 					+ "Thank you" + "\n\n" + "RSA247";
-			getGmailService().readyToSendEmail("aditya.s@ucs.consulting", customerModel1.getEmployeeEmail(),
-					"Successful Service Provider Registration", msg);
+			Runnable r1 = new Runnable() {
+		         public void run() {
+		        	
+		        	sendMail(msg, customerModel1.getEmployeeEmail());
+		         }	
+		     };
+		     new Thread(r1).start();
+			//getGmailService().readyToSendEmail("aditya.s@ucs.consulting", customerModel1.getEmployeeEmail(),
+					//"Successful Service Provider Registration", msg);
 
 		}
 
@@ -524,18 +542,28 @@ public class UserManagementResource {
 			customerModel.setServiceProviderID(userModel.getServiceProviderId());
 			customerModel.setOlderEmployeeID(1);
 			employeeModels.add(customerModel);
-			EmployeeModel employeeModel1 = getUserService().insertEmployeesData(customerModel);
+			final EmployeeModel employeeModel1 = getUserService().insertEmployeesData(customerModel);
 			if (!employeeMobileNumber.isEmpty() && !employeeName.isEmpty() && employeeModel1 != null) {
-				String smsForEmployee = " Mr " + employeeModel1.getEmployeeName()
+				final String smsForEmployee = " Mr " + employeeModel1.getEmployeeName()
 						+ ", You has successfully registered in the RSA 247 network.";
-				SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel1.getMobileNo(), smsForEmployee,
-						"WebSMS", "0");
-				String msg = ",\n\n" + "\t Welcome to RSA247 Provider Network"
+				Runnable r = new Runnable() {
+			         public void run() {
+			        	sendSMS(smsForEmployee,employeeModel1.getMobileNo());
+			         }	
+			     };
+			     new Thread(r).start();	
+				
+				final String msg = ",\n\n" + "\t Welcome to RSA247 Provider Network"
 						+ "\n  Congratulations, you are a member of the provider network in RSA247. We will review your details and documents and approve your registration."
 						+ " Please wait for the mobile app notification to start using the app." + "\n\n" + "\n\n"
 						+ "Thank you" + "\n\n" + "RSA247";
-				getGmailService().readyToSendEmail("aditya.s@ucs.consulting", employeeModel1.getEmployeeEmail(),
-						"Successful Service Provider Registration", msg);
+				Runnable r1 = new Runnable() {
+			         public void run() {
+			        	sendMail(msg,employeeModel1.getEmployeeEmail());
+			         }	
+			     };
+			     new Thread(r1).start();	
+				
 				String[] mobiles = employeeMobileNumber.split(",");
 				String[] names = employeeName.split(",");
 				for (int i = 0; i < mobiles.length; i++) {
@@ -558,15 +586,20 @@ public class UserManagementResource {
 					employee.setServiceProviderID(userModel.getServiceProviderId());
 					employee.setOlderEmployeeID(1);
 					employeeModels.add(employee);
-					EmployeeModel employeeModel = getUserService().insertEmployeesData(employee);
+					final EmployeeModel employeeModel = getUserService().insertEmployeesData(employee);
 					System.out.println(employeeModel);
 					if (employeeModel != null) {
 						status = "Inserted Data";
-						String smsForEmployees = " Mr " + employeeModel.getEmployeeName()
+					final	String smsForEmployees = " Mr " + employeeModel.getEmployeeName()
 								+ ", Your boss has registered you in the RSA 247 network. Please click the link below to complete the registration. Please use this number for registration.";
-						SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(),
-								smsForEmployees, "WebSMS", "0");
-
+						//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(),
+							//	smsForEmployees, "WebSMS", "0");
+						Runnable r2 = new Runnable() {
+					         public void run() {
+					        	sendSMS(smsForEmployees,employeeModel.getMobileNo());
+					         }	
+					     };
+					     new Thread(r2).start();
 					}
 				}
 			} else {
@@ -814,14 +847,34 @@ public class UserManagementResource {
 
 			EmployeeModel employeeModel = new EmployeeModel();
 			employeeModel = getUserService().get(EmployeeModel.class, employeeId);
-			String msg = "approval_status:Approved," + "employeeId:" + employeeModel.getUserId();
+			//String msg = "approval_status:Approved," + "employeeId:" + employeeModel.getUserId()+",serviceproviderId:"+employeeModel.getServiceProviderID()+",owner:" +employeeModel.isOnwer();
+			JSONArray jsonArrayObj = new JSONArray();
+			JSONObject js = new JSONObject();
+			try {
+				js.put("approval_status", "Approved");
+				js.put("employeeId", employeeModel.getUserId());
+				js.put("serviceproviderId", employeeModel.getServiceProviderID());
+				js.put("owner", employeeModel.isOnwer());
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+			}	
+			jsonArrayObj.put(js);
+			String msg = jsonArrayObj.toString();
 			ArrayList<String> deviceID = new ArrayList<>();
 			deviceID.add(employeeModel.getGcmId());
 			SendNotification sendNotification = new SendNotification();
 			String notificationStatus = sendNotification.sendNotificationData(deviceID, msg);
-			String smsForEmployee = "Your Business has been approved. You can use the app now to access RSA 247 customers.";
-			SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(), smsForEmployee, "WebSMS",
-					"0");
+			final String smsForEmployee = "Your Business has been approved. You can use the app now to access RSA 247 customers.";
+			//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(), smsForEmployee, "WebSMS",
+					//"0");
+			final long number = employeeModel.getMobileNo();
+			Runnable r2 = new Runnable() {
+		         public void run() {
+		        	
+		        	sendSMS(smsForEmployee,number);
+		         }	
+		     };
+		     new Thread(r2).start();
 
 		}
 		return new ModelAndView("xml", "result", result);
@@ -1344,6 +1397,67 @@ public class UserManagementResource {
 		}
 		return imagesByteArray;
 
+	}
+	
+	@RequestMapping(value = "/addEmployees", method = RequestMethod.POST)
+	public ModelAndView addEmployees(@RequestParam(value = "employeesNumber") final String  employeesNumber,
+			@RequestParam(value = "employeesName") final String employeesName,
+			@RequestParam(value = "serviceProviderId") final int serviceProviderId) {
+		String[] mobiles = employeesNumber.split(",");
+		String[] names = employeesName.split(",");
+		String status= "";
+		for (int i = 0; i < mobiles.length; i++) {
+			EmployeeModel employee = new EmployeeModel();
+			employee.setIsEnabled(false);
+			employee.setMobileNo(Long.parseLong(mobiles[i]));
+			if (names[i] == null) {
+				employee.setEmployeeName(null);
+			} else {
+				employee.setEmployeeName(names[i]);
+			}
+			employee.setSendArrovalNotification(false);
+
+			RoleModel roleModel1 = new RoleModel();
+			roleModel1.setRoleId(3);
+
+			employee.setRoleModel(roleModel1);
+			employee.setUserId(0);
+			employee.setOnwer(false);
+			employee.setServiceProviderID(serviceProviderId);
+			employee.setOlderEmployeeID(1);
+			final EmployeeModel employeeModel = getUserService().insertEmployeesData(employee);
+			System.out.println(employeeModel);
+			if (employeeModel != null) {
+				status = "Inserted Data";
+				final String smsForEmployees = " Mr " + employeeModel.getEmployeeName()
+						+ ", Your boss has registered you in the RSA 247 network. Please click the link below to complete the registration. Please use this number for registration.";
+				//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(),
+						//smsForEmployees, "WebSMS", "0");
+				
+				Runnable r2 = new Runnable() {
+			         public void run() {
+			        	
+			        	sendSMS(smsForEmployees,employeeModel.getMobileNo());
+			         }	
+			     };
+			     new Thread(r2).start();
+
+			}
+		}
+		return new ModelAndView("xml", "employees", status);
+	
+	}
+	
+	private void sendSMS(String smsForEmployee, long mobileNo) {
+		// TODO Auto-generated method stub
+		SmsLane.SMSSender("pradeepit", "pradeep143", "91" + mobileNo, smsForEmployee,
+				"WebSMS", "0");
+	}
+	
+	private void sendMail(String msg, String employeeEmail) {
+		// TODO Auto-generated method stub
+		getGmailService().readyToSendEmail("aditya.s@ucs.consulting", employeeEmail,
+				"Successful Service Provider Registration", msg);
 	}
 
 }
