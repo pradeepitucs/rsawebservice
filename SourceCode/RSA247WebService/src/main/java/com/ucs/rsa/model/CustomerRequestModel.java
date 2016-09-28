@@ -92,16 +92,16 @@ public class CustomerRequestModel implements Serializable {
 	private CustomerModel customerModel;
 
 	//bi-directional many-to-one association to ServiceProviderModel
-	@ManyToOne
-	@JoinColumn(name="employee_id")
-	private EmployeeModel employeeModel;
-	
-	public EmployeeModel getEmployeeModel() {
-		return employeeModel;
+	/*@ManyToOne
+	@JoinColumn(name="employee_id")*/
+	private int employeeID;
+
+	public int getEmployeeID() {
+		return employeeID;
 	}
 
-	public void setEmployeeModel(EmployeeModel employeeModel) {
-		this.employeeModel = employeeModel;
+	public void setEmployeeID(int employeeID) {
+		this.employeeID = employeeID;
 	}
 
 	// bi-directional many-to-one association to CustomerReviewModel
