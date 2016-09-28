@@ -80,6 +80,7 @@ public class CustomerRequestResource {
 		String[] timeAndDate = timeStamp.split(" ");
 		//java.sql.Time time = new java.sql.Time(System.currentTimeMillis());
 		customerRequestModel.setIssueTime(Time.valueOf(timeAndDate[1]));
+		customerRequestModel.setIssueStartTime(Time.valueOf("00:00:00"));
 		customerRequestModel.setIssueDate(startDate);
 		ServiceTypeModel serverType = new ServiceTypeModel();
 		serverType.setServiceTypeId(issueTypeId);
@@ -89,9 +90,9 @@ public class CustomerRequestResource {
 		customerModel.setUserId(customerId);
 		customerRequestModel.setCustomerModel(customerModel);
 		
-		EmployeeModel employeeModel = new EmployeeModel();
-		employeeModel.setUserId(employeeId);
-		customerRequestModel.setEmployeeModel(employeeModel);
+		/*EmployeeModel employeeModel = new EmployeeModel();
+		employeeModel.setUserId(employeeId);*/
+		customerRequestModel.setEmployeeID(0);
 		
 		final CustomerRequestModel customerRequestModel1 = getCustomerRequestService()
 				.updateCustomerRequest(customerRequestModel);
