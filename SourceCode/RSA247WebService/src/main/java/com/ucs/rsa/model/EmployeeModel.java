@@ -62,8 +62,8 @@ public class EmployeeModel extends UserModel implements Serializable
 
 	/** The customer request models. */
 	// bi-directional many-to-one association to CustomerRequestModel
-	@OneToMany(mappedBy = "employeeModel", fetch = FetchType.LAZY)
-	private List<CustomerRequestModel> customerRequestModels;
+	/*@OneToMany(mappedBy = "employeeModel", fetch = FetchType.LAZY)
+	private List<CustomerRequestModel> customerRequestModels;*/
 
 	/** The customer review models. */
 	// bi-directional many-to-one association to CustomerReviewModel
@@ -224,12 +224,12 @@ public class EmployeeModel extends UserModel implements Serializable
 	 *           the customer request model
 	 * @return the customer request model
 	 */
-	public CustomerRequestModel addCustomerRequestModel(CustomerRequestModel customerRequestModel)
+	/*public CustomerRequestModel addCustomerRequestModel(CustomerRequestModel customerRequestModel)
 	{
 		getCustomerRequestModels().add(customerRequestModel);
 		customerRequestModel.setEmployeeModel(this);
 		return customerRequestModel;
-	}
+	}*/
 
 	/**
 	 * Removes the customer request model.
@@ -238,33 +238,33 @@ public class EmployeeModel extends UserModel implements Serializable
 	 *           the customer request model
 	 * @return the customer request model
 	 */
-	public CustomerRequestModel removeCustomerRequestModel(CustomerRequestModel customerRequestModel)
+	/*public CustomerRequestModel removeCustomerRequestModel(CustomerRequestModel customerRequestModel)
 	{
 		getCustomerRequestModels().remove(customerRequestModel);
 		customerRequestModel.setEmployeeModel(null);
 		return customerRequestModel;
 	}
 
-	/**
+	*//**
 	 * Gets the customer request models.
 	 *
 	 * @return the customer request models
-	 */
+	 *//*
 	public List<CustomerRequestModel> getCustomerRequestModels()
 	{
 		return customerRequestModels;
 	}
 
-	/**
+	*//**
 	 * Sets the customer request models.
 	 *
 	 * @param customerRequestModels
 	 *           the new customer request models
-	 */
+	 *//*
 	public void setCustomerRequestModels(List<CustomerRequestModel> customerRequestModels)
 	{
 		this.customerRequestModels = customerRequestModels;
-	}
+	}*/
 
 	/**
 	 * Gets the customer review models.
