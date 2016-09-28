@@ -32,7 +32,7 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 				&& !"".equals(iCustomerRequestModel.getServiceTypeModel())
 				&& !"".equals(iCustomerRequestModel.getCustomerLatitude())
 				&& !"".equals(iCustomerRequestModel.getCustomerLongitude())
-				&& !"".equals(iCustomerRequestModel.getEmployeeModel())
+				&& !"".equals(iCustomerRequestModel.getEmployeeID())
 				&& !"".equals(iCustomerRequestModel.getIssueId())
 				&& !"".equals(iCustomerRequestModel.getIssueStatus())) {
 			customerRequestModel = customerRequestDAO.updateCustomerRequest(iCustomerRequestModel);
@@ -47,7 +47,7 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 	@Override
 	public ArrayList<String> updateCustomerRequestByEmployee(CustomerRequestModel iCustomerRequestModel) {
 		ArrayList<String> customerRequestResponse = null;
-		if (!"".equals(iCustomerRequestModel.getEmployeeModel()) && !"".equals(iCustomerRequestModel.getIssueId())
+		if (!"".equals(iCustomerRequestModel.getEmployeeID()) && !"".equals(iCustomerRequestModel.getIssueId())
 				&& !"".equals(iCustomerRequestModel.getIssueStatus())) {
 			customerRequestResponse = customerRequestDAO.updateCustomerRequestByEmployee(iCustomerRequestModel);
 		} else {
@@ -106,7 +106,7 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 	@Override
 	public CustomerRequestModel updateCustomerIssueAfterAccepting(CustomerRequestModel iCustomerRequestModel) {
 		CustomerRequestModel customerRequestResponse = null;
-		if (!"".equals(iCustomerRequestModel.getEmployeeModel()) && !"".equals(iCustomerRequestModel.getIssueId())
+		if (!"".equals(iCustomerRequestModel.getEmployeeID()) && !"".equals(iCustomerRequestModel.getIssueId())
 				&& !"".equals(iCustomerRequestModel.getIssueStatus())) {
 			customerRequestResponse = customerRequestDAO.updateCustomerIssueAfterAccepting(iCustomerRequestModel);
 		} else {
@@ -128,7 +128,7 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 			ArrayList<CustomerSubIssueModel> customerSubIssueModelList,
 			ServiceProviderCommentModel serviceProviderCommentModel) {
 		CustomerRequestModel customerRequestResponse = null;
-		if (!"".equals(customerRequestModel.getEmployeeModel()) && !"".equals(customerRequestModel.getIssueId())
+		if (!"".equals(customerRequestModel.getEmployeeID()) && !"".equals(customerRequestModel.getIssueId())
 				&& !"".equals(customerRequestModel.getIssueStatus()) && !"".equals(customerSubIssueModelList)
 				&& !"".equals(serviceProviderCommentModel)) {
 			customerRequestResponse = customerRequestDAO.updateCustomerIssueByServiceProvider(customerRequestModel,
@@ -145,7 +145,7 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 	public CustomerRequestModel rejectCustomerIssue(CustomerRequestModel customerRequestModel,
 			ServiceProviderCommentModel serviceProviderCommentModel) {
 		CustomerRequestModel customerRequestResponse = null;
-		if (!"".equals(customerRequestModel.getEmployeeModel()) && !"".equals(customerRequestModel.getIssueId())
+		if (!"".equals(customerRequestModel.getEmployeeID()) && !"".equals(customerRequestModel.getIssueId())
 				&& !"".equals(customerRequestModel.getIssueStatus())
 				&& !"".equals(serviceProviderCommentModel)) {
 			customerRequestResponse = customerRequestDAO.rejectCustomerIssue(customerRequestModel,
