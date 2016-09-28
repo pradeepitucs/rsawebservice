@@ -51,8 +51,16 @@ public class CustomerRequestDTO implements Serializable
 
 	private CustomerDTO customerModel;
 
-	private EmployeeDTO employeeModel;
+	private int employeeID;
 
+
+	public int getEmployeeID() {
+		return employeeID;
+	}
+
+	public void setEmployeeID(int employeeID) {
+		this.employeeID = employeeID;
+	}
 
 	public ServiceTypeDTO getServiceTypeModel() {
 		return serviceTypeModel;
@@ -68,14 +76,6 @@ public class CustomerRequestDTO implements Serializable
 
 	public void setCustomerModel(CustomerDTO customerModel) {
 		this.customerModel = customerModel;
-	}
-
-	public EmployeeDTO getEmployeeModel() {
-		return employeeModel;
-	}
-
-	public void setEmployeeModel(EmployeeDTO employeeModel) {
-		this.employeeModel = employeeModel;
 	}
 
 	public Time getIssueStartTime() {
