@@ -30,7 +30,7 @@ public class DefaultEmployeeDashboardRequestDAO extends DefaultBaseDAO implement
 			EmployeeModel employee =  new EmployeeModel();
 			employee.setUserId(employeeId);
 				Criteria theCriteria = (Criteria) theSession.createCriteria(CustomerRequestModel.class, "customerRequestModel")
-						.add(Restrictions.eq("employeeModel", employee))
+						.add(Restrictions.eq("employeeID", employee))
 						.add(Restrictions.eq("issueStatus", status));
 				if (theCriteria != null) {
 					List<CustomerRequestModel> listOfCustomerRequest = theCriteria.list();
@@ -56,7 +56,7 @@ public class DefaultEmployeeDashboardRequestDAO extends DefaultBaseDAO implement
 			EmployeeModel employee =  new EmployeeModel();
 			employee.setUserId(employeeId);
 				Criteria theCriteria = (Criteria) theSession.createCriteria(CustomerReviewModel.class, "customerRequestModel")
-						.add(Restrictions.eq("employeeModel", employee));
+						.add(Restrictions.eq("employeeID", employee));
 				if (theCriteria != null) {
 					List<CustomerReviewModel> listOfCustomerReview = theCriteria.list();
 					int size = listOfCustomerReview.size();
@@ -109,7 +109,7 @@ public class DefaultEmployeeDashboardRequestDAO extends DefaultBaseDAO implement
 		try {
 			theSession = currentSession();
 				Criteria theCriteria = (Criteria) theSession.createCriteria(CustomerRequestModel.class, "customerRequestModel")
-						.add(Restrictions.in("employeeModel", employees))
+						.add(Restrictions.in("employeeID", employees))
 						.add(Restrictions.eq("issueStatus", status));
 						
 				if (theCriteria != null) {
