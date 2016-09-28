@@ -76,7 +76,7 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 			if (customerRequestList.getIssueStatus().equals("Open" )) {
 				customerRequestList.setIssueStartTime(iCustomerRequestModel.getIssueStartTime());
 				customerRequestList.setIssueStatus(iCustomerRequestModel.getIssueStatus());
-				customerRequestList.setEmployeeModel(iCustomerRequestModel.getEmployeeModel());
+				customerRequestList.setEmployeeID(iCustomerRequestModel.getEmployeeID());
 				theSession.saveOrUpdate(customerRequestList);
 				customerRequestResponse.add("Accepted");
 			} else {
@@ -304,7 +304,7 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 					.createCriteria(CustomerRequestModel.class, "customerRequestModel")
 					.add(Restrictions.eq("issueId", iCustomerRequestModel.getIssueId())).uniqueResult();
 			customerRequest.setIssueStatus(iCustomerRequestModel.getIssueStatus());
-			customerRequest.setEmployeeModel(iCustomerRequestModel.getEmployeeModel());
+			customerRequest.setEmployeeID(iCustomerRequestModel.getEmployeeID());
 			theSession.saveOrUpdate(customerRequest);
 		} catch (RSAException e) {
 			throw e;
