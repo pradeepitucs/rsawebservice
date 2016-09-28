@@ -50,9 +50,9 @@ public class HandleCustomerRequestResource {
 		customerRequestModel.setIssueId(issue_id);
 		customerRequestModel.setIssueStatus(issue_status);
 
-		EmployeeModel serviceProviderModel = new EmployeeModel();
-		serviceProviderModel.setUserId(emp_id);
-		customerRequestModel.setEmployeeModel(serviceProviderModel);
+		/*EmployeeModel serviceProviderModel = new EmployeeModel();
+		serviceProviderModel.setUserId(emp_id);*/
+		customerRequestModel.setEmployeeID(emp_id);
 		final CustomerRequestModel customerRequest = getCustomerRequestService()
 				.updateCustomerIssueAfterAccepting(customerRequestModel);
 		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO();
@@ -81,9 +81,9 @@ public class HandleCustomerRequestResource {
 		customerRequestModel.setIssueId(issue_id);
 		customerRequestModel.setIssueStatus(issue_status);
 
-		EmployeeModel serviceProviderModel = new EmployeeModel();
-		serviceProviderModel.setUserId(emp_id);
-		customerRequestModel.setEmployeeModel(serviceProviderModel);
+		/*EmployeeModel serviceProviderModel = new EmployeeModel();
+		serviceProviderModel.setUserId(emp_id);*/
+		customerRequestModel.setEmployeeID(emp_id);
 
 		UserModel userModel = new UserModel();
 		userModel.setUserId(emp_id);
@@ -160,9 +160,9 @@ public class HandleCustomerRequestResource {
 		customerRequestModel.setIssueId(issue_id);
 		customerRequestModel.setIssueStatus(issue_status);
 
-		EmployeeModel serviceProviderModel = new EmployeeModel();
-		serviceProviderModel.setUserId(emp_id);
-		customerRequestModel.setEmployeeModel(serviceProviderModel);
+		/*EmployeeModel serviceProviderModel = new EmployeeModel();
+		serviceProviderModel.setUserId(emp_id);*/
+		customerRequestModel.setEmployeeID(emp_id);
 
 		UserModel userModel = new UserModel();
 		userModel.setUserId(emp_id);
@@ -214,9 +214,9 @@ public class HandleCustomerRequestResource {
 		customerRequestModel.setIssueStartTime(st_time);
 		// customerRequestModel.set
 
-		EmployeeModel serviceProviderModel = new EmployeeModel();
-		serviceProviderModel.setUserId(emp_id);
-		customerRequestModel.setEmployeeModel(serviceProviderModel);
+		/*EmployeeModel serviceProviderModel = new EmployeeModel();
+		serviceProviderModel.setUserId(emp_id);*/
+		customerRequestModel.setEmployeeID(emp_id);
 
 		final ArrayList<String> customerRequestResponse = getCustomerRequestService()
 				.updateCustomerRequestByEmployee(customerRequestModel);
@@ -238,9 +238,9 @@ public class HandleCustomerRequestResource {
 		CustomerRequestModel customerRequestModel = new CustomerRequestModel();
 		customerRequestModel.setIssueId(issue_id);
 		customerRequestModel.setIssueStatus(issue_status);
-		EmployeeModel serviceProviderModel = new EmployeeModel();
-		serviceProviderModel.setUserId(emp_id);
-		customerRequestModel.setEmployeeModel(serviceProviderModel);
+		/*EmployeeModel serviceProviderModel = new EmployeeModel();
+		serviceProviderModel.setUserId(emp_id);*/
+		customerRequestModel.setEmployeeID(emp_id);
 		List<ServiceTypeModel> serviceCompleted = getCustomerRequestService().getCompletedService(issue_id,
 				customerRequestModel);
 		List<ServiceTypeDTO> ServiceTypeDTO = new ArrayList<>();
