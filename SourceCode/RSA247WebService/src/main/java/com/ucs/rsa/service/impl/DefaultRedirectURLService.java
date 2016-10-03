@@ -3,16 +3,7 @@
  */
 package com.ucs.rsa.service.impl;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,8 +14,8 @@ import com.ucs.rsa.common.notification.SendNotification;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerPaymentModel;
 import com.ucs.rsa.model.CustomerRequestModel;
+import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.IssuePaymentModel;
-import com.ucs.rsa.model.PaymentModel;
 import com.ucs.rsa.service.RedirectURLService;
 
 
@@ -83,6 +74,26 @@ public class DefaultRedirectURLService extends DefaultBaseService implements Red
 				paymentModel.setTransactionId(jsonData1.getString("transactionId"));
 
 				save(paymentModel);
+				if(jsonData1.getString("TxStatus").equals("SUCCESS")){
+				CustomerRequestModel cus = new CustomerRequestModel();
+				cus = get(CustomerRequestModel.class, Integer.parseInt(jsonData1.getString("param2")));
+				int empId = cus.getEmployeeID();
+				EmployeeModel emp = new EmployeeModel();
+				emp = get(EmployeeModel.class, empId);
+				ArrayList<String> deviceID = new ArrayList<>();
+				deviceID.add(emp.getGcmId());
+				JSONArray jsonArrayObj = new JSONArray();
+				JSONObject js = new JSONObject();
+				try {
+					js.put("Statua", jsonData1.getString("TxStatus"));
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}	
+				jsonArrayObj.put(js);
+				String msg = jsonArrayObj.toString();
+				SendNotification sendNotification = new SendNotification();
+				sendNotification.sendNotificationData(deviceID, msg); 
+				}
 			}
 				CustomerModel customer = new CustomerModel();
 				customer = get(CustomerModel.class,Integer.parseInt(jsonData1.getString("param1")));
