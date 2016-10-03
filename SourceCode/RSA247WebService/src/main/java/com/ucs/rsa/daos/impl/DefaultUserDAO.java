@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import com.google.gson.Gson;
 import com.ucs.rsa.common.constants.RSAErrorConstants;
 import com.ucs.rsa.common.exception.RSAException;
 import com.ucs.rsa.daos.UserDAO;
@@ -13,6 +14,7 @@ import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.model.ServiceProviderServiceMatchingModel;
+import com.ucs.rsa.model.SurveyVerificationModel;
 import com.ucs.rsa.model.UserVehicleModel;
 
 @Repository(value="defaultUserDAO")
@@ -128,7 +130,9 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 			EmployeeModel employee = null;
 			employee = (EmployeeModel) theSession.createCriteria(EmployeeModel.class, "employeeModel")
 					.add(Restrictions.eq("mobileNo", mobileNo)).uniqueResult();
-			
+			SurveyVerificationModel surveyVerification =  null;
+			surveyVerification = (SurveyVerificationModel) theSession.createCriteria(SurveyVerificationModel.class, "surveyVerificationModel")
+					.add(Restrictions.eq("contactpersonPhoneNumber", mobileNo)).uniqueResult();
 			if(employee!= null) {	
 				if(employee.getIsEnabled()){
 					if (employee.getGcmId()==iGcmId) {
@@ -151,6 +155,9 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO {
 						result = "Approval Pending";
 					}
 				}
+			} else if(surveyVerification!=null){
+				result = new Gson().toJson(surveyVerification);
+				
 			} else {
 				result = "not exist";
 			}
