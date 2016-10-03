@@ -1,5 +1,6 @@
 package com.ucs.rsa.service;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface CustomerRequestService extends BaseService {
 	
 	public CustomerRequestModel updateCustomerIssueAfterAccepting(CustomerRequestModel iCustomerRequestModel);
 	
-	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, int serviceType);
+	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, int serviceType,String newTimeFormat);
 	
 	public ArrayList<String> getDeviceIDSFromServiceProviderIDS(ArrayList<Integer> serviceProviderIDs);
 	
