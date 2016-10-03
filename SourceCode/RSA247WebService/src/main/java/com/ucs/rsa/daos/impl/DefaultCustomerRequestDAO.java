@@ -138,9 +138,13 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 				    calendar3.add(Calendar.DATE, 1);
 
 				    Date x = calendar3.getTime();
-				    if (x.after(calendar1.getTime()) && x.before(calendar2.getTime())) {
-				        //checkes whether the current time is between 14:49:00 and 20:11:13.
-				        System.out.println(true);
+				    Date x1 = calendar2.getTime();
+				    if(x1.before(calendar1.getTime()))
+				    {
+				    	calendar2.add(Calendar.HOUR, 24);
+				    	x1 = calendar2.getTime();
+				    }
+				    if (x.after(calendar1.getTime()) && x.before(x1)) {
 				        serviceProviderFinalList.add(serviceProviderModel);
 				    }
 				} catch (ParseException e) {
