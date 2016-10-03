@@ -78,8 +78,9 @@ public class DefaultEmployeeDashboardRequestDAO extends DefaultBaseDAO implement
 	}
 
 	@Override
-	public List<EmployeeModel> getEmployeeFromServiceProviderId(int serviceProviderId) {
-		List<EmployeeModel> employees =null;
+	public List<Integer> getEmployeeFromServiceProviderId(int serviceProviderId) {
+		List<Integer> employees =new ArrayList<Integer>();
+		List<EmployeeModel> employeesModel =null;
 		Session theSession = null;
 		try {
 			theSession = currentSession();
@@ -89,7 +90,10 @@ public class DefaultEmployeeDashboardRequestDAO extends DefaultBaseDAO implement
 						"userId"))
 				.setResultTransformer(Transformers.aliasToBean(EmployeeModel.class));
 				if (theCriteria != null) {
-					employees = theCriteria.list();
+					employeesModel = theCriteria.list();
+					for(EmployeeModel employeeModel: employeesModel){
+						employees.add(employeeModel.getUserId());
+					}
 				}
 		} catch (RSAException e) {
 			throw e;
@@ -103,7 +107,7 @@ public class DefaultEmployeeDashboardRequestDAO extends DefaultBaseDAO implement
 	}
 
 	@Override
-	public int getCompletedOrRejectedCountForServiceProvider(String status, List<EmployeeModel> employees) {
+	public int getCompletedOrRejectedCountForServiceProvider(String status, List<Integer> employees) {
 		int count =0;
 		Session theSession = null;
 		try {
@@ -115,6 +119,8 @@ public class DefaultEmployeeDashboardRequestDAO extends DefaultBaseDAO implement
 				if (theCriteria != null) {
 					List<CustomerRequestModel> listOfCustomerRequest = theCriteria.list();
 					count = listOfCustomerRequest.size();
+				} else {
+					count=0;
 				}
 		} catch (RSAException e) {
 			throw e;
