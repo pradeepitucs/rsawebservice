@@ -600,14 +600,14 @@ public class UserManagementResource {
 					         }	
 					     };
 					     new Thread(r2).start();
-					     final String msg1 = ",\n\n" + "\t Please complete the registration by downloading the RSA247 app from the link below. Use the phone number below to register. goo.gl/Axyn3?1"+
+					     /*final String msg1 = ",\n\n" + "\t Please complete the registration by downloading the RSA247 app from the link below. Use the phone number below to register. goo.gl/Axyn3?1"+
 					     "\n"+ "\t MobileNumber = "+employeeModel.getMobileNo();
 					     Runnable r3 = new Runnable() {
 					         public void run() {
 					        	sendMailToEmployee(msg1, employeeModel.getEmployeeEmail());
 					         }	
 					     };
-					     new Thread(r3).start();
+					     new Thread(r3).start();*/
 					}
 				}
 			} else {
