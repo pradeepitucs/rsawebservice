@@ -1,5 +1,6 @@
 package com.ucs.rsa.daos;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface CustomerRequestDAO extends BaseDAO{
 	
 	public CustomerRequestModel updateCustomerIssueAfterAccepting(CustomerRequestModel iCustomerRequestModel);
 	
-    public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, int serviceType);
+    public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, int serviceType,String newTimeFormat);
 	
 	public ArrayList<String> getDeviceIDSFromServiceProviderIDS(ArrayList<Integer> serviceProviderIDs);
 	
