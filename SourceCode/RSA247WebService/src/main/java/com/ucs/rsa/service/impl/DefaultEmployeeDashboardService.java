@@ -37,8 +37,8 @@ public class DefaultEmployeeDashboardService extends DefaultBaseService implemen
 	}
 
 	@Override
-	public List<EmployeeModel> getEmployeeFromServiceProviderId(int serviceProviderId) {
-		List<EmployeeModel> employees =null;
+	public List<Integer> getEmployeeFromServiceProviderId(int serviceProviderId) {
+		List<Integer> employees =null;
 		if( serviceProviderId!=0) {
 			employees = employeeDashboardRequestDAO.getEmployeeFromServiceProviderId(serviceProviderId);
 		}
@@ -46,7 +46,7 @@ public class DefaultEmployeeDashboardService extends DefaultBaseService implemen
 	}
 
 	@Override
-	public int getCompletedOrRejectedCountForServiceProvider(String status, List<EmployeeModel> employees) {
+	public int getCompletedOrRejectedCountForServiceProvider(String status, List<Integer> employees) {
 		int count =0;
 		if(status!=null && employees!=null) {
 			count = employeeDashboardRequestDAO.getCompletedOrRejectedCountForServiceProvider(status, employees);
