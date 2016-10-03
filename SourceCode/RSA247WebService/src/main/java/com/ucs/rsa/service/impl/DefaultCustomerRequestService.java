@@ -1,5 +1,6 @@
 package com.ucs.rsa.service.impl;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,9 +60,9 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 	}
 
 	@Override
-	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, int serviceType) {
+	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, int serviceType,String newTimeFormat) {
 		ArrayList<Integer> serviceProviderList = null;
-		serviceProviderList = customerRequestDAO.getServiceProviderIDS(ratingAndLocation, serviceType);
+		serviceProviderList = customerRequestDAO.getServiceProviderIDS(ratingAndLocation, serviceType,newTimeFormat);
 		return serviceProviderList;
 	}
 
