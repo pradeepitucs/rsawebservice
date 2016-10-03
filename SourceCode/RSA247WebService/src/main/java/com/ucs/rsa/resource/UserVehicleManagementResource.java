@@ -27,6 +27,8 @@ import com.ucs.rsa.common.dto.VehicleManufacturersDTO;
 import com.ucs.rsa.common.dto.VehicleTypeDTO;
 import com.ucs.rsa.common.dto.VehicleTypesDTO;
 import com.ucs.rsa.common.dto.VehiclesDTO;
+import com.ucs.rsa.common.sms.SmsLane;
+import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.UserVehicleModel;
 import com.ucs.rsa.model.VehicleBodyTypeModel;
 import com.ucs.rsa.model.VehicleFuelTypeModel;
@@ -34,6 +36,7 @@ import com.ucs.rsa.model.VehicleInformationModel;
 import com.ucs.rsa.model.VehicleManufacturerModel;
 import com.ucs.rsa.model.VehicleModel;
 import com.ucs.rsa.model.VehicleTypeModel;
+import com.ucs.rsa.service.GmailService;
 import com.ucs.rsa.service.UserVehicleService;
 
 
@@ -52,6 +55,9 @@ public class UserVehicleManagementResource
 	/** The user vehicle service. */
 	@Autowired
 	private UserVehicleService userVehicleService;
+	
+	@Autowired
+	GmailService gmailService;
 
 	/**
 	 * Gets the user vehicle service.
@@ -136,15 +142,66 @@ public class UserVehicleManagementResource
 				vehicleFuelTypeModel, vehicleTypeModel);
 
 		UserVehicleDTO userVehicleDTO = new UserVehicleDTO();
-
+		if(userVehicleModel1!=null) {
+			final String smsForCustomer = "You have successfully registered with RSA247. Please check your mail for more details";
+			 CustomerModel customer = new CustomerModel();
+			customer = getUserVehicleService().get(CustomerModel.class, iUserId);
+			final long customerNumber = customer.getMobileNo();
+			final String customerEmail = customer.getEmailId();
+			//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + customerNumber, smsForCustomer, "WebSMS",
+				//	"0");
+			Runnable r2 = new Runnable() {
+		         public void run() {
+		        	
+		        	sendSMS(smsForCustomer,customerNumber);
+		        	
+		         }	
+		     };
+		     new Thread(r2).start();
+			final String msg = ",\n\n" 
+					+"\t Congratulations"
+					+"\n You have registered successfully with RSA247. You can now be part of the exclusive network of RSA247."
+					+"Please go through our website(http://www.rsa247.com/) or our mobile app(https://play.google.com/store/apps/details?id=com.google.android.youtube&hl=en) to know the advantages of our yearly subscription."
+					+"\n\n"
+					+"\n\n"
+					+"Thank you"
+					+"\n\n"
+					+"RSA247";
+			Runnable r3 = new Runnable() {
+		         public void run() {
+		        	
+		        	sendMail(msg, customerEmail);;
+		        	
+		         }	
+		     };
+		     new Thread(r3).start();
 		userVehicleDTO.setIsEnabled(userVehicleModel1.getIsEnabled());
 		userVehicleDTO.setUserId(userVehicleModel1.getUserId());
 		userVehicleDTO.setVehicleId(userVehicleModel1.getVehicleId());
 		userVehicleDTO.setVehicleRegNo(userVehicleModel1.getVehicleRegNo());
-
+		}
 		return new ModelAndView("xml", "userVehicle", userVehicleDTO);
 	}
+	
+	private void sendSMS(String smsForEmployee, long mobileNo) {
+		// TODO Auto-generated method stub
+		SmsLane.SMSSender("pradeepit", "pradeep143", "91" + mobileNo, smsForEmployee,
+				"WebSMS", "0");
+	}
+	
+	private void sendMail(String msg, String employeeEmail) {
+		// TODO Auto-generated method stub
+		getGmailService().readyToSendEmail("aditya.s@ucs.consulting", employeeEmail,
+				"Successful Service Provider Registration", msg);
+	}
 
+	public GmailService getGmailService() {
+		return gmailService;
+	}
+
+	public void setGmailService(GmailService gmailService) {
+		this.gmailService = gmailService;
+	}
 	/**
 	 * Vehicle body types.
 	 *
