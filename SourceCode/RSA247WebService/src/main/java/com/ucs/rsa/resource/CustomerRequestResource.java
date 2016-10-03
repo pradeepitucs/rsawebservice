@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.ucs.rsa.common.dto.CustomerDTO;
 import com.ucs.rsa.common.dto.CustomerRequestDTO;
 import com.ucs.rsa.common.dto.CustomerRequestsDTO;
 import com.ucs.rsa.common.dto.ServiceTypeDTO;
@@ -34,7 +32,6 @@ import com.ucs.rsa.common.notification.SendNotification;
 import com.ucs.rsa.common.sms.SmsLane;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerRequestModel;
-import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceTypeModel;
 import com.ucs.rsa.model.UserVehicleModel;
 import com.ucs.rsa.service.CustomerRequestService;
@@ -319,7 +316,9 @@ public class CustomerRequestResource {
 			ratingArray.add(latStoped);
 			ratingArray.add(longStarted);
 			ratingArray.add(longStoped);
-			serviceProviderID = getCustomerRequestService().getServiceProviderIDS(ratingArray, entities.getServiceTypeModel().getServiceTypeId());
+			String newTimeFormatInString = new SimpleDateFormat("H:m").format(entities.getIssueTime());
+			//Time newTimeFormat =  Time.valueOf(newTimeFormatInString);
+			serviceProviderID = getCustomerRequestService().getServiceProviderIDS(ratingArray, entities.getServiceTypeModel().getServiceTypeId(),newTimeFormatInString);
 			return serviceProviderID;
 		}
 
