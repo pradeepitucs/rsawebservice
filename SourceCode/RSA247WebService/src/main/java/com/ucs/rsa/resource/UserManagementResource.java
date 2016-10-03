@@ -591,7 +591,7 @@ public class UserManagementResource {
 					if (employeeModel != null) {
 						status = "Inserted Data";
 					final	String smsForEmployees = " Mr " + employeeModel.getEmployeeName()
-								+ ", Your boss has registered you in the RSA 247 network. Please click the link below to complete the registration. Please use this number for registration.";
+								+ ", Download the RSA247 mobile app from the below link. goo.gl/Axyn3?1";
 						//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(),
 							//	smsForEmployees, "WebSMS", "0");
 						Runnable r2 = new Runnable() {
@@ -600,6 +600,14 @@ public class UserManagementResource {
 					         }	
 					     };
 					     new Thread(r2).start();
+					     final String msg1 = ",\n\n" + "\t Please complete the registration by downloading the RSA247 app from the link below. Use the phone number below to register. goo.gl/Axyn3?1"+
+					     "\n"+ "\t MobileNumber = "+employeeModel.getMobileNo();
+					     Runnable r3 = new Runnable() {
+					         public void run() {
+					        	sendMailToEmployee(msg1, employeeModel.getEmployeeEmail());
+					         }	
+					     };
+					     new Thread(r3).start();
 					}
 				}
 			} else {
@@ -1458,6 +1466,12 @@ public class UserManagementResource {
 		// TODO Auto-generated method stub
 		getGmailService().readyToSendEmail("aditya.s@ucs.consulting", employeeEmail,
 				"Successful Service Provider Registration", msg);
+	}
+	
+	private void sendMailToEmployee(String msg, String employeeEmail) {
+		// TODO Auto-generated method stub
+		getGmailService().readyToSendEmail("aditya.s@ucs.consulting", employeeEmail,
+				"Your RSA247 Registration is pending", msg);
 	}
 
 }
