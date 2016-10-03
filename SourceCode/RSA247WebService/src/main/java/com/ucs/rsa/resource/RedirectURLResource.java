@@ -41,80 +41,17 @@ public class RedirectURLResource extends HttpServlet
 	/** The redirect URL resource. */
 	@Autowired
 	RedirectURLService redirectURLResource ;
-
-	/**
-	 * Redirect URL.
-	 *
-	 * @param request
-	 *           the request
-	 * @param response
-	 *           the response
-	 *//*
-	@RequestMapping(value = "/citruspayresponse", method =
-	{ RequestMethod.POST, RequestMethod.GET })
-	public ModelAndView redirectURL(HttpServletRequest request, HttpServletResponse response)
-	{
-		System.out.println(" HttpServletRequest " + request + " HttpServletResponse " + response);
-
-		Hashtable<String, String> hashTable = redirectURLResource.redirectURL(request, response);
-		PaymentDTO paymentDTO = new PaymentDTO();
-		if (!hashTable.isEmpty())
-		{
-			paymentDTO.setHashTable(hashTable);
-		}
-		else
-		{
-			RSAException rsaException = new RSAException();
-			rsaException.setError(RSAErrorConstants.ErrorCode.TRANSACTION_FAILED_ERROR);
-			throw rsaException;
-		}
-		return new ModelAndView("redirectURL", "paymentDTO", paymentDTO);
-	}
-	
-	*//**
-	 * Redirect URL.
-	 *
-	 * @param request
-	 *           the request
-	 * @param response
-	 *           the response
-	 *//*
-	@RequestMapping(value = "/citruspayresponse", method =
-	{ RequestMethod.POST, RequestMethod.GET })
-	public ModelAndView redirectURL(@RequestParam(value = "userresponse") final String iUserId )
-	{
-		System.out.println(iUserId);
-		
-		//System.out.println(" HttpServletRequest " + request + " HttpServletResponse " + response);
-
-		Hashtable<String, String> hashTable = redirectURLResource.redirectURL(request, response);
-		PaymentDTO paymentDTO = new PaymentDTO();
-		if (!hashTable.isEmpty())
-		{
-			paymentDTO.setHashTable(hashTable);
-		}
-		else
-		{
-			RSAException rsaException = new RSAException();
-			rsaException.setError(RSAErrorConstants.ErrorCode.TRANSACTION_FAILED_ERROR);
-			throw rsaException;
-		}
-		return new ModelAndView("redirectURL", "paymentDTO", "");
-	}*/
 	
 	@RequestMapping(value = "/response", method =
 		{ RequestMethod.POST, RequestMethod.GET })
 	public void returnUrlResponse(@RequestParam(value = "response") final  String reqValMap){
-		System.out.print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		try {
 		if(reqValMap!=null) {
-			System.out.println("---------------------" +reqValMap.toString());
 			redirectURLResource.paymentResponse(reqValMap);
 		}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(reqValMap);
 	}
 
 	/**
