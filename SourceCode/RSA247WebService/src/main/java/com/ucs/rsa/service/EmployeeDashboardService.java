@@ -11,8 +11,8 @@ public interface EmployeeDashboardService extends BaseService {
 	
 	public double getEmployeeRating(int employeeId);
 	
-	public List<EmployeeModel> getEmployeeFromServiceProviderId(int serviceProviderId);
+	public List<Integer> getEmployeeFromServiceProviderId(int serviceProviderId);
 	
-	public int getCompletedOrRejectedCountForServiceProvider(String status,List<EmployeeModel> employees);
+	public int getCompletedOrRejectedCountForServiceProvider(String status,List<Integer> employees);
 
 }
