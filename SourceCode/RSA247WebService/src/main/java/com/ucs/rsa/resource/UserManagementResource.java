@@ -485,7 +485,7 @@ public class UserManagementResource {
 		serviceProvider.setImageFolderName(imageFolderName);
 		serviceProvider.setMechanicalType(mechanicalType);
 		serviceProvider.setServiceProviderPhoneNumber(mobileNo);
-		serviceProvider.setRating(4.0);
+		serviceProvider.setRating(0.0);
 		serviceProvider.setServiceProviderCity(serviceProviderCity);
 		serviceProvider.setServiceProviderComments(serviceProviderComments);
 		ServiceTypeModel serviceTypeModel = new ServiceTypeModel();
