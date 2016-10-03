@@ -39,7 +39,7 @@ public class EmployeeDashboardResource {
 	double completedInParcentage = 0.0;
 	double rating = 0.0;
 	if(employee.isOnwer()){
-		List<EmployeeModel> employees = getEmployeeDashboardService().getEmployeeFromServiceProviderId(employee.getServiceProviderID());
+		List<Integer> employees = getEmployeeDashboardService().getEmployeeFromServiceProviderId(employee.getServiceProviderID());
 		completedCount = getEmployeeDashboardService().getCompletedOrRejectedCountForServiceProvider("Completed",employees);
 		rejectedCount = getEmployeeDashboardService().getCompletedOrRejectedCountForServiceProvider("Rejected", employees);
 		if(completedCount != 0 || rejectedCount != 0) {
