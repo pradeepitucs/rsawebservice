@@ -192,7 +192,7 @@ public class UserVehicleManagementResource
 	private void sendMail(String msg, String employeeEmail) {
 		// TODO Auto-generated method stub
 		getGmailService().readyToSendEmail("aditya.s@ucs.consulting", employeeEmail,
-				"Successful Service Provider Registration", msg);
+				"Registration Successful  - RSA247", msg);
 	}
 
 	public GmailService getGmailService() {
