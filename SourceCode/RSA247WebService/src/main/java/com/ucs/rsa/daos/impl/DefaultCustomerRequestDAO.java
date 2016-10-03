@@ -1,5 +1,6 @@
 package com.ucs.rsa.daos.impl;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -96,7 +97,7 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 
 	@SuppressWarnings("null")
 	@Override
-	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, int serviceType) {
+	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, int serviceType,String newTimeFormat) {
 		Session theSession = null;
 		List<Integer> serviceProviderIDList = new ArrayList<Integer>();
 		try {
@@ -114,7 +115,39 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 					.setResultTransformer(Transformers.aliasToBean(ServiceProviderModel.class));*/
 			@SuppressWarnings("unchecked")
 			List<ServiceProviderModel> serviceProviderList = cr.list();
-			for (ServiceProviderModel serviceProviderModel : serviceProviderList) {
+			List<ServiceProviderModel> serviceProviderFinalList = new ArrayList<ServiceProviderModel>();
+			for(ServiceProviderModel serviceProviderModel : serviceProviderList){
+				String[] times = serviceProviderModel.getServiceProvidertiming().split(",");
+				try {
+				    String string1 = times[0];
+				    Date time1 = new SimpleDateFormat("H:m").parse(string1);
+				    Calendar calendar1 = Calendar.getInstance();
+				    calendar1.setTime(time1);
+				    calendar1.add(Calendar.DATE, 1);
+
+				    String string2 = times[1];
+				    Date time2 = new SimpleDateFormat("H:m").parse(string2);
+				    Calendar calendar2 = Calendar.getInstance();
+				    calendar2.setTime(time2);
+				    calendar2.add(Calendar.DATE, 1);
+
+				    String someRandomTime = newTimeFormat;
+				    Date d = new SimpleDateFormat("H:m").parse(someRandomTime);
+				    Calendar calendar3 = Calendar.getInstance();
+				    calendar3.setTime(d);
+				    calendar3.add(Calendar.DATE, 1);
+
+				    Date x = calendar3.getTime();
+				    if (x.after(calendar1.getTime()) && x.before(calendar2.getTime())) {
+				        //checkes whether the current time is between 14:49:00 and 20:11:13.
+				        System.out.println(true);
+				        serviceProviderFinalList.add(serviceProviderModel);
+				    }
+				} catch (ParseException e) {
+				    e.printStackTrace();
+				}
+			} 
+			for (ServiceProviderModel serviceProviderModel : serviceProviderFinalList) {
 				if(serviceProviderModel.getServiceTypeModel().getServiceTypeId()==serviceType) {
 					serviceProviderIDList.add(serviceProviderModel.getServiceProviderId());
 				} else {
@@ -131,10 +164,9 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 					}
 				}
 			}
-			for (int i = 0; i < serviceProviderList.size(); i++) {
-				serviceProviderIDList.add(serviceProviderList.get(i).getServiceProviderId());
-			}
-			System.out.println(serviceProviderList);
+			/*for (int i = 0; i < serviceProviderFinalList.size(); i++) {
+				serviceProviderIDList.add(serviceProviderFinalList.get(i).getServiceProviderId());
+			}*/
 		} catch (RSAException e) {
 			throw e;
 		} catch (RuntimeException ex) {
