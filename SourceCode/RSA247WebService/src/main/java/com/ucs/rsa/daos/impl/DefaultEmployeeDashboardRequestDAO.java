@@ -27,10 +27,8 @@ public class DefaultEmployeeDashboardRequestDAO extends DefaultBaseDAO implement
 		Session theSession = null;
 		try {
 			theSession = currentSession();
-			EmployeeModel employee =  new EmployeeModel();
-			employee.setUserId(employeeId);
 				Criteria theCriteria = (Criteria) theSession.createCriteria(CustomerRequestModel.class, "customerRequestModel")
-						.add(Restrictions.eq("employeeID", employee))
+						.add(Restrictions.eq("employeeID", employeeId))
 						.add(Restrictions.eq("issueStatus", status));
 				if (theCriteria != null) {
 					List<CustomerRequestModel> listOfCustomerRequest = theCriteria.list();
@@ -56,15 +54,16 @@ public class DefaultEmployeeDashboardRequestDAO extends DefaultBaseDAO implement
 			EmployeeModel employee =  new EmployeeModel();
 			employee.setUserId(employeeId);
 				Criteria theCriteria = (Criteria) theSession.createCriteria(CustomerReviewModel.class, "customerRequestModel")
-						.add(Restrictions.eq("employeeID", employee));
+						.add(Restrictions.eq("employeeModel", employee));
 				if (theCriteria != null) {
 					List<CustomerReviewModel> listOfCustomerReview = theCriteria.list();
 					int size = listOfCustomerReview.size();
 					double totalRating = 0.0;
 					for (CustomerReviewModel customerReviewModel : listOfCustomerReview) {
 						totalRating = totalRating + customerReviewModel.getRating();
-					}
+					} if(size!=0){
 					rating = totalRating/size;
+					}
 				}
 		} catch (RSAException e) {
 			throw e;
