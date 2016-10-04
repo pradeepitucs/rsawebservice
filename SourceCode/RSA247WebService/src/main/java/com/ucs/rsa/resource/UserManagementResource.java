@@ -414,7 +414,7 @@ public class UserManagementResource {
 	 * 
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "uploadCustomerImg", headers = "content-type=multipart/form-data")
-	public @ResponseBody String uploadCustomerImg(@RequestParam("file") MultipartFile[] files,
+	public @ResponseBody String uploadCustomerImg(@RequestParam("file") MultipartFile file,
 			@RequestParam("fileName") String fileName) throws Exception {
 		String imageInserted = null;
 		String rootPath = System.getProperty("catalina.home");
@@ -429,19 +429,18 @@ public class UserManagementResource {
 				// handle it
 			}
 			if (result) {
-				if (files != null && files.length > 0) {
-					for (int i = 0; i < files.length; i++) {
+				if (file != null ) {
 						try {
-							byte[] bytes = files[i].getBytes();
+							byte[] bytes = file.getBytes();
 							BufferedOutputStream stream = new BufferedOutputStream(
-									new FileOutputStream(theDir.getPath() + "/" + fileName + i + ".jpg"));
+									new FileOutputStream(theDir.getPath() + "/" + fileName  + ".jpg"));
 							stream.write(bytes);
 							stream.flush();
 							stream.close();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-					}
+					
 				} else {
 					throw new Exception("File not found ");
 				}
