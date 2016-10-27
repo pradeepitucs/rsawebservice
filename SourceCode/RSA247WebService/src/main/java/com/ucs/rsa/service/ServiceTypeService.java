@@ -4,10 +4,11 @@
 package com.ucs.rsa.service;
 
 /**
+ * The Interface ServiceTypeService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface ServiceTypeService.
  */
 public interface ServiceTypeService extends BaseService
 {

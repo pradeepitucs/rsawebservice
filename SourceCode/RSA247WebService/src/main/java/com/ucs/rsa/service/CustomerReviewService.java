@@ -6,11 +6,13 @@ package com.ucs.rsa.service;
 import com.ucs.rsa.model.CustomerReviewModel;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Interface CustomerReviewService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface CustomerReviewService.
  */
 public interface CustomerReviewService extends BaseService
 {

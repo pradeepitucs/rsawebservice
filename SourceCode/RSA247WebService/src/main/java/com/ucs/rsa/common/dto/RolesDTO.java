@@ -11,10 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class RolesDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class RolesDTO.
  */
 @XmlRootElement(name = "roles", namespace = "com.ucs.rsa.common.dto")
 

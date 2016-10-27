@@ -8,17 +8,20 @@ import java.sql.Timestamp;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ServiceProviderDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class ServiceProviderDTO.
  */
 @XmlRootElement(name = "service_provider", namespace = "com.ucs.rsa.dto")
 public class ServiceProviderDTO
 {
 
 	/** The Constant serialVersionUID. */
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
 
 	/** The service provider name. */
@@ -34,7 +37,28 @@ public class ServiceProviderDTO
 	private boolean isEnabled;
 
 	/** The serviceprovider experties. */
-	private String serviceproviderExperties;
+	private ServiceTypeDTO serviceproviderExperties;
+
+	/**
+	 * Gets the serviceprovider experties.
+	 *
+	 * @return the serviceprovider experties
+	 */
+	public ServiceTypeDTO getServiceproviderExperties()
+	{
+		return serviceproviderExperties;
+	}
+
+	/**
+	 * Sets the serviceprovider experties.
+	 *
+	 * @param serviceproviderExperties
+	 *           the new serviceprovider experties
+	 */
+	public void setServiceproviderExperties(ServiceTypeDTO serviceproviderExperties)
+	{
+		this.serviceproviderExperties = serviceproviderExperties;
+	}
 
 	/** The service providerother services. */
 	private String serviceProviderotherServices;
@@ -364,27 +388,6 @@ public class ServiceProviderDTO
 	public void setServiceProvidertiming(String serviceProvidertiming)
 	{
 		this.serviceProvidertiming = serviceProvidertiming;
-	}
-
-	/**
-	 * Gets the serviceprovider experties.
-	 *
-	 * @return the serviceprovider experties
-	 */
-	public String getServiceproviderExperties()
-	{
-		return serviceproviderExperties;
-	}
-
-	/**
-	 * Sets the serviceprovider experties.
-	 *
-	 * @param serviceproviderExperties
-	 *           the new serviceprovider experties
-	 */
-	public void setServiceproviderExperties(String serviceproviderExperties)
-	{
-		this.serviceproviderExperties = serviceproviderExperties;
 	}
 
 	/**

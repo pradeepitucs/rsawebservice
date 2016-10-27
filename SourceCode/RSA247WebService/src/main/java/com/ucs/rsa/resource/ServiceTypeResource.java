@@ -19,10 +19,7 @@ import com.ucs.rsa.service.ServiceTypeService;
 
 
 /**
- * @author Gururaj A M
- * @version 1.0
- * 
- *          The Class ServiceTypeResource.
+ * The Class ServiceTypeResource.
  */
 @Controller
 @RequestMapping("/servicetype")
@@ -41,17 +38,6 @@ public class ServiceTypeResource
 	public ServiceTypeService getServiceTypeService()
 	{
 		return serviceTypeService;
-	}
-
-	/**
-	 * Sets the service type service.
-	 *
-	 * @param serviceTypeService
-	 *           the new service type service
-	 */
-	public void setServiceTypeService(ServiceTypeService serviceTypeService)
-	{
-		this.serviceTypeService = serviceTypeService;
 	}
 
 	/**
@@ -75,13 +61,25 @@ public class ServiceTypeResource
 			ServiceTypeDTO serviceTypeDTO = new ServiceTypeDTO();
 			serviceTypeDTO.setServiceTypeId(serviceTypeModel.getServiceTypeId());
 			serviceTypeDTO.setServiceType(serviceTypeModel.getServiceType());
-			serviceTypeDTO.setServicePrice(serviceTypeModel.getServicePrice());
+			serviceTypeDTO.setNonMemberPrice(serviceTypeModel.getNonMemberPrice());
+			serviceTypeDTO.setMemberPrice(serviceTypeModel.getMemberPrice());
 			serviceTypeDTOs.add(serviceTypeDTO);
 		}
 		serviceTypesDTO.setServiceTypesDTO(serviceTypeDTOs);
 
 		return new ModelAndView("xml", "servicetypeslist", serviceTypesDTO);
 
+	}
+
+	/**
+	 * Sets the service type service.
+	 *
+	 * @param serviceTypeService
+	 *           the new service type service
+	 */
+	public void setServiceTypeService(ServiceTypeService serviceTypeService)
+	{
+		this.serviceTypeService = serviceTypeService;
 	}
 
 }

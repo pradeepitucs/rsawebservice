@@ -3,15 +3,13 @@
  */
 package com.ucs.rsa.service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-
+// TODO: Auto-generated Javadoc
 /**
+ * The Interface RedirectURLService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface RedirectURLService.
  */
 public interface RedirectURLService extends BaseService
 {
@@ -19,11 +17,12 @@ public interface RedirectURLService extends BaseService
 	/**
 	 * Redirect URL.
 	 *
-	 * @param request
-	 *           the request
-	 * @param response
-	 *           the response
+	 * @param reqValMap
+	 *           the req val map
+	 * @return the string
 	 */
-	public void redirectURL(HttpServletRequest request, HttpServletResponse response);
+	//public Hashtable<String, String> redirectURL(HttpServletRequest request, HttpServletResponse response);
+
+	public String paymentResponse(String reqValMap);
 
 }

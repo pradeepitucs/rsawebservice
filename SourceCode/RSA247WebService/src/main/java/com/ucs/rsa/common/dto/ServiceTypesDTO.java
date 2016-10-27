@@ -11,10 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class ServiceTypesDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class ServiceTypesDTO.
  */
 @XmlRootElement(name = "serviceTypes", namespace = "com.ucs.rsa.common.dto")
 public class ServiceTypesDTO implements Serializable

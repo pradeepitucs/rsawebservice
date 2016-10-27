@@ -17,11 +17,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class StateModel.
+ *
  * @author Gururaj A M
  * @version 1.0
- * 
- *          The persistent class for the state_t database table.
  * 
  */
 @Entity

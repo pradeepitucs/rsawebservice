@@ -9,10 +9,11 @@ import com.ucs.rsa.service.ServiceTypeService;
 
 
 /**
+ * The Class DefaultServiceTypeBaseService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultServiceTypeBaseService.
  */
 @Component
 public class DefaultServiceTypeBaseService extends DefaultBaseService implements ServiceTypeService

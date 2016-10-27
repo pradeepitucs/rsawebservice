@@ -3,7 +3,12 @@
  */
 package com.ucs.rsa.daos.impl;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -18,15 +23,18 @@ import com.ucs.rsa.common.exception.RSAException;
 import com.ucs.rsa.daos.CustomerRequestDAO;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerRequestModel;
+import com.ucs.rsa.model.CustomerSubIssueModel;
 import com.ucs.rsa.model.EmployeeModel;
+import com.ucs.rsa.model.ServiceProviderCommentModel;
 import com.ucs.rsa.model.ServiceProviderModel;
+import com.ucs.rsa.model.ServiceProviderServiceMatchingModel;
+import com.ucs.rsa.model.ServiceTypeModel;
+import com.ucs.rsa.model.UserVehicleModel;
 
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Gururaj A M
- * @version 1.0
- * 
- *          The Class DefaultCustomerRequestDAO.
+ * The Class DefaultCustomerRequestDAO.
  */
 @Repository(value = "customerRequestDAO")
 public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements CustomerRequestDAO
@@ -45,6 +53,20 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 		try
 		{
 			theSession = currentSession();
+			if (customerRequestModel.getIssueId() == 0)
+			{
+				CustomerRequestModel customerReq = (CustomerRequestModel) theSession
+						.createCriteria(CustomerRequestModel.class, "customerRequestModel")
+						.add(Restrictions.eq("issueId", iCustomerRequestModel.getIssueId())).uniqueResult();
+				if (customerReq != null)
+				{
+					System.out.println("rsaException");
+					RSAException rsaException = new RSAException();
+					System.out.println("rsaException" + rsaException);
+					rsaException.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+					throw rsaException;
+				}
+			}
 			theSession.saveOrUpdate(customerRequestModel);
 		}
 		catch (RSAException e)
@@ -77,14 +99,15 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 			CustomerRequestModel customerRequestList = (CustomerRequestModel) theSession
 					.createCriteria(CustomerRequestModel.class, "customerRequestModel")
 					.add(Restrictions.eq("issueId", iCustomerRequestModel.getIssueId())).uniqueResult();
-			//CustomerRequestModel customerRequestList = cr.list();
+			// CustomerRequestModel customerRequestList = cr.list();
+			@SuppressWarnings("unused")
 			int customer_id = customerRequestList.getCustomerModel().getUserId();
 			customerRequestResponse.add(String.valueOf(customerRequestList.getCustomerModel().getUserId()));
-			if (customerRequestList.getIssueStatus() == null || customerRequestList.getIssueStatus().isEmpty())
+			if (customerRequestList.getIssueStatus().equals("Open"))
 			{
 				customerRequestList.setIssueStartTime(iCustomerRequestModel.getIssueStartTime());
 				customerRequestList.setIssueStatus(iCustomerRequestModel.getIssueStatus());
-				customerRequestList.setEmployeeModel(iCustomerRequestModel.getEmployeeModel());
+				customerRequestList.setEmployeeID(iCustomerRequestModel.getEmployeeID());
 				theSession.saveOrUpdate(customerRequestList);
 				customerRequestResponse.add("Accepted");
 			}
@@ -111,11 +134,11 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.ucs.rsa.daos.CustomerRequestDAO#getServiceProviderIDS(java.util.ArrayList, java.lang.String)
+	 * @see com.ucs.rsa.daos.CustomerRequestDAO#getServiceProviderIDS(java.util.ArrayList, int, java.lang.String)
 	 */
-	@SuppressWarnings("null")
+
 	@Override
-	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, String serviceType)
+	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, int serviceType, String newTimeFormat)
 	{
 		Session theSession = null;
 		List<Integer> serviceProviderIDList = new ArrayList<Integer>();
@@ -127,17 +150,81 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 					.add(Restrictions.between("serviceProviderLatitude", ratingAndLocation.get(2), ratingAndLocation.get(3)))
 					.add(Restrictions.between("serviceProviderLongitude", ratingAndLocation.get(4), ratingAndLocation.get(5)))
 					.add(Restrictions.between("rating", ratingAndLocation.get(0), ratingAndLocation.get(1)))
-					.add(Restrictions.like("serviceproviderExperties", "%" + serviceType + "%"))
-					.add(Restrictions.like("serviceProviderotherServices", "%" + serviceType + "%"))
-					.setProjection(Projections.projectionList().add(Projections.property("serviceProviderId"), "serviceProviderId"))
-					.setResultTransformer(Transformers.aliasToBean(ServiceProviderModel.class));
+					.add(Restrictions.eq("isEnabled", true));
+			/*
+			 * .setProjection(Projections.projectionList().add(Projections.property("serviceProviderId"),
+			 * "serviceProviderId")) .setResultTransformer(Transformers.aliasToBean(ServiceProviderModel.class));
+			 */
 			@SuppressWarnings("unchecked")
 			List<ServiceProviderModel> serviceProviderList = cr.list();
-			for (int i = 0; i < serviceProviderList.size(); i++)
+			List<ServiceProviderModel> serviceProviderFinalList = new ArrayList<ServiceProviderModel>();
+			for (ServiceProviderModel serviceProviderModel : serviceProviderList)
 			{
-				serviceProviderIDList.add(serviceProviderList.get(i).getServiceProviderId());
+				String[] times = serviceProviderModel.getServiceProvidertiming().split(",");
+				try
+				{
+					String string1 = times[0];
+					Date time1 = new SimpleDateFormat("H:m").parse(string1);
+					Calendar calendar1 = Calendar.getInstance();
+					calendar1.setTime(time1);
+					calendar1.add(Calendar.DATE, 1);
+
+					String string2 = times[1];
+					Date time2 = new SimpleDateFormat("H:m").parse(string2);
+					Calendar calendar2 = Calendar.getInstance();
+					calendar2.setTime(time2);
+					calendar2.add(Calendar.DATE, 1);
+
+					String someRandomTime = newTimeFormat;
+					Date d = new SimpleDateFormat("H:m").parse(someRandomTime);
+					Calendar calendar3 = Calendar.getInstance();
+					calendar3.setTime(d);
+					calendar3.add(Calendar.DATE, 1);
+
+					Date x = calendar3.getTime();
+					Date x1 = calendar2.getTime();
+					if (x1.before(calendar1.getTime()))
+					{
+						calendar2.add(Calendar.HOUR, 24);
+						x1 = calendar2.getTime();
+					}
+					if (x.after(calendar1.getTime()) && x.before(x1))
+					{
+						serviceProviderFinalList.add(serviceProviderModel);
+					}
+				}
+				catch (ParseException e)
+				{
+					e.printStackTrace();
+				}
 			}
-			System.out.println(serviceProviderList);
+			for (ServiceProviderModel serviceProviderModel : serviceProviderFinalList)
+			{
+				/*if (serviceProviderModel.getServiceTypeModel().getServiceTypeId() == serviceType)
+				{
+					serviceProviderIDList.add(serviceProviderModel.getServiceProviderId());
+				}
+				else
+				{*/
+					ServiceProviderModel serviceProviderModel2 = new ServiceProviderModel();
+					serviceProviderModel2.setServiceProviderId(serviceProviderModel.getServiceProviderId());
+					ServiceTypeModel serviceTypeModel = new ServiceTypeModel();
+					serviceTypeModel.setServiceTypeId(serviceType);
+					Criteria crit = (Criteria) theSession.createCriteria(ServiceProviderServiceMatchingModel.class, "customerModel")
+							.add(Restrictions.eq("serviceTypeModel", serviceTypeModel))
+							.add(Restrictions.eq("serviceProviderModel", serviceProviderModel2));
+					@SuppressWarnings("unchecked")
+					List<ServiceProviderServiceMatchingModel> listOfOtherService = crit.list();
+					for (ServiceProviderServiceMatchingModel serviceProviderServiceMatchingModel : listOfOtherService)
+					{
+						serviceProviderIDList.add(serviceProviderServiceMatchingModel.getServiceProviderModel().getServiceProviderId());
+					}
+				//}
+			}
+			/*
+			 * for (int i = 0; i < serviceProviderFinalList.size(); i++) {
+			 * serviceProviderIDList.add(serviceProviderFinalList.get(i).getServiceProviderId()); }
+			 */
 		}
 		catch (RSAException e)
 		{
@@ -158,7 +245,6 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 	 * 
 	 * @see com.ucs.rsa.daos.CustomerRequestDAO#getDeviceIDSFromServiceProviderIDS(java.util.ArrayList)
 	 */
-	@SuppressWarnings("null")
 	@Override
 	public ArrayList<String> getDeviceIDSFromServiceProviderIDS(ArrayList<Integer> serviceProviderIDs)
 	{
@@ -169,7 +255,7 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 			theSession = currentSession();
 
 			Criteria cr = (Criteria) theSession.createCriteria(EmployeeModel.class, "customerModel")
-					.add(Restrictions.in("serviceProviderID", serviceProviderIDs))
+					.add(Restrictions.in("serviceProviderID", serviceProviderIDs)).add(Restrictions.eq("isEnabled", true))
 					.setProjection(Projections.projectionList().add(Projections.property("gcmId"), "gcmId"))
 					.setResultTransformer(Transformers.aliasToBean(EmployeeModel.class));
 			@SuppressWarnings("unchecked")
@@ -365,6 +451,379 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 		return employeeModel;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.daos.CustomerRequestDAO#updateCustomerIssueAfterAccepting(com.ucs.rsa.model.CustomerRequestModel)
+	 */
+	@Override
+	public CustomerRequestModel updateCustomerIssueAfterAccepting(CustomerRequestModel iCustomerRequestModel)
+	{
+		CustomerRequestModel customerRequest = null;
+		Session theSession = null;
+		try
+		{
+			theSession = currentSession();
+			customerRequest = (CustomerRequestModel) theSession.createCriteria(CustomerRequestModel.class, "customerRequestModel")
+					.add(Restrictions.eq("issueId", iCustomerRequestModel.getIssueId())).uniqueResult();
+			customerRequest.setIssueStatus(iCustomerRequestModel.getIssueStatus());
+			customerRequest.setEmployeeID(iCustomerRequestModel.getEmployeeID());
+			theSession.saveOrUpdate(customerRequest);
+		}
+		catch (RSAException e)
+		{
+			throw e;
+		}
+		catch (RuntimeException ex)
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return customerRequest;
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.daos.CustomerRequestDAO#getUserVehicle(int)
+	 */
+	@Override
+	public UserVehicleModel getUserVehicle(int customerID)
+	{
+		UserVehicleModel userVehicleModel = null;
+		Session theSession = null;
+		try
+		{
+			theSession = currentSession();
+			Criteria ca = (Criteria) theSession.createCriteria(UserVehicleModel.class, "customerRequestModel")
+					.add(Restrictions.eq("userId", customerID));
+			@SuppressWarnings("unchecked")
+			List<UserVehicleModel> listOfUserVehicle = ca.list();
+			userVehicleModel = listOfUserVehicle.get(0);
+		}
+		catch (RSAException e)
+		{
+			throw e;
+		}
+		catch (RuntimeException ex)
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return userVehicleModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.ucs.rsa.daos.CustomerRequestDAO#updateCustomerIssueByServiceProvider(com.ucs.rsa.model.CustomerRequestModel,
+	 * java.util.ArrayList, com.ucs.rsa.model.ServiceProviderCommentModel)
+	 */
+	@Override
+	public CustomerRequestModel updateCustomerIssueByServiceProvider(CustomerRequestModel customerRequestModel,
+			ArrayList<CustomerSubIssueModel> customerSubIssueModelList, ServiceProviderCommentModel serviceProviderCommentModel)
+	{
+		CustomerRequestModel customerRequestList = null;
+		Session theSession = null;
+		try
+		{
+			theSession = currentSession();
+			customerRequestList = (CustomerRequestModel) theSession
+					.createCriteria(CustomerRequestModel.class, "customerRequestModel")
+					.add(Restrictions.eq("issueId", customerRequestModel.getIssueId())).uniqueResult();
+			customerRequestList.setIssueStatus(customerRequestModel.getIssueStatus());
+			if (customerRequestList.getCustomerVehicleNumber() != null
+					&& customerRequestList.getCustomerVehicleNumber().equalsIgnoreCase(customerRequestList.getCustomerVehicleNumber()))
+			{
+
+			}
+			else
+			{
+				customerRequestList.setCustomerVehicleNumber(customerRequestModel.getCustomerVehicleNumber());
+			}
+			theSession.saveOrUpdate(customerRequestList);
+			for (int i = 0; i < customerSubIssueModelList.size(); i++)
+			{
+				theSession.saveOrUpdate(customerSubIssueModelList.get(i));
+			}
+			if (serviceProviderCommentModel.getServiceProviderComment() != null
+					&& !serviceProviderCommentModel.getServiceProviderComment().isEmpty())
+			{
+				theSession.saveOrUpdate(serviceProviderCommentModel);
+			}
+		}
+		catch (RSAException e)
+		{
+			throw e;
+		}
+		catch (RuntimeException ex)
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return customerRequestList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.daos.CustomerRequestDAO#rejectCustomerIssue(com.ucs.rsa.model.CustomerRequestModel,
+	 * com.ucs.rsa.model.ServiceProviderCommentModel)
+	 */
+	@Override
+	public CustomerRequestModel rejectCustomerIssue(CustomerRequestModel customerRequestModel,
+			ServiceProviderCommentModel serviceProviderCommentModel)
+	{
+		CustomerRequestModel customerRequestList = null;
+		Session theSession = null;
+		try
+		{
+			theSession = currentSession();
+			customerRequestList = (CustomerRequestModel) theSession
+					.createCriteria(CustomerRequestModel.class, "customerRequestModel")
+					.add(Restrictions.eq("issueId", customerRequestModel.getIssueId())).uniqueResult();
+			customerRequestList.setIssueStatus(customerRequestModel.getIssueStatus());
+			theSession.saveOrUpdate(customerRequestList);
+			if (serviceProviderCommentModel.getServiceProviderComment() != null
+					&& !serviceProviderCommentModel.getServiceProviderComment().isEmpty())
+			{
+				theSession.saveOrUpdate(serviceProviderCommentModel);
+			}
+		}
+		catch (RSAException e)
+		{
+			throw e;
+		}
+		catch (RuntimeException ex)
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return customerRequestList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.daos.CustomerRequestDAO#getCompletedService(int, com.ucs.rsa.model.CustomerRequestModel)
+	 */
+	@Override
+	public List<ServiceTypeModel> getCompletedService(int issueID, CustomerRequestModel customerRequestModel)
+	{
+		CustomerRequestModel customerRequestList = new CustomerRequestModel();
+		customerRequestList.setIssueId(issueID);
+		List<ServiceTypeModel> listOfServiceType = new ArrayList<>();
+		Session theSession = null;
+		try
+		{
+			theSession = currentSession();
+			customerRequestList = (CustomerRequestModel) theSession
+					.createCriteria(CustomerRequestModel.class, "customerRequestModel")
+					.add(Restrictions.eq("issueId", customerRequestModel.getIssueId())).uniqueResult();
+			customerRequestList.setIssueStatus(customerRequestModel.getIssueStatus());
+			theSession.saveOrUpdate(customerRequestList);
+			Criteria criteria = (Criteria) theSession.createCriteria(CustomerSubIssueModel.class, "customerRequestModel")
+					.add(Restrictions.eq("customerRequestModel", customerRequestList));
+			@SuppressWarnings("unchecked")
+			List<CustomerSubIssueModel> listOfSubIssue = criteria.list();
+			boolean status = false;
+			for (CustomerSubIssueModel customerSubissue : listOfSubIssue)
+			{
+
+				ServiceTypeModel serviceType = new ServiceTypeModel();
+				serviceType = customerSubissue.getServiceTypeModel();
+				if (status == false)
+				{
+					if (serviceType.getServiceTypeId() == 3 || serviceType.getServiceTypeId() == 4
+							|| serviceType.getServiceTypeId() == 5 || serviceType.getServiceTypeId() == 6
+							|| serviceType.getServiceTypeId() == 7 || serviceType.getServiceTypeId() == 8)
+					{
+
+						status = true;
+						try
+						{
+							String string1 = "08:00:00";
+							Date time1 = new SimpleDateFormat("HH:mm:ss").parse(string1);
+							Calendar calendar1 = Calendar.getInstance();
+							calendar1.setTime(time1);
+
+							String string2 = "19:00:00";
+							Date time2 = new SimpleDateFormat("HH:mm:ss").parse(string2);
+							Calendar calendar2 = Calendar.getInstance();
+							calendar2.setTime(time2);
+							calendar2.add(Calendar.DATE, 1);
+
+							java.sql.Time time = customerRequestList.getIssueTime();
+							DateFormat df = new SimpleDateFormat("HH:mm:ss");
+							String someRandomTime = df.format(time);
+							@SuppressWarnings("unused")
+							String text = "01:00:00";
+							Date d = new SimpleDateFormat("HH:mm:ss").parse(someRandomTime);
+							Calendar calendar3 = Calendar.getInstance();
+							calendar3.setTime(d);
+							calendar3.add(Calendar.DATE, 1);
+
+							Date x = calendar3.getTime();
+							if (x.after(calendar1.getTime()) && x.before(calendar2.getTime()))
+							{
+								//checkes whether the current time is between 14:49:00 and 20:11:13.
+
+								ServiceTypeModel serviceTypeModel = (ServiceTypeModel) theSession
+										.createCriteria(ServiceTypeModel.class, "serviceTypeModel").add(Restrictions.eq("serviceTypeId", 9))
+										.uniqueResult();
+								listOfServiceType.add(serviceTypeModel);
+
+							}
+							else
+							{
+								ServiceTypeModel serviceTypeModel = (ServiceTypeModel) theSession
+										.createCriteria(ServiceTypeModel.class, "serviceTypeModel")
+										.add(Restrictions.eq("serviceTypeId", 10)).uniqueResult();
+								listOfServiceType.add(serviceTypeModel);
+							}
+						}
+						catch (ParseException e)
+						{
+							e.printStackTrace();
+						}
+					}
+				}
+				ServiceTypeModel serviceTypeModel = (ServiceTypeModel) theSession
+						.createCriteria(ServiceTypeModel.class, "serviceTypeModel")
+						.add(Restrictions.eq("serviceTypeId", serviceType.getServiceTypeId())).uniqueResult();
+				listOfServiceType.add(serviceTypeModel);
+			}
+
+		}
+		catch (RSAException e)
+		{
+			throw e;
+		}
+		catch (RuntimeException ex)
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return listOfServiceType;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.daos.CustomerRequestDAO#getPaymentDetail(int)
+	 */
+	@Override
+	public List<ServiceTypeModel> getPaymentDetail(int issueID)
+	{
+		CustomerRequestModel customerRequestList = new CustomerRequestModel();
+		customerRequestList.setIssueId(issueID);
+		List<ServiceTypeModel> listOfServiceType = new ArrayList<>();
+		Session theSession = null;
+		try
+		{
+			theSession = currentSession();
+			CustomerRequestModel customer = new CustomerRequestModel();
+			customer.setIssueId(issueID);
+			Criteria criteria = (Criteria) theSession.createCriteria(CustomerSubIssueModel.class, "customerRequestModel")
+					.add(Restrictions.eq("customerRequestModel", customer));
+			@SuppressWarnings("unchecked")
+			List<CustomerSubIssueModel> listOfSubIssue = criteria.list();
+			boolean status = false;
+			for (CustomerSubIssueModel customerSubissue : listOfSubIssue)
+			{
+
+				ServiceTypeModel serviceType = new ServiceTypeModel();
+				serviceType = customerSubissue.getServiceTypeModel();
+				if (status == false)
+				{
+					if (serviceType.getServiceTypeId() == 3 || serviceType.getServiceTypeId() == 4
+							|| serviceType.getServiceTypeId() == 5 || serviceType.getServiceTypeId() == 6
+							|| serviceType.getServiceTypeId() == 7 || serviceType.getServiceTypeId() == 8)
+					{
+						status = true;
+
+						try
+						{
+							String string1 = "08:00:00";
+							Date time1 = new SimpleDateFormat("HH:mm:ss").parse(string1);
+							Calendar calendar1 = Calendar.getInstance();
+							calendar1.setTime(time1);
+
+							String string2 = "19:00:00";
+							Date time2 = new SimpleDateFormat("HH:mm:ss").parse(string2);
+							Calendar calendar2 = Calendar.getInstance();
+							calendar2.setTime(time2);
+							calendar2.add(Calendar.DATE, 1);
+
+							CustomerRequestModel customerRequest = (CustomerRequestModel) theSession
+									.createCriteria(CustomerRequestModel.class, "serviceTypeModel")
+									.add(Restrictions.eq("issueId", issueID)).uniqueResult();
+							java.sql.Time time = customerRequest.getIssueTime();
+							DateFormat df = new SimpleDateFormat("HH:mm:ss");
+							String someRandomTime = df.format(time);
+							Date d = new SimpleDateFormat("HH:mm:ss").parse(someRandomTime);
+							Calendar calendar3 = Calendar.getInstance();
+							calendar3.setTime(d);
+							calendar3.add(Calendar.DATE, 1);
+
+							Date x = calendar3.getTime();
+							if (x.after(calendar1.getTime()) && x.before(calendar2.getTime()))
+							{
+								//checkes whether the current time is between 14:49:00 and 20:11:13.
+
+								ServiceTypeModel serviceTypeModel = (ServiceTypeModel) theSession
+										.createCriteria(ServiceTypeModel.class, "serviceTypeModel").add(Restrictions.eq("serviceTypeId", 9))
+										.uniqueResult();
+								listOfServiceType.add(serviceTypeModel);
+
+							}
+							else
+							{
+								ServiceTypeModel serviceTypeModel = (ServiceTypeModel) theSession
+										.createCriteria(ServiceTypeModel.class, "serviceTypeModel")
+										.add(Restrictions.eq("serviceTypeId", 10)).uniqueResult();
+								listOfServiceType.add(serviceTypeModel);
+							}
+						}
+						catch (ParseException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}
+				//serviceTypeId.add(serviceType.getServiceTypeId());
+				ServiceTypeModel serviceTypeModel = (ServiceTypeModel) theSession
+						.createCriteria(ServiceTypeModel.class, "serviceTypeModel")
+						.add(Restrictions.eq("serviceTypeId", serviceType.getServiceTypeId())).uniqueResult();
+				listOfServiceType.add(serviceTypeModel);
+			}
+
+		}
+		catch (RSAException e)
+		{
+			throw e;
+		}
+		catch (RuntimeException ex)
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return listOfServiceType;
+	}
 
 }

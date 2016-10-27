@@ -20,11 +20,13 @@ import com.ucs.rsa.model.VehicleTypeModel;
 import com.ucs.rsa.service.UserVehicleService;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class DefaultUserVehicleService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultUserVehicleService.
  */
 @Service
 public class DefaultUserVehicleService extends DefaultBaseService implements UserVehicleService

@@ -7,10 +7,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class ExceptionDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class ExceptionDTO.
  */
 @XmlRootElement(name = "error", namespace = "com.ucs.rsa.common.dto")
 public class ExceptionDTO

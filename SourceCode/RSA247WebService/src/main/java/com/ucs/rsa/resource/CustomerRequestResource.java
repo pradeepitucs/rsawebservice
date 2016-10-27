@@ -5,13 +5,17 @@ package com.ucs.rsa.resource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Time;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,20 +29,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ucs.rsa.common.dto.CustomerDTO;
 import com.ucs.rsa.common.dto.CustomerRequestDTO;
 import com.ucs.rsa.common.dto.CustomerRequestsDTO;
+import com.ucs.rsa.common.dto.ServiceTypeDTO;
 import com.ucs.rsa.common.notification.SendNotification;
+import com.ucs.rsa.common.sms.SmsLane;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerRequestModel;
 import com.ucs.rsa.model.ServiceTypeModel;
+import com.ucs.rsa.model.UserVehicleModel;
 import com.ucs.rsa.service.CustomerRequestService;
 
 
 /**
- * @author Gururaj A M
- * @version 1.0
- * 
- *          The Class CustomerRequestResource.
+ * The Class CustomerRequestResource.
  */
 @Controller
 @RequestMapping("/servicerequest")
@@ -89,6 +94,8 @@ public class CustomerRequestResource
 	 *           the amount
 	 * @param employeeId
 	 *           the employee id
+	 * @param customerVehicleNumber
+	 *           the customer vehicle number
 	 * @return the model and view
 	 */
 	@RequestMapping(value = "/updatecustomerrequest", method =
@@ -97,15 +104,28 @@ public class CustomerRequestResource
 			@RequestParam("issueTypeId") final int issueTypeId, @RequestParam("customerLatitude") final double customerLatitude,
 			@RequestParam("customerLongitude") final double customerLongitude, @RequestParam("customerId") final int customerId,
 			@RequestParam("issueStatus") final String issueStatus, @RequestParam("amount") final long amount,
-			@RequestParam("employeeId") final int employeeId)
+			@RequestParam("employeeId") final int employeeId,
+			@RequestParam("customerVehicleNumber") final String customerVehicleNumber)
 	{
 
 		CustomerRequestModel customerRequestModel = new CustomerRequestModel();
 		customerRequestModel.setCustomerLatitude(customerLatitude);
 		customerRequestModel.setCustomerLongitude(customerLongitude);
 		customerRequestModel.setIssueId(issueId);
+		customerRequestModel.setIssueStatus("Open");
+		customerRequestModel.setCustomerVehicleNumber(customerVehicleNumber);
 		//customerRequestModel.setIssueStatus(issueStatus);
+		java.sql.Date startDate = new java.sql.Date(System.currentTimeMillis());
 
+		DateFormat df = new SimpleDateFormat("yyyy_mm_dd HH:mm:ss");
+		java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+		System.out.println(df.format(date));
+		String timeStamp = df.format(date);//new SimpleDateFormat("yyyy_mm_dd HH:mm:ss").format(new Date());
+		String[] timeAndDate = timeStamp.split(" ");
+		//java.sql.Time time = new java.sql.Time(System.currentTimeMillis());
+		customerRequestModel.setIssueTime(Time.valueOf(timeAndDate[1]));
+		customerRequestModel.setIssueStartTime(Time.valueOf("00:00:00"));
+		customerRequestModel.setIssueDate(startDate);
 		ServiceTypeModel serverType = new ServiceTypeModel();
 		serverType.setServiceTypeId(issueTypeId);
 		customerRequestModel.setServiceTypeModel(serverType);
@@ -116,10 +136,10 @@ public class CustomerRequestResource
 
 		/*
 		 * EmployeeModel employeeModel = new EmployeeModel(); employeeModel.setUserId(employeeId);
-		 * customerRequestModel.setEmployeeModel(employeeModel);
 		 */
+		customerRequestModel.setEmployeeID(0);
 
-		CustomerRequestModel customerRequestModel1 = getCustomerRequestService().updateCustomerRequest(customerRequestModel);
+		final CustomerRequestModel customerRequestModel1 = getCustomerRequestService().updateCustomerRequest(customerRequestModel);
 
 		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO();
 		customerRequestDTO.setCustomerLatitude(customerRequestModel1.getCustomerLatitude());
@@ -164,10 +184,64 @@ public class CustomerRequestResource
 			customerRequestDTO.setCustomerLongitude(customerRequestModel.getCustomerLongitude());
 			customerRequestDTO.setIssueId(customerRequestModel.getIssueId());
 			customerRequestDTO.setIssueStatus(customerRequestModel.getIssueStatus());
+			customerRequestDTO.setIssueStartTime(customerRequestModel.getIssueStartTime());
+			customerRequestDTO.setCustomerVehicleNumber(customerRequestModel.getCustomerVehicleNumber());
+			customerRequestDTO.setIssueDate(customerRequestModel.getIssueDate());
+			customerRequestDTO.setIssueTime(customerRequestModel.getIssueTime());
+
+			ServiceTypeModel abc = new ServiceTypeModel();
+			abc = customerRequestModel.getServiceTypeModel();
+			ServiceTypeDTO abc2 = new ServiceTypeDTO();
+			abc2.setServiceTypeId(abc.getServiceTypeId());
+			customerRequestDTO.setServiceTypeModel(abc2);
+
+			CustomerModel customerModel = new CustomerModel();
+			customerModel = customerRequestModel.getCustomerModel();
+			CustomerDTO customerDTO = new CustomerDTO();
+			customerDTO.setUserId(customerModel.getUserId());
+			customerRequestDTO.setCustomerModel(customerDTO);
+
 			CustomerRequestDTOs.add(customerRequestDTO);
 		}
+
 		customerRequestsDTO.setCustomerRequests(CustomerRequestDTOs);
 		return new ModelAndView("xml", "customers", customerRequestsDTO);
+	}
+
+	/**
+	 * Payment detail.
+	 *
+	 * @param issue_id
+	 *           the issue id
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/paymentDetail", method =
+	{ RequestMethod.POST })
+	private ModelAndView paymentDetail(@RequestParam("issue_id") final int issue_id)
+	{
+		List<ServiceTypeModel> serviceCompleted = getCustomerRequestService().getPaymentDetail(issue_id);
+		List<ServiceTypeDTO> ServiceTypeDTO = new ArrayList<>();
+		for (ServiceTypeModel serviceType : serviceCompleted)
+		{
+			CustomerRequestModel customerReq = new CustomerRequestModel();
+			customerReq = getCustomerRequestService().get(CustomerRequestModel.class, issue_id);
+			CustomerModel customer = new CustomerModel();
+			customer = getCustomerRequestService().get(CustomerModel.class, customerReq.getCustomerModel().getUserId());
+			ServiceTypeDTO serviceTypeD = new ServiceTypeDTO();
+			if (customer.isMember())
+			{
+				serviceTypeD.setMemberPrice(serviceType.getMemberPrice());
+			}
+			else
+			{
+				serviceTypeD.setNonMemberPrice(serviceType.getNonMemberPrice());
+			}
+			serviceTypeD.setServiceType(serviceType.getServiceType());
+			serviceTypeD.setServiceTypeId(serviceType.getServiceTypeId());
+			ServiceTypeDTO.add(serviceTypeD);
+
+		}
+		return new ModelAndView("xml", "ServiceTypeDTO", ServiceTypeDTO);
 	}
 
 	/**
@@ -202,7 +276,7 @@ public class CustomerRequestResource
 	 * @param entities
 	 *           the entities
 	 */
-	private void assigningIssueAndSendNotificationstatus(CustomerRequestModel entities)
+	private void assigningIssueAndSendNotificationstatus(final CustomerRequestModel entities)
 	{
 		String notificationStatus = sendNotification(entities);
 		String newTime = "";
@@ -258,6 +332,7 @@ public class CustomerRequestResource
 	private String sendNotification(CustomerRequestModel entities)
 	{
 		double fixedRange = 0;
+		double incrementRangeForLast = 0;
 		double lowStartRating = 0;
 		double lowEndRating = 0;
 		double highStartRating = 0;
@@ -270,6 +345,7 @@ public class CustomerRequestResource
 		{
 			prop.load(inputStream);
 			String fixedRangeInString = prop.getProperty("FIXED_RADIUS_RANGE");
+			String incrementRangeForLastInString = prop.getProperty("INCREASED_RADIUS_RANGE_FOR_LAST");
 			String lowStartRatingInString = prop.getProperty("LOW_RATING_START");
 			String lowEndRatingInString = prop.getProperty("LOW_RATING_END");
 			String highStartRatingInString = prop.getProperty("HIGH_RATING_START");
@@ -277,6 +353,7 @@ public class CustomerRequestResource
 			String incrementRangeInString = prop.getProperty("INCREASED_RADIUS_RANGE");
 			String numberOfLoopInString = prop.getProperty("NUMBER_OF_LOOP");
 			fixedRange = Double.parseDouble(fixedRangeInString);
+			incrementRangeForLast = Double.parseDouble(incrementRangeForLastInString);
 			lowStartRating = Double.parseDouble(lowStartRatingInString);
 			lowEndRating = Double.parseDouble(lowEndRatingInString);
 			highStartRating = Double.parseDouble(highStartRatingInString);
@@ -291,9 +368,13 @@ public class CustomerRequestResource
 		String notificationStatus = null;
 		for (int i = 0; i < numberOfLoop; i++)
 		{
-			if (i != 0)
+			if (i != 0 && i<=3 )
 			{
 				fixedRange = fixedRange + incrementRange;
+			}
+			if (i > 3)
+			{
+				fixedRange = fixedRange + incrementRangeForLast;
 			}
 			ArrayList<Double> ratingArray = new ArrayList<Double>();
 			ratingArray.add(highStartRating);
@@ -308,18 +389,27 @@ public class CustomerRequestResource
 				serviceProviderID = getServiceProviderList(entities, fixedRange, ratingArray);
 				if (serviceProviderID.isEmpty())
 				{
-
+					//String smsForAdmin = "No Service Provider Near Issue:-" + entities.getIssueId();
+					//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + "8892755277", smsForAdmin, "WebSMS", "0");
 				}
 				else
 				{
+					Set<Integer> hs = new HashSet<>();
+					hs.addAll(serviceProviderID);
+					serviceProviderID.clear();
+					serviceProviderID.addAll(hs);
 					notificationStatus = sendGCMNotificationAndGetStatus(serviceProviderID, entities);
-					break;
+					//break;
 				}
 			}
 			else
 			{
+				Set<Integer> hs = new HashSet<>();
+				hs.addAll(serviceProviderID);
+				serviceProviderID.clear();
+				serviceProviderID.addAll(hs);
 				notificationStatus = sendGCMNotificationAndGetStatus(serviceProviderID, entities);
-				break;
+				//break;
 			}
 		}
 		return notificationStatus;
@@ -377,7 +467,10 @@ public class CustomerRequestResource
 		ratingArray.add(latStoped);
 		ratingArray.add(longStarted);
 		ratingArray.add(longStoped);
-		serviceProviderID = getCustomerRequestService().getServiceProviderIDS(ratingArray, issueType);
+		String newTimeFormatInString = new SimpleDateFormat("H:m").format(entities.getIssueTime());
+		//Time newTimeFormat =  Time.valueOf(newTimeFormatInString);
+		serviceProviderID = getCustomerRequestService().getServiceProviderIDS(ratingArray,
+				entities.getServiceTypeModel().getServiceTypeId(), newTimeFormatInString);
 		return serviceProviderID;
 	}
 
@@ -407,15 +500,27 @@ public class CustomerRequestResource
 	private String sendGCMNotificationAndGetStatus(ArrayList<Integer> serviceProviderID, CustomerRequestModel entities)
 	{
 		ArrayList<String> arraylistOfDevices = new ArrayList<String>();
+		//ServiceTypeModel serviceTypeModel = new ServiceTypeModel();
+		//serviceTypeModel = getCustomerRequestService().get(ServiceTypeModel.class, serviceTypeId);
+		//return serviceTypeModel.getServiceType();
+		UserVehicleModel userVehicle = new UserVehicleModel();
+		userVehicle = getCustomerRequestService().getUserVehicle(entities.getCustomerModel().getUserId());
+		CustomerModel customer = new CustomerModel();
+		customer = getCustomerRequestService().get(CustomerModel.class, entities.getCustomerModel().getUserId());
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		String time = sdf.format(cal.getTime());
 		JSONArray jsonArrayObj = new JSONArray();
 		JSONObject js = new JSONObject();
 		try
 		{
 			js.put("issueId", entities.getIssueId());
-			js.put("customerVehicleNumber", entities.getCustomerModel().getUserId());
-			js.put("customerPhoneNumber", entities.getCustomerModel().getMobileNo());
+			js.put("issueTime", time);
+			js.put("issueDate", entities.getIssueDate());
+			js.put("customerVehicleNumber", userVehicle.getVehicleRegNo());
+			js.put("customerPhoneNumber", customer.getMobileNo());
 			js.put("customerLocation", entities.getCustomerLatitude() + "," + entities.getCustomerLongitude());
-			js.put("issueType", entities.getServiceTypeModel().getServiceType());
+			js.put("issueType", getServiceTypeWithTypeID(entities.getServiceTypeModel().getServiceTypeId()));
 		}
 		catch (JSONException e1)
 		{
@@ -428,5 +533,54 @@ public class CustomerRequestResource
 		SendNotification sendNotification = new SendNotification();
 		String notificationStatus = sendNotification.sendNotificationData(arraylistOfDevices, msg); //sent it to the notification //sendGCMNotification(arraylistOfDevices, msg);
 		return notificationStatus;
+	}
+
+	/**
+	 * Find all customer requests.
+	 *
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/findAllCustomerRequests", method =
+	{ RequestMethod.GET })
+	public ModelAndView findAllCustomerRequests()
+	{
+
+		List<CustomerRequestModel> customerRequestModels = new ArrayList<>();
+		customerRequestModels = getCustomerRequestService().loadAll(CustomerRequestModel.class);
+
+		CustomerRequestsDTO customerRequestsDTO = new CustomerRequestsDTO();
+		List<CustomerRequestDTO> CustomerRequestDTOs = new ArrayList<>();
+
+		for (CustomerRequestModel customerRequestModel : customerRequestModels)
+		{
+			CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO();
+			customerRequestDTO.setCustomerLatitude(customerRequestModel.getCustomerLatitude());
+			customerRequestDTO.setCustomerLongitude(customerRequestModel.getCustomerLongitude());
+			customerRequestDTO.setIssueId(customerRequestModel.getIssueId());
+			customerRequestDTO.setIssueStatus(customerRequestModel.getIssueStatus());
+			customerRequestDTO.setIssueStartTime(customerRequestModel.getIssueStartTime());
+			customerRequestDTO.setCustomerVehicleNumber(customerRequestModel.getCustomerVehicleNumber());
+			customerRequestDTO.setIssueDate(customerRequestModel.getIssueDate());
+			customerRequestDTO.setIssueTime(customerRequestModel.getIssueTime());
+
+			ServiceTypeModel abc = new ServiceTypeModel();
+			abc = customerRequestModel.getServiceTypeModel();
+			ServiceTypeDTO abc2 = new ServiceTypeDTO();
+			abc2.setServiceTypeId(abc.getServiceTypeId());
+			abc2.setServiceType(abc.getServiceType());
+			customerRequestDTO.setServiceTypeModel(abc2);
+
+			CustomerModel customerModel = new CustomerModel();
+			customerModel = customerRequestModel.getCustomerModel();
+
+			CustomerDTO customerDTO = new CustomerDTO();
+			customerDTO.setUserId(customerModel.getUserId());
+			customerDTO.setFirstName(customerModel.getFirstName());
+			customerRequestDTO.setCustomerModel(customerDTO);
+
+			CustomerRequestDTOs.add(customerRequestDTO);
+		}
+		customerRequestsDTO.setCustomerRequests(CustomerRequestDTOs);
+		return new ModelAndView("findAllCustomerRequests", "findAllCustomerRequests", customerRequestsDTO);
 	}
 }

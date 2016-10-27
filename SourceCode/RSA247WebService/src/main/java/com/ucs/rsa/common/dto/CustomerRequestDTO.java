@@ -4,15 +4,19 @@
 package com.ucs.rsa.common.dto;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Time;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class CustomerRequestDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class CustomerRequestDTO.
  */
 @XmlRootElement(name = "customer_request", namespace = "com.ucs.rsa.dto")
 public class CustomerRequestDTO implements Serializable
@@ -32,6 +36,175 @@ public class CustomerRequestDTO implements Serializable
 
 	/** The issue status. */
 	private String issueStatus;
+
+	/** The issue start time. */
+	private Time issueStartTime;
+
+	/** The customer vehicle number. */
+	private String customerVehicleNumber;
+
+	/** The issue date. */
+	private Date issueDate;
+
+	/** The issue time. */
+	private Time issueTime;
+
+	/** The service type model. */
+	private ServiceTypeDTO serviceTypeModel;
+
+	/** The customer model. */
+	private CustomerDTO customerModel;
+
+	/** The employee ID. */
+	private int employeeID;
+
+
+	/**
+	 * Gets the employee ID.
+	 *
+	 * @return the employee ID
+	 */
+	public int getEmployeeID()
+	{
+		return employeeID;
+	}
+
+	/**
+	 * Sets the employee ID.
+	 *
+	 * @param employeeID
+	 *           the new employee ID
+	 */
+	public void setEmployeeID(int employeeID)
+	{
+		this.employeeID = employeeID;
+	}
+
+	/**
+	 * Gets the service type model.
+	 *
+	 * @return the service type model
+	 */
+	public ServiceTypeDTO getServiceTypeModel()
+	{
+		return serviceTypeModel;
+	}
+
+	/**
+	 * Sets the service type model.
+	 *
+	 * @param serviceTypeModel
+	 *           the new service type model
+	 */
+	public void setServiceTypeModel(ServiceTypeDTO serviceTypeModel)
+	{
+		this.serviceTypeModel = serviceTypeModel;
+	}
+
+	/**
+	 * Gets the customer model.
+	 *
+	 * @return the customer model
+	 */
+	public CustomerDTO getCustomerModel()
+	{
+		return customerModel;
+	}
+
+	/**
+	 * Sets the customer model.
+	 *
+	 * @param customerModel
+	 *           the new customer model
+	 */
+	public void setCustomerModel(CustomerDTO customerModel)
+	{
+		this.customerModel = customerModel;
+	}
+
+	/**
+	 * Gets the issue start time.
+	 *
+	 * @return the issue start time
+	 */
+	public Time getIssueStartTime()
+	{
+		return issueStartTime;
+	}
+
+	/**
+	 * Sets the issue start time.
+	 *
+	 * @param issueStartTime
+	 *           the new issue start time
+	 */
+	public void setIssueStartTime(Time issueStartTime)
+	{
+		this.issueStartTime = issueStartTime;
+	}
+
+	/**
+	 * Gets the customer vehicle number.
+	 *
+	 * @return the customer vehicle number
+	 */
+	public String getCustomerVehicleNumber()
+	{
+		return customerVehicleNumber;
+	}
+
+	/**
+	 * Sets the customer vehicle number.
+	 *
+	 * @param customerVehicleNumber
+	 *           the new customer vehicle number
+	 */
+	public void setCustomerVehicleNumber(String customerVehicleNumber)
+	{
+		this.customerVehicleNumber = customerVehicleNumber;
+	}
+
+	/**
+	 * Gets the issue date.
+	 *
+	 * @return the issue date
+	 */
+	public Date getIssueDate()
+	{
+		return issueDate;
+	}
+
+	/**
+	 * Sets the issue date.
+	 *
+	 * @param issueDate
+	 *           the new issue date
+	 */
+	public void setIssueDate(Date issueDate)
+	{
+		this.issueDate = issueDate;
+	}
+
+	/**
+	 * Gets the issue time.
+	 *
+	 * @return the issue time
+	 */
+	public Time getIssueTime()
+	{
+		return issueTime;
+	}
+
+	/**
+	 * Sets the issue time.
+	 *
+	 * @param issueTime
+	 *           the new issue time
+	 */
+	public void setIssueTime(Time issueTime)
+	{
+		this.issueTime = issueTime;
+	}
 
 	/**
 	 * Gets the issue status.

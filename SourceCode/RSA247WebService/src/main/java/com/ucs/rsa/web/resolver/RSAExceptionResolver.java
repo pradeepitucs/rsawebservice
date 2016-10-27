@@ -14,10 +14,11 @@ import com.ucs.rsa.common.exception.RSAException;
 
 
 /**
+ * The Class RSAExceptionResolver.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class RSAExceptionResolver.
  */
 public class RSAExceptionResolver implements HandlerExceptionResolver
 {
@@ -69,6 +70,6 @@ public class RSAExceptionResolver implements HandlerExceptionResolver
 		{
 			anExceptionDTO.setErrorMessage(iException.getMessage());
 		}
-		return new ModelAndView("plist", "error", anExceptionDTO);
+		return new ModelAndView("error", "error", anExceptionDTO);
 	}
 }

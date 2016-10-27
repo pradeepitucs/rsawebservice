@@ -18,11 +18,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class VehicleModel.
+ *
  * @author Gururaj A M
  * @version 1.0
- * 
- *          The persistent class for the vehicle_model_t database table.
  * 
  */
 @Entity

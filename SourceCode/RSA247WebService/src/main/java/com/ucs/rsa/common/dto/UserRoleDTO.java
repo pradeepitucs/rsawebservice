@@ -9,10 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class UserRoleDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class UserRoleDTO.
  */
 @XmlRootElement(name = "role", namespace = "com.ucs.rsa.common.dto")
 public class UserRoleDTO implements Serializable

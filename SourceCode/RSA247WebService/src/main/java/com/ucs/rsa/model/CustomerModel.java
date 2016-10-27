@@ -16,21 +16,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-
+// TODO: Auto-generated Javadoc
 /**
- * @author Gururaj A M
- * @version 1.0
- * 
- *          The persistent class for the customer_t database table.
+ * The persistent class for the customer_t database table.
  * 
  */
 @Entity
 @Table(name = "customer_t")
 @PrimaryKeyJoinColumn(name = "user_id")
 @NamedQuery(name = "CustomerModel.findAll", query = "SELECT c FROM CustomerModel c")
-public class CustomerModel extends UserModel implements Serializable
-{
-
+public class CustomerModel extends UserModel implements Serializable {
+	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
@@ -41,6 +37,10 @@ public class CustomerModel extends UserModel implements Serializable
 	/** The first name. */
 	@Column(name = "first_name")
 	private String firstName;
+	
+	/** The is member. */
+	@Column(name = "is_member")
+	private boolean isMember;
 
 	/** The folder name. */
 	@Column(name = "folder_name")
@@ -65,6 +65,29 @@ public class CustomerModel extends UserModel implements Serializable
 	@OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
 	//@Fetch(value = FetchMode.SUBSELECT)
 	private List<CustomerRequestModel> customerRequestModels;
+	
+	/** The customer payment model. */
+	@OneToMany(mappedBy = "customerModel", fetch = FetchType.LAZY)
+	//@Fetch(value = FetchMode.SUBSELECT)
+	private List<CustomerPaymentModel> customerPaymentModel;
+
+	/**
+	 * Gets the customer payment model.
+	 *
+	 * @return the customer payment model
+	 */
+	public List<CustomerPaymentModel> getCustomerPaymentModel() {
+		return customerPaymentModel;
+	}
+
+	/**
+	 * Sets the customer payment model.
+	 *
+	 * @param customerPaymentModel the new customer payment model
+	 */
+	public void setCustomerPaymentModel(List<CustomerPaymentModel> customerPaymentModel) {
+		this.customerPaymentModel = customerPaymentModel;
+	}
 
 	/** The customer review models. */
 	// bi-directional many-to-one association to CustomerReviewModel
@@ -75,8 +98,25 @@ public class CustomerModel extends UserModel implements Serializable
 	/**
 	 * Instantiates a new customer model.
 	 */
-	public CustomerModel()
-	{
+	public CustomerModel() {
+	}
+
+	/**
+	 * Checks if is member.
+	 *
+	 * @return true, if is member
+	 */
+	public boolean isMember() {
+		return isMember;
+	}
+
+	/**
+	 * Sets the member.
+	 *
+	 * @param isMember the new member
+	 */
+	public void setMember(boolean isMember) {
+		this.isMember = isMember;
 	}
 
 	/**
@@ -84,19 +124,16 @@ public class CustomerModel extends UserModel implements Serializable
 	 *
 	 * @return the email id
 	 */
-	public String getEmailId()
-	{
+	public String getEmailId() {
 		return this.emailId;
 	}
 
 	/**
 	 * Sets the email id.
 	 *
-	 * @param emailId
-	 *           the new email id
+	 * @param emailId the new email id
 	 */
-	public void setEmailId(String emailId)
-	{
+	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
 
@@ -105,19 +142,16 @@ public class CustomerModel extends UserModel implements Serializable
 	 *
 	 * @return the first name
 	 */
-	public String getFirstName()
-	{
+	public String getFirstName() {
 		return this.firstName;
 	}
 
 	/**
 	 * Sets the first name.
 	 *
-	 * @param firstName
-	 *           the new first name
+	 * @param firstName the new first name
 	 */
-	public void setFirstName(String firstName)
-	{
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
@@ -126,19 +160,16 @@ public class CustomerModel extends UserModel implements Serializable
 	 *
 	 * @return the folder name
 	 */
-	public String getFolderName()
-	{
+	public String getFolderName() {
 		return this.folderName;
 	}
 
 	/**
 	 * Sets the folder name.
 	 *
-	 * @param folderName
-	 *           the new folder name
+	 * @param folderName the new folder name
 	 */
-	public void setFolderName(String folderName)
-	{
+	public void setFolderName(String folderName) {
 		this.folderName = folderName;
 	}
 
@@ -147,19 +178,16 @@ public class CustomerModel extends UserModel implements Serializable
 	 *
 	 * @return the gcm id
 	 */
-	public String getGcmId()
-	{
+	public String getGcmId() {
 		return this.gcmId;
 	}
 
 	/**
 	 * Sets the gcm id.
 	 *
-	 * @param gcmId
-	 *           the new gcm id
+	 * @param gcmId the new gcm id
 	 */
-	public void setGcmId(String gcmId)
-	{
+	public void setGcmId(String gcmId) {
 		this.gcmId = gcmId;
 	}
 
@@ -168,19 +196,16 @@ public class CustomerModel extends UserModel implements Serializable
 	 *
 	 * @return the last name
 	 */
-	public String getLastName()
-	{
+	public String getLastName() {
 		return this.lastName;
 	}
 
 	/**
 	 * Sets the last name.
 	 *
-	 * @param lastName
-	 *           the new last name
+	 * @param lastName the new last name
 	 */
-	public void setLastName(String lastName)
-	{
+	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
@@ -189,19 +214,16 @@ public class CustomerModel extends UserModel implements Serializable
 	 *
 	 * @return the city model
 	 */
-	public CityModel getCityModel()
-	{
+	public CityModel getCityModel() {
 		return this.cityModel;
 	}
 
 	/**
 	 * Sets the city model.
 	 *
-	 * @param cityModel
-	 *           the new city model
+	 * @param cityModel the new city model
 	 */
-	public void setCityModel(CityModel cityModel)
-	{
+	public void setCityModel(CityModel cityModel) {
 		this.cityModel = cityModel;
 	}
 
@@ -210,19 +232,16 @@ public class CustomerModel extends UserModel implements Serializable
 	 *
 	 * @return the customer request models
 	 */
-	public List<CustomerRequestModel> getCustomerRequestModels()
-	{
+	public List<CustomerRequestModel> getCustomerRequestModels() {
 		return customerRequestModels;
 	}
 
 	/**
 	 * Sets the customer request models.
 	 *
-	 * @param customerRequestModels
-	 *           the new customer request models
+	 * @param customerRequestModels the new customer request models
 	 */
-	public void setCustomerRequestModels(List<CustomerRequestModel> customerRequestModels)
-	{
+	public void setCustomerRequestModels(List<CustomerRequestModel> customerRequestModels) {
 		this.customerRequestModels = customerRequestModels;
 	}
 
@@ -231,31 +250,26 @@ public class CustomerModel extends UserModel implements Serializable
 	 *
 	 * @return the customer review models
 	 */
-	public List<CustomerReviewModel> getCustomerReviewModels()
-	{
+	public List<CustomerReviewModel> getCustomerReviewModels() {
 		return customerReviewModels;
 	}
 
 	/**
 	 * Sets the customer review models.
 	 *
-	 * @param customerReviewModels
-	 *           the new customer review models
+	 * @param customerReviewModels the new customer review models
 	 */
-	public void setCustomerReviewModels(List<CustomerReviewModel> customerReviewModels)
-	{
+	public void setCustomerReviewModels(List<CustomerReviewModel> customerReviewModels) {
 		this.customerReviewModels = customerReviewModels;
 	}
 
 	/**
 	 * Adds the customer request model.
 	 *
-	 * @param customerRequestModel
-	 *           the customer request model
+	 * @param customerRequestModel the customer request model
 	 * @return the customer request model
 	 */
-	public CustomerRequestModel addCustomerRequestModel(CustomerRequestModel customerRequestModel)
-	{
+	public CustomerRequestModel addCustomerRequestModel(CustomerRequestModel customerRequestModel) {
 		getCustomerRequestModels().add(customerRequestModel);
 		customerRequestModel.setCustomerModel(this);
 		return customerRequestModel;
@@ -264,26 +278,46 @@ public class CustomerModel extends UserModel implements Serializable
 	/**
 	 * Removes the customer request model.
 	 *
-	 * @param customerRequestModel
-	 *           the customer request model
+	 * @param customerRequestModel the customer request model
 	 * @return the customer request model
 	 */
-	public CustomerRequestModel removeCustomerRequestModel(CustomerRequestModel customerRequestModel)
-	{
+	public CustomerRequestModel removeCustomerRequestModel(CustomerRequestModel customerRequestModel) {
 		getCustomerRequestModels().remove(customerRequestModel);
 		customerRequestModel.setCustomerModel(null);
 		return customerRequestModel;
+	}
+	
+	/**
+	 * Adds the customer payment model.
+	 *
+	 * @param customerPaymentModel the customer payment model
+	 * @return the customer payment model
+	 */
+	public CustomerPaymentModel addCustomerPaymentModel(CustomerPaymentModel customerPaymentModel) {
+		getCustomerPaymentModel().add(customerPaymentModel);
+		customerPaymentModel.setCustomerModel(this);
+		return customerPaymentModel;
+	}
+
+	/**
+	 * Removes the customer payment model.
+	 *
+	 * @param customerPaymentModel the customer payment model
+	 * @return the customer payment model
+	 */
+	public CustomerPaymentModel removeCustomerPaymentModel(CustomerPaymentModel customerPaymentModel) {
+		getCustomerPaymentModel().remove(customerPaymentModel);
+		customerPaymentModel.setCustomerModel(null);
+		return customerPaymentModel;
 	}
 
 	/**
 	 * Adds the customer review model.
 	 *
-	 * @param customerReviewModel
-	 *           the customer review model
+	 * @param customerReviewModel the customer review model
 	 * @return the customer review model
 	 */
-	public CustomerReviewModel addCustomerReviewModel(CustomerReviewModel customerReviewModel)
-	{
+	public CustomerReviewModel addCustomerReviewModel(CustomerReviewModel customerReviewModel) {
 		getCustomerReviewModels().add(customerReviewModel);
 		customerReviewModel.setCustomerModel(this);
 		return customerReviewModel;
@@ -292,12 +326,10 @@ public class CustomerModel extends UserModel implements Serializable
 	/**
 	 * Removes the customer review model.
 	 *
-	 * @param customerReviewModel
-	 *           the customer review model
+	 * @param customerReviewModel the customer review model
 	 * @return the customer review model
 	 */
-	public CustomerReviewModel removeCustomerReviewModel(CustomerReviewModel customerReviewModel)
-	{
+	public CustomerReviewModel removeCustomerReviewModel(CustomerReviewModel customerReviewModel) {
 		getCustomerReviewModels().remove(customerReviewModel);
 		customerReviewModel.setCustomerModel(null);
 		return customerReviewModel;

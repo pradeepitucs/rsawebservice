@@ -1,0 +1,114 @@
+/*
+ * Copy rights @ 2016, Uniqueware Consulting Pvt Ltd
+ */
+package com.ucs.rsa.daos;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import com.ucs.rsa.model.CityModel;
+import com.ucs.rsa.model.CustomerModel;
+import com.ucs.rsa.model.EmployeeModel;
+import com.ucs.rsa.model.ServiceProviderModel;
+import com.ucs.rsa.model.UserModel;
+import com.ucs.rsa.model.ServiceProviderServiceMatchingModel;
+import com.ucs.rsa.model.UserVehicleModel;
+
+
+/**
+ * The Interface UserDAO.
+ *
+ * @author Gururaj A M
+ * @version 1.0
+ * 
+ */
+public interface UserDAO extends BaseDAO
+{
+
+	/**
+	 * Update customer.
+	 *
+	 * @param iCustomerModel
+	 *           the i customer model
+	 * @return the customer model
+	 */
+	public CustomerModel updateCustomer(CustomerModel iCustomerModel);
+
+	/**
+	 * Update service provider.
+	 *
+	 * @param iCustomerModel
+	 *           the i customer model
+	 * @return the service provider model
+	 */
+	public ServiceProviderModel updateServiceProvider(ServiceProviderModel iCustomerModel);
+
+	/**
+	 * Update employee.
+	 *
+	 * @param iCustomerModel
+	 *           the i customer model
+	 * @return the employee model
+	 */
+	public EmployeeModel updateEmployee(EmployeeModel iCustomerModel);
+
+	/**
+	 * Login.
+	 *
+	 * @param iMobileNo
+	 *           the i mobile no
+	 * @param iGcmId
+	 *           the i gcm id
+	 * @return the string
+	 */
+	public String login(Long iMobileNo, String iGcmId);
+
+	/**
+	 * View all cities.
+	 *
+	 * @param iPageNo
+	 *           the i page no
+	 * @param iRecordsPerPage
+	 *           the i records per page
+	 * @return the list
+	 */
+	public List<CityModel> viewAllCities(int iPageNo, int iRecordsPerPage);
+
+	/**
+	 * Find no of records.
+	 *
+	 * @return the int
+	 */
+	public int findNoOfRecords();
+
+	/**
+	 * Gets the user by username.
+	 *
+	 * @param username
+	 *           the username
+	 * @return the user by username
+	 */
+	public UserModel getUserByUsername(String username);
+
+	public String employeeLogin(long iMobileNo, String iGcmId);
+	
+	public ServiceProviderServiceMatchingModel getServiceProvidermatchingModel(
+			ArrayList<ServiceProviderServiceMatchingModel> serviceProviderServiceMatchingModelList);
+	
+	public EmployeeModel insertEmployeesData(EmployeeModel employees);
+	
+	public String approveServiceProvider(int serviceProviderId);
+	
+	public String approveEmployee(int employeeId);
+	
+	public String acceptTermAndCondition(String imageFolderName,boolean accepttermAndCondition);
+	
+	public CustomerModel updateMemberShip(int userId, boolean isMembership);
+	
+	public UserVehicleModel getUservehicleDetail(int userId);
+	
+	public EmployeeModel getEmployeeFromNumber(long employeeNumber);
+		
+	public ServiceProviderModel getServiceProviderFromNumber(long serviceProviderNumber);
+	
+}

@@ -8,11 +8,9 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Gururaj A M
- * @version 1.0
- * 
- *          The Class ServiceTypeDTO.
+ * The Class ServiceTypeDTO.
  */
 @XmlRootElement(name = "serviceType", namespace = "com.ucs.rsa.common.dto")
 public class ServiceTypeDTO implements Serializable
@@ -27,8 +25,53 @@ public class ServiceTypeDTO implements Serializable
 	/** The service type. */
 	private String serviceType;
 
-	/** The service price. */
-	private int servicePrice;
+	/** The non member price. */
+	private String nonMemberPrice;
+
+	/** The member price. */
+	private String memberPrice;
+
+	/**
+	 * Gets the non member price.
+	 *
+	 * @return the non member price
+	 */
+	public String getNonMemberPrice()
+	{
+		return nonMemberPrice;
+	}
+
+	/**
+	 * Sets the non member price.
+	 *
+	 * @param nonMemberPrice
+	 *           the new non member price
+	 */
+	public void setNonMemberPrice(String nonMemberPrice)
+	{
+		this.nonMemberPrice = nonMemberPrice;
+	}
+
+	/**
+	 * Gets the member price.
+	 *
+	 * @return the member price
+	 */
+	public String getMemberPrice()
+	{
+		return memberPrice;
+	}
+
+	/**
+	 * Sets the member price.
+	 *
+	 * @param memberPrice
+	 *           the new member price
+	 */
+	public void setMemberPrice(String memberPrice)
+	{
+		this.memberPrice = memberPrice;
+	}
 
 	/**
 	 * Gets the service type id.
@@ -70,26 +113,5 @@ public class ServiceTypeDTO implements Serializable
 	public void setServiceType(String serviceType)
 	{
 		this.serviceType = serviceType;
-	}
-
-	/**
-	 * Gets the service price.
-	 *
-	 * @return the service price
-	 */
-	public int getServicePrice()
-	{
-		return servicePrice;
-	}
-
-	/**
-	 * Sets the service price.
-	 *
-	 * @param servicePrice
-	 *           the new service price
-	 */
-	public void setServicePrice(int servicePrice)
-	{
-		this.servicePrice = servicePrice;
 	}
 }

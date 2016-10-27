@@ -15,10 +15,11 @@ import org.springframework.web.servlet.view.xml.MarshallingView;
 
 
 /**
+ * The Class MarshallingXmlViewResolver.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class MarshallingXmlViewResolver.
  */
 public class MarshallingXmlViewResolver implements ViewResolver
 {

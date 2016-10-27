@@ -9,10 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class CityDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class CityDTO.
  */
 @XmlRootElement(name = "city", namespace = "com.ucs.rsa.common.dto")
 public class CityDTO implements Serializable

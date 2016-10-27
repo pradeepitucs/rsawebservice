@@ -11,11 +11,13 @@ import com.ucs.rsa.model.VehicleModel;
 import com.ucs.rsa.model.VehicleTypeModel;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Interface UserVehicleDAO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Interface UserVehicleDAO.
  */
 public interface UserVehicleDAO extends BaseDAO
 {

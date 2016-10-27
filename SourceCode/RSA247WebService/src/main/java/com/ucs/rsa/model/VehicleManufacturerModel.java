@@ -20,11 +20,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class VehicleManufacturerModel.
+ *
  * @author Gururaj A M
  * @version 1.0
- * 
- *          The persistent class for the vehicle_manufacturer_t database table.
  * 
  */
 @Entity

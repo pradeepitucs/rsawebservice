@@ -23,11 +23,9 @@ import com.ucs.rsa.model.VehicleModel;
 import com.ucs.rsa.model.VehicleTypeModel;
 
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Gururaj A M
- * @version 1.0
- * 
- *          The Class DefaultUserVehicleDAO.
+ * The Class DefaultUserVehicleDAO.
  */
 @Repository(value = "defaultUserVehicleDAO")
 public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicleDAO
@@ -38,6 +36,7 @@ public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicle
 	 * 
 	 * @see com.ucs.rsa.daos.UserVehicleDAO#getVehiclesByManufacturer(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<VehicleModel> getVehiclesByManufacturer(int manufacturerId)
 	{
@@ -153,8 +152,10 @@ public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicle
 					.add(Restrictions.eq("vehicleFuelTypeModel.vehicleFuelTypeId", iVehicleTypeModel.getVehicleTypeId()))
 					.add(Restrictions.eq("vehicleModel.vehicleModelId", iVehicleModel.getVehicleModelId()))
 					.add(Restrictions.eq("vehicleTypeModel.vehicleTypeId", iVehicleTypeModel.getVehicleTypeId()))
-					.add(Restrictions.eq("vehicleManufacturerModel.manufacturerId",
-							iVehicleModel.getVehicleManufacturerModel().getManufacturerId()))
+					/*
+					 * .add(Restrictions.eq("vehicleManufacturerModel.manufacturerId",
+					 * iVehicleModel.getVehicleManufacturerModel().getManufacturerId()))
+					 */
 					.uniqueResult();
 
 			/**** Check for user reg the vehicle ****/

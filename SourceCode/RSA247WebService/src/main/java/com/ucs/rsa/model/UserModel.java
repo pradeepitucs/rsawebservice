@@ -19,11 +19,12 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class UserModel.
+ *
  * @author Gururaj A M
  * @version 1.0
- * 
- *          The persistent class for the user_t database table.
  * 
  */
 @Entity

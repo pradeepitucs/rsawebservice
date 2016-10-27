@@ -4,10 +4,7 @@
 package com.ucs.rsa.common.constants;
 
 /**
- * @author Gururaj A M
- * @version 1.0
- * 
- *          The Class RSAErrorConstants.
+ * The Class RSAErrorConstants.
  */
 public class RSAErrorConstants
 {
@@ -77,6 +74,11 @@ public class RSAErrorConstants
 
 	/** The Constant INVALID_USER_MODEL_KEY. */
 	public static final String INVALID_USER_MODEL_KEY = "RSA_013";
+	/** The Constant TRANSACTION_FAILED_MSG. */
+	public static final String TRANSACTION_FAILED_MSG = "SIGNATURE_VERFICATION_FAILED";
+
+	/** The Constant TRANSACTION_FAILED_KEY. */
+	public static final String TRANSACTION_FAILED_KEY = "RSA_015";
 
 	/**
 	 * The Enum ErrorCode.
@@ -117,7 +119,21 @@ public class RSAErrorConstants
 		/** The invalid user model id error. */
 		INVALID_USER_MODEL_ID_ERROR("RSA_013", "INVALID_USER_MODEL"),
 		/** The vehicle information already exists for this user error. */
-		VEHICLE_INFORMATION_ALREADY_EXISTS_FOR_THIS_USER_ERROR("RSA_014", "VEHICLE_INFORMATION_ALREADY_EXISTS_FOR_THIS_USER");
+		VEHICLE_INFORMATION_ALREADY_EXISTS_FOR_THIS_USER_ERROR("RSA_014", "VEHICLE_INFORMATION_ALREADY_EXISTS_FOR_THIS_USER"),
+
+		/** The transaction failed error. */
+		TRANSACTION_FAILED_ERROR("RSA_015", "SIGNATURE_VERFICATION_FAILED"),
+
+		/** The invalid service provider id. */
+		INVALID_SERVICE_PROVIDER_ID("RSA_016", "INVALID_SERVICE_PROVIDER_ID"),
+
+		/** The invalid email. */
+		INVALID_EMAIL("RSA_017", "INVALID_EMAIL"),
+
+		/** The service provider already exists error. */
+		SERVICE_PROVIDER_ALREADY_EXISTS_ERROR("RSA_017", "SERVICE_PROVIDER_ALREADY_EXISTS_ERROR");
+
+
 
 		/** The key. */
 		private String key;

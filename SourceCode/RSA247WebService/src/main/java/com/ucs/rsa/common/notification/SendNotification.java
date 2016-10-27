@@ -13,10 +13,11 @@ import com.google.android.gcm.server.Sender;
 
 
 /**
+ * The Class SendNotification.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class SendNotification.
  */
 public class SendNotification
 {

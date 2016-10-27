@@ -11,10 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class VehicleFuelTypesDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class VehicleFuelTypesDTO.
  */
 @XmlRootElement(name = "vehicleFuelTypes", namespace = "com.ucs.rsa.common.dto")
 

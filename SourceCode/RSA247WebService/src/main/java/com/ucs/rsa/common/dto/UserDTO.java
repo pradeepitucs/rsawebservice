@@ -9,10 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class UserDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class UserDTO.
  */
 @XmlRootElement(name = "user", namespace = "com.ucs.rsa.common.dto")
 

@@ -10,10 +10,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class CustomerRequestsDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class CustomerRequestsDTO.
  */
 @XmlRootElement(name = "customer_requests", namespace = "com.ucs.rsa.common.dto")
 public class CustomerRequestsDTO implements Serializable

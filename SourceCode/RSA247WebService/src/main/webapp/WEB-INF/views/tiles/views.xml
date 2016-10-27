@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+	"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<!-- Page Not Found Page -->
+	<definition name="page_not_found" extends="base-definition">
+		<put-attribute name="title" value="Page Not Found" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/page_not_found.jsp" />
+	</definition>
+
+	<!-- Page Not Found Page -->
+	<definition name="home" extends="base-definition">
+		<put-attribute name="title" value="Page Not Found" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
+	</definition>
+
+	<!-- Cities Page -->
+	<definition name="cities" extends="base-definition">
+		<put-attribute name="title" value="Contact Us" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/cities.jsp" />
+	</definition>
+
+	<!-- View Cities Page -->
+	<definition name="viewcities" extends="base-definition">
+		<put-attribute name="title" value="Contact Us" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/viewcities.jsp" />
+	</definition>
+
+	<!-- Login Page -->
+	<definition name="login" extends="base-definition">
+		<put-attribute name="title" value="Contact Us" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/login.jsp" />
+	</definition>
+
+	<!-- Logged In Page -->
+	<definition name="logged_in" extends="base-definition">
+		<put-attribute name="title" value="Contact Us" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/logged_in.jsp" />
+	</definition>
+
+	<!-- Exception Handled Page -->
+	<definition name="error" extends="base-definition">
+		<put-attribute name="title" value="Page Not Found" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/error.jsp" />
+	</definition>
+	
+	<!-- Find All Service Providers Page -->
+	<definition name="findAllServiceProviders" extends="base-definition">
+		<put-attribute name="title" value="Find All Service Providers" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/findAllServiceProviders.jsp" />
+	</definition>
+	
+	<!-- Find All Employees Page -->
+	<definition name="findAllEmployees" extends="base-definition">
+		<put-attribute name="title" value="Find All Employees" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/findAllEmployees.jsp" />
+	</definition>
+	
+		<!-- Find All Customer Requests Page -->
+	<definition name="findAllCustomerRequests" extends="base-definition">
+		<put-attribute name="title" value="Find All Customer Requests" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/findAllCustomerRequests.jsp" />
+	</definition>
+	
+</tiles-definitions>

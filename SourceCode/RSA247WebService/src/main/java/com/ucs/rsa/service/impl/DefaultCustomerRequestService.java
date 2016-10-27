@@ -4,6 +4,7 @@
 package com.ucs.rsa.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,15 +14,17 @@ import com.ucs.rsa.common.constants.RSAErrorConstants;
 import com.ucs.rsa.common.exception.RSAException;
 import com.ucs.rsa.daos.CustomerRequestDAO;
 import com.ucs.rsa.model.CustomerRequestModel;
+import com.ucs.rsa.model.CustomerSubIssueModel;
 import com.ucs.rsa.model.EmployeeModel;
+import com.ucs.rsa.model.ServiceProviderCommentModel;
+import com.ucs.rsa.model.ServiceTypeModel;
+import com.ucs.rsa.model.UserVehicleModel;
 import com.ucs.rsa.service.CustomerRequestService;
 
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Gururaj A M
- * @version 1.0
- * 
- *          The Class DefaultCustomerRequestService.
+ * The Class DefaultCustomerRequestService.
  */
 @Service
 public class DefaultCustomerRequestService extends DefaultBaseService implements CustomerRequestService
@@ -43,7 +46,7 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 		CustomerRequestModel customerRequestModel = null;
 		if (!"".equals(iCustomerRequestModel.getCustomerModel()) && !"".equals(iCustomerRequestModel.getServiceTypeModel())
 				&& !"".equals(iCustomerRequestModel.getCustomerLatitude()) && !"".equals(iCustomerRequestModel.getCustomerLongitude())
-				&& !"".equals(iCustomerRequestModel.getEmployeeModel()) && !"".equals(iCustomerRequestModel.getIssueId())
+				&& !"".equals(iCustomerRequestModel.getEmployeeID()) && !"".equals(iCustomerRequestModel.getIssueId())
 				&& !"".equals(iCustomerRequestModel.getIssueStatus()))
 		{
 			customerRequestModel = customerRequestDAO.updateCustomerRequest(iCustomerRequestModel);
@@ -67,7 +70,7 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 	public ArrayList<String> updateCustomerRequestByEmployee(CustomerRequestModel iCustomerRequestModel)
 	{
 		ArrayList<String> customerRequestResponse = null;
-		if (!"".equals(iCustomerRequestModel.getEmployeeModel()) && !"".equals(iCustomerRequestModel.getIssueId())
+		if (!"".equals(iCustomerRequestModel.getEmployeeID()) && !"".equals(iCustomerRequestModel.getIssueId())
 				&& !"".equals(iCustomerRequestModel.getIssueStatus()))
 		{
 			customerRequestResponse = customerRequestDAO.updateCustomerRequestByEmployee(iCustomerRequestModel);
@@ -84,13 +87,13 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.ucs.rsa.service.CustomerRequestService#getServiceProviderIDS(java.util.ArrayList, java.lang.String)
+	 * @see com.ucs.rsa.service.CustomerRequestService#getServiceProviderIDS(java.util.ArrayList, int, java.lang.String)
 	 */
 	@Override
-	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, String serviceType)
+	public ArrayList<Integer> getServiceProviderIDS(ArrayList<Double> ratingAndLocation, int serviceType, String newTimeFormat)
 	{
 		ArrayList<Integer> serviceProviderList = null;
-		serviceProviderList = customerRequestDAO.getServiceProviderIDS(ratingAndLocation, serviceType);
+		serviceProviderList = customerRequestDAO.getServiceProviderIDS(ratingAndLocation, serviceType, newTimeFormat);
 		return serviceProviderList;
 	}
 
@@ -165,6 +168,138 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 	{
 		EmployeeModel employeeModel = customerRequestDAO.getEmployeeDataFromEmployeeID(employeeID);
 		return employeeModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.service.CustomerRequestService#updateCustomerIssueAfterAccepting(com.ucs.rsa.model.
+	 * CustomerRequestModel)
+	 */
+	@Override
+	public CustomerRequestModel updateCustomerIssueAfterAccepting(CustomerRequestModel iCustomerRequestModel)
+	{
+		CustomerRequestModel customerRequestResponse = null;
+		if (!"".equals(iCustomerRequestModel.getEmployeeID()) && !"".equals(iCustomerRequestModel.getIssueId())
+				&& !"".equals(iCustomerRequestModel.getIssueStatus()))
+		{
+			customerRequestResponse = customerRequestDAO.updateCustomerIssueAfterAccepting(iCustomerRequestModel);
+		}
+		else
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setError(RSAErrorConstants.ErrorCode.MANDATORY_PARAMS_MISSING_ERROR);
+			throw rsaEx;
+		}
+		return customerRequestResponse;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.service.CustomerRequestService#getUserVehicle(int)
+	 */
+	@Override
+	public UserVehicleModel getUserVehicle(int customerID)
+	{
+		UserVehicleModel userVehicleModel = customerRequestDAO.getUserVehicle(customerID);
+		return userVehicleModel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.service.CustomerRequestService#updateCustomerIssueByServiceProvider(com.ucs.rsa.model.
+	 * CustomerRequestModel, java.util.ArrayList, com.ucs.rsa.model.ServiceProviderCommentModel)
+	 */
+	@Override
+	public CustomerRequestModel updateCustomerIssueByServiceProvider(CustomerRequestModel customerRequestModel,
+			ArrayList<CustomerSubIssueModel> customerSubIssueModelList, ServiceProviderCommentModel serviceProviderCommentModel)
+	{
+		CustomerRequestModel customerRequestResponse = null;
+		if (!"".equals(customerRequestModel.getEmployeeID()) && !"".equals(customerRequestModel.getIssueId())
+				&& !"".equals(customerRequestModel.getIssueStatus()) && !"".equals(customerSubIssueModelList)
+				&& !"".equals(serviceProviderCommentModel))
+		{
+			customerRequestResponse = customerRequestDAO.updateCustomerIssueByServiceProvider(customerRequestModel,
+					customerSubIssueModelList, serviceProviderCommentModel);
+		}
+		else
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setError(RSAErrorConstants.ErrorCode.MANDATORY_PARAMS_MISSING_ERROR);
+			throw rsaEx;
+		}
+		return customerRequestResponse;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.service.CustomerRequestService#rejectCustomerIssue(com.ucs.rsa.model.CustomerRequestModel,
+	 * com.ucs.rsa.model.ServiceProviderCommentModel)
+	 */
+	@Override
+	public CustomerRequestModel rejectCustomerIssue(CustomerRequestModel customerRequestModel,
+			ServiceProviderCommentModel serviceProviderCommentModel)
+	{
+		CustomerRequestModel customerRequestResponse = null;
+		if (!"".equals(customerRequestModel.getEmployeeID()) && !"".equals(customerRequestModel.getIssueId())
+				&& !"".equals(customerRequestModel.getIssueStatus()) && !"".equals(serviceProviderCommentModel))
+		{
+			customerRequestResponse = customerRequestDAO.rejectCustomerIssue(customerRequestModel, serviceProviderCommentModel);
+		}
+		else
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setError(RSAErrorConstants.ErrorCode.MANDATORY_PARAMS_MISSING_ERROR);
+			throw rsaEx;
+		}
+		return customerRequestResponse;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.service.CustomerRequestService#getCompletedService(int, com.ucs.rsa.model.CustomerRequestModel)
+	 */
+	@Override
+	public List<ServiceTypeModel> getCompletedService(int issueID, CustomerRequestModel customerRequestModel)
+	{
+		List<ServiceTypeModel> serviceType = null;
+		if (issueID != 0)
+		{
+			serviceType = customerRequestDAO.getCompletedService(issueID, customerRequestModel);
+		}
+		else
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setError(RSAErrorConstants.ErrorCode.MANDATORY_PARAMS_MISSING_ERROR);
+			throw rsaEx;
+		}
+		return serviceType;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.service.CustomerRequestService#getPaymentDetail(int)
+	 */
+	@Override
+	public List<ServiceTypeModel> getPaymentDetail(int issueID)
+	{
+		List<ServiceTypeModel> serviceType = null;
+		if (issueID != 0)
+		{
+			serviceType = customerRequestDAO.getPaymentDetail(issueID);
+		}
+		else
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setError(RSAErrorConstants.ErrorCode.MANDATORY_PARAMS_MISSING_ERROR);
+			throw rsaEx;
+		}
+		return serviceType;
 	}
 
 }

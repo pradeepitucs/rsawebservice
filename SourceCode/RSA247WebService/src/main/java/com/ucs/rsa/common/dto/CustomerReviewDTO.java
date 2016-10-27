@@ -10,10 +10,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class CustomerReviewDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class CustomerReviewDTO.
  */
 @XmlRootElement(name = "customer_review", namespace = "com.ucs.rsa.dto")
 public class CustomerReviewDTO implements Serializable

@@ -15,11 +15,13 @@ import com.ucs.rsa.model.CustomerReviewModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class DefaultCustomerReviewDAO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultCustomerReviewDAO.
  */
 @Repository(value = "customerReviewDAO")
 public class DefaultCustomerReviewDAO extends DefaultBaseDAO implements CustomerReviewDAO

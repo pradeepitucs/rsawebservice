@@ -27,6 +27,8 @@ import com.ucs.rsa.common.dto.VehicleManufacturersDTO;
 import com.ucs.rsa.common.dto.VehicleTypeDTO;
 import com.ucs.rsa.common.dto.VehicleTypesDTO;
 import com.ucs.rsa.common.dto.VehiclesDTO;
+import com.ucs.rsa.common.sms.SmsLane;
+import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.UserVehicleModel;
 import com.ucs.rsa.model.VehicleBodyTypeModel;
 import com.ucs.rsa.model.VehicleFuelTypeModel;
@@ -34,23 +36,39 @@ import com.ucs.rsa.model.VehicleInformationModel;
 import com.ucs.rsa.model.VehicleManufacturerModel;
 import com.ucs.rsa.model.VehicleModel;
 import com.ucs.rsa.model.VehicleTypeModel;
+import com.ucs.rsa.service.GmailService;
 import com.ucs.rsa.service.UserVehicleService;
 
 
 /**
+ * The Class UserVehicleManagementResource.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class UserVehicleManagementResource.
  */
 @Controller
 @RequestMapping("/uservehicle")
 public class UserVehicleManagementResource
 {
 
+	/** The gmail service. */
+	@Autowired
+	GmailService gmailService;
+
 	/** The user vehicle service. */
 	@Autowired
 	private UserVehicleService userVehicleService;
+
+	/**
+	 * Gets the gmail service.
+	 *
+	 * @return the gmail service
+	 */
+	public GmailService getGmailService()
+	{
+		return gmailService;
+	}
 
 	/**
 	 * Gets the user vehicle service.
@@ -60,6 +78,74 @@ public class UserVehicleManagementResource
 	public UserVehicleService getUserVehicleService()
 	{
 		return userVehicleService;
+	}
+
+	/**
+	 * Gets the vehicle models by manufacturer.
+	 *
+	 * @param iVehicleModelId
+	 *           the i vehicle model id
+	 * @return the vehicle models by manufacturer
+	 */
+	@RequestMapping(value = "/vehiclemodelsdetailsbymanufacturer", method =
+	{ RequestMethod.POST })
+	public ModelAndView getVehicleModelsByManufacturer(@RequestParam("manufacturerid") final int iVehicleModelId)
+	{
+		List<VehicleModel> vehicleModels = new ArrayList<>();
+		vehicleModels = getUserVehicleService().getVehiclesByManufacturer(iVehicleModelId);
+
+		VehiclesDTO vehiclesDTO = new VehiclesDTO();
+		List<VehicleDTO> vehicleDTOs = new ArrayList<>();
+
+		for (VehicleModel vehicleModel : vehicleModels)
+		{
+			VehicleDTO vehicleDTO = new VehicleDTO();
+			vehicleDTO.setIsEnabled(vehicleModel.getIsEnabled());
+			vehicleDTO.setModelName(vehicleModel.getModelName());
+			vehicleDTO.setVehicleModelId(vehicleModel.getVehicleModelId());
+			vehicleDTOs.add(vehicleDTO);
+		}
+		vehiclesDTO.setVehicleDTOs(vehicleDTOs);
+		return new ModelAndView("xml", "vehiclemodels", vehiclesDTO);
+	}
+
+	/**
+	 * Send mail.
+	 *
+	 * @param msg
+	 *           the msg
+	 * @param employeeEmail
+	 *           the employee email
+	 */
+	private void sendMail(String msg, String employeeEmail)
+	{
+		// TODO Auto-generated method stub
+		getGmailService().readyToSendEmail("aditya.s@ucs.consulting", employeeEmail, "Registration Successful  - RSA247", msg);
+	}
+
+	/**
+	 * Send SMS.
+	 *
+	 * @param smsForEmployee
+	 *           the sms for employee
+	 * @param mobileNo
+	 *           the mobile no
+	 */
+	private void sendSMS(String smsForEmployee, long mobileNo)
+	{
+		// TODO Auto-generated method stub
+		SmsLane.SMSSender("pradeepit", "pradeep143", "91" + mobileNo, smsForEmployee, "WebSMS", "0");
+	}
+
+	/**
+	 * Sets the gmail service.
+	 *
+	 * @param gmailService
+	 *           the new gmail service
+	 */
+	public void setGmailService(GmailService gmailService)
+	{
+		this.gmailService = gmailService;
 	}
 
 	/**
@@ -135,13 +221,96 @@ public class UserVehicleManagementResource
 				vehicleFuelTypeModel, vehicleTypeModel);
 
 		UserVehicleDTO userVehicleDTO = new UserVehicleDTO();
+		if (userVehicleModel1 != null)
+		{
+			final String smsForCustomer = "You have successfully registered with RSA247. Please check your mail for more details";
+			CustomerModel customer = new CustomerModel();
+			customer = getUserVehicleService().get(CustomerModel.class, iUserId);
+			final long customerNumber = customer.getMobileNo();
+			final String customerEmail = customer.getEmailId();
+			//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + customerNumber, smsForCustomer, "WebSMS",
+			//	"0");
+			Runnable r2 = new Runnable()
+			{
+				public void run()
+				{
 
-		userVehicleDTO.setIsEnabled(userVehicleModel1.getIsEnabled());
-		userVehicleDTO.setUserId(userVehicleModel1.getUserId());
-		userVehicleDTO.setVehicleId(userVehicleModel1.getVehicleId());
-		userVehicleDTO.setVehicleRegNo(userVehicleModel1.getVehicleRegNo());
+					sendSMS(smsForCustomer, customerNumber);
 
+				}
+			};
+			new Thread(r2).start();
+			final String msg = ",\n\n" + "\t Congratulations"
+					+ "\n You have registered successfully with RSA247. You can now be part of the exclusive network of RSA247."
+					+ "Please go through our website(http://www.rsa247.com/) or our mobile app(https://play.google.com/store/apps/details?id=com.google.android.youtube&hl=en) to know the advantages of our yearly subscription."
+					+ "\n\n" + "\n\n" + "Thank you" + "\n\n" + "RSA247";
+			Runnable r3 = new Runnable()
+			{
+				public void run()
+				{
+
+					sendMail(msg, customerEmail);
+					;
+
+				}
+			};
+			new Thread(r3).start();
+			userVehicleDTO.setIsEnabled(userVehicleModel1.getIsEnabled());
+			userVehicleDTO.setUserId(userVehicleModel1.getUserId());
+			userVehicleDTO.setVehicleId(userVehicleModel1.getVehicleId());
+			userVehicleDTO.setVehicleRegNo(userVehicleModel1.getVehicleRegNo());
+		}
 		return new ModelAndView("xml", "userVehicle", userVehicleDTO);
+	}
+
+	/**
+	 * Vehicle.
+	 *
+	 * @param iVehicleId
+	 *           the i vehicle id
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/vehicle", method =
+	{ RequestMethod.GET })
+	public ModelAndView vehicle(@RequestParam("vehicleid") final int iVehicleId)
+	{
+		UserVehicleModel userVehicleModel = new UserVehicleModel();
+		userVehicleModel = getUserVehicleService().get(UserVehicleModel.class, iVehicleId);
+
+		UserVehicleDTO userVehicleDTO = new UserVehicleDTO();
+		if (userVehicleModel != null)
+		{
+			userVehicleDTO.setIsEnabled(userVehicleModel.getIsEnabled());
+			userVehicleDTO.setUserId(userVehicleModel.getUserId());
+			userVehicleDTO.setVehicleId(userVehicleModel.getVehicleId());
+			userVehicleDTO.setVehicleRegNo(userVehicleModel.getVehicleRegNo());
+		}
+		return new ModelAndView("xml", "vehicle", userVehicleDTO);
+	}
+
+	/**
+	 * Vehicle body type.
+	 *
+	 * @param iVehicleBodyTypeId
+	 *           the i vehicle body type id
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/vehiclebodytype", method =
+	{ RequestMethod.POST })
+	public ModelAndView vehicleBodyType(@RequestParam("vehiclebodytypeid") final int iVehicleBodyTypeId)
+	{
+		VehicleBodyTypeModel vehicleBodyTypeModel = new VehicleBodyTypeModel();
+		vehicleBodyTypeModel = getUserVehicleService().get(VehicleBodyTypeModel.class, iVehicleBodyTypeId);
+
+		VehicleBodyTypeDTO vehicleBodyTypeDTO = new VehicleBodyTypeDTO();
+		if (vehicleBodyTypeModel != null)
+		{
+			vehicleBodyTypeDTO.setIsEnabled(vehicleBodyTypeModel.getIsEnabled());
+			vehicleBodyTypeDTO.setVehicleBodyTypeId(vehicleBodyTypeModel.getVehicleBodyTypeId());
+			vehicleBodyTypeDTO.setVehicleBodyTypeName(vehicleBodyTypeModel.getVehicleBodyTypeName());
+		}
+
+		return new ModelAndView("xml", "vehiclebodytype", vehicleBodyTypeDTO);
 	}
 
 	/**
@@ -174,28 +343,28 @@ public class UserVehicleManagementResource
 	}
 
 	/**
-	 * Vehicle body type.
+	 * Vehicle fuel type.
 	 *
-	 * @param iVehicleBodyTypeId
-	 *           the i vehicle body type id
+	 * @param iVehicleFuelTypeId
+	 *           the i vehicle fuel type id
 	 * @return the model and view
 	 */
-	@RequestMapping(value = "/vehiclebodytype", method =
+	@RequestMapping(value = "/vehiclefueltype", method =
 	{ RequestMethod.POST })
-	public ModelAndView vehicleBodyType(@RequestParam("vehiclebodytypeid") final int iVehicleBodyTypeId)
+	public ModelAndView vehicleFuelType(@RequestParam("vehiclefueltypeid") final int iVehicleFuelTypeId)
 	{
-		VehicleBodyTypeModel vehicleBodyTypeModel = new VehicleBodyTypeModel();
-		vehicleBodyTypeModel = getUserVehicleService().get(VehicleBodyTypeModel.class, iVehicleBodyTypeId);
 
-		VehicleBodyTypeDTO vehicleBodyTypeDTO = new VehicleBodyTypeDTO();
-		if (vehicleBodyTypeModel != null)
+		VehicleFuelTypeModel vehicleFuelTypeModel = new VehicleFuelTypeModel();
+		vehicleFuelTypeModel = getUserVehicleService().get(VehicleFuelTypeModel.class, iVehicleFuelTypeId);
+
+		VehicleFuelTypeDTO vehicleFuelTypeDTO = new VehicleFuelTypeDTO();
+		if (vehicleFuelTypeModel != null)
 		{
-			vehicleBodyTypeDTO.setIsEnabled(vehicleBodyTypeModel.getIsEnabled());
-			vehicleBodyTypeDTO.setVehicleBodyTypeId(vehicleBodyTypeModel.getVehicleBodyTypeId());
-			vehicleBodyTypeDTO.setVehicleBodyTypeName(vehicleBodyTypeModel.getVehicleBodyTypeName());
+			vehicleFuelTypeDTO.setIsEnabled(vehicleFuelTypeModel.getIsEnabled());
+			vehicleFuelTypeDTO.setVehicleFuelTypeId(vehicleFuelTypeModel.getVehicleFuelTypeId());
+			vehicleFuelTypeDTO.setVehicleFuelTypeName(vehicleFuelTypeModel.getVehicleFuelTypeName());
 		}
-
-		return new ModelAndView("xml", "vehiclebodytype", vehicleBodyTypeDTO);
+		return new ModelAndView("xml", "vehiclefueltype", vehicleFuelTypeDTO);
 	}
 
 	/**
@@ -227,184 +396,56 @@ public class UserVehicleManagementResource
 	}
 
 	/**
-	 * Vehicle fuel type.
+	 * Vehicle information model.
 	 *
-	 * @param iVehicleFuelTypeId
-	 *           the i vehicle fuel type id
+	 * @param iVehicleInformationModelId
+	 *           the i vehicle information model id
 	 * @return the model and view
 	 */
-	@RequestMapping(value = "/vehiclefueltype", method =
+	@RequestMapping(value = "/vehicleinformationmodel", method =
 	{ RequestMethod.POST })
-	public ModelAndView vehicleFuelType(@RequestParam("vehiclefueltypeid") final int iVehicleFuelTypeId)
+	public ModelAndView vehicleInformationModel(@RequestParam("vehicleinformationmodelid") final int iVehicleInformationModelId)
 	{
 
-		VehicleFuelTypeModel vehicleFuelTypeModel = new VehicleFuelTypeModel();
-		vehicleFuelTypeModel = getUserVehicleService().get(VehicleFuelTypeModel.class, iVehicleFuelTypeId);
+		VehicleInformationModel vehicleInformationModel = new VehicleInformationModel();
+		vehicleInformationModel = getUserVehicleService().get(VehicleInformationModel.class, iVehicleInformationModelId);
 
-		VehicleFuelTypeDTO vehicleFuelTypeDTO = new VehicleFuelTypeDTO();
-		if (vehicleFuelTypeModel != null)
+		VehicleInformationModelDTO vehicleInformationModelDTO = new VehicleInformationModelDTO();
+		if (vehicleInformationModel != null)
 		{
-			vehicleFuelTypeDTO.setIsEnabled(vehicleFuelTypeModel.getIsEnabled());
-			vehicleFuelTypeDTO.setVehicleFuelTypeId(vehicleFuelTypeModel.getVehicleFuelTypeId());
-			vehicleFuelTypeDTO.setVehicleFuelTypeName(vehicleFuelTypeModel.getVehicleFuelTypeName());
+			vehicleInformationModelDTO.setIsEnabled(vehicleInformationModel.getIsEnabled());
+			vehicleInformationModelDTO.setVehicleInformationModelId(vehicleInformationModel.getVehicleInformationModelId());
+			// vehicleInformationModelDTO.setVehicleInformationModelName(vehicleInformationModel.getVehicleInformationModelName());
+			// vehicleInformationModelDTO.setVehicleInformationModelYear(vehicleInformationModel.getVehicleInformationModelId());
 		}
-		return new ModelAndView("xml", "vehiclefueltype", vehicleFuelTypeDTO);
+		return new ModelAndView("xml", "vehicleinformationmodel", vehicleInformationModelDTO);
 	}
 
 	/**
-	 * Vehicle types.
+	 * Vehicle information model dep vehicle model.
 	 *
+	 * @param iVehicleInformationModelId
+	 *           the i vehicle information model id
 	 * @return the model and view
 	 */
-	@RequestMapping(value = "/vehicletypes", method =
-	{ RequestMethod.GET })
-	public ModelAndView vehicleTypes()
-	{
-
-		List<VehicleTypeModel> vehicleTypeModelList = new ArrayList<>();
-		vehicleTypeModelList = getUserVehicleService().loadAll(VehicleTypeModel.class);
-
-		VehicleTypesDTO vehicleTypesDTO = new VehicleTypesDTO();
-		List<VehicleTypeDTO> typesDTOs = new ArrayList<>();
-
-		for (VehicleTypeModel vehicleTypeModel : vehicleTypeModelList)
-		{
-			VehicleTypeDTO vehicleTypeDTO = new VehicleTypeDTO();
-			vehicleTypeDTO.setIsEnabled(vehicleTypeModel.getIsEnabled());
-			vehicleTypeDTO.setVehicleTypeId(vehicleTypeModel.getVehicleTypeId());
-			vehicleTypeDTO.setVehicleTypeName(vehicleTypeModel.getVehicleTypeName());
-			typesDTOs.add(vehicleTypeDTO);
-		}
-		vehicleTypesDTO.setVehicleTypeDTOs(typesDTOs);
-		return new ModelAndView("xml", "vehicletypes", vehicleTypesDTO);
-	}
-
-	/**
-	 * Vehicle type.
-	 *
-	 * @param iVehicleTypeId
-	 *           the i vehicle type id
-	 * @return the model and view
-	 */
-	@RequestMapping(value = "/vehicletype", method =
+	@RequestMapping(value = "/vehicleinformationmobyvehiclemodel", method =
 	{ RequestMethod.POST })
-	public ModelAndView vehicleType(@RequestParam("vehicleyypeid") final int iVehicleTypeId)
+	public ModelAndView vehicleInformationModelDepVehicleModel(
+			@RequestParam("vehicleinformationmodelid") final int iVehicleInformationModelId)
 	{
 
-		VehicleTypeModel vehicleTypeModel = new VehicleTypeModel();
-		vehicleTypeModel = getUserVehicleService().get(VehicleTypeModel.class, iVehicleTypeId);
+		VehicleInformationModel vehicleInformationModel = new VehicleInformationModel();
+		vehicleInformationModel = getUserVehicleService().get(VehicleInformationModel.class, iVehicleInformationModelId);
 
-		VehicleTypeDTO vehicleTypeDTO = new VehicleTypeDTO();
-		if (vehicleTypeModel != null)
+		VehicleInformationModelDTO vehicleInformationModelDTO = new VehicleInformationModelDTO();
+		if (vehicleInformationModel != null)
 		{
-			vehicleTypeDTO.setIsEnabled(vehicleTypeModel.getIsEnabled());
-			vehicleTypeDTO.setVehicleTypeId(vehicleTypeModel.getVehicleTypeId());
-			vehicleTypeDTO.setVehicleTypeName(vehicleTypeModel.getVehicleTypeName());
+			vehicleInformationModelDTO.setIsEnabled(vehicleInformationModel.getIsEnabled());
+			vehicleInformationModelDTO.setVehicleInformationModelId(vehicleInformationModel.getVehicleInformationModelId());
+			// vehicleInformationModelDTO.setVehicleInformationModelName(vehicleInformationModel.getVehicleInformationModelName());
+			// vehicleInformationModelDTO.setVehicleInformationModelYear(vehicleInformationModel.getVehicleInformationModelId());
 		}
-		return new ModelAndView("xml", "vehicletype", vehicleTypeDTO);
-	}
-
-	/**
-	 * Vehicle manufacturers.
-	 *
-	 * @return the model and view
-	 */
-	@RequestMapping(value = "/vehiclemanufacturers", method =
-	{ RequestMethod.GET })
-	public ModelAndView vehicleManufacturers()
-	{
-		List<VehicleManufacturerModel> vehicleManufacturerModelList = new ArrayList<>();
-		vehicleManufacturerModelList = getUserVehicleService().loadAll(VehicleManufacturerModel.class);
-
-		VehicleManufacturersDTO vehicleManufacturersDTO = new VehicleManufacturersDTO();
-		List<VehicleManufacturerDTO> vehicleManufacturerDTOs = new ArrayList<>();
-
-		for (VehicleManufacturerModel vehicleManufacturerModel : vehicleManufacturerModelList)
-		{
-			VehicleManufacturerDTO vehicleManufacturerDTO = new VehicleManufacturerDTO();
-			vehicleManufacturerDTO.setIsEnabled(vehicleManufacturerModel.getIsEnabled());
-			vehicleManufacturerDTO.setManufacturerId(vehicleManufacturerModel.getManufacturerId());
-			vehicleManufacturerDTO.setManufacturerName(vehicleManufacturerModel.getManufacturerName());
-			vehicleManufacturerDTOs.add(vehicleManufacturerDTO);
-		}
-		vehicleManufacturersDTO.setVehicleManufacturerDTOs(vehicleManufacturerDTOs);
-		return new ModelAndView("xml", "vehiclemanufacturers", vehicleManufacturersDTO);
-	}
-
-	/**
-	 * Vehicle manufacturer.
-	 *
-	 * @param iManufacturerId
-	 *           the i manufacturer id
-	 * @return the model and view
-	 */
-	@RequestMapping(value = "/vehiclemanufacturer", method =
-	{ RequestMethod.POST })
-	public ModelAndView vehicleManufacturer(@RequestParam("manufacturerId") final int iManufacturerId)
-	{
-		VehicleManufacturerModel vehicleManufacturerModel = new VehicleManufacturerModel();
-		vehicleManufacturerModel = getUserVehicleService().get(VehicleManufacturerModel.class, iManufacturerId);
-
-		VehicleManufacturerDTO vehicleManufacturerDTO = new VehicleManufacturerDTO();
-		if (vehicleManufacturerModel != null)
-		{
-			vehicleManufacturerDTO.setIsEnabled(vehicleManufacturerModel.getIsEnabled());
-			vehicleManufacturerDTO.setManufacturerId(vehicleManufacturerModel.getManufacturerId());
-			vehicleManufacturerDTO.setManufacturerName(vehicleManufacturerModel.getManufacturerName());
-		}
-		return new ModelAndView("xml", "vehiclemanufacturer", vehicleManufacturerDTO);
-	}
-
-	/**
-	 * Vehicle models.
-	 *
-	 * @return the model and view
-	 */
-	@RequestMapping(value = "/vehiclemodels", method =
-	{ RequestMethod.GET })
-	public ModelAndView vehicleModels()
-	{
-		List<VehicleModel> vehicleModelList = new ArrayList<>();
-		vehicleModelList = getUserVehicleService().loadAll(VehicleModel.class);
-
-		VehiclesDTO vehiclesDTO = new VehiclesDTO();
-		List<VehicleDTO> vehicleDTOs = new ArrayList<>();
-
-		for (VehicleModel vehicleModel : vehicleModelList)
-		{
-			VehicleDTO vehicleDTO = new VehicleDTO();
-			vehicleDTO.setIsEnabled(vehicleModel.getIsEnabled());
-			vehicleDTO.setModelName(vehicleModel.getModelName());
-			vehicleDTO.setVehicleModelId(vehicleModel.getVehicleModelId());
-			vehicleDTOs.add(vehicleDTO);
-		}
-		vehiclesDTO.setVehicleDTOs(vehicleDTOs);
-
-		return new ModelAndView("xml", "vehicles", vehiclesDTO);
-	}
-
-	/**
-	 * Vehicle model.
-	 *
-	 * @param iVehicleModelId
-	 *           the i vehicle model id
-	 * @return the model and view
-	 */
-	@RequestMapping(value = "/vehiclemodel", method =
-	{ RequestMethod.POST })
-	public ModelAndView vehicleModel(@RequestParam("vehiclemodelid") final int iVehicleModelId)
-	{
-		VehicleModel vehicleModel = new VehicleModel();
-		vehicleModel = getUserVehicleService().get(VehicleModel.class, iVehicleModelId);
-
-		VehicleDTO vehicleDTO = new VehicleDTO();
-		if (vehicleModel != null)
-		{
-			vehicleDTO.setIsEnabled(vehicleModel.getIsEnabled());
-			vehicleDTO.setModelName(vehicleModel.getModelName());
-			vehicleDTO.setVehicleModelId(vehicleModel.getVehicleModelId());
-		}
-		return new ModelAndView("xml", "vehiclemodel", vehicleDTO);
+		return new ModelAndView("xml", "vehicleinformationmodel", vehicleInformationModelDTO);
 	}
 
 	/**
@@ -436,29 +477,106 @@ public class UserVehicleManagementResource
 	}
 
 	/**
-	 * Vehicle information model.
+	 * Vehicle manufacturer.
 	 *
-	 * @param iVehicleInformationModelId
-	 *           the i vehicle information model id
+	 * @param iManufacturerId
+	 *           the i manufacturer id
 	 * @return the model and view
 	 */
-	@RequestMapping(value = "/vehicleinformationmodel", method =
+	@RequestMapping(value = "/vehiclemanufacturer", method =
 	{ RequestMethod.POST })
-	public ModelAndView vehicleInformationModel(@RequestParam("vehicleinformationmodelid") final int iVehicleInformationModelId)
+	public ModelAndView vehicleManufacturer(@RequestParam("manufacturerId") final int iManufacturerId)
 	{
+		VehicleManufacturerModel vehicleManufacturerModel = new VehicleManufacturerModel();
+		vehicleManufacturerModel = getUserVehicleService().get(VehicleManufacturerModel.class, iManufacturerId);
 
-		VehicleInformationModel vehicleInformationModel = new VehicleInformationModel();
-		vehicleInformationModel = getUserVehicleService().get(VehicleInformationModel.class, iVehicleInformationModelId);
-
-		VehicleInformationModelDTO vehicleInformationModelDTO = new VehicleInformationModelDTO();
-		if (vehicleInformationModel != null)
+		VehicleManufacturerDTO vehicleManufacturerDTO = new VehicleManufacturerDTO();
+		if (vehicleManufacturerModel != null)
 		{
-			vehicleInformationModelDTO.setIsEnabled(vehicleInformationModel.getIsEnabled());
-			vehicleInformationModelDTO.setVehicleInformationModelId(vehicleInformationModel.getVehicleInformationModelId());
-			// vehicleInformationModelDTO.setVehicleInformationModelName(vehicleInformationModel.getVehicleInformationModelName());
-			// vehicleInformationModelDTO.setVehicleInformationModelYear(vehicleInformationModel.getVehicleInformationModelId());
+			vehicleManufacturerDTO.setIsEnabled(vehicleManufacturerModel.getIsEnabled());
+			vehicleManufacturerDTO.setManufacturerId(vehicleManufacturerModel.getManufacturerId());
+			vehicleManufacturerDTO.setManufacturerName(vehicleManufacturerModel.getManufacturerName());
 		}
-		return new ModelAndView("xml", "vehicleinformationmodel", vehicleInformationModelDTO);
+		return new ModelAndView("xml", "vehiclemanufacturer", vehicleManufacturerDTO);
+	}
+
+	/**
+	 * Vehicle manufacturers.
+	 *
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/vehiclemanufacturers", method =
+	{ RequestMethod.GET })
+	public ModelAndView vehicleManufacturers()
+	{
+		List<VehicleManufacturerModel> vehicleManufacturerModelList = new ArrayList<>();
+		vehicleManufacturerModelList = getUserVehicleService().loadAll(VehicleManufacturerModel.class);
+
+		VehicleManufacturersDTO vehicleManufacturersDTO = new VehicleManufacturersDTO();
+		List<VehicleManufacturerDTO> vehicleManufacturerDTOs = new ArrayList<>();
+
+		for (VehicleManufacturerModel vehicleManufacturerModel : vehicleManufacturerModelList)
+		{
+			VehicleManufacturerDTO vehicleManufacturerDTO = new VehicleManufacturerDTO();
+			vehicleManufacturerDTO.setIsEnabled(vehicleManufacturerModel.getIsEnabled());
+			vehicleManufacturerDTO.setManufacturerId(vehicleManufacturerModel.getManufacturerId());
+			vehicleManufacturerDTO.setManufacturerName(vehicleManufacturerModel.getManufacturerName());
+			vehicleManufacturerDTOs.add(vehicleManufacturerDTO);
+		}
+		vehicleManufacturersDTO.setVehicleManufacturerDTOs(vehicleManufacturerDTOs);
+		return new ModelAndView("xml", "vehiclemanufacturers", vehicleManufacturersDTO);
+	}
+
+	/**
+	 * Vehicle model.
+	 *
+	 * @param iVehicleModelId
+	 *           the i vehicle model id
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/vehiclemodel", method =
+	{ RequestMethod.POST })
+	public ModelAndView vehicleModel(@RequestParam("vehiclemodelid") final int iVehicleModelId)
+	{
+		VehicleModel vehicleModel = new VehicleModel();
+		vehicleModel = getUserVehicleService().get(VehicleModel.class, iVehicleModelId);
+
+		VehicleDTO vehicleDTO = new VehicleDTO();
+		if (vehicleModel != null)
+		{
+			vehicleDTO.setIsEnabled(vehicleModel.getIsEnabled());
+			vehicleDTO.setModelName(vehicleModel.getModelName());
+			vehicleDTO.setVehicleModelId(vehicleModel.getVehicleModelId());
+		}
+		return new ModelAndView("xml", "vehiclemodel", vehicleDTO);
+	}
+
+	/**
+	 * Vehicle models.
+	 *
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/vehiclemodels", method =
+	{ RequestMethod.GET })
+	public ModelAndView vehicleModels()
+	{
+		List<VehicleModel> vehicleModelList = new ArrayList<>();
+		vehicleModelList = getUserVehicleService().loadAll(VehicleModel.class);
+
+		VehiclesDTO vehiclesDTO = new VehiclesDTO();
+		List<VehicleDTO> vehicleDTOs = new ArrayList<>();
+
+		for (VehicleModel vehicleModel : vehicleModelList)
+		{
+			VehicleDTO vehicleDTO = new VehicleDTO();
+			vehicleDTO.setIsEnabled(vehicleModel.getIsEnabled());
+			vehicleDTO.setModelName(vehicleModel.getModelName());
+			vehicleDTO.setVehicleModelId(vehicleModel.getVehicleModelId());
+			vehicleDTOs.add(vehicleDTO);
+		}
+		vehiclesDTO.setVehicleDTOs(vehicleDTOs);
+
+		return new ModelAndView("xml", "vehicles", vehiclesDTO);
 	}
 
 	/**
@@ -491,84 +609,56 @@ public class UserVehicleManagementResource
 	}
 
 	/**
-	 * Vehicle.
+	 * Vehicle type.
 	 *
-	 * @param iVehicleId
-	 *           the i vehicle id
+	 * @param iVehicleTypeId
+	 *           the i vehicle type id
 	 * @return the model and view
 	 */
-	@RequestMapping(value = "/vehicle", method =
+	@RequestMapping(value = "/vehicletype", method =
+	{ RequestMethod.POST })
+	public ModelAndView vehicleType(@RequestParam("vehicleyypeid") final int iVehicleTypeId)
+	{
+
+		VehicleTypeModel vehicleTypeModel = new VehicleTypeModel();
+		vehicleTypeModel = getUserVehicleService().get(VehicleTypeModel.class, iVehicleTypeId);
+
+		VehicleTypeDTO vehicleTypeDTO = new VehicleTypeDTO();
+		if (vehicleTypeModel != null)
+		{
+			vehicleTypeDTO.setIsEnabled(vehicleTypeModel.getIsEnabled());
+			vehicleTypeDTO.setVehicleTypeId(vehicleTypeModel.getVehicleTypeId());
+			vehicleTypeDTO.setVehicleTypeName(vehicleTypeModel.getVehicleTypeName());
+		}
+		return new ModelAndView("xml", "vehicletype", vehicleTypeDTO);
+	}
+
+	/**
+	 * Vehicle types.
+	 *
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/vehicletypes", method =
 	{ RequestMethod.GET })
-	public ModelAndView vehicle(@RequestParam("vehicleid") final int iVehicleId)
-	{
-		UserVehicleModel userVehicleModel = new UserVehicleModel();
-		userVehicleModel = getUserVehicleService().get(UserVehicleModel.class, iVehicleId);
-
-		UserVehicleDTO userVehicleDTO = new UserVehicleDTO();
-		if (userVehicleModel != null)
-		{
-			userVehicleDTO.setIsEnabled(userVehicleModel.getIsEnabled());
-			userVehicleDTO.setUserId(userVehicleModel.getUserId());
-			userVehicleDTO.setVehicleId(userVehicleModel.getVehicleId());
-			userVehicleDTO.setVehicleRegNo(userVehicleModel.getVehicleRegNo());
-		}
-		return new ModelAndView("xml", "vehicle", userVehicleDTO);
-	}
-
-	/**
-	 * Gets the vehicle models by manufacturer.
-	 *
-	 * @param iVehicleModelId
-	 *           the i vehicle model id
-	 * @return the vehicle models by manufacturer
-	 */
-	@RequestMapping(value = "/vehiclemodelsdetailsbymanufacturer", method =
-	{ RequestMethod.POST })
-	public ModelAndView getVehicleModelsByManufacturer(@RequestParam("manufacturerid") final int iVehicleModelId)
-	{
-		List<VehicleModel> vehicleModels = new ArrayList<>();
-		vehicleModels = getUserVehicleService().getVehiclesByManufacturer(iVehicleModelId);
-
-		VehiclesDTO vehiclesDTO = new VehiclesDTO();
-		List<VehicleDTO> vehicleDTOs = new ArrayList<>();
-
-		for (VehicleModel vehicleModel : vehicleModels)
-		{
-			VehicleDTO vehicleDTO = new VehicleDTO();
-			vehicleDTO.setIsEnabled(vehicleModel.getIsEnabled());
-			vehicleDTO.setModelName(vehicleModel.getModelName());
-			vehicleDTO.setVehicleModelId(vehicleModel.getVehicleModelId());
-			vehicleDTOs.add(vehicleDTO);
-		}
-		vehiclesDTO.setVehicleDTOs(vehicleDTOs);
-		return new ModelAndView("xml", "vehiclemodels", vehiclesDTO);
-	}
-
-	/**
-	 * Vehicle information model dep vehicle model.
-	 *
-	 * @param iVehicleInformationModelId
-	 *           the i vehicle information model id
-	 * @return the model and view
-	 */
-	@RequestMapping(value = "/vehicleinformationmobyvehiclemodel", method =
-	{ RequestMethod.POST })
-	public ModelAndView vehicleInformationModelDepVehicleModel(
-			@RequestParam("vehicleinformationmodelid") final int iVehicleInformationModelId)
+	public ModelAndView vehicleTypes()
 	{
 
-		VehicleInformationModel vehicleInformationModel = new VehicleInformationModel();
-		vehicleInformationModel = getUserVehicleService().get(VehicleInformationModel.class, iVehicleInformationModelId);
+		List<VehicleTypeModel> vehicleTypeModelList = new ArrayList<>();
+		vehicleTypeModelList = getUserVehicleService().loadAll(VehicleTypeModel.class);
 
-		VehicleInformationModelDTO vehicleInformationModelDTO = new VehicleInformationModelDTO();
-		if (vehicleInformationModel != null)
+		VehicleTypesDTO vehicleTypesDTO = new VehicleTypesDTO();
+		List<VehicleTypeDTO> typesDTOs = new ArrayList<>();
+
+		for (VehicleTypeModel vehicleTypeModel : vehicleTypeModelList)
 		{
-			vehicleInformationModelDTO.setIsEnabled(vehicleInformationModel.getIsEnabled());
-			vehicleInformationModelDTO.setVehicleInformationModelId(vehicleInformationModel.getVehicleInformationModelId());
-			// vehicleInformationModelDTO.setVehicleInformationModelName(vehicleInformationModel.getVehicleInformationModelName());
-			// vehicleInformationModelDTO.setVehicleInformationModelYear(vehicleInformationModel.getVehicleInformationModelId());
+			VehicleTypeDTO vehicleTypeDTO = new VehicleTypeDTO();
+			vehicleTypeDTO.setIsEnabled(vehicleTypeModel.getIsEnabled());
+			vehicleTypeDTO.setVehicleTypeId(vehicleTypeModel.getVehicleTypeId());
+			vehicleTypeDTO.setVehicleTypeName(vehicleTypeModel.getVehicleTypeName());
+			typesDTOs.add(vehicleTypeDTO);
 		}
-		return new ModelAndView("xml", "vehicleinformationmodel", vehicleInformationModelDTO);
+		vehicleTypesDTO.setVehicleTypeDTOs(typesDTOs);
+		return new ModelAndView("xml", "vehicletypes", vehicleTypesDTO);
 	}
 
 }

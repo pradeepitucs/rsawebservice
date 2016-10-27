@@ -14,11 +14,13 @@ import org.springframework.stereotype.Service;
 import com.ucs.rsa.service.BillGeneratorService;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class DefaultBillGeneratorService.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class DefaultBillGeneratorService.
  */
 @Service
 public class DefaultBillGeneratorService extends DefaultBaseService implements BillGeneratorService
@@ -33,16 +35,18 @@ public class DefaultBillGeneratorService extends DefaultBaseService implements B
 	public StringBuilder genertBill()
 	{
 
-		String accessKey = "MERCHANT_ACCESS_KEY";
-		String secretKey = "MERCHANT_SECRET_KEY";
+		String accessKey = "1YRKT64OZERXQ5NYULQQ";
+		String secretKey = "7fd89b14464b38a9292995c4d1b2ae650fdcf21d";
 
 		// Need to Check the redirect URL
-		String returnUrl = "http://localhost:8088/RSA247WebService/redirecturl/citruspayresponse";
+		String returnUrl = "http://garage-rsa247.rhcloud.com/RSA247WebService/redirecturl/citruspayresponse";
 
 		String txnID = String.valueOf(System.currentTimeMillis());
 
 		// Need to calculate
-		String amount = "100"; //request.getParameter("amount"); //Make sure the datatype of the value is STRING. 
+		String amount = "100"; //request.getParameter("amount"); //Make sure the datatype of the value is STRING.
+		String issue_id =String.valueOf("1");
+		String user_id = String.valueOf("1");
 
 		String dataString = "merchantAccessKey=" + accessKey + "&transactionId=" + txnID + "&amount=" + amount;
 		SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA1");
@@ -62,13 +66,18 @@ public class DefaultBillGeneratorService extends DefaultBaseService implements B
 			String hmac = build.toString();
 			StringBuilder amountBuilder = new StringBuilder();
 			amountBuilder.append("\"value\":\"").append(amount).append("\"").append(",\"currency\":\"INR\"");
+			
+			StringBuilder customBuilder = new StringBuilder();
+			customBuilder.append("\"param1\":\"").append(user_id).append("\"").append(",\"param2\":\"").append(issue_id).append("\"");
 
 			// Need to check the all value
 			resBuilder.append("{\"merchantTxnId\"").append(":").append("\"").append(txnID).append("\"").append(",")
 					.append("\"requestSignature\"").append(":").append("\"").append(hmac).append("\"").append(",")
 					.append("\"merchantAccessKey\"").append(":").append("\"").append(accessKey).append("\"").append(",")
 					.append("\"returnUrl\"").append(":").append("\"").append(returnUrl).append("\"").append(",").append("\"amount\"")
-					.append(":").append("{").append(amountBuilder).append("}").append("}");
+					.append(":").append("{").append(amountBuilder).append("}")
+					.append("\"").append(",").append("\"customParameters\"")
+					.append(":").append("{").append(customBuilder).append("}").append("}");
 			System.out.println(resBuilder);
 		}
 		catch (NoSuchAlgorithmException e)

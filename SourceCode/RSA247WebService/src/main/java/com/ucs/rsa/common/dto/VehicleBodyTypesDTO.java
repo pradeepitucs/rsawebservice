@@ -10,10 +10,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * The Class VehicleBodyTypesDTO.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class VehicleBodyTypesDTO.
  */
 @XmlRootElement(name = "VehicleBodyTypesDTO", namespace = "com.ucs.rsa.common.dto")
 

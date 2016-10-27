@@ -23,11 +23,13 @@ import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.service.CustomerReviewService;
 
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class CustomerReviewResource.
+ *
  * @author Gururaj A M
  * @version 1.0
  * 
- *          The Class CustomerReviewResource.
  */
 @Controller
 @RequestMapping("/servicereview")

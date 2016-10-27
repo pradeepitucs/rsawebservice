@@ -5,27 +5,28 @@ package com.ucs.rsa.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
+// TODO: Auto-generated Javadoc
 /**
- * @author Gururaj A M
- * @version 1.0
- * 
- *          The Class ServiceProviderModel.
+ * The Class ServiceProviderModel.
  */
 @Entity
 @Table(name = "service_provider_t")
 @NamedQuery(name = "ServiceProviderModel.findAll", query = "SELECT u FROM ServiceProviderModel u")
-public class ServiceProviderModel implements Serializable
-{
+public class ServiceProviderModel implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -42,13 +43,10 @@ public class ServiceProviderModel implements Serializable
 	@Column(name = "service_provider_timing")
 	private String serviceProvidertiming;
 
-	/** The serviceprovider experties. */
-	@Column(name = "service_provider_experties")
-	private String serviceproviderExperties;
-
-	/** The service providerother services. */
-	@Column(name = "service_provider_otherservices")
-	private String serviceProviderotherServices;
+	/** The service type model. */
+	@ManyToOne
+	@JoinColumn(name="service_provider_experties")
+	private ServiceTypeModel serviceTypeModel;
 
 	/** The service provider comments. */
 	@Column(name = "service_provider_comments")
@@ -121,6 +119,28 @@ public class ServiceProviderModel implements Serializable
 	/** The service provider phone number. */
 	@Column(name = "service_provider_phone_number")
 	private long serviceProviderPhoneNumber;
+	
+	/** The accept term condition. */
+	@Column(name = "accept_term_condition")
+	private boolean acceptTermCondition;
+
+	/**
+	 * Checks if is accept term condition.
+	 *
+	 * @return true, if is accept term condition
+	 */
+	public boolean isAcceptTermCondition() {
+		return acceptTermCondition;
+	}
+
+	/**
+	 * Sets the accept term condition.
+	 *
+	 * @param acceptTermCondition the new accept term condition
+	 */
+	public void setAcceptTermCondition(boolean acceptTermCondition) {
+		this.acceptTermCondition = acceptTermCondition;
+	}
 
 	/** The service provider id. */
 	@Id
@@ -129,23 +149,38 @@ public class ServiceProviderModel implements Serializable
 	private int serviceProviderId;
 
 	/**
+	 * Gets the service type model.
+	 *
+	 * @return the service type model
+	 */
+	public ServiceTypeModel getServiceTypeModel() {
+		return serviceTypeModel;
+	}
+
+	/**
+	 * Sets the service type model.
+	 *
+	 * @param serviceTypeModel the new service type model
+	 */
+	public void setServiceTypeModel(ServiceTypeModel serviceTypeModel) {
+		this.serviceTypeModel = serviceTypeModel;
+	}
+
+	/**
 	 * Checks if is enabled.
 	 *
 	 * @return true, if is enabled
 	 */
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return isEnabled;
 	}
 
 	/**
 	 * Sets the enabled.
 	 *
-	 * @param isEnabled
-	 *           the new enabled
+	 * @param isEnabled the new enabled
 	 */
-	public void setEnabled(boolean isEnabled)
-	{
+	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
 	}
 
@@ -154,19 +189,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service provider phone number
 	 */
-	public long getServiceProviderPhoneNumber()
-	{
+	public long getServiceProviderPhoneNumber() {
 		return serviceProviderPhoneNumber;
 	}
 
 	/**
 	 * Sets the service provider phone number.
 	 *
-	 * @param serviceProviderPhoneNumber
-	 *           the new service provider phone number
+	 * @param serviceProviderPhoneNumber the new service provider phone number
 	 */
-	public void setServiceProviderPhoneNumber(long serviceProviderPhoneNumber)
-	{
+	public void setServiceProviderPhoneNumber(long serviceProviderPhoneNumber) {
 		this.serviceProviderPhoneNumber = serviceProviderPhoneNumber;
 	}
 
@@ -175,19 +207,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service provider id
 	 */
-	public int getServiceProviderId()
-	{
+	public int getServiceProviderId() {
 		return serviceProviderId;
 	}
 
 	/**
 	 * Sets the service provider id.
 	 *
-	 * @param serviceProviderId
-	 *           the new service provider id
+	 * @param serviceProviderId the new service provider id
 	 */
-	public void setServiceProviderId(int serviceProviderId)
-	{
+	public void setServiceProviderId(int serviceProviderId) {
 		this.serviceProviderId = serviceProviderId;
 	}
 
@@ -196,8 +225,7 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the four wheeler
 	 */
-	public Boolean getFourWheeler()
-	{
+	public Boolean getFourWheeler() {
 		return fourWheeler;
 	}
 
@@ -206,8 +234,7 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the two wheeler
 	 */
-	public Boolean getTwoWheeler()
-	{
+	public Boolean getTwoWheeler() {
 		return twoWheeler;
 	}
 
@@ -216,19 +243,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the older service provider id
 	 */
-	public Integer getOlderServiceProviderId()
-	{
+	public Integer getOlderServiceProviderId() {
 		return olderServiceProviderId;
 	}
 
 	/**
 	 * Sets the older service provider id.
 	 *
-	 * @param olderServiceProviderId
-	 *           the new older service provider id
+	 * @param olderServiceProviderId the new older service provider id
 	 */
-	public void setOlderServiceProviderId(Integer olderServiceProviderId)
-	{
+	public void setOlderServiceProviderId(Integer olderServiceProviderId) {
 		this.olderServiceProviderId = olderServiceProviderId;
 	}
 
@@ -237,19 +261,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service provider timestamp
 	 */
-	public Timestamp getServiceProviderTimestamp()
-	{
+	public Timestamp getServiceProviderTimestamp() {
 		return serviceProviderTimestamp;
 	}
 
 	/**
 	 * Sets the service provider timestamp.
 	 *
-	 * @param serviceProviderTimestamp
-	 *           the new service provider timestamp
+	 * @param serviceProviderTimestamp the new service provider timestamp
 	 */
-	public void setServiceProviderTimestamp(Timestamp serviceProviderTimestamp)
-	{
+	public void setServiceProviderTimestamp(Timestamp serviceProviderTimestamp) {
 		this.serviceProviderTimestamp = serviceProviderTimestamp;
 	}
 
@@ -258,19 +279,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the boolean
 	 */
-	public Boolean isFourWheeler()
-	{
+	public Boolean isFourWheeler() {
 		return fourWheeler;
 	}
 
 	/**
 	 * Sets the four wheeler.
 	 *
-	 * @param fourWheeler
-	 *           the new four wheeler
+	 * @param fourWheeler the new four wheeler
 	 */
-	public void setFourWheeler(Boolean fourWheeler)
-	{
+	public void setFourWheeler(Boolean fourWheeler) {
 		this.fourWheeler = fourWheeler;
 	}
 
@@ -279,27 +297,23 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the boolean
 	 */
-	public Boolean isTwoWheeler()
-	{
+	public Boolean isTwoWheeler() {
 		return twoWheeler;
 	}
 
 	/**
 	 * Sets the two wheeler.
 	 *
-	 * @param twoWheeler
-	 *           the new two wheeler
+	 * @param twoWheeler the new two wheeler
 	 */
-	public void setTwoWheeler(Boolean twoWheeler)
-	{
+	public void setTwoWheeler(Boolean twoWheeler) {
 		this.twoWheeler = twoWheeler;
 	}
 
 	/**
 	 * Instantiates a new service provider model.
 	 */
-	public ServiceProviderModel()
-	{
+	public ServiceProviderModel() {
 	}
 
 	/**
@@ -307,19 +321,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service provider name
 	 */
-	public String getServiceProviderName()
-	{
+	public String getServiceProviderName() {
 		return serviceProviderName;
 	}
 
 	/**
 	 * Sets the service provider name.
 	 *
-	 * @param serviceProviderName
-	 *           the new service provider name
+	 * @param serviceProviderName the new service provider name
 	 */
-	public void setServiceProviderName(String serviceProviderName)
-	{
+	public void setServiceProviderName(String serviceProviderName) {
 		this.serviceProviderName = serviceProviderName;
 	}
 
@@ -328,19 +339,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the image folder name
 	 */
-	public String getImageFolderName()
-	{
+	public String getImageFolderName() {
 		return imageFolderName;
 	}
 
 	/**
 	 * Sets the image folder name.
 	 *
-	 * @param imageFolderName
-	 *           the new image folder name
+	 * @param imageFolderName the new image folder name
 	 */
-	public void setImageFolderName(String imageFolderName)
-	{
+	public void setImageFolderName(String imageFolderName) {
 		this.imageFolderName = imageFolderName;
 	}
 
@@ -349,19 +357,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the rating
 	 */
-	public double getRating()
-	{
+	public double getRating() {
 		return rating;
 	}
 
 	/**
 	 * Sets the rating.
 	 *
-	 * @param rating
-	 *           the new rating
+	 * @param rating the new rating
 	 */
-	public void setRating(double rating)
-	{
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 
@@ -370,19 +375,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return true, if is electrical type
 	 */
-	public boolean isElectricalType()
-	{
+	public boolean isElectricalType() {
 		return electricalType;
 	}
 
 	/**
 	 * Sets the electrical type.
 	 *
-	 * @param electricalType
-	 *           the new electrical type
+	 * @param electricalType the new electrical type
 	 */
-	public void setElectricalType(boolean electricalType)
-	{
+	public void setElectricalType(boolean electricalType) {
 		this.electricalType = electricalType;
 	}
 
@@ -391,19 +393,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return true, if is mechanical type
 	 */
-	public boolean isMechanicalType()
-	{
+	public boolean isMechanicalType() {
 		return mechanicalType;
 	}
 
 	/**
 	 * Sets the mechanical type.
 	 *
-	 * @param mechanicalType
-	 *           the new mechanical type
+	 * @param mechanicalType the new mechanical type
 	 */
-	public void setMechanicalType(boolean mechanicalType)
-	{
+	public void setMechanicalType(boolean mechanicalType) {
 		this.mechanicalType = mechanicalType;
 	}
 
@@ -412,19 +411,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return true, if is body repair
 	 */
-	public boolean isBodyRepair()
-	{
+	public boolean isBodyRepair() {
 		return bodyRepair;
 	}
 
 	/**
 	 * Sets the body repair.
 	 *
-	 * @param bodyRepair
-	 *           the new body repair
+	 * @param bodyRepair the new body repair
 	 */
-	public void setBodyRepair(boolean bodyRepair)
-	{
+	public void setBodyRepair(boolean bodyRepair) {
 		this.bodyRepair = bodyRepair;
 	}
 
@@ -433,19 +429,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service provider website
 	 */
-	public String getServiceProviderWebsite()
-	{
+	public String getServiceProviderWebsite() {
 		return serviceProviderWebsite;
 	}
 
 	/**
 	 * Sets the service provider website.
 	 *
-	 * @param serviceProviderWebsite
-	 *           the new service provider website
+	 * @param serviceProviderWebsite the new service provider website
 	 */
-	public void setServiceProviderWebsite(String serviceProviderWebsite)
-	{
+	public void setServiceProviderWebsite(String serviceProviderWebsite) {
 		this.serviceProviderWebsite = serviceProviderWebsite;
 	}
 
@@ -454,62 +447,17 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service providertiming
 	 */
-	public String getServiceProvidertiming()
-	{
+	public String getServiceProvidertiming() {
 		return serviceProvidertiming;
 	}
 
 	/**
 	 * Sets the service providertiming.
 	 *
-	 * @param serviceProvidertiming
-	 *           the new service providertiming
+	 * @param serviceProvidertiming the new service providertiming
 	 */
-	public void setServiceProvidertiming(String serviceProvidertiming)
-	{
+	public void setServiceProvidertiming(String serviceProvidertiming) {
 		this.serviceProvidertiming = serviceProvidertiming;
-	}
-
-	/**
-	 * Gets the serviceprovider experties.
-	 *
-	 * @return the serviceprovider experties
-	 */
-	public String getServiceproviderExperties()
-	{
-		return serviceproviderExperties;
-	}
-
-	/**
-	 * Sets the serviceprovider experties.
-	 *
-	 * @param serviceproviderExperties
-	 *           the new serviceprovider experties
-	 */
-	public void setServiceproviderExperties(String serviceproviderExperties)
-	{
-		this.serviceproviderExperties = serviceproviderExperties;
-	}
-
-	/**
-	 * Gets the service providerother services.
-	 *
-	 * @return the service providerother services
-	 */
-	public String getServiceProviderotherServices()
-	{
-		return serviceProviderotherServices;
-	}
-
-	/**
-	 * Sets the service providerother services.
-	 *
-	 * @param serviceProviderotherServices
-	 *           the new service providerother services
-	 */
-	public void setServiceProviderotherServices(String serviceProviderotherServices)
-	{
-		this.serviceProviderotherServices = serviceProviderotherServices;
 	}
 
 	/**
@@ -517,19 +465,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service provider comments
 	 */
-	public String getServiceProviderComments()
-	{
+	public String getServiceProviderComments() {
 		return serviceProviderComments;
 	}
 
 	/**
 	 * Sets the service provider comments.
 	 *
-	 * @param serviceProviderComments
-	 *           the new service provider comments
+	 * @param serviceProviderComments the new service provider comments
 	 */
-	public void setServiceProviderComments(String serviceProviderComments)
-	{
+	public void setServiceProviderComments(String serviceProviderComments) {
 		this.serviceProviderComments = serviceProviderComments;
 	}
 
@@ -538,19 +483,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service provider city
 	 */
-	public String getServiceProviderCity()
-	{
+	public String getServiceProviderCity() {
 		return serviceProviderCity;
 	}
 
 	/**
 	 * Sets the service provider city.
 	 *
-	 * @param serviceProviderCity
-	 *           the new service provider city
+	 * @param serviceProviderCity the new service provider city
 	 */
-	public void setServiceProviderCity(String serviceProviderCity)
-	{
+	public void setServiceProviderCity(String serviceProviderCity) {
 		this.serviceProviderCity = serviceProviderCity;
 	}
 
@@ -559,19 +501,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return true, if is service provider night operation
 	 */
-	public boolean isServiceProviderNightOperation()
-	{
+	public boolean isServiceProviderNightOperation() {
 		return serviceProviderNightOperation;
 	}
 
 	/**
 	 * Sets the service provider night operation.
 	 *
-	 * @param serviceProviderNightOperation
-	 *           the new service provider night operation
+	 * @param serviceProviderNightOperation the new service provider night operation
 	 */
-	public void setServiceProviderNightOperation(boolean serviceProviderNightOperation)
-	{
+	public void setServiceProviderNightOperation(boolean serviceProviderNightOperation) {
 		this.serviceProviderNightOperation = serviceProviderNightOperation;
 	}
 
@@ -580,19 +519,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service provider premium
 	 */
-	public String getServiceProviderPremium()
-	{
+	public String getServiceProviderPremium() {
 		return serviceProviderPremium;
 	}
 
 	/**
 	 * Sets the service provider premium.
 	 *
-	 * @param serviceProviderPremium
-	 *           the new service provider premium
+	 * @param serviceProviderPremium the new service provider premium
 	 */
-	public void setServiceProviderPremium(String serviceProviderPremium)
-	{
+	public void setServiceProviderPremium(String serviceProviderPremium) {
 		this.serviceProviderPremium = serviceProviderPremium;
 	}
 
@@ -601,19 +537,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service provider latitude
 	 */
-	public double getServiceProviderLatitude()
-	{
+	public double getServiceProviderLatitude() {
 		return serviceProviderLatitude;
 	}
 
 	/**
 	 * Sets the service provider latitude.
 	 *
-	 * @param serviceProviderLatitude
-	 *           the new service provider latitude
+	 * @param serviceProviderLatitude the new service provider latitude
 	 */
-	public void setServiceProviderLatitude(double serviceProviderLatitude)
-	{
+	public void setServiceProviderLatitude(double serviceProviderLatitude) {
 		this.serviceProviderLatitude = serviceProviderLatitude;
 	}
 
@@ -622,19 +555,16 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service provider longitude
 	 */
-	public double getServiceProviderLongitude()
-	{
+	public double getServiceProviderLongitude() {
 		return serviceProviderLongitude;
 	}
 
 	/**
 	 * Sets the service provider longitude.
 	 *
-	 * @param serviceProviderLongitude
-	 *           the new service provider longitude
+	 * @param serviceProviderLongitude the new service provider longitude
 	 */
-	public void setServiceProviderLongitude(double serviceProviderLongitude)
-	{
+	public void setServiceProviderLongitude(double serviceProviderLongitude) {
 		this.serviceProviderLongitude = serviceProviderLongitude;
 	}
 
@@ -643,41 +573,84 @@ public class ServiceProviderModel implements Serializable
 	 *
 	 * @return the service provider max distance to operate
 	 */
-	public int getServiceProviderMaxDistanceToOperate()
-	{
+	public int getServiceProviderMaxDistanceToOperate() {
 		return serviceProviderMaxDistanceToOperate;
 	}
 
 	/**
 	 * Sets the service provider max distance to operate.
 	 *
-	 * @param serviceProviderMaxDistanceToOperate
-	 *           the new service provider max distance to operate
+	 * @param serviceProviderMaxDistanceToOperate the new service provider max distance to operate
 	 */
-	public void setServiceProviderMaxDistanceToOperate(int serviceProviderMaxDistanceToOperate)
-	{
+	public void setServiceProviderMaxDistanceToOperate(int serviceProviderMaxDistanceToOperate) {
 		this.serviceProviderMaxDistanceToOperate = serviceProviderMaxDistanceToOperate;
 	}
+	
+	/** The service provider service matching model. */
+	@OneToMany(mappedBy = "serviceProviderModel", fetch = FetchType.EAGER)
+	private List<ServiceProviderServiceMatchingModel> serviceProviderServiceMatchingModel;
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Gets the service provider service matching model.
+	 *
+	 * @return the service provider service matching model
+	 */
+	public List<ServiceProviderServiceMatchingModel> getServiceProviderServiceMatchingModel() {
+		return serviceProviderServiceMatchingModel;
+	}
+
+	/**
+	 * Sets the service provider service matching model.
+	 *
+	 * @param serviceProviderServiceMatchingModel the new service provider service matching model
+	 */
+	public void setServiceProviderServiceMatchingModel(
+			List<ServiceProviderServiceMatchingModel> serviceProviderServiceMatchingModel) {
+		this.serviceProviderServiceMatchingModel = serviceProviderServiceMatchingModel;
+	}
+	
+	/**
+	 * Adds the update customer issue model.
+	 *
+	 * @param serviceProviderServiceMatchingModel the service provider service matching model
+	 * @return the service provider service matching model
+	 */
+	public ServiceProviderServiceMatchingModel addUpdateCustomerIssueModel(ServiceProviderServiceMatchingModel serviceProviderServiceMatchingModel) {
+		getServiceProviderServiceMatchingModel().add(serviceProviderServiceMatchingModel);
+		serviceProviderServiceMatchingModel.setServiceProviderModel(this);
+		return serviceProviderServiceMatchingModel;
+	}
+
+	/**
+	 * Removes the customer review model.
+	 *
+	 * @param serviceProviderServiceMatchingModel the service provider service matching model
+	 * @return the service provider service matching model
+	 */
+	public ServiceProviderServiceMatchingModel removeCustomerReviewModel(ServiceProviderServiceMatchingModel serviceProviderServiceMatchingModel) {
+		getServiceProviderServiceMatchingModel().remove(serviceProviderServiceMatchingModel);
+		serviceProviderServiceMatchingModel.setServiceProviderModel(null);
+		return serviceProviderServiceMatchingModel;
+	}
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString()
-	{
-		return "ServiceProvider [ serviceProviderName=" + serviceProviderName + ", imageFolderName=" + imageFolderName + ", rating="
-				+ rating + ", serviceProviderCity=" + serviceProviderCity + ", serviceProviderComments =" + serviceProviderComments
-				+ ", serviceproviderExperties=" + serviceproviderExperties + ", serviceProviderLatitude=" + serviceProviderLatitude
-				+ ", serviceProviderLongitude=" + serviceProviderLongitude + ", serviceProviderMaxDistanceToOperate="
-				+ serviceProviderMaxDistanceToOperate + ", serviceProviderotherServices =" + serviceProviderotherServices
-				+ ", serviceProviderPremium=" + serviceProviderPremium + ", serviceProvidertiming=" + serviceProvidertiming
-				+ ", serviceProviderWebsite=" + serviceProviderWebsite + ", bodyRepair =" + bodyRepair
-				+ ", serviceProviderNightOperation =" + serviceProviderNightOperation + ", electricalType =" + electricalType
-				+ ", mechanicalType =" + mechanicalType + ", twoWheeler =" + twoWheeler + ", fourWheeler =" + fourWheeler
-				+ ", olderServiceProviderId =" + olderServiceProviderId + ", serviceProviderTimestamp =" + serviceProviderTimestamp
-				+ ", serviceProviderId =" + serviceProviderId + ", isEnabled =" + isEnabled + ", serviceProviderPhoneNumber ="
-				+ serviceProviderPhoneNumber + "]" + super.toString();
+	public String toString() {
+		return "ServiceProvider [ serviceProviderName=" + serviceProviderName + ", imageFolderName=" + imageFolderName
+				+ ", rating=" + rating + ", serviceProviderCity=" + serviceProviderCity + ", serviceProviderComments ="
+				+ serviceProviderComments + ", serviceProviderLatitude=" + serviceProviderLatitude + ", serviceProviderLongitude="
+				+ serviceProviderLongitude + ", serviceProviderMaxDistanceToOperate="
+				+ serviceProviderMaxDistanceToOperate  + ", serviceProviderPremium=" + serviceProviderPremium
+				+ ", serviceProvidertiming=" + serviceProvidertiming + ", serviceProviderWebsite="
+				+ serviceProviderWebsite + ", bodyRepair =" + bodyRepair + ", serviceProviderNightOperation ="
+				+ serviceProviderNightOperation + ", electricalType =" + electricalType + ", mechanicalType ="
+				+ mechanicalType + ", twoWheeler =" + twoWheeler + ", fourWheeler =" + fourWheeler
+				+ ", olderServiceProviderId =" + olderServiceProviderId + ", serviceProviderTimestamp ="
+				+ serviceProviderTimestamp + ", serviceProviderId =" + serviceProviderId
+				+ ", isEnabled =" + isEnabled + ", serviceProviderPhoneNumber ="
+				+ serviceProviderPhoneNumber+ ", acceptTermCondition ="
+						+ acceptTermCondition + "]" + super.toString();
 	}
 }

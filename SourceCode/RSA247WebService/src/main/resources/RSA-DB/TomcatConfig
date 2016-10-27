@@ -1,0 +1,33 @@
+server.xml (TOMCAT)
+<Resource name="jdbc/MySQLDS" 
+      global="jdbc/MySQLDS" 
+      auth="Container" 
+      type="javax.sql.DataSource" 
+      driverClassName="com.mysql.jdbc.Driver" 
+      url="jdbc:mysql://localhost:3306/garage" 
+      username="root" 
+      password="admin" 
+      
+      maxActive="100" 
+      maxIdle="20" 
+      minIdle="5" 
+      maxWait="10000"/>
+      
+context.xml (TOMCAT)
+<ResourceLink name="jdbc/MySQLDS"
+      global="jdbc/MySQLDS"
+      auth="Container"
+      type="javax.sql.DataSource" />
+                
+tomcat-users.xml (TOMCAT)
+<tomcat-users>
+   <role rolename="manager"/>
+   <role rolename="tomcat"/>
+   <role rolename="admin"/>
+   <role rolename="role1"/>
+   <user username="manager" password="manager" roles="manager"/>
+   <user username="both" password="tomcat" roles="tomcat,role1"/>
+   <user username="tomcat" password="tomcat" roles="tomcat"/>
+   <user username="role1" password="tomcat" roles="role1"/>
+   <user username="admin" password="admin" roles="admin"/>
+</tomcat-users>
