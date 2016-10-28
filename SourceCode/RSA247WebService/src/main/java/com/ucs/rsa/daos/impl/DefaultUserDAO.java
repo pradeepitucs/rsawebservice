@@ -828,9 +828,9 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 		try
 		{
 			theSession = currentSession();
-			Criteria theCriteria = (Criteria) theSession.createCriteria(ServiceProviderModel.class, "employeeModel")
+			Criteria theCriteria = (Criteria) theSession.createCriteria(ServiceProviderModel.class, "serviceProviderModel")
 					.setProjection(Projections.property("serviceProviderCity"));
-			cities = (Set<String>) theCriteria.list();
+			cities = new HashSet<>(theCriteria.list());
 		}
 		catch (RSAException e)
 		{

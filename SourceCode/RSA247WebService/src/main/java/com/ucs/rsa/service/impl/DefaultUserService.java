@@ -42,6 +42,12 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 	/** The employee list. */
 	List<EmployeeModel> employeeList = new ArrayList<>();
 
+	/** The service provider list. */
+	List<ServiceProviderModel> serviceProviderList = new ArrayList<>();
+
+	/** The customer list. */
+	List<CustomerModel> customerList = new ArrayList<>();
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -486,6 +492,117 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 		Set<String> cities = new HashSet<>();
 		cities = userDAO.findAllCities();
 		return cities;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.service.UserService#filteredServiceProviders(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<ServiceProviderModel> filteredServiceProviders(String iCity, String iApprove)
+	{
+		Comparator<ServiceProviderModel> groupByComparator = Comparator.comparing(ServiceProviderModel::getServiceProviderId);
+
+		List<ServiceProviderModel> result = new ArrayList<>();
+		if (iCity != null && iApprove == null)
+		{
+			result = getServiceProviderList().stream().filter(e -> e.getServiceProviderCity().contains(iCity))
+					.sorted(groupByComparator).collect(Collectors.toList());
+		}
+		else if (iCity == null && iApprove != null)
+		{
+			result = getServiceProviderList().stream().filter(e -> e.isEnabled() == Boolean.valueOf(iApprove))
+					.sorted(groupByComparator).collect(Collectors.toList());
+		}
+		else if (iCity != null && iApprove != null)
+		{
+			result = getServiceProviderList().stream()
+					.filter(e -> e.getServiceProviderCity().contains(iCity) && e.isEnabled() == Boolean.valueOf(iApprove))
+					.sorted(groupByComparator).collect(Collectors.toList());
+		}
+
+		return result;
+	}
+
+	/**
+	 * Gets the service provider list.
+	 *
+	 * @return the serviceProviderList
+	 */
+	public List<ServiceProviderModel> getServiceProviderList()
+	{
+		if (this.serviceProviderList.isEmpty())
+			this.serviceProviderList = loadAll(ServiceProviderModel.class);
+		return serviceProviderList;
+	}
+
+	/**
+	 * Sets the service provider list.
+	 *
+	 * @param serviceProviderList
+	 *           the serviceProviderList to set
+	 */
+	public void setServiceProviderList(List<ServiceProviderModel> serviceProviderList)
+	{
+		this.serviceProviderList = serviceProviderList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.service.UserService#searchCustomerByMobileNo(java.lang.String)
+	 */
+	@Override
+	public List<CustomerModel> searchCustomerByMobileNo(String iMobileNo)
+	{
+		Comparator<CustomerModel> groupByComparator = Comparator.comparing(CustomerModel::getFirstName);
+
+		List<CustomerModel> result = getCustomerList().stream()
+				.filter(e -> Long.valueOf(e.getMobileNo()).toString().contains(iMobileNo)).sorted(groupByComparator)
+				.collect(Collectors.toList());
+
+		return result;
+	}
+
+	/**
+	 * Gets the customer list.
+	 *
+	 * @return the customer list
+	 */
+	public List<CustomerModel> getCustomerList()
+	{
+		if (this.customerList.isEmpty())
+			this.customerList = loadAll(CustomerModel.class);
+		return customerList;
+	}
+
+	/**
+	 * Sets the customer list.
+	 *
+	 * @param customerList
+	 *           the new customer list
+	 */
+	public void setCustomerList(List<CustomerModel> customerList)
+	{
+		this.customerList = customerList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.ucs.rsa.service.UserService#searchServiceProviderByMobileNo(java.lang.String)
+	 */
+	@Override
+	public List<ServiceProviderModel> searchServiceProviderByMobileNo(String iMobileNo)
+	{
+		Comparator<ServiceProviderModel> groupByComparator = Comparator.comparing(ServiceProviderModel::getServiceProviderId);
+
+		List<ServiceProviderModel> result = getServiceProviderList().stream()
+				.filter(e -> Long.valueOf(e.getServiceProviderPhoneNumber()).toString().contains(iMobileNo)).sorted(groupByComparator)
+				.collect(Collectors.toList());
+
+		return result;
 	}
 
 

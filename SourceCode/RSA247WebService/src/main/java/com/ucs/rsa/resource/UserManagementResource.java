@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +60,6 @@ import com.ucs.rsa.model.UserVehicleModel;
 import com.ucs.rsa.service.BillGeneratorService;
 import com.ucs.rsa.service.GmailService;
 import com.ucs.rsa.service.UserService;
-import org.apache.commons.codec.binary.Base64;
 
 
 /**
@@ -238,20 +238,23 @@ public class UserManagementResource
 		}
 		return new ModelAndView("xml", "result", result);
 	}
-	
+
 	/**
 	 * Approved service info.
 	 *
-	 * @param id the id
-	 * @param model the model
+	 * @param id
+	 *           the id
+	 * @param model
+	 *           the model
 	 * @return the string
 	 */
 	@RequestMapping(value = "/employeeapprovel", method = RequestMethod.POST)
-	public @ResponseBody String approvedServiceInfo(@RequestParam(value="var1", required=true) String id ) {
+	public @ResponseBody String approvedServiceInfo(@RequestParam(value = "var1", required = true) String id)
+	{
 		String result = getUserService().approveEmployee(Integer.parseInt(id));
-		
+
 		return result;
-		}
+	}
 
 	/**
 	 * Approve service provider.
@@ -268,9 +271,10 @@ public class UserManagementResource
 
 		return new ModelAndView("xml", "result", result);
 	}
-	
+
 	@RequestMapping(value = "/approve", method = RequestMethod.POST)
-	public @ResponseBody String approvedService(@RequestParam(value="var1", required=true) String id) {
+	public @ResponseBody String approvedService(@RequestParam(value = "var1", required = true) String id)
+	{
 		String result = getUserService().approveServiceProvider(Integer.parseInt(id));
 		return result;
 	}
@@ -419,7 +423,7 @@ public class UserManagementResource
 
 		Set<String> serviceProviderCities = new HashSet<>();
 		// System Error Need to check
-		//serviceProviderCities = userService.findAllCities();
+		serviceProviderCities = userService.findAllCities();
 
 		ModelAndView modelAndView = new ModelAndView("findAllServiceProviders", "findAllServiceProviders", serviceProvidersDTO);
 		modelAndView.addObject("currentPage", page);
@@ -807,12 +811,12 @@ public class UserManagementResource
 		return imagesByteArray;
 
 	}
-	
+
 	@RequestMapping(value = "/employeeImages", method = RequestMethod.GET)
-    public @ResponseBody  String employeeImages(Model model,
-    		@RequestParam(value = "employeeID") int employeeID ) {
-		String yy= "";
-		String x="";
+	public @ResponseBody String employeeImages(Model model, @RequestParam(value = "employeeID") int employeeID)
+	{
+		String yy = "";
+		String x = "";
 		EmployeeModel employeeModel = new EmployeeModel();
 		employeeModel = getUserService().get(EmployeeModel.class, employeeID);
 		ServiceProviderModel serviceProviderModel = new ServiceProviderModel();
@@ -832,7 +836,7 @@ public class UserManagementResource
 		}
 		byte[][] imagesByteArray = new byte[0][0];
 		String rootPath = System.getProperty("catalina.home");
-		if ((employeeModel.getGcmId())!= null && imageFolderName != null  )
+		if ((employeeModel.getGcmId()) != null && imageFolderName != null)
 		{
 			try
 			{
@@ -860,17 +864,20 @@ public class UserManagementResource
 							// Write to output stream
 							ImageIO.write(img, "jpg", bao);
 							imagesByteArray[i] = bao.toByteArray();
-							
+
 							byte imageData[] = new byte[1];
 							is.read(imageData);
 							String imag = encodeImage(imagesByteArray[0]);
 							imag = imag.replaceAll("_", "/");
 							imag = imag.replaceAll("-", "+");
-							
-							if (i == numberOfFiles - 1) {
+
+							if (i == numberOfFiles - 1)
+							{
 								x = yy + imag;
 								yy = x;
-							} else {
+							}
+							else
+							{
 								x = yy + imag + ",";
 								yy = x;
 							}
@@ -880,7 +887,7 @@ public class UserManagementResource
 
 						}
 					}
-					
+
 				}
 				else
 				{
@@ -890,30 +897,35 @@ public class UserManagementResource
 			{
 				System.out.println(e);
 			}
-		} else {
+		}
+		else
+		{
 			ClassLoader classLoader = getClass().getClassLoader();
 			File file = new File(classLoader.getResource("file/download.jpg").getFile());
 			//File file = new File("/home/ucs-aditya/Downloads/download.jpg");
-			 
-	        try {            
-	            // Reading a Image file from file system
-	            FileInputStream imageInFile = new FileInputStream(file);
-	            byte imageData[] = new byte[(int) file.length()];
-	            imageInFile.read(imageData);
-	 
-	            // Converting Image byte array into Base64 String
-	             yy = encodeImage(imageData);
-	             yy = yy.replaceAll("_", "/");
-	             yy = yy.replaceAll("-", "+");
-	        } catch (Exception e){
-	        	
-	        }
+
+			try
+			{
+				// Reading a Image file from file system
+				FileInputStream imageInFile = new FileInputStream(file);
+				byte imageData[] = new byte[(int) file.length()];
+				imageInFile.read(imageData);
+
+				// Converting Image byte array into Base64 String
+				yy = encodeImage(imageData);
+				yy = yy.replaceAll("_", "/");
+				yy = yy.replaceAll("-", "+");
+			}
+			catch (Exception e)
+			{
+
+			}
 		}
-        model.addAttribute("files",yy );
-        
-       
-        return yy;
-    }
+		model.addAttribute("files", yy);
+
+
+		return yy;
+	}
 
 	/**
 	 * Gets the gmail service.
@@ -997,13 +1009,13 @@ public class UserManagementResource
 		return imagesByteArray;
 
 	}
-	
-	
+
+
 	@RequestMapping(value = "/idImages", method = RequestMethod.GET)
-    public @ResponseBody  String getIDImages(Model model,
-    		@RequestParam(value = "serviceProviderID") int serviceProviderID ) {
-		String yy= "";
-		String x="";
+	public @ResponseBody String getIDImages(Model model, @RequestParam(value = "serviceProviderID") int serviceProviderID)
+	{
+		String yy = "";
+		String x = "";
 		ServiceProviderModel serviceProviderModel = new ServiceProviderModel();
 		serviceProviderModel = getUserService().get(ServiceProviderModel.class, serviceProviderID);
 		String imageFolderName = serviceProviderModel.getImageFolderName();
@@ -1020,7 +1032,7 @@ public class UserManagementResource
 		}
 		byte[][] imagesByteArray = new byte[0][0];
 		String rootPath = System.getProperty("catalina.home");
-		if (imageFolderName != null  )
+		if (imageFolderName != null)
 		{
 			try
 			{
@@ -1046,16 +1058,19 @@ public class UserManagementResource
 							// Write to output stream
 							ImageIO.write(img, "jpg", bao);
 							imagesByteArray[i] = bao.toByteArray();
-							
-							
+
+
 							String imag = encodeImage(imagesByteArray[i]);
 							imag = imag.replaceAll("_", "/");
 							imag = imag.replaceAll("-", "+");
-							
-							if (i == numberOfFiles - 1) {
+
+							if (i == numberOfFiles - 1)
+							{
 								x = yy + imag;
 								yy = x;
-							} else {
+							}
+							else
+							{
 								x = yy + imag + ",";
 								yy = x;
 							}
@@ -1065,7 +1080,7 @@ public class UserManagementResource
 
 						}
 					}
-					
+
 				}
 				else
 				{
@@ -1075,30 +1090,35 @@ public class UserManagementResource
 			{
 				System.out.println(e);
 			}
-		} else {
+		}
+		else
+		{
 			ClassLoader classLoader = getClass().getClassLoader();
 			File file = new File(classLoader.getResource("file/download.jpg").getFile());
 			//File file = new File("/home/ucs-aditya/Downloads/download.jpg");
-			 
-	        try {            
-	            // Reading a Image file from file system
-	            FileInputStream imageInFile = new FileInputStream(file);
-	            byte imageData[] = new byte[(int) file.length()];
-	            imageInFile.read(imageData);
-	 
-	            // Converting Image byte array into Base64 String
-	             yy = encodeImage(imageData);
-	             yy = yy.replaceAll("_", "/");
-	             yy = yy.replaceAll("-", "+");
-	        } catch (Exception e){
-	        	
-	        }
+
+			try
+			{
+				// Reading a Image file from file system
+				FileInputStream imageInFile = new FileInputStream(file);
+				byte imageData[] = new byte[(int) file.length()];
+				imageInFile.read(imageData);
+
+				// Converting Image byte array into Base64 String
+				yy = encodeImage(imageData);
+				yy = yy.replaceAll("_", "/");
+				yy = yy.replaceAll("-", "+");
+			}
+			catch (Exception e)
+			{
+
+			}
 		}
-        model.addAttribute("files",yy );
-        
-       
-        return yy;
-    }
+		model.addAttribute("files", yy);
+
+
+		return yy;
+	}
 
 	/**
 	 * Gets the service provider from number.
@@ -1239,12 +1259,12 @@ public class UserManagementResource
 		return imagesByteArray;
 
 	}
-	
+
 	@RequestMapping(value = "/orgImages", method = RequestMethod.GET)
-    public @ResponseBody  String orgImages(Model model,
-    		@RequestParam(value = "serviceProviderID") int serviceProviderID ) {
-		String yy= "";
-		String x="";
+	public @ResponseBody String orgImages(Model model, @RequestParam(value = "serviceProviderID") int serviceProviderID)
+	{
+		String yy = "";
+		String x = "";
 		ServiceProviderModel serviceProviderModel = new ServiceProviderModel();
 		serviceProviderModel = getUserService().get(ServiceProviderModel.class, serviceProviderID);
 		String imageFolderName = serviceProviderModel.getImageFolderName();
@@ -1287,17 +1307,20 @@ public class UserManagementResource
 							// Write to output stream
 							ImageIO.write(img, "jpg", bao);
 							imagesByteArray[i] = bao.toByteArray();
-							
+
 							byte imageData[] = new byte[1];
 							is.read(imageData);
 							String imag = encodeImage(imagesByteArray[0]);
 							imag = imag.replaceAll("_", "/");
 							imag = imag.replaceAll("-", "+");
-							
-							if (i == numberOfFiles - 1) {
+
+							if (i == numberOfFiles - 1)
+							{
 								x = yy + imag;
 								yy = x;
-							} else {
+							}
+							else
+							{
 								x = yy + imag + ",";
 								yy = x;
 							}
@@ -1307,7 +1330,7 @@ public class UserManagementResource
 
 						}
 					}
-					
+
 				}
 				else
 				{
@@ -1317,33 +1340,39 @@ public class UserManagementResource
 			{
 				System.out.println(e);
 			}
-		} else {
+		}
+		else
+		{
 			ClassLoader classLoader = getClass().getClassLoader();
 			File file = new File(classLoader.getResource("file/download.jpg").getFile());
 			//File file = new File("/home/ucs-aditya/Downloads/download.jpg");
-			 
-	        try {            
-	            // Reading a Image file from file system
-	            FileInputStream imageInFile = new FileInputStream(file);
-	            byte imageData[] = new byte[(int) file.length()];
-	            imageInFile.read(imageData);
-	 
-	            // Converting Image byte array into Base64 String
-	             yy = encodeImage(imageData);
-	             yy = yy.replaceAll("_", "/");
-	             yy = yy.replaceAll("-", "+");
-	        } catch (Exception e){
-	        	
-	        }
+
+			try
+			{
+				// Reading a Image file from file system
+				FileInputStream imageInFile = new FileInputStream(file);
+				byte imageData[] = new byte[(int) file.length()];
+				imageInFile.read(imageData);
+
+				// Converting Image byte array into Base64 String
+				yy = encodeImage(imageData);
+				yy = yy.replaceAll("_", "/");
+				yy = yy.replaceAll("-", "+");
+			}
+			catch (Exception e)
+			{
+
+			}
 		}
-        model.addAttribute("files",yy );
-        
-       
-        return yy;
-    }
-	
-	public static String encodeImage(byte[] imageByteArray) {
-	    return Base64.encodeBase64URLSafeString(imageByteArray);
+		model.addAttribute("files", yy);
+
+
+		return yy;
+	}
+
+	public static String encodeImage(byte[] imageByteArray)
+	{
+		return Base64.encodeBase64URLSafeString(imageByteArray);
 	}
 
 	/**
@@ -2100,7 +2129,7 @@ public class UserManagementResource
 			customerModel.setOlderEmployeeID(1);
 			employeeModels.add(customerModel);
 			final EmployeeModel employeeModel1 = getUserService().insertEmployeesData(customerModel);
-			if ( employeeModel1 != null)
+			if (employeeModel1 != null)
 			{
 				final String smsForEmployee = " Mr " + employeeModel1.getEmployeeName()
 						+ ", You has successfully registered in the RSA 247 network.";
@@ -2127,60 +2156,61 @@ public class UserManagementResource
 					}
 				};
 				new Thread(r1).start();
-				if(!employeeMobileNumber.isEmpty() && !employeeName.isEmpty() ) {
-				String[] mobiles = employeeMobileNumber.split(",");
-				String[] names = employeeName.split(",");
-				for (int i = 0; i < mobiles.length; i++)
+				if (!employeeMobileNumber.isEmpty() && !employeeName.isEmpty())
 				{
-					EmployeeModel employee = new EmployeeModel();
-					employee.setIsEnabled(false);
-					employee.setMobileNo(Long.parseLong(mobiles[i]));
-					if (names[i] == null)
+					String[] mobiles = employeeMobileNumber.split(",");
+					String[] names = employeeName.split(",");
+					for (int i = 0; i < mobiles.length; i++)
 					{
-						employee.setEmployeeName(null);
-					}
-					else
-					{
-						employee.setEmployeeName(names[i]);
-					}
-					employee.setSendArrovalNotification(false);
-
-					RoleModel roleModel1 = new RoleModel();
-					roleModel1.setRoleId(3);
-
-					employee.setRoleModel(roleModel1);
-					employee.setUserId(userId);
-					employee.setOnwer(false);
-					employee.setServiceProviderID(userModel.getServiceProviderId());
-					employee.setOlderEmployeeID(1);
-					employeeModels.add(employee);
-					final EmployeeModel employeeModel = getUserService().insertEmployeesData(employee);
-					System.out.println(employeeModel);
-					if (employeeModel != null)
-					{
-						status = "Inserted Data";
-						final String smsForEmployees = " Mr " + employeeModel.getEmployeeName()
-								+ ", Download the RSA247 mobile app from the below link. goo.gl/Axyn3?1";
-						//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(),
-						//	smsForEmployees, "WebSMS", "0");
-						Runnable r2 = new Runnable()
+						EmployeeModel employee = new EmployeeModel();
+						employee.setIsEnabled(false);
+						employee.setMobileNo(Long.parseLong(mobiles[i]));
+						if (names[i] == null)
 						{
-							@Override
-							public void run()
+							employee.setEmployeeName(null);
+						}
+						else
+						{
+							employee.setEmployeeName(names[i]);
+						}
+						employee.setSendArrovalNotification(false);
+
+						RoleModel roleModel1 = new RoleModel();
+						roleModel1.setRoleId(3);
+
+						employee.setRoleModel(roleModel1);
+						employee.setUserId(userId);
+						employee.setOnwer(false);
+						employee.setServiceProviderID(userModel.getServiceProviderId());
+						employee.setOlderEmployeeID(1);
+						employeeModels.add(employee);
+						final EmployeeModel employeeModel = getUserService().insertEmployeesData(employee);
+						System.out.println(employeeModel);
+						if (employeeModel != null)
+						{
+							status = "Inserted Data";
+							final String smsForEmployees = " Mr " + employeeModel.getEmployeeName()
+									+ ", Download the RSA247 mobile app from the below link. goo.gl/Axyn3?1";
+							//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(),
+							//	smsForEmployees, "WebSMS", "0");
+							Runnable r2 = new Runnable()
 							{
-								sendSMS(smsForEmployees, employeeModel.getMobileNo());
-							}
-						};
-						new Thread(r2).start();
-						/*
-						 * final String msg1 = ",\n\n" +
-						 * "\t Please complete the registration by downloading the RSA247 app from the link below. Use the phone number below to register. goo.gl/Axyn3?1"
-						 * + "\n"+ "\t MobileNumber = "+employeeModel.getMobileNo(); Runnable r3 = new Runnable() { public
-						 * void run() { sendMailToEmployee(msg1, employeeModel.getEmployeeEmail()); } }; new
-						 * Thread(r3).start();
-						 */
+								@Override
+								public void run()
+								{
+									sendSMS(smsForEmployees, employeeModel.getMobileNo());
+								}
+							};
+							new Thread(r2).start();
+							/*
+							 * final String msg1 = ",\n\n" +
+							 * "\t Please complete the registration by downloading the RSA247 app from the link below. Use the phone number below to register. goo.gl/Axyn3?1"
+							 * + "\n"+ "\t MobileNumber = "+employeeModel.getMobileNo(); Runnable r3 = new Runnable() { public
+							 * void run() { sendMailToEmployee(msg1, employeeModel.getEmployeeEmail()); } }; new
+							 * Thread(r3).start();
+							 */
+						}
 					}
-				}
 				}
 			}
 			else
@@ -2602,4 +2632,204 @@ public class UserManagementResource
 		}
 		return imageInserted;
 	}
+
+	@RequestMapping(value = "/filteredServiceProviders", method =
+	{ RequestMethod.POST, RequestMethod.GET })
+	private ModelAndView filteredServiceProviders(@RequestParam(value = "city", required = false) String iCity,
+			@RequestParam(value = "approve", required = false) String iApprove, @RequestParam(value = "page") final String iPageNo)
+	{
+
+		int page = 1;
+		int recordsPerPage = 10;
+
+		if (iPageNo != null && iPageNo != "")
+			page = Integer.parseInt(iPageNo);
+
+
+		List<ServiceProviderModel> serviceProviderModels = new ArrayList<>();
+		serviceProviderModels = userService.filteredServiceProviders(iCity, iApprove);
+
+		ServiceProvidersDTO serviceProvidersDTO = new ServiceProvidersDTO();
+		List<ServiceProviderDTO> serviceProviderDTOs = new ArrayList<>();
+
+		for (ServiceProviderModel serviceProviderModel : serviceProviderModels)
+		{
+			ServiceProviderDTO serviceProviderDTO = new ServiceProviderDTO();
+			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
+			serviceProviderDTO.setUserId(serviceProviderModel.getServiceProviderId());
+			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
+			serviceProviderDTO.setBodyRepair(serviceProviderModel.isBodyRepair());
+			serviceProviderDTO.setElectricalType(serviceProviderModel.isElectricalType());
+			serviceProviderDTO.setFourWheeler(serviceProviderModel.getFourWheeler());
+			serviceProviderDTO.setImageFolderName(serviceProviderModel.getImageFolderName());
+			serviceProviderDTO.setMechanicalType(serviceProviderModel.isMechanicalType());
+			serviceProviderDTO.setOlderServiceProviderId(serviceProviderModel.getOlderServiceProviderId());
+			serviceProviderDTO.setRating(serviceProviderModel.getRating());
+			serviceProviderDTO.setServiceProviderCity(serviceProviderModel.getServiceProviderCity());
+			serviceProviderDTO.setServiceProviderComments(serviceProviderModel.getServiceProviderComments());
+			serviceProviderDTO.setServiceProviderLatitude(serviceProviderModel.getServiceProviderLatitude());
+			serviceProviderDTO.setServiceProviderLongitude(serviceProviderModel.getServiceProviderLongitude());
+			serviceProviderDTO.setServiceProviderMaxDistanceToOperate(serviceProviderModel.getServiceProviderMaxDistanceToOperate());
+			serviceProviderDTO.setServiceProviderName(serviceProviderModel.getServiceProviderName());
+			serviceProviderDTO.setServiceProviderNightOperation(serviceProviderModel.isServiceProviderNightOperation());
+			serviceProviderDTO.setServiceProviderPremium(serviceProviderModel.getServiceProviderPremium());
+			serviceProviderDTO.setServiceProviderTimestamp(serviceProviderModel.getServiceProviderTimestamp());
+			serviceProviderDTO.setServiceProvidertiming(serviceProviderModel.getServiceProvidertiming());
+			serviceProviderDTO.setServiceProviderWebsite(serviceProviderModel.getServiceProviderWebsite());
+			serviceProviderDTO.setTwoWheeler(serviceProviderModel.isTwoWheeler());
+			ServiceTypeModel abc = new ServiceTypeModel();
+			abc = serviceProviderModel.getServiceTypeModel();
+			ServiceTypeDTO abc1 = new ServiceTypeDTO();
+			abc1.setServiceTypeId(abc.getServiceTypeId());
+			serviceProviderDTO.setServiceproviderExperties(abc1);
+			serviceProviderDTOs.add(serviceProviderDTO);
+		}
+
+		serviceProvidersDTO.setServiceProviderDTOs(serviceProviderDTOs);
+
+		int noOfRecords = userService.findNoOfRecords();
+		int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+
+		Set<String> serviceProviderCities = new HashSet<>();
+		// System Error Need to check
+		serviceProviderCities = userService.findAllCities();
+
+		ModelAndView modelAndView = new ModelAndView("findAllServiceProviders", "findAllServiceProviders", serviceProvidersDTO);
+		modelAndView.addObject("currentPage", page);
+		modelAndView.addObject("noOfPages", noOfPages);
+
+		modelAndView.addObject("serviceProviderCities", serviceProviderCities);
+
+		return modelAndView;
+	}
+
+
+	/**
+	 * Search customer by mobile no.
+	 *
+	 * @param iPageNo
+	 *           the i page no
+	 * @param iMobileNo
+	 *           the i mobile no
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/searchCustomersByMobileNo", method =
+	{ RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView searchCustomerByMobileNo(@RequestParam(value = "page") final String iPageNo,
+			@RequestParam(value = "mobileNo") final String iMobileNo)
+	{
+
+		int page = 1;
+		int recordsPerPage = 10;
+
+		List<CustomerModel> customerModels = new ArrayList<>();
+		customerModels = userService.searchCustomerByMobileNo(iMobileNo);
+
+		CustomersDTO customersDTO = new CustomersDTO();
+		List<CustomerDTO> customerDTOs = new ArrayList<>();
+
+		for (CustomerModel customerModel : customerModels)
+		{
+			CustomerDTO customerDTO = new CustomerDTO();
+			customerDTO.setIsEnabled(customerModel.getIsEnabled());
+			customerDTO.setEmailId(customerModel.getEmailId());
+			customerDTO.setFirstName(customerModel.getFirstName());
+			customerDTO.setFolderName(customerModel.getFolderName());
+			customerDTO.setGcmId(customerModel.getGcmId());
+			customerDTO.setLastName(customerModel.getLastName());
+			customerDTO.setMobileNo(customerModel.getMobileNo());
+			customerDTO.setUserId(customerModel.getUserId());
+			customerDTOs.add(customerDTO);
+		}
+		customersDTO.setCustomerDTOs(customerDTOs);
+
+		int noOfRecords = customerModels.size();
+		int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+
+		ModelAndView modelAndView = new ModelAndView("findAllCustomerRequests", "findAllCustomerRequests", customersDTO);
+		modelAndView.addObject("currentPage", page);
+		modelAndView.addObject("noOfPages", noOfPages);
+
+		return modelAndView;
+	}
+
+	/**
+	 * Search service provider by mobile no.
+	 *
+	 * @param iPageNo
+	 *           the i page no
+	 * @param iMobileNo
+	 *           the i mobile no
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/searchServiceProvidersByMobileNo", method =
+	{ RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView searchServiceProviderByMobileNo(@RequestParam(value = "page") final String iPageNo,
+			@RequestParam(value = "mobileNo") final String iMobileNo)
+	{
+
+		int page = 1;
+		int recordsPerPage = 10;
+
+		List<ServiceProviderModel> serviceProviderModels = new ArrayList<>();
+		serviceProviderModels = userService.searchServiceProviderByMobileNo(iMobileNo);
+
+		ServiceProvidersDTO serviceProvidersDTO = new ServiceProvidersDTO();
+		List<ServiceProviderDTO> serviceProviderDTOs = new ArrayList<>();
+
+		for (ServiceProviderModel serviceProviderModel : serviceProviderModels)
+		{
+			ServiceProviderDTO serviceProviderDTO = new ServiceProviderDTO();
+			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
+			serviceProviderDTO.setUserId(serviceProviderModel.getServiceProviderId());
+			serviceProviderDTO.setEnabled(serviceProviderModel.isEnabled());
+			serviceProviderDTO.setMobileNo(serviceProviderModel.getServiceProviderPhoneNumber());
+			serviceProviderDTO.setBodyRepair(serviceProviderModel.isBodyRepair());
+			serviceProviderDTO.setElectricalType(serviceProviderModel.isElectricalType());
+			serviceProviderDTO.setFourWheeler(serviceProviderModel.getFourWheeler());
+			serviceProviderDTO.setImageFolderName(serviceProviderModel.getImageFolderName());
+			serviceProviderDTO.setMechanicalType(serviceProviderModel.isMechanicalType());
+			serviceProviderDTO.setOlderServiceProviderId(serviceProviderModel.getOlderServiceProviderId());
+			serviceProviderDTO.setRating(serviceProviderModel.getRating());
+			serviceProviderDTO.setServiceProviderCity(serviceProviderModel.getServiceProviderCity());
+			serviceProviderDTO.setServiceProviderComments(serviceProviderModel.getServiceProviderComments());
+			serviceProviderDTO.setServiceProviderLatitude(serviceProviderModel.getServiceProviderLatitude());
+			serviceProviderDTO.setServiceProviderLongitude(serviceProviderModel.getServiceProviderLongitude());
+			serviceProviderDTO.setServiceProviderMaxDistanceToOperate(serviceProviderModel.getServiceProviderMaxDistanceToOperate());
+			serviceProviderDTO.setServiceProviderName(serviceProviderModel.getServiceProviderName());
+			serviceProviderDTO.setServiceProviderNightOperation(serviceProviderModel.isServiceProviderNightOperation());
+			serviceProviderDTO.setServiceProviderPremium(serviceProviderModel.getServiceProviderPremium());
+			serviceProviderDTO.setServiceProviderTimestamp(serviceProviderModel.getServiceProviderTimestamp());
+			serviceProviderDTO.setServiceProvidertiming(serviceProviderModel.getServiceProvidertiming());
+			serviceProviderDTO.setServiceProviderWebsite(serviceProviderModel.getServiceProviderWebsite());
+			serviceProviderDTO.setTwoWheeler(serviceProviderModel.isTwoWheeler());
+			ServiceTypeModel abc = new ServiceTypeModel();
+			abc = serviceProviderModel.getServiceTypeModel();
+			ServiceTypeDTO abc1 = new ServiceTypeDTO();
+			abc1.setServiceTypeId(abc.getServiceTypeId());
+			serviceProviderDTO.setServiceproviderExperties(abc1);
+			serviceProviderDTOs.add(serviceProviderDTO);
+		}
+
+		serviceProvidersDTO.setServiceProviderDTOs(serviceProviderDTOs);
+
+		int noOfRecords = serviceProviderModels.size();
+		int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+
+		Set<String> serviceProviderCities = new HashSet<>();
+		// System Error Need to check
+		serviceProviderCities = userService.findAllCities();
+
+		ModelAndView modelAndView = new ModelAndView("findAllServiceProviders", "findAllServiceProviders", serviceProvidersDTO);
+		modelAndView.addObject("currentPage", page);
+		modelAndView.addObject("noOfPages", noOfPages);
+
+		modelAndView.addObject("serviceProviderCities", serviceProviderCities);
+
+		return modelAndView;
+	}
+
 }
