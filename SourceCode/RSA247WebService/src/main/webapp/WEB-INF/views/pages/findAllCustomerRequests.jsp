@@ -18,51 +18,50 @@
 	$(document)
 			.ready(
 					function() {
-						var table = $('#employeeData'),
-			            rows = table.find('tr'), cells, background, code,status ;        
-			        for (var i = 0; i < rows.length; i+=1) {
-			            cells = $(rows[i]).children('td');
-			            code = $(cells[1]).text();  
-			             status = $(cells[3]).text();
-			             background = '#FFFFFF';
-			             switch (code) {
-			                case '1':
-			                	cells[1].innerHTML ="Ambulance";
-			                	if(status!="Completed")
-			                	background = '#E38029';
-			                    break;
-			                case '2':
-			                	cells[1].innerHTML ="Police";
-			                	if(status!="Completed")
-			                    background = '#9E7B09';
-			                    break;
-			                case '3':
-			                	cells[1].innerHTML = "Flat Tyre";
-			                	background = '#FFFFFF';
-			                	break;
-			                case '4':
-			                	cells[1].innerHTML = "Minor Repairs";
-			                	background = '#FFFFFF';
-			                	break;
-			                case '5':
-			                	cells[1].innerHTML = "Battery";
-			                	background = '#FFFFFF';
-			                	break;
-			                case '6':
-			                	cells[1].innerHTML = "Locked Out";
-			                	background = '#FFFFFF';
-			                	break;
-			                case '7':
-			                	cells[1].innerHTML = "Towing";
-			                	background = '#FFFFFF';
-			                	break;
-			                case '8':
-			                	cells[1].innerHTML = "Fuel Refill";
-			                	background = '#FFFFFF';
-			                	break;
-			            } 
-			            $(rows[i]).css('background-color', background);
-			        }
+						var table = $('#employeeData'), rows = table.find('tr'), cells, background, code, status;
+						for (var i = 0; i < rows.length; i += 1) {
+							cells = $(rows[i]).children('td');
+							code = $(cells[1]).text();
+							status = $(cells[3]).text();
+							background = '#FFFFFF';
+							switch (code) {
+							case '1':
+								cells[1].innerHTML = "Ambulance";
+								if (status != "Completed")
+									background = '#E38029';
+								break;
+							case '2':
+								cells[1].innerHTML = "Police";
+								if (status != "Completed")
+									background = '#9E7B09';
+								break;
+							case '3':
+								cells[1].innerHTML = "Flat Tyre";
+								background = '#FFFFFF';
+								break;
+							case '4':
+								cells[1].innerHTML = "Minor Repairs";
+								background = '#FFFFFF';
+								break;
+							case '5':
+								cells[1].innerHTML = "Battery";
+								background = '#FFFFFF';
+								break;
+							case '6':
+								cells[1].innerHTML = "Locked Out";
+								background = '#FFFFFF';
+								break;
+							case '7':
+								cells[1].innerHTML = "Towing";
+								background = '#FFFFFF';
+								break;
+							case '8':
+								cells[1].innerHTML = "Fuel Refill";
+								background = '#FFFFFF';
+								break;
+							}
+							$(rows[i]).css('background-color', background);
+						}
 					});
 </script>
 <style>
@@ -166,24 +165,64 @@
 					<div class="w3-container">
 						<h4 class="w3-center">Filters</h4>
 						<div class="w3-accordion w3-white">
-							<button onclick="myFunction('Demo1')"
-								class="w3-btn-block w3-theme-l1 w3-left-align">
-								<i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>
-								Status
-							</button>
-							<div id="Demo1" class="w3-accordion-content w3-container">
-								<a href="#"><input type="checkbox" value="Approve">
-									Approve</a> <a href="#"><input type="checkbox"
-									value="Non Approve"> Non Approve</a>
-							</div>
-							<button onclick="myFunction('Demo2')"
-								class="w3-btn-block w3-theme-l1 w3-left-align">
-								<i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My
-								Events
-							</button>
-							<div id="Demo2" class="w3-accordion-content w3-container">
-								<p>Some other text..</p>
-							</div>
+
+							<spring:url value="/servicerequest/filteredCustomerIssues"
+								var="userActionUrl" />
+
+							<form class="form-horizontal" id="filteredCustomerIssues"
+								method="post" action="${userActionUrl}">
+
+								<input type="hidden" id="page" name="page" value=""> <a
+									onclick="myFunction('Demo1')"
+									class="w3-btn-block w3-theme-l1 w3-left-align"> <i
+									class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>
+									Status
+								</a>
+
+								<div id="Demo1" class="w3-accordion-content w3-container">
+									<a href="#"><input type="checkbox" name="approve"
+										value="true"> Approve</a> <a href="#"><input
+										type="checkbox" value="flase" name="approve"> Non
+										Approve</a>
+								</div>
+
+								<a onclick="myFunction('Demo2')"
+									class="w3-btn-block w3-theme-l1 w3-left-align"> <i
+									class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Issue
+									Status
+								</a>
+
+								<div id="Demo2" class="w3-accordion-content w3-container">
+									<c:forEach items="${customerIssueStatus}"
+										var="customerIssueStatus">
+										<%-- 										<c:forEach items="${customerIssueStatus}" var="issueStatus" > --%>
+										<input type="checkbox" value="${customerIssueStatus}"
+											name="issueStatus" id="issueStatus" />${customerIssueStatus}
+					        				<br>
+										<%-- 										</c:forEach> --%>
+									</c:forEach>
+								</div>
+
+								<a onclick="myFunction('Demo3')"
+									class="w3-btn-block w3-theme-l1 w3-left-align"> <i
+									class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Service
+									Type
+								</a>
+
+								<div id="Demo3" class="w3-accordion-content w3-container">
+									<c:forEach items="${serviceTypes}" var="serviceTypes">
+										<%-- 										<c:forEach items="${serviceTypes}" var="types" > --%>
+										<input type="checkbox" value="${serviceTypes.value}"
+											name="types" id="types" />${serviceTypes.key}
+					        				<br>
+										<%-- 										</c:forEach> --%>
+									</c:forEach>
+								</div>
+
+								<input type="submit" value="Submit">
+
+							</form>
+
 						</div>
 						<p></p>
 
@@ -202,22 +241,78 @@
 								<!-- <h6 class="w3-opacity">Search with Mobile Number</h6> -->
 								<section style="display: flex;">
 								<div style="flex: 1; margin-top: 10px;">
-									<input type="text" placeholder="Search with Mobile Number..." style="padding: .5em 1em; width: 100%;" />
+									<input type="text" placeholder="Search with Mobile Number..."
+										style="padding: .5em 1em; width: 100%;" />
 								</div>
 								<div style="margin: 10px 0 0 1rem;">
-									<button class="w3-btn w3-theme"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+									<button class="w3-btn w3-theme">
+										<i class="fa fa-search" aria-hidden="true"></i> Search
+									</button>
 								</div>
 								</section>
 
 								<hr class="w3-clear">
-					             <span><a id="btn1" class="emloyeeapprove" href="#" style="margin-bottom:16px!important; border:1px solid #000;display:inline-block;outline:0;padding:6px 16px;vertical-align:middle;overflow:hidden;text-decoration:none!important;text-align:center;cursor:pointer;white-space:nowrap;color:#000 !important; background-color:#faed1b !important">Employee Info</a></span>
-								 <span><a id="myBtn" class="showEmployeeImage" href="#" style="margin-bottom:16px!important; border:1px solid #000;display:inline-block;outline:0;padding:6px 16px;vertical-align:middle;overflow:hidden;text-decoration:none!important;text-align:center;cursor:pointer;white-space:nowrap;color:#000 !important; background-color:#faed1b !important">Customer Info</a></span>
-								 <span><a id="myBtn" class="showEmployeeImage" href="#" style="margin-bottom:16px!important; border:1px solid #000;display:inline-block;outline:0;padding:6px 16px;vertical-align:middle;overflow:hidden;text-decoration:none!important;text-align:center;cursor:pointer;white-space:nowrap;color:#000 !important; background-color:#faed1b !important">Payment Info</a></span>
+
+								<spring:url value="/servicerequest/customerInfo"
+									var="CustomerInfo" />
+								
+								<input type="hidden" id="Info" value="" />
+								<input type="hidden" id="issueId" value="#issueckboxid" />
+								
+								<span><a id="EmployeeInfo" class="emloyeeapprove"
+									href="#" data-toggle="modal" data-target="#EmployeeInfoModal"
+									style="margin-bottom: 16px !important; border: 1px solid #000; display: inline-block; 
+									outline: 0; padding: 6px 16px; vertical-align: middle; overflow: hidden; 
+									text-decoration: none !important; text-align: center; cursor: pointer; 
+									white-space: nowrap; color: #000 !important; background-color: #faed1b !important">
+										Employee Info</a></span> 
+								<span><a id="CustomerInfo"	class="showEmployeeImage" 
+									href="#" data-toggle="modal" 	data-target="#myModal"
+									style="margin-bottom: 16px !important; border: 1px solid #000; display: inline-block; 
+									outline: 0; padding: 6px 16px; vertical-align: middle; overflow: hidden; 
+									text-decoration: none !important; text-align: center; cursor: pointer; 
+									white-space: nowrap; color: #000 !important; background-color: #faed1b !important">
+										Customer Info</a></span> 
+								<span><a id="PaymentInfo" class="showEmployeeImage" href="#" data-toggle="modal"
+									data-target="#myModal1"	style="margin-bottom: 16px !important; border: 1px solid #000; 
+									display: inline-block; outline: 0; padding: 6px 16px; vertical-align: middle; 
+									overflow: hidden; text-decoration: none !important; text-align: center; cursor: pointer; 
+									white-space: nowrap; color: #000 !important; background-color: #faed1b !important">
+										Payment Info</a></span>
+
+
+								<!-- Modal -->
+								<div id="EmployeeInfoModal" class="modal fade" role="dialog">
+									<div class="modal-dialog">
+
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+												<h4 class="modal-title">Customer Information</h4>
+											</div>
+											<div class="modal-body">
+												<label id="customerID">Customer ID </label> <input
+													readonly="readonly"
+													value="${customerRequestIssues.customerModel.userId}" /> <br>
+												<label id="customerName">Customer Name </label> <input
+													readonly="readonly"
+													value="${customerRequestIssues.customerModel.firstName}" />
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">Close</button>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
 								<table id="employeeData"
 									style="display: block; overflow-x: auto; max-width: 100%; height: 450px;">
 									<thead>
 										<tr>
-										    <th>Select</th>
+											<th>Select</th>
 											<th>Service Type</th>
 											<th>Issue Id</th>
 											<th>Issue Status</th>
@@ -235,7 +330,8 @@
 										<c:forEach var="customerRequestIssues"
 											items="${findAllCustomerRequests.customerRequests}">
 											<tr>
-												<td><input type="radio"  name="issueckboxname" id="issueckboxid" value="${customerRequestIssues.issueId}"/>
+												<td><input type="radio" name="issueckboxname"
+													id="issueckboxid" value="${customerRequestIssues.issueId}" />
 												<td class="serviceProviderIdclass" id="id">${customerRequestIssues.serviceTypeModel.serviceTypeId}</td>
 												<td class="serviceProviderIdclass" id="id">${customerRequestIssues.issueId}</td>
 												<td class="serviceProviderIdclass" id="id">${customerRequestIssues.issueStatus}</td>
@@ -251,41 +347,9 @@
 
 											</tr>
 
-											<!-- Modal -->
-											<div id="myModal" class="modal fade" role="dialog">
-												<div class="modal-dialog">
-
-													<!-- Modal content-->
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" class="close" data-dismiss="modal">&times;</button>
-															<h4 class="modal-title">Customer Information</h4>
-														</div>
-														<div class="modal-body">
-															<label id="customerID">Customer ID </label> <input
-																readonly="readonly"
-																value="${customerRequestIssues.customerModel.userId}" />
-																<br>
-															<label id="customerName">Customer Name </label> <input
-																readonly="readonly"
-																value="${customerRequestIssues.customerModel.firstName}" />
-														</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-default"
-																data-dismiss="modal">Close</button>
-														</div>
-													</div>
-
-												</div>
-											</div>
-
-
 										</c:forEach>
 									</tbody>
 								</table>
-
-
-
 							</div>
 						</div>
 					</div>

@@ -4,7 +4,9 @@
 package com.ucs.rsa.service.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -300,6 +302,60 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 			throw rsaEx;
 		}
 		return serviceType;
+	}
+
+	@Override
+	public List<CustomerRequestModel> filteredCustomerIssues(String iApprove, String iIssueStatus, String iTypes)
+	{
+		Comparator<CustomerRequestModel> groupByComparator = Comparator.comparing(CustomerRequestModel::getIssueId);
+		List<CustomerRequestModel> result = new ArrayList<>();
+
+		if (iApprove == null && iIssueStatus == null && iTypes != null)
+		{
+			result = customerRequestDAO.loadAll(CustomerRequestModel.class).stream()
+					.filter(e -> e.getServiceTypeModel().getServiceTypeId() == Integer.parseInt(iTypes)).sorted(groupByComparator)
+					.collect(Collectors.toList());
+
+		}
+		else if (iApprove == null && iIssueStatus != null && iTypes == null)
+		{
+			result = customerRequestDAO.loadAll(CustomerRequestModel.class).stream()
+					.filter(e -> e.getIssueStatus().equals(iIssueStatus)).sorted(groupByComparator).collect(Collectors.toList());
+		}
+		else if (iApprove != null && iIssueStatus == null && iTypes == null)
+		{
+			result = customerRequestDAO.loadAll(CustomerRequestModel.class).stream()
+					.filter(e -> e.getIsEnabled() == Boolean.valueOf(iApprove)).sorted(groupByComparator).collect(Collectors.toList());
+		}
+		else if (iApprove == null && iIssueStatus != null && iTypes != null)
+		{
+			result = customerRequestDAO.loadAll(CustomerRequestModel.class).stream()
+					.filter(e -> e.getServiceTypeModel().getServiceTypeId() == Integer.parseInt(iTypes)
+							&& e.getIssueStatus().equals(iIssueStatus))
+					.sorted(groupByComparator).collect(Collectors.toList());
+		}
+		else if (iApprove != null && iIssueStatus == null && iTypes != null)
+		{
+			result = customerRequestDAO.loadAll(CustomerRequestModel.class).stream()
+					.filter(e -> e.getServiceTypeModel().getServiceTypeId() == Integer.parseInt(iTypes)
+							&& e.getIsEnabled() == Boolean.valueOf(iApprove))
+					.sorted(groupByComparator).collect(Collectors.toList());
+		}
+		else if (iApprove != null && iIssueStatus != null && iTypes == null)
+		{
+			result = customerRequestDAO.loadAll(CustomerRequestModel.class).stream()
+					.filter(e -> e.getIssueStatus().equals(iIssueStatus) && e.getIsEnabled() == Boolean.valueOf(iApprove))
+					.sorted(groupByComparator).collect(Collectors.toList());
+		}
+		else if (iApprove == null && iIssueStatus != null && iTypes != null)
+		{
+			result = customerRequestDAO.loadAll(CustomerRequestModel.class).stream()
+					.filter(e -> e.getServiceTypeModel().getServiceTypeId() == Integer.parseInt(iTypes)
+							&& e.getIssueStatus().equals(iIssueStatus) && e.getIsEnabled() == Boolean.valueOf(iApprove))
+					.sorted(groupByComparator).collect(Collectors.toList());
+		}
+
+		return result;
 	}
 
 }

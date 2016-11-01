@@ -11,13 +11,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,12 +37,13 @@ import com.ucs.rsa.common.dto.CustomerRequestDTO;
 import com.ucs.rsa.common.dto.CustomerRequestsDTO;
 import com.ucs.rsa.common.dto.ServiceTypeDTO;
 import com.ucs.rsa.common.notification.SendNotification;
-import com.ucs.rsa.common.sms.SmsLane;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerRequestModel;
 import com.ucs.rsa.model.ServiceTypeModel;
 import com.ucs.rsa.model.UserVehicleModel;
 import com.ucs.rsa.service.CustomerRequestService;
+
+
 
 
 /**
@@ -368,7 +372,7 @@ public class CustomerRequestResource
 		String notificationStatus = null;
 		for (int i = 0; i < numberOfLoop; i++)
 		{
-			if (i != 0 && i<=3 )
+			if (i != 0 && i <= 3)
 			{
 				fixedRange = fixedRange + incrementRange;
 			}
@@ -581,6 +585,88 @@ public class CustomerRequestResource
 			CustomerRequestDTOs.add(customerRequestDTO);
 		}
 		customerRequestsDTO.setCustomerRequests(CustomerRequestDTOs);
-		return new ModelAndView("findAllCustomerRequests", "findAllCustomerRequests", customerRequestsDTO);
+
+		Comparator<CustomerRequestModel> groupByComparator = Comparator.comparing(CustomerRequestModel::getIssueId);
+		Set<String> customerIssueStatus = customerRequestModels.stream().map(CustomerRequestModel::getIssueStatus)
+				.collect(Collectors.toSet());
+
+		Set<ServiceTypeModel> serviceTypess = customerRequestModels.stream().map(CustomerRequestModel::getServiceTypeModel)
+				.collect(Collectors.toSet());
+		Map<String, Integer> serviceTypes = serviceTypess.stream()
+				.collect(Collectors.toMap(ServiceTypeModel::getServiceType, ServiceTypeModel::getServiceTypeId));
+
+		ModelAndView modelAndView = new ModelAndView("findAllCustomerRequests", "findAllCustomerRequests", customerRequestsDTO);
+
+		modelAndView.addObject("customerIssueStatus", customerIssueStatus);
+		modelAndView.addObject("serviceTypes", serviceTypes);
+
+		return modelAndView;
+	}
+
+	/**
+	 * Filtered customer issues.
+	 *
+	 * @return the model and view
+	 */
+	@RequestMapping(value = "/filteredCustomerIssues", method =
+	{ RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView filteredCustomerIssues(@RequestParam(value = "page", required = false) final String iPage,
+			@RequestParam(value = "approve", required = false) final String iApprove,
+			@RequestParam(value = "issueStatus", required = false) final String iIssueStatus,
+			@RequestParam(value = "types", required = false) final String iTypes)
+	{
+		List<CustomerRequestModel> customerRequestModels = new ArrayList<>();
+
+		customerRequestModels = customerRequestService.filteredCustomerIssues(iApprove, iIssueStatus, iTypes);
+
+		CustomerRequestsDTO customerRequestsDTO = new CustomerRequestsDTO();
+		List<CustomerRequestDTO> CustomerRequestDTOs = new ArrayList<>();
+
+		for (CustomerRequestModel customerRequestModel : customerRequestModels)
+		{
+			CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO();
+			customerRequestDTO.setCustomerLatitude(customerRequestModel.getCustomerLatitude());
+			customerRequestDTO.setCustomerLongitude(customerRequestModel.getCustomerLongitude());
+			customerRequestDTO.setIssueId(customerRequestModel.getIssueId());
+			customerRequestDTO.setIssueStatus(customerRequestModel.getIssueStatus());
+			customerRequestDTO.setIssueStartTime(customerRequestModel.getIssueStartTime());
+			customerRequestDTO.setCustomerVehicleNumber(customerRequestModel.getCustomerVehicleNumber());
+			customerRequestDTO.setIssueDate(customerRequestModel.getIssueDate());
+			customerRequestDTO.setIssueTime(customerRequestModel.getIssueTime());
+
+			ServiceTypeModel abc = new ServiceTypeModel();
+			abc = customerRequestModel.getServiceTypeModel();
+			ServiceTypeDTO abc2 = new ServiceTypeDTO();
+			abc2.setServiceTypeId(abc.getServiceTypeId());
+			abc2.setServiceType(abc.getServiceType());
+			customerRequestDTO.setServiceTypeModel(abc2);
+
+			CustomerModel customerModel = new CustomerModel();
+			customerModel = customerRequestModel.getCustomerModel();
+
+			CustomerDTO customerDTO = new CustomerDTO();
+			customerDTO.setUserId(customerModel.getUserId());
+			customerDTO.setFirstName(customerModel.getFirstName());
+			customerRequestDTO.setCustomerModel(customerDTO);
+
+			CustomerRequestDTOs.add(customerRequestDTO);
+		}
+		customerRequestsDTO.setCustomerRequests(CustomerRequestDTOs);
+
+		Comparator<CustomerRequestModel> groupByComparator = Comparator.comparing(CustomerRequestModel::getIssueId);
+		Set<String> customerIssueStatus = customerRequestModels.stream().map(CustomerRequestModel::getIssueStatus)
+				.collect(Collectors.toSet());
+
+		Set<ServiceTypeModel> serviceTypess = customerRequestModels.stream().map(CustomerRequestModel::getServiceTypeModel)
+				.collect(Collectors.toSet());
+		Map<String, Integer> serviceTypes = serviceTypess.stream()
+				.collect(Collectors.toMap(ServiceTypeModel::getServiceType, ServiceTypeModel::getServiceTypeId));
+
+		ModelAndView modelAndView = new ModelAndView("findAllCustomerRequests", "findAllCustomerRequests", customerRequestsDTO);
+
+		modelAndView.addObject("customerIssueStatus", customerIssueStatus);
+		modelAndView.addObject("serviceTypes", serviceTypes);
+
+		return modelAndView;
 	}
 }

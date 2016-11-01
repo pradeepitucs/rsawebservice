@@ -170,4 +170,17 @@ public interface CustomerRequestService extends BaseService
 	 */
 	public List<ServiceTypeModel> getPaymentDetail(int issueID);
 
+	/**
+	 * Filtered customer issues.
+	 *
+	 * @param iApprove
+	 *           the i approve
+	 * @param iIssueStatus
+	 *           the i issue status
+	 * @param iTypes
+	 *           the i types
+	 * @return the list
+	 */
+	public List<CustomerRequestModel> filteredCustomerIssues(String iApprove, String iIssueStatus, String iTypes);
+
 }
