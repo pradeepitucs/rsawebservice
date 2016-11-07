@@ -150,6 +150,13 @@
 	}
 }
 </style>
+
+<script language="javascript">
+ function process1(showed) {
+    document.getElementById("issue_id").value = showed.value;
+}
+</script>
+
 </head>
 <body>
 	<!-- Page Container -->
@@ -197,7 +204,9 @@
 										var="customerIssueStatus">
 										<%-- 										<c:forEach items="${customerIssueStatus}" var="issueStatus" > --%>
 										<input type="checkbox" value="${customerIssueStatus}"
-											name="issueStatus" id="issueStatus" />${customerIssueStatus}
+											name="issueStatus" id="issueStatus" />
+											<c:out value="${customerIssueStatus}"></c:out>
+											
 					        				<br>
 										<%-- 										</c:forEach> --%>
 									</c:forEach>
@@ -255,9 +264,14 @@
 
 								<spring:url value="/servicerequest/customerInfo"
 									var="CustomerInfo" />
+								<spring:url value="/servicerequest/paymentDetail"
+									var="PaymentInfo" />
 								
 								<input type="hidden" id="Info" value="" />
-								<input type="hidden" id="issueId" value="#issueckboxid" />
+								
+								<form action="${PaymentInfo}">
+								
+								<input type="hidden" id="issue_id" name="issue_id" value="" />
 								
 								<span><a id="EmployeeInfo" class="emloyeeapprove"
 									href="#" data-toggle="modal" data-target="#EmployeeInfoModal"
@@ -267,22 +281,49 @@
 									white-space: nowrap; color: #000 !important; background-color: #faed1b !important">
 										Employee Info</a></span> 
 								<span><a id="CustomerInfo"	class="showEmployeeImage" 
-									href="#" data-toggle="modal" 	data-target="#myModal"
+									href="#" data-toggle="modal" 	data-target="#CustomerInfoModal"
 									style="margin-bottom: 16px !important; border: 1px solid #000; display: inline-block; 
 									outline: 0; padding: 6px 16px; vertical-align: middle; overflow: hidden; 
 									text-decoration: none !important; text-align: center; cursor: pointer; 
 									white-space: nowrap; color: #000 !important; background-color: #faed1b !important">
 										Customer Info</a></span> 
-								<span><a id="PaymentInfo" class="showEmployeeImage" href="#" data-toggle="modal"
-									data-target="#myModal1"	style="margin-bottom: 16px !important; border: 1px solid #000; 
+								<span><input type="submit" id="PaymentInfo" class="showEmployeeImage" href="#" data-toggle="modal"
+									data-target="#PaymentInfoModal"	style="margin-bottom: 16px !important; border: 1px solid #000; 
 									display: inline-block; outline: 0; padding: 6px 16px; vertical-align: middle; 
 									overflow: hidden; text-decoration: none !important; text-align: center; cursor: pointer; 
-									white-space: nowrap; color: #000 !important; background-color: #faed1b !important">
-										Payment Info</a></span>
+									white-space: nowrap; color: #000 !important; background-color: #faed1b !important"
+										value="Payment Info" /></span>
+								</form>
 
-
-								<!-- Modal -->
+								<!-- Employee Modal -->
 								<div id="EmployeeInfoModal" class="modal fade" role="dialog">
+									<div class="modal-dialog">
+
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+												<h4 class="modal-title">Employee Information</h4>
+											</div>
+											<div class="modal-body">
+												<label id="customerID">Employee ID </label> <input
+													readonly="readonly"
+													value="${customerRequestIssues.customerModel.userId}" /> <br>
+												<label id="customerName">Employee Name </label> <input
+													readonly="readonly"
+													value="${customerRequestIssues.customerModel.firstName}" />
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">Close</button>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								<!-- Customer Modal -->
+								<div id="CustomerInfoModal" class="modal fade" role="dialog">
 									<div class="modal-dialog">
 
 										<!-- Modal content-->
@@ -296,6 +337,37 @@
 													readonly="readonly"
 													value="${customerRequestIssues.customerModel.userId}" /> <br>
 												<label id="customerName">Customer Name </label> <input
+													readonly="readonly"
+													value="${customerRequestIssues.customerModel.firstName}" />
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default"
+													data-dismiss="modal">Close</button>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								<!-- Payment Modal -->
+								<div id="PaymentInfoModal" class="modal fade" role="dialog">
+									<div class="modal-dialog">
+
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+												<h4 class="modal-title">Payment Information</h4>
+											</div>
+											<div class="modal-body">
+												<label id="customerID">Payment ID </label> <input
+													readonly="readonly"
+													value="${ServiceTypeDTO}" /> <br>
+													
+												<c:forEach items="${ServiceTypeDTO}" var="ServiceType">
+													<c:out value="" />
+												</c:forEach>
+												<label id="customerName">Payment Name </label> <input
 													readonly="readonly"
 													value="${customerRequestIssues.customerModel.firstName}" />
 											</div>
@@ -331,7 +403,7 @@
 											items="${findAllCustomerRequests.customerRequests}">
 											<tr>
 												<td><input type="radio" name="issueckboxname"
-													id="issueckboxid" value="${customerRequestIssues.issueId}" />
+													id="issueckboxid" value="${customerRequestIssues.issueId}" onclick="process1(this)" />
 												<td class="serviceProviderIdclass" id="id">${customerRequestIssues.serviceTypeModel.serviceTypeId}</td>
 												<td class="serviceProviderIdclass" id="id">${customerRequestIssues.issueId}</td>
 												<td class="serviceProviderIdclass" id="id">${customerRequestIssues.issueStatus}</td>

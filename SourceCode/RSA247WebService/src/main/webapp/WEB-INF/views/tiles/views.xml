@@ -63,11 +63,18 @@
 			value="/WEB-INF/views/pages/findAllEmployees.jsp" />
 	</definition>
 	
-		<!-- Find All Customer Requests Page -->
+	<!-- Find All Customer Requests Page -->
 	<definition name="findAllCustomerRequests" extends="base-definition">
 		<put-attribute name="title" value="Find All Customer Requests" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/findAllCustomerRequests.jsp" />
+	</definition>
+	
+	<!-- Reports Page -->
+	<definition name="newReports" extends="base-definition">
+		<put-attribute name="title" value="Find All Customer Requests" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/reports/newReports.jsp" />
 	</definition>
 	
 </tiles-definitions>

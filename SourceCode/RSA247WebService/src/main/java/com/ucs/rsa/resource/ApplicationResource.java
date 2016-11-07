@@ -197,4 +197,11 @@ public class ApplicationResource
 	{
 		throw new NullPointerException();
 	}
+
+	@RequestMapping(value = "reports", method =
+	{ RequestMethod.GET })
+	public ModelAndView reports(Model model, Locale locale)
+	{
+		return new ModelAndView("newReports");
+	}
 }

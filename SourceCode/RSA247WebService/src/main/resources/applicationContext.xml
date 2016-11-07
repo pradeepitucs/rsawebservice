@@ -294,6 +294,8 @@
 		<sec:intercept-url pattern="/redirecturl/**" access="permitAll" />
 		<sec:intercept-url pattern="/servicetype/**" access="permitAll" />
 		<sec:intercept-url pattern="/uservehicle/**" access="permitAll" />
+		<sec:intercept-url pattern="/loadReport/**" access="permitAll" />
+		
 		
 		<sec:intercept-url pattern="/login" access="permitAll" />
 		

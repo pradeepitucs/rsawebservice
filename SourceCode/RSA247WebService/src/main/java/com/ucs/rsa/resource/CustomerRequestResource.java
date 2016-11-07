@@ -220,7 +220,7 @@ public class CustomerRequestResource
 	 * @return the model and view
 	 */
 	@RequestMapping(value = "/paymentDetail", method =
-	{ RequestMethod.POST })
+	{ RequestMethod.POST, RequestMethod.GET })
 	private ModelAndView paymentDetail(@RequestParam("issue_id") final int issue_id)
 	{
 		List<ServiceTypeModel> serviceCompleted = getCustomerRequestService().getPaymentDetail(issue_id);
@@ -245,7 +245,7 @@ public class CustomerRequestResource
 			ServiceTypeDTO.add(serviceTypeD);
 
 		}
-		return new ModelAndView("xml", "ServiceTypeDTO", ServiceTypeDTO);
+		return new ModelAndView("findAllCustomerRequests", "ServiceTypeDTO", ServiceTypeDTO);
 	}
 
 	/**
