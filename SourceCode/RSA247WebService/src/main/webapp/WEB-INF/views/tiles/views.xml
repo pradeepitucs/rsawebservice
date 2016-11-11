@@ -77,4 +77,11 @@
 			value="/WEB-INF/views/reports/newReports.jsp" />
 	</definition>
 	
+	
+	<!-- Register  Page -->
+	<definition name="register" extends="base-definition">
+		<put-attribute name="title" value="Register page for Admin" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/register.jsp" />
+	</definition>
 </tiles-definitions>
