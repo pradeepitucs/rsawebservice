@@ -43,6 +43,20 @@ public class AdminModel extends UserModel implements Serializable, UserDetails
 	@Column(name = "password", nullable = false, length = 64)
 	private String password;
 
+	 @Column(name = "adminName", nullable = false, length = 60)
+	 private String adminName;
+	
+	 	
+	public String getAdminName()
+	{
+		return adminName;
+	}
+
+	public void setAdminName(String adminName)
+	{
+		this.adminName = adminName;
+	}
+
 	/** The authorities. */
 	@Transient
 	private Collection<? extends GrantedAuthority> authorities = new HashSet<GrantedAuthority>();

@@ -19,6 +19,7 @@
 <spring:message var="formUsername" 		code="index.login.form.username" />
 <spring:message var="formPassword" 		code="index.login.form.password" />
 <spring:message var="formSubmit" 		code="index.login.form.submit" />
+<spring:message var="formRegister" 		code="index.login.form.register" />
 
 
 
@@ -62,7 +63,10 @@
 										name="j_password" placeholder="Password">
 								</div> -->
 								<br><br>
+								
 								<button type="submit" class="w3-btn w3-theme-d1 w3-margin-bottom"><i class="fa fa-arrow-right"></i> ${formSubmit}</button>
+								 
+							<a class="w3-btn w3-theme-d1 w3-margin-bottom" href="${pageContext.servletContext.contextPath}/admin/register">Registration</a>
 							</fieldset>
 						</form>
 					</c:if>
