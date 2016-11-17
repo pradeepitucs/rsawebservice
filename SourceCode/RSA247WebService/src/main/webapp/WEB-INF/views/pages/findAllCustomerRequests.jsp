@@ -5,6 +5,57 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<style type="text/css">
+#empopup{
+border-radius: 10px;
+margin-top:20px;
+margin-left:150px;
+height:400px;
+width: 600px;
+display:none;
+border-style:ridge;
+background-color:#FFFFF0;
+position:relative;
+
+}
+
+
+#customerpopup{
+
+border-radius: 10px;
+margin-top:20px;
+margin-left:150px;
+height:400px;
+width: 600px;
+display:none;
+border-style:ridge;
+background-color:#FFFFF0;
+position:relative;
+}
+
+
+
+#paymentpopup
+{
+border-radius: 10px;
+margin-top:200px;
+margin-left:250px;
+height:400px;
+width: 600px;
+display:none;
+border-style:ridge;
+background-color:#FFFFF0;
+position:absolute;
+
+}
+
+
+
+
+</style>
+
+
+
 <title>RSA24/7 Admin Console</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script type="text/javascript"
@@ -18,51 +69,170 @@
 	$(document)
 			.ready(
 					function() {
-						var table = $('#employeeData'), rows = table.find('tr'), cells, background, code, status;
-						for (var i = 0; i < rows.length; i += 1) {
-							cells = $(rows[i]).children('td');
-							code = $(cells[1]).text();
-							status = $(cells[3]).text();
-							background = '#FFFFFF';
-							switch (code) {
-							case '1':
-								cells[1].innerHTML = "Ambulance";
-								if (status != "Completed")
-									background = '#E38029';
-								break;
-							case '2':
-								cells[1].innerHTML = "Police";
-								if (status != "Completed")
-									background = '#9E7B09';
-								break;
-							case '3':
-								cells[1].innerHTML = "Flat Tyre";
-								background = '#FFFFFF';
-								break;
-							case '4':
-								cells[1].innerHTML = "Minor Repairs";
-								background = '#FFFFFF';
-								break;
-							case '5':
-								cells[1].innerHTML = "Battery";
-								background = '#FFFFFF';
-								break;
-							case '6':
-								cells[1].innerHTML = "Locked Out";
-								background = '#FFFFFF';
-								break;
-							case '7':
-								cells[1].innerHTML = "Towing";
-								background = '#FFFFFF';
-								break;
-							case '8':
-								cells[1].innerHTML = "Fuel Refill";
-								background = '#FFFFFF';
-								break;
-							}
-							$(rows[i]).css('background-color', background);
-						}
+						$("#CustomerInfo").click(function(){
+					      var customerrequestid = $("input[name='issueckboxname']:checked").parent().siblings("#issueId").text();
+					        	//alert("---"+customerrequestid);
+					        	if(customerrequestid=="")
+					        		{
+					        		alert("please select radio button");
+					        		}
+					        	$.ajax({  
+					       		 type : "GET",   
+					          	     url : "http://localhost:8080/RSA247WebService/servicerequest/customerrequestid.json",
+					          	     data : "&customerrequestid=" + customerrequestid, 
+					          	  	dataType : "json",
+					          	      success : function(response) { 
+					   			   alert("======="+response);
+					   			   
+					   			
+					   			var obj=JSON.stringify( response);  
+					   			var json = $.parseJSON(obj);
+					   			$.each(json, function (id,value) {
+						   			console.log(value);
+						   			
+						   			$.each(value, function (id1,value1){
+						   				console.log(value1);
+						   				if(id1 == "firstName" || id1 == "emailId" )
+						   				{
+						   				document.getElementById("customerpopup").innerHTML += value1 ;
+						   				
+						   				}
+					     	    		var pop=document.getElementById("customerpopup").style.display="block";
+						   				
+						   			});
+						   			
+						   			
+						   		});
+					   			      },  
+					         	     error : function(e) {  
+					         	    	 alert("error"+e);   
+					         	     }  
+					         	    });
+					        	});
+						$("#paymentInfo").click(function(){
+						      var issue_id = $("input[name='issueckboxname']:checked").parent().siblings("#issueId").text();
+						        	//alert("---"+issue_id);
+						        	
+						        	if(issue_id=="")
+					        		{
+					        		alert("please select radio button");
+					        		}
+						 $.ajax({  
+				       		 type : "GET",   
+				          	     url : "http://localhost:8080/RSA247WebService/servicerequest/paymentDetail.json",
+				          	     data : "&issue_id=" + issue_id, 
+				          	  	dataType : "json",
+				          	      success : function(response) { 
+				   			 	var json2 = response;
+				   			$.each(response, function (id1,value1) {
+				   				$.each(value1,function(id2,value2){
+				   					var content ="";
+				   					$.each(value2,function(id3,value3){
+				   						if(id3 == "serviceType" || id3 == "serviceTypeId" )
+				   							{
+				   							content += "<td>"+value3+"</td>";
+						     	    		//var pop=document.getElementById("customerpopup").style.display="block";
+				   							}
+				   					});
+				   					console.log(content);
+				   					document.getElementById("divTable").innerHTML = "<tr>"+content+"</tr>";
+				   					document.getElementById("customerpopup").style.display="block";
+				   					//console.log(value2.serviceType);
+				   					
+				   				});
+				   			});   
+				   			   
+				   		 	      },  
+				         	     error : function(e) {  
+				         	    	 alert("error"+e);   
+				         	     }  
+				         	    });
+				        	   });
+						
+						
+						$("#employeeInfo").click(function(){
+						      var employeeInfo_By_issueid = $("input[name='issueckboxname']:checked").parent().siblings("#issueId").text();
+						        	//alert("---"+employeeInfo_By_issueid);
+						        	if(employeeInfo_By_issueid=="")
+					        		{
+					        		alert("please select radio button");
+					        		}
+						        	
+						        	
+						        	 $.ajax({  
+							       		 type : "GET",   
+							          	     url : "http://localhost:8080/RSA247WebService/servicerequest/employeeInfobyissueid.json",
+							          	     data : "&employeeInfo_By_issueid=" + employeeInfo_By_issueid, 
+							          	  	dataType : "json",
+							          	      success : function(response) { 
+							   			 	alert(response)
+							          	      
+							   			 var json2 = response;
+								   			$.each(response, function (id1,value1) {
+								   				$.each(value1,function(id2,value2){
+								   					console.log(value2);
+								   					
+								   					if(id2 == "employeeName" || id2 == "mobileNo" )
+								   					{
+								   					document.getElementById("empopup").innerHTML += value2;
+								   					}
+							          	    		var pop=document.getElementById("empopup").style.display="block";
+								   					
+								   				});
+								   			}); 
+							   			 	
+							   			 	
+							   			 	
+							   			 	
+							          	      
+							          	      
+							          	      
+							          	      
+							          	      },  
+							         	     error : function(e) {  
+							         	    	 alert("error"+e);   
+							         	     }  
+							         	    });
+						        	
+						        	
+						        	
+						        	
+						        	
+						        	
+						        	
+						        	
+						        	
+						        	
+						
+						});
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 					});
+	
+	
+	
+	   function cancelfunction() {
+	    	var pop=document.getElementById("customerpopup").style.display="none";
+	    	var pop=document.getElementById("paymentpopup").style.display="none";
+	    	 location.reload();
+		}
+	
 </script>
 <style>
 
@@ -264,6 +434,7 @@
 
 								<spring:url value="/servicerequest/customerInfo"
 									var="CustomerInfo" />
+									
 								<spring:url value="/servicerequest/paymentDetail"
 									var="PaymentInfo" />
 								
@@ -273,26 +444,25 @@
 								
 								<input type="hidden" id="issue_id" name="issue_id" value="" />
 								
-								<span><a id="EmployeeInfo" class="emloyeeapprove"
-									href="#" data-toggle="modal" data-target="#EmployeeInfoModal"
-									style="margin-bottom: 16px !important; border: 1px solid #000; display: inline-block; 
-									outline: 0; padding: 6px 16px; vertical-align: middle; overflow: hidden; 
-									text-decoration: none !important; text-align: center; cursor: pointer; 
-									white-space: nowrap; color: #000 !important; background-color: #faed1b !important">
-										Employee Info</a></span> 
-								<span><a id="CustomerInfo"	class="showEmployeeImage" 
-									href="#" data-toggle="modal" 	data-target="#CustomerInfoModal"
-									style="margin-bottom: 16px !important; border: 1px solid #000; display: inline-block; 
-									outline: 0; padding: 6px 16px; vertical-align: middle; overflow: hidden; 
-									text-decoration: none !important; text-align: center; cursor: pointer; 
-									white-space: nowrap; color: #000 !important; background-color: #faed1b !important">
+						
+										
+										
+									<span><a href="#" id="employeeInfo"	>
+										Employee Info</a></span> 	
+										
+										
+								<span><a href="#" id="CustomerInfo"	>
 										Customer Info</a></span> 
-								<span><input type="submit" id="PaymentInfo" class="showEmployeeImage" href="#" data-toggle="modal"
+										
+									<span><a href="#" id="paymentInfo"	>
+										Payment Info</a></span> 	
+										
+								<!-- <span><input type="submit" id="PaymentInfo" class="showEmployeeImage" href="#" data-toggle="modal"
 									data-target="#PaymentInfoModal"	style="margin-bottom: 16px !important; border: 1px solid #000; 
 									display: inline-block; outline: 0; padding: 6px 16px; vertical-align: middle; 
 									overflow: hidden; text-decoration: none !important; text-align: center; cursor: pointer; 
 									white-space: nowrap; color: #000 !important; background-color: #faed1b !important"
-										value="Payment Info" /></span>
+										value="Payment Info ff" /></span> -->
 								</form>
 
 								<!-- Employee Modal -->
@@ -405,7 +575,7 @@
 												<td><input type="radio" name="issueckboxname"
 													id="issueckboxid" value="${customerRequestIssues.issueId}" onclick="process1(this)" />
 												<td class="serviceProviderIdclass" id="id">${customerRequestIssues.serviceTypeModel.serviceTypeId}</td>
-												<td class="serviceProviderIdclass" id="id">${customerRequestIssues.issueId}</td>
+												<td class="serviceProviderIdclass" id="issueId">${customerRequestIssues.issueId}</td>
 												<td class="serviceProviderIdclass" id="id">${customerRequestIssues.issueStatus}</td>
 												<td class="serviceProviderIdclass" id="id">${customerRequestIssues.issueStartTime}</td>
 												<td class="serviceProviderIdclass" id="id">${customerRequestIssues.customerVehicleNumber}</td>
@@ -416,6 +586,9 @@
 												</td> --%>
 												<td class="serviceProviderIdclass" id="cusName">${customerRequestIssues.issueDate}</td>
 												<td class="serviceProviderIdclass" id="cusName">${customerRequestIssues.issueTime}</td>
+												<%-- <td class="serviceProviderIdclass" id="custId">${customerRequestIssues.customerModel.userId}</td> --%>
+												
+												
 
 											</tr>
 
@@ -461,6 +634,30 @@
 			}
 		}
 	</script>
+<div id="customerpopup">
+<input type="button" id="cancelComment" name="cancelComment" value="Cancel" onclick="cancelfunction()"/><br/><br/>
+<table>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Value</th>
+			</tr>
+	</thead>
+	<tbody id ="divTable">
+		
+	</tbody>
+	
+	
+</table>
+</div>
+<div id="paymentpopup">
+<input type="button" id="cancelEmpPopup" name="cancelComment" value="Cancel" onclick="cancelfunction()"/>
+</div>
+
+<div id="empopup">
+<input type="button" id="cancelComment" name="cancelComment" value="Cancel" onclick="cancelfunction()"/>
+</div>
+
 
 </body>
 </html>

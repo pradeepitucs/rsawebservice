@@ -35,15 +35,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ucs.rsa.common.dto.CustomerDTO;
 import com.ucs.rsa.common.dto.CustomerRequestDTO;
 import com.ucs.rsa.common.dto.CustomerRequestsDTO;
+import com.ucs.rsa.common.dto.EmployeeDTO;
+//import com.ucs.rsa.common.dto.EmployeeDTO;
 import com.ucs.rsa.common.dto.ServiceTypeDTO;
 import com.ucs.rsa.common.notification.SendNotification;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerRequestModel;
+import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceTypeModel;
 import com.ucs.rsa.model.UserVehicleModel;
 import com.ucs.rsa.service.CustomerRequestService;
-
-
 
 
 /**
@@ -669,4 +670,109 @@ public class CustomerRequestResource
 
 		return modelAndView;
 	}
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * Gets the customer request.
+	 *
+	 * @param iCustomerRequestId
+	 *           the i customer request id
+	 * @return the customer request
+	 */
+	@RequestMapping(value = "/customerrequestid", method =
+	{ RequestMethod.GET })
+	public ModelAndView getCustomerDetailsByIssueId(@RequestParam("customerrequestid") final int iCustomerRequestId)
+	{
+		CustomerRequestModel customerRequestModel = new CustomerRequestModel();
+		customerRequestModel = getCustomerRequestService().get(CustomerRequestModel.class, iCustomerRequestId);
+		CustomerRequestDTO customerRequestDTO = new CustomerRequestDTO();
+		CustomerDTO customerDTO = new CustomerDTO();
+		if (customerRequestModel != null)
+		{
+			customerRequestDTO.setCustomerLatitude(customerRequestModel.getCustomerLatitude());
+			customerRequestDTO.setCustomerLongitude(customerRequestModel.getCustomerLongitude());
+			customerRequestDTO.setIssueId(customerRequestModel.getIssueId());
+			customerRequestDTO.setIssueStatus(customerRequestModel.getIssueStatus());
+			CustomerModel customerModel = customerRequestModel.getCustomerModel();
+			customerDTO.setEmailId(customerModel.getEmailId());
+			customerDTO.setUserId(customerModel.getUserId());
+
+			customerDTO.setFirstName(customerModel.getFirstName());
+			customerRequestDTO.setCustomerModel(customerDTO);
+			System.out.println("hhhhhhhhh-----" + customerDTO);
+		}
+		return new ModelAndView("xml", "customerDTO", customerDTO);
+	}
+
+
+
+
+
+
+
+	@RequestMapping(value = "/employeeInfobyissueid", method =
+	{ RequestMethod.GET })
+	public ModelAndView getEmployeeDetailsByIssueId(@RequestParam("employeeInfo_By_issueid") final int iCustomerRequestId)
+	{
+		CustomerRequestModel customerRequestModel = new CustomerRequestModel();
+		customerRequestModel = getCustomerRequestService().get(CustomerRequestModel.class, iCustomerRequestId);
+		int empId = customerRequestModel.getEmployeeID();
+
+		EmployeeModel employeeModel = new EmployeeModel();
+		if(empId != 0) {
+			employeeModel = getCustomerRequestService().get(EmployeeModel.class, empId);
+		}
+		
+		EmployeeDTO employeeDTO = new EmployeeDTO();
+		if(employeeModel.getUserId() != 0) {
+			employeeDTO.setUserId(employeeModel.getUserId());
+			employeeDTO.setEmployeeName(employeeModel.getEmployeeName());
+			employeeDTO.setMobileNo(employeeModel.getMobileNo());
+		}
+
+		
+
+		return new ModelAndView("xml", "employeeDTO", employeeDTO);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
