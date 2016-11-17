@@ -48,7 +48,7 @@
 						<a href="#" title="Survey"><i class="fa fa-safari"
 							style="font-size: 40px; color: #019482;"></i></a>
 					</p>
-					
+					<hr>
 					<h5 class="w3-center" style="font-size: 12px;">Reports</h5>
 					<p class="w3-center">
 						<a href="${pageContext.servletContext.contextPath}/reports"

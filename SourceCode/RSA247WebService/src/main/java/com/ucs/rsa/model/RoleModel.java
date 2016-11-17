@@ -16,6 +16,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -28,6 +30,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "role_t")
 @NamedQuery(name = "RoleModel.findAll", query = "SELECT r FROM RoleModel r")
+@Audited
 public class RoleModel implements Serializable
 {
 

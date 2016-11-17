@@ -3,13 +3,25 @@
 		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-<!--         <property name="hibernate.connection.url">jdbc:mysql://localhost/mt2</property> -->
-<!--         <property name="hibernate.connection.password">root</property> -->
-<!--         <property name="hibernate.connection.username">root</property> -->
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="hibernate.connection.datasource">java:comp/env/jdbc/MySQLDS</property>
-        <property name="hbm2ddl.auto">update</property>
-    </session-factory>
+	<session-factory>
+		
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<!-- <property name="hibernate.connection.url">jdbc:mysql://localhost/mt2</property> -->
+		<!-- <property name="hibernate.connection.password">root</property> -->
+		<!-- <property name="hibernate.connection.username">root</property> -->
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.connection.datasource">java:comp/env/jdbc/MySQLDS</property>
+		<property name="hbm2ddl.auto">update</property>
+		
+		<property name="cache.provider_class">org.hibernate.cache.EhCacheProvider</property>  
+      <property name="hibernate.cache.use_second_level_cache">false</property>
+
+		<property name="hibernate.ejb.event.post-insert" >org.hibernate.ejb.event.EJB3PostInsertEventListener,org.hibernate.envers.event.AuditEventListener</property>
+		<property name="hibernate.ejb.event.post-update" >org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.hibernate.envers.event.AuditEventListener</property>
+		<property name="hibernate.ejb.event.post-delete" >org.hibernate.ejb.event.EJB3PostDeleteEventListener,org.hibernate.envers.event.AuditEventListener</property>
+		<property name="hibernate.ejb.event.pre-collection-update" >org.hibernate.envers.event.AuditEventListener</property>
+		<property name="hibernate.ejb.event.pre-collection-remove" >org.hibernate.envers.event.AuditEventListener</property>
+		<property name="hibernate.ejb.event.post-collection-recreate" >org.hibernate.envers.event.AuditEventListener</property>
+	
+	</session-factory>
 </hibernate-configuration>

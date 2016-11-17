@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ucs.rsa.common.dto.AdminDTO;
 import com.ucs.rsa.model.AdminModel;
 import com.ucs.rsa.model.RoleModel;
-import com.ucs.rsa.security.EncriptionAndDecription;
 import com.ucs.rsa.service.AdminService;
 
 
@@ -20,34 +19,34 @@ import com.ucs.rsa.service.AdminService;
 @RequestMapping("/admin")
 public class AdminManagementResource
 {
-	
+
 	public static final int adminRole = 1;
-	
-/*	@Autowired
-	EncriptionAndDecription encriptionAndDecription;
-*/	 
+
+	/*
+	 * @Autowired EncriptionAndDecription encriptionAndDecription;
+	 */
 	@Autowired
 	AdminService admintService;
 
-	@RequestMapping(value = "/register", method ={ RequestMethod.GET })
-		public ModelAndView registerPage()
-		{
-			ModelAndView modelAndView = new ModelAndView("register");
-			
-			return modelAndView;
-		}
-
-	@RequestMapping(value = "/adminregistration", method = { RequestMethod.POST })
-	private ModelAndView adminRegistration(@RequestParam("username") final String username,
-			@RequestParam("mobileNo") final long mobileNo,
-			@RequestParam("adminName") final String adminName,
-			@RequestParam("password") final String password,
-			@RequestParam("confirmpwd") final String confirmpwd) throws Exception 
+	@RequestMapping(value = "/register", method =
+	{ RequestMethod.GET })
+	public ModelAndView registerPage()
 	{
-		
-		AdminModel adminModel2=null;
-		AdminDTO adminDTO=new AdminDTO();
-		AdminModel adminModel=new AdminModel();
+		ModelAndView modelAndView = new ModelAndView("register");
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/adminregistration", method =
+	{ RequestMethod.POST })
+	private ModelAndView adminRegistration(@RequestParam("username") final String username,
+			@RequestParam("mobileNo") final long mobileNo, @RequestParam("adminName") final String adminName,
+			@RequestParam("password") final String password, @RequestParam("confirmpwd") final String confirmpwd) throws Exception
+	{
+
+		AdminModel adminModel2 = null;
+		AdminDTO adminDTO = new AdminDTO();
+		AdminModel adminModel = new AdminModel();
 		//String password1=EncriptionAndDecription.encrypt(password);
 		//String confirmpwd1=EncriptionAndDecription.encrypt(confirmpwd);
 		adminModel.setUsername(username);
@@ -56,19 +55,19 @@ public class AdminManagementResource
 		RoleModel roleModel = new RoleModel();
 		roleModel.setRoleId(adminRole);
 		adminModel.setRoleModel(roleModel);
-		
+
 		ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder(512);
-	    String encodedPassword = passwordEncoder.encodePassword(password, adminModel.getSalt());
-	    String encodedConfirmPassword = passwordEncoder.encodePassword(confirmpwd, adminModel.getSalt());
+		String encodedPassword = passwordEncoder.encodePassword(password, adminModel.getSalt());
+		String encodedConfirmPassword = passwordEncoder.encodePassword(confirmpwd, adminModel.getSalt());
 		adminModel.setPassword(encodedPassword);
-		if(adminModel.getPassword().equals(encodedConfirmPassword))
+		if (adminModel.getPassword().equals(encodedConfirmPassword))
 		{
-			adminModel2=admintService.adminRegistration(adminModel);
-			 adminDTO.setMobileNo(adminModel2.getMobileNo());
-			 adminDTO.setAdminName(adminModel2.getAdminName());
-			 adminDTO.setPassword(adminModel2.getPassword());
+			adminModel2 = admintService.adminRegistration(adminModel);
+			adminDTO.setMobileNo(adminModel2.getMobileNo());
+			adminDTO.setAdminName(adminModel2.getAdminName());
+			adminDTO.setPassword(adminModel2.getPassword());
 		}
-		
+
 		return new ModelAndView("home", "admin", adminDTO);
 	}
 

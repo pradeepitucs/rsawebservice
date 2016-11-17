@@ -14,11 +14,12 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AdminModel.
  * 
@@ -29,6 +30,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "admin_t")
 @PrimaryKeyJoinColumn(name = "user_id")
 @NamedQuery(name = "AdminModel.findAll", query = "SELECT c FROM AdminModel c")
+@Audited
 public class AdminModel extends UserModel implements Serializable, UserDetails
 {
 
@@ -41,12 +43,13 @@ public class AdminModel extends UserModel implements Serializable, UserDetails
 
 	/** The password. */
 	@Column(name = "password", nullable = false, length = 64)
+	@NotAudited
 	private String password;
 
-	 @Column(name = "adminName", nullable = false, length = 60)
-	 private String adminName;
-	
-	 	
+	@Column(name = "adminName", nullable = false, length = 60)
+	private String adminName;
+
+
 	public String getAdminName()
 	{
 		return adminName;

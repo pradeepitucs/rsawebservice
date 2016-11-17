@@ -18,6 +18,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.envers.Audited;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -32,7 +34,8 @@ import javax.persistence.UniqueConstraint;
 { "mobile_no", "role_id" }))
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name = "UserModel.findAll", query = "SELECT u FROM UserModel u")
-public class UserModel implements Serializable
+@Audited
+public class UserModel extends BaseModel implements Serializable
 {
 
 	/** The Constant serialVersionUID. */

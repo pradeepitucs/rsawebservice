@@ -81,6 +81,7 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 		}
 		catch (RSAException e)
 		{
+			e.printStackTrace();
 			throw e;
 		}
 		catch (RuntimeException ex)
@@ -732,12 +733,14 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 		}
 		catch (RSAException e)
 		{
+			e.getStackTrace();
 			throw e;
 		}
 		catch (RuntimeException ex)
 		{
 			RSAException rsaEx = new RSAException();
 			rsaEx.setRootCause(ex);
+			rsaEx.getStackTrace();
 			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
 			throw rsaEx;
 		}
@@ -793,10 +796,10 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 			if (iPageNo >= -1 && iRecordsPerPage >= -1)
 			{
 				Criteria theCriteria = theSession.createCriteria(EmployeeModel.class, "employeeModel")
-						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setFirstResult(iPageNo).setMaxResults(iRecordsPerPage);
+					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setFirstResult(iPageNo).setMaxResults(iRecordsPerPage);
 				employeeModels = (List<EmployeeModel>) theCriteria.list();
 
-				this.noOfRecords = theSession.createCriteria(EmployeeModel.class, "employeeModel").list().size();
+				this.noOfRecords = theSession.createCriteria(EmployeeModel.class).list().size();
 			}
 
 		}
