@@ -588,11 +588,11 @@ public class CustomerRequestResource
 		customerRequestsDTO.setCustomerRequests(CustomerRequestDTOs);
 
 		Comparator<CustomerRequestModel> groupByComparator = Comparator.comparing(CustomerRequestModel::getIssueId);
-		Set<String> customerIssueStatus = customerRequestModels.stream().map(CustomerRequestModel::getIssueStatus)
-				.collect(Collectors.toSet());
+		Set<String> customerIssueStatus = customerRequestService.loadAll(CustomerRequestModel.class).stream()
+				.map(CustomerRequestModel::getIssueStatus).collect(Collectors.toSet());
 
-		Set<ServiceTypeModel> serviceTypess = customerRequestModels.stream().map(CustomerRequestModel::getServiceTypeModel)
-				.collect(Collectors.toSet());
+		Set<ServiceTypeModel> serviceTypess = customerRequestService.loadAll(CustomerRequestModel.class).stream()
+				.map(CustomerRequestModel::getServiceTypeModel).collect(Collectors.toSet());
 		Map<String, Integer> serviceTypes = serviceTypess.stream()
 				.collect(Collectors.toMap(ServiceTypeModel::getServiceType, ServiceTypeModel::getServiceTypeId));
 
@@ -655,11 +655,11 @@ public class CustomerRequestResource
 		customerRequestsDTO.setCustomerRequests(CustomerRequestDTOs);
 
 		Comparator<CustomerRequestModel> groupByComparator = Comparator.comparing(CustomerRequestModel::getIssueId);
-		Set<String> customerIssueStatus = customerRequestModels.stream().map(CustomerRequestModel::getIssueStatus)
-				.collect(Collectors.toSet());
+		Set<String> customerIssueStatus = customerRequestService.loadAll(CustomerRequestModel.class).stream()
+				.map(CustomerRequestModel::getIssueStatus).collect(Collectors.toSet());
 
-		Set<ServiceTypeModel> serviceTypess = customerRequestModels.stream().map(CustomerRequestModel::getServiceTypeModel)
-				.collect(Collectors.toSet());
+		Set<ServiceTypeModel> serviceTypess = customerRequestService.loadAll(CustomerRequestModel.class).stream()
+				.map(CustomerRequestModel::getServiceTypeModel).collect(Collectors.toSet());
 		Map<String, Integer> serviceTypes = serviceTypess.stream()
 				.collect(Collectors.toMap(ServiceTypeModel::getServiceType, ServiceTypeModel::getServiceTypeId));
 
@@ -727,18 +727,20 @@ public class CustomerRequestResource
 		int empId = customerRequestModel.getEmployeeID();
 
 		EmployeeModel employeeModel = new EmployeeModel();
-		if(empId != 0) {
+		if (empId != 0)
+		{
 			employeeModel = getCustomerRequestService().get(EmployeeModel.class, empId);
 		}
-		
+
 		EmployeeDTO employeeDTO = new EmployeeDTO();
-		if(employeeModel.getUserId() != 0) {
+		if (employeeModel.getUserId() != 0)
+		{
 			employeeDTO.setUserId(employeeModel.getUserId());
 			employeeDTO.setEmployeeName(employeeModel.getEmployeeName());
 			employeeDTO.setMobileNo(employeeModel.getMobileNo());
 		}
 
-		
+
 
 		return new ModelAndView("xml", "employeeDTO", employeeDTO);
 	}
