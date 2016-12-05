@@ -86,7 +86,7 @@
 	</definition>
 	
 	<!-- Customer Reviews Page -->
-	<definition name="customerreviews.jsp" extends="base-definition">
+	<definition name="customerreviews" extends="base-definition">
 		<put-attribute name="title" value="Customer Reviews Page" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/customerreviews.jsp" />
 	</definition>
@@ -117,7 +117,7 @@
 	
 	<!-- Vehicle Fuel Types Page -->
 	<definition name="vehiclefueltypes" extends="base-definition">
-		<put-attribute name="title" value="Contact Us" />
+		<put-attribute name="title" value="Vehicle Fuel Types Page" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/vehiclefueltypes.jsp" />
 	</definition>
 	

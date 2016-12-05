@@ -45,7 +45,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="vehicletype" items="${vehicletypes.typesDTOs}">
+					<c:forEach var="vehicletype" items="${vehicletypes.vehicleTypeDTOs}">
 						<tr>
 							<td>${vehicletype.vehicleTypeId}</td>
 							<td>${vehicletype.vehicleTypeName}</td>
