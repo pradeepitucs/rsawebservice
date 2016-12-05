@@ -339,7 +339,7 @@ public class UserVehicleManagementResource
 		}
 		bodyTypesDTO.setVehicleBodyTypeDTOs(vehicleBodyTypeDTOs);
 
-		return new ModelAndView("xml", "vehiclebodytypes", bodyTypesDTO);
+		return new ModelAndView("vehiclebodytypes", "vehiclebodytypes", bodyTypesDTO);
 	}
 
 	/**
@@ -392,7 +392,7 @@ public class UserVehicleManagementResource
 			vehicleFuelTypeDTOs.add(vehicleFuelTypeDTO);
 		}
 		fuelTypesDTO.setVehicleFuelTypeDTOs(vehicleFuelTypeDTOs);
-		return new ModelAndView("xml", "vehiclefueltypes", fuelTypesDTO);
+		return new ModelAndView("vehiclefueltypes", "vehiclefueltypes", fuelTypesDTO);
 	}
 
 	/**
@@ -473,7 +473,7 @@ public class UserVehicleManagementResource
 		}
 		vehicleInformationModelsDTO.setVehicleInformationModelDTOs(vehicleInformationModelDTOs);
 
-		return new ModelAndView("xml", "vehicleinformationmodels", vehicleInformationModelsDTO);
+		return new ModelAndView("vehicleinformationmodels", "vehicleinformationmodels", vehicleInformationModelsDTO);
 	}
 
 	/**
@@ -524,7 +524,7 @@ public class UserVehicleManagementResource
 			vehicleManufacturerDTOs.add(vehicleManufacturerDTO);
 		}
 		vehicleManufacturersDTO.setVehicleManufacturerDTOs(vehicleManufacturerDTOs);
-		return new ModelAndView("xml", "vehiclemanufacturers", vehicleManufacturersDTO);
+		return new ModelAndView("vehiclemanufacturers", "vehiclemanufacturers", vehicleManufacturersDTO);
 	}
 
 	/**
@@ -576,7 +576,7 @@ public class UserVehicleManagementResource
 		}
 		vehiclesDTO.setVehicleDTOs(vehicleDTOs);
 
-		return new ModelAndView("xml", "vehicles", vehiclesDTO);
+		return new ModelAndView("vehiclemodels", "vehicles", vehiclesDTO);
 	}
 
 	/**
@@ -605,7 +605,7 @@ public class UserVehicleManagementResource
 			userVehicleDTOs.add(userVehicleDTO);
 		}
 		userVehiclesDTO.setUserVehicleDTOs(userVehicleDTOs);
-		return new ModelAndView("xml", "vehicles", userVehiclesDTO);
+		return new ModelAndView("uservehicles", "vehicles", userVehiclesDTO);
 	}
 
 	/**
@@ -658,7 +658,7 @@ public class UserVehicleManagementResource
 			typesDTOs.add(vehicleTypeDTO);
 		}
 		vehicleTypesDTO.setVehicleTypeDTOs(typesDTOs);
-		return new ModelAndView("xml", "vehicletypes", vehicleTypesDTO);
+		return new ModelAndView("vehicletypes", "vehicletypes", vehicleTypesDTO);
 	}
 
 }

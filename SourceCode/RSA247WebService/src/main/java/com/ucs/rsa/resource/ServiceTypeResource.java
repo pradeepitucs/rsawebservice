@@ -67,7 +67,7 @@ public class ServiceTypeResource
 		}
 		serviceTypesDTO.setServiceTypesDTO(serviceTypeDTOs);
 
-		return new ModelAndView("xml", "servicetypeslist", serviceTypesDTO);
+		return new ModelAndView("servicetypeslist", "servicetypeslist", serviceTypesDTO);
 
 	}
 

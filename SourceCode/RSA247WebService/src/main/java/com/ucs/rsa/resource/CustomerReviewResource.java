@@ -167,7 +167,7 @@ public class CustomerReviewResource
 			CustomerReviewDTOs.add(customerReviewDTO);
 		}
 		customerReviewsDTO.setCustomerReviewDTOs(CustomerReviewDTOs);
-		return new ModelAndView("xml", "customerreviews", customerReviewsDTO);
+		return new ModelAndView("customerreviews", "customerreviews", customerReviewsDTO);
 	}
 
 	/**

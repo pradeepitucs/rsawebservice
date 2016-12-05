@@ -6,45 +6,45 @@
 
 	<!-- Page Not Found Page -->
 	<definition name="page_not_found" extends="base-definition">
-		<put-attribute name="title" value="Page Not Found" />
+		<put-attribute name="title" value="Page Not Found Page" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/page_not_found.jsp" />
 	</definition>
 
-	<!-- Page Not Found Page -->
+	<!-- Home Page -->
 	<definition name="home" extends="base-definition">
-		<put-attribute name="title" value="Page Not Found" />
+		<put-attribute name="title" value="Home Page" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
 	</definition>
 
 	<!-- Cities Page -->
 	<definition name="cities" extends="base-definition">
-		<put-attribute name="title" value="Contact Us" />
+		<put-attribute name="title" value="Cities Page" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/cities.jsp" />
 	</definition>
 
 	<!-- View Cities Page -->
 	<definition name="viewcities" extends="base-definition">
-		<put-attribute name="title" value="Contact Us" />
+		<put-attribute name="title" value="View Cities Page" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/viewcities.jsp" />
 	</definition>
 
 	<!-- Login Page -->
 	<definition name="login" extends="base-definition">
-		<put-attribute name="title" value="Contact Us" />
+		<put-attribute name="title" value="Login Page" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/login.jsp" />
 	</definition>
 
 	<!-- Logged In Page -->
 	<definition name="logged_in" extends="base-definition">
-		<put-attribute name="title" value="Contact Us" />
+		<put-attribute name="title" value="Logged In Page" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/logged_in.jsp" />
 	</definition>
 
 	<!-- Exception Handled Page -->
 	<definition name="error" extends="base-definition">
-		<put-attribute name="title" value="Page Not Found" />
+		<put-attribute name="title" value="Exception Handled Page" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/error.jsp" />
 	</definition>
@@ -84,4 +84,66 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/register.jsp" />
 	</definition>
+	
+	<!-- Customer Reviews Page -->
+	<definition name="customerreviews.jsp" extends="base-definition">
+		<put-attribute name="title" value="Customer Reviews Page" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/customerreviews.jsp" />
+	</definition>
+	
+	<!-- Customers Page -->
+	<definition name="customers" extends="base-definition">
+		<put-attribute name="title" value="Customers Page" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/customers.jsp" />
+	</definition>
+	
+	<!-- Service Types Page -->
+	<definition name="servicetypeslist" extends="base-definition">
+		<put-attribute name="title" value="Service Types Page" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/servicetypeslist.jsp" />
+	</definition>
+	
+	<!-- User Vehicles Page -->
+	<definition name="uservehicles" extends="base-definition">
+		<put-attribute name="title" value="User Vehicles Page" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/uservehicles.jsp" />
+	</definition>
+	
+	<!-- Vehicle Body Types Page -->
+	<definition name="vehiclebodytypes" extends="base-definition">
+		<put-attribute name="title" value="Vehicle Body Types Page" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/vehiclebodytypes.jsp" />
+	</definition>
+	
+	<!-- Vehicle Fuel Types Page -->
+	<definition name="vehiclefueltypes" extends="base-definition">
+		<put-attribute name="title" value="Contact Us" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/vehiclefueltypes.jsp" />
+	</definition>
+	
+	<!-- Vehicle Information Models Page -->
+	<definition name="vehicleinformationmodels" extends="base-definition">
+		<put-attribute name="title" value="Vehicle Information Models Page" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/vehicleinformationmodels.jsp" />
+	</definition>
+	
+	<!-- Vehicle Manufacturers Page -->
+	<definition name="vehiclemanufacturers" extends="base-definition">
+		<put-attribute name="title" value="Vehicle Manufacturers Page" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/vehiclemanufacturers.jsp" />
+	</definition>
+	
+	<!-- Vehicle Models Page -->
+	<definition name="vehiclemodels" extends="base-definition">
+		<put-attribute name="title" value="Vehicle Models Page" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/vehiclemodels.jsp" />
+	</definition>
+	
+	<!-- Vehicle Types Page -->
+	<definition name="vehicletypes" extends="base-definition">
+		<put-attribute name="title" value="Vehicle Types Page" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/vehicletypes.jsp" />
+	</definition>
+
+	
 </tiles-definitions>

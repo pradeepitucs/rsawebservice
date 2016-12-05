@@ -507,7 +507,7 @@ public class UserManagementResource
 			customerDTOs.add(customerDTO);
 		}
 		customersDTO.setCustomerDTOs(customerDTOs);
-		return new ModelAndView("xml", "customers", customersDTO);
+		return new ModelAndView("customers", "customers", customersDTO);
 	}
 
 	/**
