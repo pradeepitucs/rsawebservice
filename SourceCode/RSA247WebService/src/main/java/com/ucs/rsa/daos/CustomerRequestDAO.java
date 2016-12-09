@@ -9,6 +9,7 @@ import java.util.List;
 import com.ucs.rsa.model.CustomerRequestModel;
 import com.ucs.rsa.model.CustomerSubIssueModel;
 import com.ucs.rsa.model.EmployeeModel;
+import com.ucs.rsa.model.IssuePaymentModel;
 import com.ucs.rsa.model.ServiceProviderCommentModel;
 import com.ucs.rsa.model.ServiceTypeModel;
 import com.ucs.rsa.model.UserVehicleModel;
@@ -169,5 +170,7 @@ public interface CustomerRequestDAO extends BaseDAO
 	 * @return the payment detail
 	 */
 	public List<ServiceTypeModel> getPaymentDetail(int issueID);
+
+	public List<IssuePaymentModel> findPaymentDetails(int issueID);
 
 }

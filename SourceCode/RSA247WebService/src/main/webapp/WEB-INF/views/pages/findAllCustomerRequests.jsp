@@ -58,12 +58,9 @@ position:absolute;
 
 <title>RSA24/7 Admin Console</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type="text/javascript"
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 	$(document)
@@ -78,34 +75,28 @@ position:absolute;
 					        		}
 					        	$.ajax({  
 					       		 type : "GET",   
-					          	     url : "http://localhost:8080/RSA247WebService/servicerequest/customerrequestid.json",
+					          	     url : "/RSA247WebService/servicerequest/customerrequestid.json",
 					          	     data : "&customerrequestid=" + customerrequestid, 
 					          	  	dataType : "json",
 					          	      success : function(response) { 
-					   			   alert("======="+response);
-					   			   
-					   			
+					   			  
 					   			var obj=JSON.stringify( response);  
 					   			var json = $.parseJSON(obj);
+					   			
 					   			$.each(json, function (id,value) {
 						   			console.log(value);
-						   			
-						   			$.each(value, function (id1,value1){
-						   				console.log(value1);
-						   				if(id1 == "firstName" || id1 == "emailId" )
-						   				{
-						   				document.getElementById("customerpopup").innerHTML += value1 ;
-						   				
-						   				}
-					     	    		var pop=document.getElementById("customerpopup").style.display="block";
-						   				
-						   			});
-						   			
-						   			
+						   			htmlData = '<div class="table-responsive"><table class="table"><tbody><tr><td>User Id: </td><td>'+value.userId+'</td></tr><tr><td>First Name: </td><td>'+value.firstName+'</td></tr>'
+						   							+ '<tr><td>Last Name: </td><td>'+value.lastName+'</td></tr><tr><td>Email Id: </td><td>' + value.emailId+'</td></tr>'
+						   							+ '<tr><td>Mobile No: </td><td>'+value.mobileNo+'</td></tr><tr><td>Active: </td><td>' + value.isEnabled+'</td></tr>'
+						   							+ '<tr><td>Folder Name: </td><td>'+value.folderName+'</td></tr><tr><td>GCM Id: </td><td>' + value.gcmId+'</td></tr></tbody></table></div>';
+						   			$("#CustomerInfoModal").find('.modal-body').html(htmlData);
+						            $("#CustomerInfoModal").modal('show');
 						   		});
 					   			      },  
 					         	     error : function(e) {  
-					         	    	 alert("error"+e);   
+					         	    	var obj=JSON.stringify( e);  
+							   			var json = $.parseJSON(obj);
+					         	    	 alert("error"+json+ "obj "+obj);   
 					         	     }  
 					         	    });
 					        	});
@@ -117,29 +108,32 @@ position:absolute;
 					        		{
 					        		alert("please select radio button");
 					        		}
+						        	
 						 $.ajax({  
 				       		 type : "GET",   
-				          	     url : "http://localhost:8080/RSA247WebService/servicerequest/paymentDetail.json",
+				          	     url : "/RSA247WebService/servicerequest/paymentDetails.json",
 				          	     data : "&issue_id=" + issue_id, 
 				          	  	dataType : "json",
 				          	      success : function(response) { 
 				   			 	var json2 = response;
-				   			$.each(response, function (id1,value1) {
-				   				$.each(value1,function(id2,value2){
-				   					var content ="";
-				   					$.each(value2,function(id3,value3){
-				   						if(id3 == "serviceType" || id3 == "serviceTypeId" )
-				   							{
-				   							content += "<td>"+value3+"</td>";
-						     	    		//var pop=document.getElementById("customerpopup").style.display="block";
-				   							}
+				   			$.each(response, function (id,value) {
+				   				console.log(value);
+				   				$.each(value,function(id1,value1){
+				   					console.log(value1);
+				   					$.each(value1,function(id2,value2){
+				   						console.log(value2);
+				   						htmlData = '<div class="table-responsive"><table class="table"><tbody><tr><td>Payment Id: </td><td>'+value2.paymentId+'</td></tr><tr><td>Amount: </td><td>'+value2.amount+'</td></tr>'
+			   							+ '<tr><td>Auth Id Code: </td><td>'+value2.authIdCode+'</td></tr><tr><td>Issuer Ref No: </td><td>' + value2.issuerRefNo+'</td></tr>'
+			   							+ '<tr><td>PG Resp Code: </td><td>'+value2.pgRespCode+'</td></tr><tr><td>PG Transaction No: </td><td>' + value2.pgTxnNo+'</td></tr>'
+			   							+ '<tr><td>Transaction Id: </td><td>'+value2.txId+'</td></tr><tr><td>Transaction Msg: </td><td>' + value2.txMsg+'</td></tr>'
+			   							+ '<tr><td>Transaction Ref No: </td><td>'+value2.txRefNo+'</td></tr><tr><td>Transaction Status: </td><td>' + value2.txStatus+'</td></tr><tr><td>Issue ID: </td><td>'+value2.issueID+'</td></tr>'
+			   							+ '<tr><td>signature: </td><td>'+value2.signature+'</td></tr><tr><td>Transaction Id: </td><td>' + value2.transactionId+'</td></tr></tbody></table></div>';
 				   					});
-				   					console.log(content);
-				   					document.getElementById("divTable").innerHTML = "<tr>"+content+"</tr>";
-				   					document.getElementById("customerpopup").style.display="block";
-				   					//console.log(value2.serviceType);
-				   					
-				   				});
+			   					});
+				   				
+					   			
+					   			$("#PaymentInfoModal").find('.modal-body').html(htmlData);
+					            $("#PaymentInfoModal").modal('show');
 				   			});   
 				   			   
 				   		 	      },  
@@ -155,77 +149,35 @@ position:absolute;
 						        	//alert("---"+employeeInfo_By_issueid);
 						        	if(employeeInfo_By_issueid=="")
 					        		{
-					        		alert("please select radio button");
+					        			alert("please select radio button");
 					        		}
-						        	
-						        	
-						        	 $.ajax({  
+						        	$.ajax({  
 							       		 type : "GET",   
-							          	     url : "http://localhost:8080/RSA247WebService/servicerequest/employeeInfobyissueid.json",
-							          	     data : "&employeeInfo_By_issueid=" + employeeInfo_By_issueid, 
+							          	     url : "/RSA247WebService/servicerequest/employeeInfobyissueid.json",
+							          	    data : "&employeeInfo_By_issueid="+employeeInfo_By_issueid,
 							          	  	dataType : "json",
 							          	      success : function(response) { 
-							   			 	alert(response)
-							          	      
+							   			 	   
 							   			 var json2 = response;
-								   			$.each(response, function (id1,value1) {
-								   				$.each(value1,function(id2,value2){
-								   					console.log(value2);
-								   					
-								   					if(id2 == "employeeName" || id2 == "mobileNo" )
-								   					{
-								   					document.getElementById("empopup").innerHTML += value2;
-								   					}
-							          	    		var pop=document.getElementById("empopup").style.display="block";
-								   					
-								   				});
+								   			$.each(response, function (id,value) {
+								   				htmlData = '<div class="table-responsive"><table class="table"><tbody><tr><td>User Id: </td><td>'+value.userId+'</td></tr><tr><td>First Name: </td><td>'+value.employeeName+'</td></tr>'
+					   							+ '<tr><td>Older Employee ID: </td><td>'+value.olderEmployeeID+'</td></tr><tr><td>Email Id: </td><td>' + value.employeeEmail+'</td></tr>'
+					   							+ '<tr><td>Mobile No: </td><td>'+value.mobileNo+'</td></tr><tr><td>Active: </td><td>' + value.isEnabled+'</td></tr>'
+					   							+ '<tr><td>Onwer : </td><td>'+value.onwer+'</td></tr><tr><td>Service Provider ID: </td><td>' + value.serviceProviderID+'</td></tr>'
+					   							+ '<tr><td>Send Arroval Notification: </td><td>'+value.sendArrovalNotification+'</td></tr><tr><td>GCM Id: </td><td>' + value.gcmId+'</td></tr></tbody></table></div>';
+									   			$("#EmployeeInfoModal").find('.modal-body').html(htmlData);
+									            $("#EmployeeInfoModal").modal('show');
 								   			}); 
 							   			 	
-							   			 	
-							   			 	
-							   			 	
-							          	      
-							          	      
-							          	      
-							          	      
 							          	      },  
 							         	     error : function(e) {  
 							         	    	 alert("error"+e);   
 							         	     }  
 							         	    });
 						        	
-						        	
-						        	
-						        	
-						        	
-						        	
-						        	
-						        	
-						        	
-						        	
-						
 						});
 						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
 					});
-	
-	
 	
 	   function cancelfunction() {
 	    	var pop=document.getElementById("customerpopup").style.display="none";
@@ -476,12 +428,7 @@ position:absolute;
 												<h4 class="modal-title">Employee Information</h4>
 											</div>
 											<div class="modal-body">
-												<label id="customerID">Employee ID </label> <input
-													readonly="readonly"
-													value="${customerRequestIssues.customerModel.userId}" /> <br>
-												<label id="customerName">Employee Name </label> <input
-													readonly="readonly"
-													value="${customerRequestIssues.customerModel.firstName}" />
+												
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
@@ -502,13 +449,8 @@ position:absolute;
 												<button type="button" class="close" data-dismiss="modal">&times;</button>
 												<h4 class="modal-title">Customer Information</h4>
 											</div>
-											<div class="modal-body">
-												<label id="customerID">Customer ID </label> <input
-													readonly="readonly"
-													value="${customerRequestIssues.customerModel.userId}" /> <br>
-												<label id="customerName">Customer Name </label> <input
-													readonly="readonly"
-													value="${customerRequestIssues.customerModel.firstName}" />
+											<div class="modal-body" id="displayCustomer">
+												
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"
@@ -530,16 +472,7 @@ position:absolute;
 												<h4 class="modal-title">Payment Information</h4>
 											</div>
 											<div class="modal-body">
-												<label id="customerID">Payment ID </label> <input
-													readonly="readonly"
-													value="${ServiceTypeDTO}" /> <br>
-													
-												<c:forEach items="${ServiceTypeDTO}" var="ServiceType">
-													<c:out value="" />
-												</c:forEach>
-												<label id="customerName">Payment Name </label> <input
-													readonly="readonly"
-													value="${customerRequestIssues.customerModel.firstName}" />
+												
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default"

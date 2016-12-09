@@ -36,12 +36,15 @@ import com.ucs.rsa.common.dto.CustomerDTO;
 import com.ucs.rsa.common.dto.CustomerRequestDTO;
 import com.ucs.rsa.common.dto.CustomerRequestsDTO;
 import com.ucs.rsa.common.dto.EmployeeDTO;
+import com.ucs.rsa.common.dto.IssuePaymentDTO;
+import com.ucs.rsa.common.dto.IssuePaymentsDTO;
 //import com.ucs.rsa.common.dto.EmployeeDTO;
 import com.ucs.rsa.common.dto.ServiceTypeDTO;
 import com.ucs.rsa.common.notification.SendNotification;
 import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerRequestModel;
 import com.ucs.rsa.model.EmployeeModel;
+import com.ucs.rsa.model.IssuePaymentModel;
 import com.ucs.rsa.model.ServiceTypeModel;
 import com.ucs.rsa.model.UserVehicleModel;
 import com.ucs.rsa.service.CustomerRequestService;
@@ -272,7 +275,7 @@ public class CustomerRequestResource
 			customerRequestDTO.setIssueId(customerRequestModel.getIssueId());
 			customerRequestDTO.setIssueStatus(customerRequestModel.getIssueStatus());
 		}
-		return new ModelAndView("xml", "customerrequest", customerRequestDTO);
+		return new ModelAndView("", "customerrequest", customerRequestDTO);
 	}
 
 	/**
@@ -709,7 +712,7 @@ public class CustomerRequestResource
 			customerRequestDTO.setCustomerModel(customerDTO);
 			System.out.println("hhhhhhhhh-----" + customerDTO);
 		}
-		return new ModelAndView("xml", "customerDTO", customerDTO);
+		return new ModelAndView("findAllCustomerRequests", "customerDTO", customerDTO);
 	}
 
 
@@ -739,29 +742,44 @@ public class CustomerRequestResource
 			employeeDTO.setEmployeeName(employeeModel.getEmployeeName());
 			employeeDTO.setMobileNo(employeeModel.getMobileNo());
 		}
-
-
-
-		return new ModelAndView("xml", "employeeDTO", employeeDTO);
+		return new ModelAndView("findAllCustomerRequests", "employeeDTO", employeeDTO);
 	}
 
 
+	@RequestMapping(value = "/paymentDetails", method =
+	{ RequestMethod.POST, RequestMethod.GET })
+	private ModelAndView paymentDetails(@RequestParam("issue_id") final int issue_id)
+	{
+		List<IssuePaymentModel> issuePaymentModels = getCustomerRequestService().findPaymentDetails(issue_id);
 
+		IssuePaymentsDTO issuePaymentsDTO = new IssuePaymentsDTO();
+		List<IssuePaymentDTO> issuePayments = new ArrayList<>();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		if (!issuePaymentModels.isEmpty())
+		{
+			for (IssuePaymentModel issuePaymentModel : issuePaymentModels)
+			{
+				IssuePaymentDTO paymentDTO = new IssuePaymentDTO();
+				paymentDTO.setAmount(issuePaymentModel.getAmount());
+				paymentDTO.setAuthIdCode(issuePaymentModel.getAuthIdCode());
+				paymentDTO.setIssueID(issuePaymentModel.getCustomerRequestModel().getIssueId());
+				paymentDTO.setIssuerRefNo(issuePaymentModel.getIssuerRefNo());
+				paymentDTO.setPaymentId(issuePaymentModel.getPaymentId());
+				paymentDTO.setPgRespCode(issuePaymentModel.getPgRespCode());
+				paymentDTO.setPgTxnNo(issuePaymentModel.getPgTxnNo());
+				paymentDTO.setSignature(issuePaymentModel.getSignature());
+				paymentDTO.setTransactionId(issuePaymentModel.getTransactionId());
+				paymentDTO.setTxId(issuePaymentModel.getTxId());
+				paymentDTO.setTxMsg(issuePaymentModel.getTxMsg());
+				paymentDTO.setTxRefNo(issuePaymentModel.getTxRefNo());
+				paymentDTO.setTxStatus(issuePaymentModel.getTxStatus());
+				issuePayments.add(paymentDTO);
+			}
+		}
+		issuePaymentsDTO.setIssuePaymentDTOs(issuePayments);
+		ModelAndView modelAndView = new ModelAndView("findAllCustomerRequests", "issuePaymentsDTO", issuePaymentsDTO);
+		return modelAndView;
+	}
 
 }
 

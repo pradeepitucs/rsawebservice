@@ -9,6 +9,7 @@ import java.util.List;
 import com.ucs.rsa.model.CustomerRequestModel;
 import com.ucs.rsa.model.CustomerSubIssueModel;
 import com.ucs.rsa.model.EmployeeModel;
+import com.ucs.rsa.model.IssuePaymentModel;
 import com.ucs.rsa.model.ServiceProviderCommentModel;
 import com.ucs.rsa.model.ServiceTypeModel;
 import com.ucs.rsa.model.UserVehicleModel;
@@ -182,5 +183,8 @@ public interface CustomerRequestService extends BaseService
 	 * @return the list
 	 */
 	public List<CustomerRequestModel> filteredCustomerIssues(String iApprove, String iIssueStatus, String iTypes);
+
+
+	public List<IssuePaymentModel> findPaymentDetails(int issueID);
 
 }

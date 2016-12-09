@@ -25,6 +25,7 @@ import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.CustomerRequestModel;
 import com.ucs.rsa.model.CustomerSubIssueModel;
 import com.ucs.rsa.model.EmployeeModel;
+import com.ucs.rsa.model.IssuePaymentModel;
 import com.ucs.rsa.model.ServiceProviderCommentModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.model.ServiceProviderServiceMatchingModel;
@@ -200,25 +201,23 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 			}
 			for (ServiceProviderModel serviceProviderModel : serviceProviderFinalList)
 			{
-				/*if (serviceProviderModel.getServiceTypeModel().getServiceTypeId() == serviceType)
+				/*
+				 * if (serviceProviderModel.getServiceTypeModel().getServiceTypeId() == serviceType) {
+				 * serviceProviderIDList.add(serviceProviderModel.getServiceProviderId()); } else {
+				 */
+				ServiceProviderModel serviceProviderModel2 = new ServiceProviderModel();
+				serviceProviderModel2.setServiceProviderId(serviceProviderModel.getServiceProviderId());
+				ServiceTypeModel serviceTypeModel = new ServiceTypeModel();
+				serviceTypeModel.setServiceTypeId(serviceType);
+				Criteria crit = (Criteria) theSession.createCriteria(ServiceProviderServiceMatchingModel.class, "customerModel")
+						.add(Restrictions.eq("serviceTypeModel", serviceTypeModel))
+						.add(Restrictions.eq("serviceProviderModel", serviceProviderModel2));
+				@SuppressWarnings("unchecked")
+				List<ServiceProviderServiceMatchingModel> listOfOtherService = crit.list();
+				for (ServiceProviderServiceMatchingModel serviceProviderServiceMatchingModel : listOfOtherService)
 				{
-					serviceProviderIDList.add(serviceProviderModel.getServiceProviderId());
+					serviceProviderIDList.add(serviceProviderServiceMatchingModel.getServiceProviderModel().getServiceProviderId());
 				}
-				else
-				{*/
-					ServiceProviderModel serviceProviderModel2 = new ServiceProviderModel();
-					serviceProviderModel2.setServiceProviderId(serviceProviderModel.getServiceProviderId());
-					ServiceTypeModel serviceTypeModel = new ServiceTypeModel();
-					serviceTypeModel.setServiceTypeId(serviceType);
-					Criteria crit = (Criteria) theSession.createCriteria(ServiceProviderServiceMatchingModel.class, "customerModel")
-							.add(Restrictions.eq("serviceTypeModel", serviceTypeModel))
-							.add(Restrictions.eq("serviceProviderModel", serviceProviderModel2));
-					@SuppressWarnings("unchecked")
-					List<ServiceProviderServiceMatchingModel> listOfOtherService = crit.list();
-					for (ServiceProviderServiceMatchingModel serviceProviderServiceMatchingModel : listOfOtherService)
-					{
-						serviceProviderIDList.add(serviceProviderServiceMatchingModel.getServiceProviderModel().getServiceProviderId());
-					}
 				//}
 			}
 			/*
@@ -824,6 +823,34 @@ public class DefaultCustomerRequestDAO extends DefaultBaseDAO implements Custome
 			throw rsaEx;
 		}
 		return listOfServiceType;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<IssuePaymentModel> findPaymentDetails(int issueID)
+	{
+		List<IssuePaymentModel> issuePaymentList = new ArrayList<>();
+		Session theSession = null;
+		try
+		{
+			theSession = currentSession();
+			Criteria criteria = (Criteria) theSession.createCriteria(IssuePaymentModel.class, "issuePaymentModel")
+					.createAlias("customerRequestModel", "customerRequest").add(Restrictions.eq("customerRequest.issueId", issueID));
+			issuePaymentList = criteria.list();
+		}
+		catch (RSAException e)
+		{
+			e.getStackTrace();
+			throw e;
+		}
+		catch (RuntimeException ex)
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return issuePaymentList;
 	}
 
 }

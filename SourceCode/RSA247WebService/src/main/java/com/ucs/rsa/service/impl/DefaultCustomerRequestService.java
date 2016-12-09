@@ -18,6 +18,7 @@ import com.ucs.rsa.daos.CustomerRequestDAO;
 import com.ucs.rsa.model.CustomerRequestModel;
 import com.ucs.rsa.model.CustomerSubIssueModel;
 import com.ucs.rsa.model.EmployeeModel;
+import com.ucs.rsa.model.IssuePaymentModel;
 import com.ucs.rsa.model.ServiceProviderCommentModel;
 import com.ucs.rsa.model.ServiceTypeModel;
 import com.ucs.rsa.model.UserVehicleModel;
@@ -356,6 +357,23 @@ public class DefaultCustomerRequestService extends DefaultBaseService implements
 		}
 
 		return result;
+	}
+
+	@Override
+	public List<IssuePaymentModel> findPaymentDetails(int issueID)
+	{
+		List<IssuePaymentModel> issuePayment = null;
+		if (issueID != 0)
+		{
+			issuePayment = customerRequestDAO.findPaymentDetails(issueID);
+		}
+		else
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setError(RSAErrorConstants.ErrorCode.MANDATORY_PARAMS_MISSING_ERROR);
+			throw rsaEx;
+		}
+		return issuePayment;
 	}
 
 }
