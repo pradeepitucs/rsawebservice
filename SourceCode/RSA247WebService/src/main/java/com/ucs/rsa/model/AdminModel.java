@@ -38,7 +38,7 @@ public class AdminModel extends UserModel implements Serializable, UserDetails
 	private static final long serialVersionUID = 1L;
 
 	/** The username. */
-	@Column(name = "username", nullable = false, length = 16, unique = true)
+	@Column(name = "username", nullable = false, length = 64, unique = true)
 	private String username;
 
 	/** The password. */
