@@ -430,7 +430,7 @@
 								<!-- 	<c:set var="name" value="Dinesh" scope="page" />  -->
 									<c:forEach items="${serviceProviderCities}" var="cities">
 										<c:forEach items="${cities}" var="citys" >
-											<input type="checkbox" value="${citys}" name="city" id="city" />${citys}
+											<input type="radio" value="${citys}" name="city" id="city" />${citys}
 					        				<br>
 										</c:forEach>
 									</c:forEach>
@@ -443,8 +443,8 @@
 								</a>
 
 								<div id="Demo2" class="w3-accordion-content w3-container">
-									<a><input type="checkbox" value="true" name="approve"
-										id="approve"> Approve</a> <a><input type="checkbox"
+									<a><input type="radio" value="true" name="approve"
+										id="approve"> Approve</a> <a><input type="radio"
 										value="flase" name="approve" id="approve"> Non Approve</a>
 								</div>
 

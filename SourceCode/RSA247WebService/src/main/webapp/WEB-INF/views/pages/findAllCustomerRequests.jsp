@@ -309,9 +309,9 @@ position:absolute;
 								</a>
 
 								<div id="Demo1" class="w3-accordion-content w3-container">
-									<a href="#"><input type="checkbox" name="approve"
+									<a href="#"><input type="radio" name="approve"
 										value="true"> Approve</a> <a href="#"><input
-										type="checkbox" value="flase" name="approve"> Non
+										type="radio" value="flase" name="approve"> Non
 										Approve</a>
 								</div>
 
@@ -325,7 +325,7 @@ position:absolute;
 									<c:forEach items="${customerIssueStatus}"
 										var="customerIssueStatus">
 										<%-- 										<c:forEach items="${customerIssueStatus}" var="issueStatus" > --%>
-										<input type="checkbox" value="${customerIssueStatus}"
+										<input type="radio" value="${customerIssueStatus}"
 											name="issueStatus" id="issueStatus" />
 											<c:out value="${customerIssueStatus}"></c:out>
 											
@@ -343,7 +343,7 @@ position:absolute;
 								<div id="Demo3" class="w3-accordion-content w3-container">
 									<c:forEach items="${serviceTypes}" var="serviceTypes">
 										<%-- 										<c:forEach items="${serviceTypes}" var="types" > --%>
-										<input type="checkbox" value="${serviceTypes.value}"
+										<input type="radio" value="${serviceTypes.value}"
 											name="types" id="types" />${serviceTypes.key}
 					        				<br>
 										<%-- 										</c:forEach> --%>

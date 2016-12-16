@@ -293,15 +293,32 @@
         <div class="w3-container">
          <h4 class="w3-center">Filters</h4> 
 			<div class="w3-accordion w3-white">
-			  <button onclick="myFunction('Demo1')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> Status</button>
+			<spring:url value="/user/filteredEmployees"
+								var="userActionUrl" />
+
+			<form class="form-horizontal" id="filteredEmployees"
+				method="post" action="${userActionUrl}">
+				
+				<input type="hidden" id="page" name="page"
+							value="">
+							
+				<a onclick="myFunction('Demo1')"
+					class="w3-btn-block w3-theme-l1 w3-left-align"> <i
+					class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>
+					Status
+				</a>
+				
 			  <div id="Demo1" class="w3-accordion-content w3-container">
-				<a href="#"><input type="checkbox"  value="Approve"> Approve</a>
-				<a href="#"><input type="checkbox"  value="Non Approve"> Non Approve</a>
+				<a href="#"> <input type="radio" name="approve" value="true"> Approve</a> 
+				<a href="#"> <input type="radio" value="flase" name="approve"> Non Approve</a>
 			  </div>
-			  <!-- <button onclick="myFunction('Demo2')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Events</button>
-			  <div id="Demo2" class="w3-accordion-content w3-container">
-				<p>Some other text..</p>
-			  </div> -->
+<!-- 			   <button onclick="myFunction('Demo2')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Events</button> -->
+<!-- 			  <div id="Demo2" class="w3-accordion-content w3-container"> -->
+<!-- 				<p>Some other text..</p> -->
+<!-- 			  </div>  -->
+			  
+			  	<input type="submit" name="apply" class="w3-btn w3-theme" />
+			  </form>
 			</div> 
 		 <p></p>
 		 
