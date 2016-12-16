@@ -20,7 +20,6 @@ import com.ucs.rsa.model.VehicleTypeModel;
 import com.ucs.rsa.service.UserVehicleService;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DefaultUserVehicleService.
  *
@@ -100,6 +99,23 @@ public class DefaultUserVehicleService extends DefaultBaseService implements Use
 			throw rsaEx;
 		}
 		return userVehicle;
+	}
+
+	@Override
+	public VehicleFuelTypeModel updateFuelType(VehicleFuelTypeModel iVehicleFuelTypeModel)
+	{
+		VehicleFuelTypeModel vehicleFuelTypeModel = null;
+		if (!"".equals(iVehicleFuelTypeModel.getVehicleFuelTypeName()))
+		{
+			vehicleFuelTypeModel = userVehicleDAO.updateFuelType(iVehicleFuelTypeModel);
+		}
+		else
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setError(RSAErrorConstants.ErrorCode.MANDATORY_PARAMS_MISSING_ERROR);
+			throw rsaEx;
+		}
+		return vehicleFuelTypeModel;
 	}
 
 }

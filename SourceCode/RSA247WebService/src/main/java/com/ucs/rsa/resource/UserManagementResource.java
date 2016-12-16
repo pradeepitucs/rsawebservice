@@ -2832,4 +2832,46 @@ public class UserManagementResource
 		return modelAndView;
 	}
 
+	@RequestMapping(value = "/filteredEmployees", method =
+	{ RequestMethod.POST, RequestMethod.GET })
+	private ModelAndView filteredEmployees(@RequestParam(value = "approve", required = false) String iApprove,
+			@RequestParam(value = "page") final String iPageNo)
+	{
+
+		int page = 1;
+		int recordsPerPage = 10;
+		if (iPageNo != null && iPageNo != "")
+			page = Integer.parseInt(iPageNo);
+
+		List<EmployeeModel> employeeModels = new ArrayList<>();
+		employeeModels = userService.filteredEmployees(iApprove);
+
+		EmployeesDTO employeesDTO = new EmployeesDTO();
+		List<EmployeeDTO> employeesDTOs = new ArrayList<>();
+
+		for (EmployeeModel employeeModel : employeeModels)
+		{
+			EmployeeDTO employeeDTO = new EmployeeDTO();
+			employeeDTO.setIsEnabled(employeeModel.getIsEnabled());
+			employeeDTO.setEmployeeEmail(employeeModel.getEmployeeEmail());
+			employeeDTO.setEmployeeName(employeeModel.getEmployeeName());
+			employeeDTO.setGcmId(employeeModel.getGcmId());
+			employeeDTO.setOnwer(employeeModel.isOnwer());
+			employeeDTO.setMobileNo(employeeModel.getMobileNo());
+			employeeDTO.setUserId(employeeModel.getUserId());
+			employeeDTO.setServiceProviderID(employeeModel.getServiceProviderID());
+			employeesDTOs.add(employeeDTO);
+		}
+		employeesDTO.setEmployeeDTO(employeesDTOs);
+
+		int noOfRecords = userService.findNoOfRecords();
+		int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+
+		ModelAndView modelAndView = new ModelAndView("findAllEmployees", "findAllEmployees", employeesDTO);
+		modelAndView.addObject("currentPage", page);
+		modelAndView.addObject("noOfPages", noOfPages);
+
+		return modelAndView;
+	}
+
 }

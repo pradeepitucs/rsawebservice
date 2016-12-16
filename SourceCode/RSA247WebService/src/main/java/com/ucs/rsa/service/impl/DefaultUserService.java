@@ -605,5 +605,22 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 		return result;
 	}
 
+	@Override
+	public List<EmployeeModel> filteredEmployees(String iApprove)
+	{
+		Comparator<EmployeeModel> groupByComparator = Comparator.comparing(EmployeeModel::getUserId);
+		List<EmployeeModel> result = new ArrayList<>();
+		if (iApprove == null)
+		{
+			result = getEmployeeList().stream().sorted(groupByComparator).collect(Collectors.toList());
+		}
+		else if (iApprove != null)
+		{
+			result = getEmployeeList().stream().filter(e -> e.getIsEnabled() == Boolean.valueOf(iApprove)).sorted(groupByComparator)
+					.collect(Collectors.toList());
+		}
+		return result;
+	}
+
 
 }

@@ -240,4 +240,10 @@ public interface UserService extends BaseService
 	 */
 	public List<ServiceProviderModel> searchServiceProviderByMobileNo(String iMobileNo);
 
+	/**
+	 * @param iApprove
+	 * @return
+	 */
+	public List<EmployeeModel> filteredEmployees(String iApprove);
+
 }

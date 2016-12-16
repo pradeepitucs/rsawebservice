@@ -45,7 +45,7 @@ public class VehicleFuelTypeModel implements Serializable
 	private boolean isEnabled;
 
 	/** The vehicle fuel type name. */
-	@Column(name = "vehicle_fuel_type_name")
+	@Column(name = "vehicle_fuel_type_name", unique = true)
 	private String vehicleFuelTypeName;
 
 	/** The vehicle information models. */

@@ -342,6 +342,30 @@ public class UserVehicleManagementResource
 		return new ModelAndView("vehiclebodytypes", "vehiclebodytypes", bodyTypesDTO);
 	}
 
+	@RequestMapping(value = "/updatefueltype", method =
+	{ RequestMethod.POST, RequestMethod.GET })
+	private ModelAndView updateFuelType(@RequestParam(value = "FuelTypeID") final int iFuelTypeID,
+			@RequestParam(value = "FuelTypeName") final String iFuelTypeName, @RequestParam(value = "Active") final boolean iActive)
+	{
+
+		VehicleFuelTypeModel vehicleFuelTypeModel = new VehicleFuelTypeModel();
+		vehicleFuelTypeModel.setVehicleFuelTypeId(iFuelTypeID);
+		vehicleFuelTypeModel.setVehicleFuelTypeName(iFuelTypeName);
+		vehicleFuelTypeModel.setIsEnabled(iActive);
+
+		VehicleFuelTypeModel vehicleFuelTypeModel1 = userVehicleService.updateFuelType(vehicleFuelTypeModel);
+
+		VehicleFuelTypeDTO vehicleFuelTypeDTO = new VehicleFuelTypeDTO();
+		if (vehicleFuelTypeModel1 != null)
+		{
+			vehicleFuelTypeDTO.setIsEnabled(vehicleFuelTypeModel1.getIsEnabled());
+			vehicleFuelTypeDTO.setVehicleFuelTypeId(vehicleFuelTypeModel1.getVehicleFuelTypeId());
+			vehicleFuelTypeDTO.setVehicleFuelTypeName(vehicleFuelTypeModel1.getVehicleFuelTypeName());
+		}
+		return new ModelAndView("vehiclefueltypes", "vehiclefueltype", vehicleFuelTypeDTO);
+	}
+
+
 	/**
 	 * Vehicle fuel type.
 	 *

@@ -47,4 +47,13 @@ public interface UserVehicleDAO extends BaseDAO
 	 */
 	public List<VehicleModel> getVehiclesByManufacturer(int manufacturerId);
 
+	/**
+	 * Update fuel type.
+	 *
+	 * @param iVehicleFuelTypeModel
+	 *           the i vehicle fuel type model
+	 * @return the vehicle fuel type model
+	 */
+	public VehicleFuelTypeModel updateFuelType(VehicleFuelTypeModel iVehicleFuelTypeModel);
+
 }

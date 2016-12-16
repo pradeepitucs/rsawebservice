@@ -47,4 +47,14 @@ public interface UserVehicleService extends BaseService
 	 */
 	public List<VehicleModel> getVehiclesByManufacturer(int manufacturerId);
 
+	/**
+	 * Update fuel type.
+	 *
+	 * @param vehicleFuelTypeModel
+	 *           the vehicle fuel type model
+	 * @return the vehicle fuel type model
+	 */
+	public VehicleFuelTypeModel updateFuelType(VehicleFuelTypeModel vehicleFuelTypeModel);
+
+
 }

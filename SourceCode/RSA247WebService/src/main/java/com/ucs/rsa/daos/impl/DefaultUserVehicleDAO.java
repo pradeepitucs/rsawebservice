@@ -201,4 +201,44 @@ public class DefaultUserVehicleDAO extends DefaultBaseDAO implements UserVehicle
 		return userVehicleModel1;
 	}
 
+	@Override
+	public VehicleFuelTypeModel updateFuelType(VehicleFuelTypeModel iVehicleFuelTypeModel)
+	{
+		VehicleFuelTypeModel vehicleFuelTypeModel = iVehicleFuelTypeModel;
+		Session theSession = null;
+		try
+		{
+			theSession = currentSession();
+
+			if (vehicleFuelTypeModel.getVehicleFuelTypeId() == 0)
+			{
+				VehicleFuelTypeModel theCriteria = (VehicleFuelTypeModel) theSession
+						.createCriteria(VehicleFuelTypeModel.class, "vehicleFuelTypeModel")
+						.add(Restrictions.eq("vehicleFuelTypeName", vehicleFuelTypeModel.getVehicleFuelTypeName())).uniqueResult();
+				if (theCriteria != null)
+				{
+					System.out.println("rsaException");
+					RSAException rsaException = new RSAException();
+					System.out.println("rsaException" + rsaException);
+					rsaException.setError(RSAErrorConstants.ErrorCode.INVALID_VEHICLE_FUEL_TYPE_MODEL_ID_ERROR);
+					throw rsaException;
+				}
+			}
+			theSession.saveOrUpdate(vehicleFuelTypeModel);
+		}
+		catch (RSAException e)
+		{
+			e.printStackTrace();
+			throw e;
+		}
+		catch (RuntimeException ex)
+		{
+			RSAException rsaEx = new RSAException();
+			rsaEx.setRootCause(ex);
+			rsaEx.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaEx;
+		}
+		return vehicleFuelTypeModel;
+	}
+
 }
