@@ -521,6 +521,10 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 					.filter(e -> e.getServiceProviderCity().contains(iCity) && e.isEnabled() == Boolean.valueOf(iApprove))
 					.sorted(groupByComparator).collect(Collectors.toList());
 		}
+		else if (iCity == null && iApprove == null)
+		{
+			result = getServiceProviderList().stream().sorted(groupByComparator).collect(Collectors.toList());
+		}
 
 		return result;
 	}

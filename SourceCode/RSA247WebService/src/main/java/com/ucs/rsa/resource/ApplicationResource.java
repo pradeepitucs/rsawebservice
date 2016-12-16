@@ -42,10 +42,9 @@ public class ApplicationResource
 	{
 		if (getCurrentUser(model, locale) != null)
 		{
-
-			return new ModelAndView("logged_in");
+			return new ModelAndView("home");
 		}
-		return new ModelAndView("home");
+		return new ModelAndView("login");
 	}
 
 	/**

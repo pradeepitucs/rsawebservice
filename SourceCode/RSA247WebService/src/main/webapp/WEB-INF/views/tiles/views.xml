@@ -39,7 +39,7 @@
 	<!-- Logged In Page -->
 	<definition name="logged_in" extends="base-definition">
 		<put-attribute name="title" value="Logged In Page" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/logged_in.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
 	</definition>
 
 	<!-- Exception Handled Page -->
