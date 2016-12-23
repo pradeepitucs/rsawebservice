@@ -12,6 +12,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import com.google.gson.Gson;
@@ -58,6 +60,7 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 		try
 		{
 			theSession = currentSession();
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 			/**** Check for invalid role id ****/
 			// TODO : check for customer with given id
@@ -65,6 +68,7 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 			/**** Check for user mobile number exists for new user ****/
 			if (customerModel.getUserId() == 0)
 			{
+				iCustomerModel.setCreatedBy(authentication.getName());
 				CustomerModel theCriteria = (CustomerModel) theSession.createCriteria(CustomerModel.class, "customerModel")
 						.add(Restrictions.eq("mobileNo", customerModel.getMobileNo()))
 						.add(Restrictions.eq("roleModel.roleId", customerModel.getRoleModel().getRoleId())).uniqueResult();
@@ -76,6 +80,10 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 					rsaException.setError(RSAErrorConstants.ErrorCode.USER_ALREADY_EXISTS_ERROR);
 					throw rsaException;
 				}
+			}
+			else
+			{
+				iCustomerModel.setUpdatedBy(authentication.getName());
 			}
 			theSession.saveOrUpdate(customerModel);
 		}
@@ -365,9 +373,11 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 		try
 		{
 			theSession = currentSession();
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			//for (EmployeeModel employeeModel2 : employees) {
 			if (employees.getUserId() == 0)
 			{
+				employees.setCreatedBy(authentication.getName());
 				EmployeeModel theCriteria = (EmployeeModel) theSession.createCriteria(EmployeeModel.class, "employeeModel")
 						.add(Restrictions.eq("mobileNo", employees.getMobileNo()))
 						.add(Restrictions.eq("roleModel.roleId", employees.getRoleModel().getRoleId())).uniqueResult();
@@ -379,6 +389,10 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 					rsaException.setError(RSAErrorConstants.ErrorCode.USER_ALREADY_EXISTS_ERROR);
 					throw rsaException;
 				}
+			}
+			else
+			{
+				employees.setUpdatedBy(authentication.getName());
 			}
 			theSession.saveOrUpdate(employees);
 			employeeModel = employees;
@@ -796,7 +810,7 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 			if (iPageNo >= -1 && iRecordsPerPage >= -1)
 			{
 				Criteria theCriteria = theSession.createCriteria(EmployeeModel.class, "employeeModel")
-					.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setFirstResult(iPageNo).setMaxResults(iRecordsPerPage);
+						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).setFirstResult(iPageNo).setMaxResults(iRecordsPerPage);
 				employeeModels = (List<EmployeeModel>) theCriteria.list();
 
 				this.noOfRecords = theSession.createCriteria(EmployeeModel.class).list().size();

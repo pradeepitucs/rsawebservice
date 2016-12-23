@@ -46,7 +46,10 @@ public class DefaultAdminDAO extends DefaultBaseDAO implements AdminDAO
 					throw rsaException;
 				}
 			}
-			adminModel2.setUpdatedBy(authentication.getName());
+			else
+			{
+				adminModel2.setUpdatedBy(authentication.getName());
+			}
 			theSession.saveOrUpdate(adminModel2);
 		}
 		catch (RSAException e)

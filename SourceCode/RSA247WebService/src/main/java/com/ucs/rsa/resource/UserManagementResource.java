@@ -236,7 +236,7 @@ public class UserManagementResource
 			new Thread(r2).start();
 
 		}
-		return new ModelAndView("xml", "result", result);
+		return new ModelAndView("", "result", result);
 	}
 
 	/**
