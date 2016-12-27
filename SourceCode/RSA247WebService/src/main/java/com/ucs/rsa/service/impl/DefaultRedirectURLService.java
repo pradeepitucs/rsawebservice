@@ -21,7 +21,7 @@ import com.ucs.rsa.service.GmailService;
 import com.ucs.rsa.service.RedirectURLService;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DefaultRedirectURLService.
  *

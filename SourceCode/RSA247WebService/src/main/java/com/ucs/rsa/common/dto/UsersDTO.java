@@ -6,7 +6,6 @@ package com.ucs.rsa.common.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
@@ -34,7 +33,7 @@ public class UsersDTO implements Serializable
 	 *
 	 * @return the user DT os
 	 */
-	@XmlElement(name = "user")
+	//@XmlElement(name = "user")
 	public List<UserDTO> getUserDTOs()
 	{
 		return userDTOs;

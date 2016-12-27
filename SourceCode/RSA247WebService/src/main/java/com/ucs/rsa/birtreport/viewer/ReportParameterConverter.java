@@ -17,7 +17,7 @@ import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class ReportParameterConverter.
  */
@@ -26,27 +26,29 @@ public class ReportParameterConverter
 
 	/** The format. */
 	private String format = null;
-	
+
 	/** The u locale. */
 	private ULocale uLocale = null;
-	
+
 	/** The time zone. */
 	private TimeZone timeZone = TimeZone.getDefault();
 
 	/** The string formatter. */
 	private StringFormatter stringFormatter = null;
-	
+
 	/** The date formatter. */
 	private DateFormatter dateFormatter = null;
-	
+
 	/** The number formatter. */
 	private NumberFormatter numberFormatter = null;
 
 	/**
 	 * Instantiates a new report parameter converter.
 	 *
-	 * @param format the format
-	 * @param locale the locale
+	 * @param format
+	 *           the format
+	 * @param locale
+	 *           the locale
 	 */
 	public ReportParameterConverter(String format, Locale locale)
 	{
@@ -56,8 +58,10 @@ public class ReportParameterConverter
 	/**
 	 * Instantiates a new report parameter converter.
 	 *
-	 * @param format the format
-	 * @param uLocale the u locale
+	 * @param format
+	 *           the format
+	 * @param uLocale
+	 *           the u locale
 	 */
 	public ReportParameterConverter(String format, ULocale uLocale)
 	{
@@ -67,9 +71,12 @@ public class ReportParameterConverter
 	/**
 	 * Instantiates a new report parameter converter.
 	 *
-	 * @param format the format
-	 * @param uLocale the u locale
-	 * @param timeZone the time zone
+	 * @param format
+	 *           the format
+	 * @param uLocale
+	 *           the u locale
+	 * @param timeZone
+	 *           the time zone
 	 */
 	public ReportParameterConverter(String format, ULocale uLocale, TimeZone timeZone)
 	{
@@ -139,7 +146,8 @@ public class ReportParameterConverter
 	/**
 	 * Format.
 	 *
-	 * @param reportParameterObj the report parameter obj
+	 * @param reportParameterObj
+	 *           the report parameter obj
 	 * @return the string
 	 */
 	public String format(Object reportParameterObj)
@@ -224,8 +232,10 @@ public class ReportParameterConverter
 	/**
 	 * Parses the.
 	 *
-	 * @param reportParameterValue the report parameter value
-	 * @param parameterValueType the parameter value type
+	 * @param reportParameterValue
+	 *           the report parameter value
+	 * @param parameterValueType
+	 *           the parameter value type
 	 * @return the object
 	 */
 	public Object parse(String reportParameterValue, int parameterValueType)
@@ -435,7 +445,8 @@ public class ReportParameterConverter
 	/**
 	 * Parses the date time.
 	 *
-	 * @param reportParameterValue the report parameter value
+	 * @param reportParameterValue
+	 *           the report parameter value
 	 * @return the object
 	 */
 	protected Object parseDateTime(String reportParameterValue)

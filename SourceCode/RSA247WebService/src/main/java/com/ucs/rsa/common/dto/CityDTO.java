@@ -34,9 +34,6 @@ public class CityDTO implements Serializable
 	/** The is enabled. */
 	private boolean isEnabled;
 
-	//	private StateDTO stateDTO;
-
-	//	private List<CustomerDTO> customerDTOs;
 
 	/**
 	 * Gets the city id.
@@ -121,21 +118,5 @@ public class CityDTO implements Serializable
 	{
 		this.isEnabled = isEnabled;
 	}
-
-	//	public StateDTO getStateModel() {
-	//		return this.stateDTO;
-	//	}
-	//
-	//	public void setStateModel(StateDTO stateDTO) {
-	//		this.stateDTO = stateDTO;
-	//	}
-	//
-	//	public List<CustomerDTO> getCustomerModels() {
-	//		return this.customerDTOs;
-	//	}
-	//
-	//	public void setCustomerModels(List<CustomerDTO> customerDTOs) {
-	//		this.customerDTOs = customerDTOs;
-	//	}
 
 }

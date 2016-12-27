@@ -12,7 +12,7 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * A factory for creating BirtEngine objects.
  */

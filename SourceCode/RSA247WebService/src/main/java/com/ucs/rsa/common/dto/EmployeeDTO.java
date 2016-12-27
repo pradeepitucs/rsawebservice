@@ -27,7 +27,7 @@ public class EmployeeDTO extends UserDTO
 	private String employeeEmail;
 
 	/** The is onwer. */
-	private boolean isOnwer;
+	private boolean onwer;
 
 	/** The service provider ID. */
 	private int serviceProviderID;
@@ -109,9 +109,9 @@ public class EmployeeDTO extends UserDTO
 	 *
 	 * @return true, if is onwer
 	 */
-	public boolean isOnwer()
+	public boolean getOnwer()
 	{
-		return isOnwer;
+		return onwer;
 	}
 
 	/**
@@ -120,9 +120,9 @@ public class EmployeeDTO extends UserDTO
 	 * @param isOnwer
 	 *           the new onwer
 	 */
-	public void setOnwer(boolean isOnwer)
+	public void setOnwer(boolean onwer)
 	{
-		this.isOnwer = isOnwer;
+		this.onwer = onwer;
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class EmployeeDTO extends UserDTO
 	{
 		return "ServiceProviderEmployee [ employeeName=" + employeeName + ", employeeEmail=" + employeeEmail
 				+ ", serviceProviderID=" + serviceProviderID + ", isSendArrovalNotification=" + isSendArrovalNotification
-				+ ", isOnwer =" + isOnwer + ", gcmId=" + gcmId + ", olderEmployeeID=" + olderEmployeeID + "]" + super.toString();
+				+ ", Onwer =" + onwer + ", gcmId=" + gcmId + ", olderEmployeeID=" + olderEmployeeID + "]" + super.toString();
 	}
 
 }

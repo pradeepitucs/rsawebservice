@@ -11,7 +11,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class SmsLane.
  */

@@ -21,7 +21,7 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.envers.Audited;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class UserModel.
  *

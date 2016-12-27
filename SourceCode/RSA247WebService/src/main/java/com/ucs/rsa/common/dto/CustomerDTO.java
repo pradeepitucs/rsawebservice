@@ -37,8 +37,6 @@ public class CustomerDTO extends UserDTO implements Serializable
 
 	/** The last name. */
 	private String lastName;
-	//	private CityDTO cityDTO;
-	//	private UserDTO userDTO;
 
 
 	/**
@@ -146,20 +144,5 @@ public class CustomerDTO extends UserDTO implements Serializable
 		this.lastName = lastName;
 	}
 
-	//	public CityDTO getCityModel() {
-	//		return this.cityDTO;
-	//	}
-	//
-	//	public void setCityModel(CityDTO cityDTO) {
-	//		this.cityDTO = cityDTO;
-	//	}
-	//
-	//	public UserDTO getUserModel() {
-	//		return this.userDTO;
-	//	}
-	//
-	//	public void setUserModel(UserDTO userDTO) {
-	//		this.userDTO = userDTO;
-	//	}
 
 }

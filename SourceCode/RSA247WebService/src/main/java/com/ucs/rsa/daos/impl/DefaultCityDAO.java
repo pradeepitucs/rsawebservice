@@ -19,7 +19,7 @@ import com.ucs.rsa.daos.CityDAO;
 import com.ucs.rsa.model.CityModel;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DefaultCityDAO.
  */

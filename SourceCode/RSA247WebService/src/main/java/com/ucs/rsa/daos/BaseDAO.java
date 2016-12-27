@@ -10,7 +10,7 @@ import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface BaseDAO.
  *

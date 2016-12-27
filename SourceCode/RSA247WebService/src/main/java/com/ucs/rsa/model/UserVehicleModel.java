@@ -16,7 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class UserVehicleModel.
  *

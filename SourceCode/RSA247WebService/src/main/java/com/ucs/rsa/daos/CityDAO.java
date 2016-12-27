@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.ucs.rsa.model.CityModel;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface CityDAO.
  */

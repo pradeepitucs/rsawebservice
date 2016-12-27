@@ -22,6 +22,7 @@ import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.model.ServiceProviderServiceMatchingModel;
+import com.ucs.rsa.model.ServiceProviderServicePriceModel;
 import com.ucs.rsa.model.UserModel;
 import com.ucs.rsa.model.UserVehicleModel;
 import com.ucs.rsa.service.UserService;
@@ -624,6 +625,20 @@ public class DefaultUserService extends DefaultBaseService implements UserServic
 					.collect(Collectors.toList());
 		}
 		return result;
+	}
+	
+	@Override
+	public ServiceProviderServicePriceModel updateServiceProviderServicePriceModel(
+			ServiceProviderServicePriceModel serviceProviderServicePriceModel) {
+		ServiceProviderServicePriceModel serviceProviderServicePrice = null;
+		if (serviceProviderServicePriceModel!=null) {
+			serviceProviderServicePrice = userDAO.updateServiceProviderServicePriceModel(serviceProviderServicePriceModel);
+		} else {
+			RSAException rsaEx = new RSAException();
+			rsaEx.setError(RSAErrorConstants.ErrorCode.INVALID_INPUT_PARAM_ERROR);
+			throw rsaEx;
+		}
+		return serviceProviderServicePrice;
 	}
 
 

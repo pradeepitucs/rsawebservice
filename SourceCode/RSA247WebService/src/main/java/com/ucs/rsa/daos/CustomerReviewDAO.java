@@ -6,7 +6,7 @@ package com.ucs.rsa.daos;
 import com.ucs.rsa.model.CustomerReviewModel;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface CustomerReviewDAO.
  *

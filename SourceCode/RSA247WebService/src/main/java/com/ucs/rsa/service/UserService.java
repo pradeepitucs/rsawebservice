@@ -11,11 +11,12 @@ import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.model.ServiceProviderServiceMatchingModel;
+import com.ucs.rsa.model.ServiceProviderServicePriceModel;
 import com.ucs.rsa.model.UserModel;
 import com.ucs.rsa.model.UserVehicleModel;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface UserService.
  */
@@ -245,5 +246,7 @@ public interface UserService extends BaseService
 	 * @return
 	 */
 	public List<EmployeeModel> filteredEmployees(String iApprove);
+	
+	public ServiceProviderServicePriceModel updateServiceProviderServicePriceModel(ServiceProviderServicePriceModel serviceProviderServicePriceModel);
 
 }

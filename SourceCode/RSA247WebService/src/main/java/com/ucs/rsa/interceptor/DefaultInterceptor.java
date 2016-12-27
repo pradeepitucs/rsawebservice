@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.ucs.rsa.model.UserModel;
@@ -27,8 +27,7 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter
 	 * HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object,
 	 * org.springframework.web.servlet.ModelAndView)
 	 */
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
-			throws Exception
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, Model model) throws Exception
 	{
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -40,8 +39,7 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter
 			{
 
 				UserModel user = (UserModel) auth.getPrincipal();
-
-				modelAndView.getModelMap().addAttribute("user", user);
+				model.addAttribute("user", user);
 
 			}
 		}

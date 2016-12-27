@@ -9,7 +9,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class CitiesDTO.
  *

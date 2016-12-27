@@ -25,6 +25,7 @@ import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.model.ServiceProviderServiceMatchingModel;
+import com.ucs.rsa.model.ServiceProviderServicePriceModel;
 import com.ucs.rsa.model.SurveyVerificationModel;
 import com.ucs.rsa.model.UserModel;
 import com.ucs.rsa.model.UserVehicleModel;
@@ -130,8 +131,28 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 					rsaException.setError(RSAErrorConstants.ErrorCode.SERVICE_PROVIDER_ALREADY_EXISTS_ERROR);
 					throw rsaException;
 				}
+				theSession.saveOrUpdate(serviceProviderModel);
+			} else {
+				ServiceProviderModel theCriteria = (ServiceProviderModel) theSession.createCriteria(ServiceProviderModel.class, "serviceProviderModel")
+						.add(Restrictions.eq("serviceProviderId", serviceProviderModel.getServiceProviderId())).uniqueResult();
+				if (theCriteria != null) {
+					theCriteria.setBodyRepair(serviceProviderModel.isBodyRepair());
+					theCriteria.setElectricalType(serviceProviderModel.isElectricalType());
+					theCriteria.setFourWheeler(serviceProviderModel.isFourWheeler());
+					theCriteria.setImageFolderName(serviceProviderModel.getImageFolderName());
+					theCriteria.setMechanicalType(serviceProviderModel.isMechanicalType());
+					theCriteria.setServiceProviderCity(serviceProviderModel.getServiceProviderCity());
+					theCriteria.setServiceProviderLatitude(serviceProviderModel.getServiceProviderLatitude());
+					theCriteria.setServiceProviderLongitude(serviceProviderModel.getServiceProviderLongitude());
+					theCriteria.setServiceProviderName(serviceProviderModel.getServiceProviderName());
+					theCriteria.setServiceProviderPremium(serviceProviderModel.getServiceProviderPremium());
+					theCriteria.setServiceProviderTimestamp(serviceProviderModel.getServiceProviderTimestamp());
+					theCriteria.setServiceProvidertiming(serviceProviderModel.getServiceProvidertiming());
+					theCriteria.setTwoWheeler(serviceProviderModel.getTwoWheeler());
+					theSession.saveOrUpdate(theCriteria);
+				}
 			}
-			theSession.saveOrUpdate(serviceProviderModel);
+			
 		}
 		catch (RSAException e)
 		{
@@ -248,8 +269,7 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 						}
 						else
 						{
-							result = "employeeName:-" + ",serviceProviderId:-" + employee.getServiceProviderID() + ",userID:-"
-									+ employee.getUserId();
+							result = "userID:-"+employee.getUserId()+",serviceProviderId:-"+employee.getServiceProviderID();
 						}
 					}
 					else
@@ -389,15 +409,24 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 					rsaException.setError(RSAErrorConstants.ErrorCode.USER_ALREADY_EXISTS_ERROR);
 					throw rsaException;
 				}
+				theSession.saveOrUpdate(employees);
+				employeeModel = employees;
+			} else {
+				employeeModel = (EmployeeModel) theSession.createCriteria(EmployeeModel.class, "employeeModel")
+						.add(Restrictions.eq("mobileNo", employees.getMobileNo()))
+						.add(Restrictions.eq("roleModel.roleId", employees.getRoleModel().getRoleId())).uniqueResult();
+				if(employeeModel!=null){
+					employeeModel.setEmployeeEmail(employees.getEmployeeEmail());
+					employeeModel.setEmployeeName(employees.getEmployeeName());
+					employeeModel.setGcmId(employees.getGcmId());
+					employeeModel.setOnwer(employees.isOnwer());
+					employeeModel.setServiceProviderID(employees.getServiceProviderID());
+				}
+				
 			}
-			else
-			{
-				employees.setUpdatedBy(authentication.getName());
-			}
-			theSession.saveOrUpdate(employees);
-			employeeModel = employees;
-			//}
-		}
+			
+		//}
+	}
 		catch (RSAException e)
 		{
 			throw e;
@@ -862,5 +891,27 @@ public class DefaultUserDAO extends DefaultBaseDAO implements UserDAO
 		}
 
 		return cities;
+	}
+	
+	@Override
+	public ServiceProviderServicePriceModel updateServiceProviderServicePriceModel(
+			ServiceProviderServicePriceModel serviceProviderServicePriceModel) {
+		ServiceProviderServicePriceModel serviceProviderServicePrice = null;
+		Session theSession = null;
+		try {
+			theSession = currentSession();
+			theSession.saveOrUpdate(serviceProviderServicePriceModel);
+			serviceProviderServicePrice = serviceProviderServicePriceModel;
+			
+		}catch (RSAException e) {
+			throw e;
+		} catch (RuntimeException runtimeException) {
+			runtimeException.getStackTrace();
+			System.out.println(runtimeException.getStackTrace());
+			RSAException rsaException = new RSAException();
+			rsaException.setError(RSAErrorConstants.ErrorCode.SYSTEM_ERROR);
+			throw rsaException;
+		}
+		return serviceProviderServicePrice;
 	}
 }

@@ -20,7 +20,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class VehicleManufacturerModel.
  *

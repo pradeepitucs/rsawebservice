@@ -385,7 +385,7 @@
 							<td class="serviceProviderIdclass" id="id">${employeeInfo.employeeName}</td>
 							<td class="olderserviceProviderIdclass" id="id">${employeeInfo.mobileNo}</td>
 							<td class="olderserviceProviderIdclass" id="id">${employeeInfo.employeeEmail}</td>
-							<td class="olderserviceProviderIdclass" id="id">${employeeInfo.employeeName}</td>
+							<td class="olderserviceProviderIdclass" id="id">${employeeInfo.onwer}</td>
 							<td class="olderserviceProviderIdclass" style="display: none;" id="id">${employeeInfo.gcmId}</td> 
 							<td class="olderserviceProviderIdclass" style="display: none;" id="id">${employeeInfo.serviceProviderID}</td>
 							<td class="olderserviceProviderIdclass" id="id">               

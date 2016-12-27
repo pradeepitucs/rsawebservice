@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import org.hibernate.envers.Audited;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class RoleModel.
  *

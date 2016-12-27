@@ -11,7 +11,7 @@ import com.ucs.rsa.model.VehicleModel;
 import com.ucs.rsa.model.VehicleTypeModel;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface UserVehicleDAO.
  *

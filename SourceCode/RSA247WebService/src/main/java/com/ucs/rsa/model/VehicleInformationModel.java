@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class VehicleInformationModel.
  *

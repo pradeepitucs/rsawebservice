@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ucs.rsa.service.RedirectURLService;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class RedirectURLResource.
  *

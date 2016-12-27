@@ -15,7 +15,7 @@ import com.ucs.rsa.model.CustomerReviewModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DefaultCustomerReviewDAO.
  *

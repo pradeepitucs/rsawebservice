@@ -10,7 +10,7 @@ import java.sql.Time;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class CustomerRequestDTO.
  *

@@ -540,11 +540,11 @@
 													id="id">${serProvider.userId}</td>
 												<td class="olderserviceProviderIdclass" id="id"><c:choose>
 														<c:when test="${serProvider.enabled}">
-										Approved
-									</c:when>
+															Approved
+														</c:when>
 														<c:otherwise>
-										Not Approved
-									</c:otherwise>
+															Not Approved
+														</c:otherwise>
 													</c:choose></td>
 												<td class="olderserviceProviderIdclass" id="id">${serProvider.mobileNo}</td>
 												<td class="serviceProviderNameclass" id="id">${serProvider.serviceProviderCity}</td>
@@ -552,7 +552,6 @@
 												<td class="serviceProviderIdclass" id="id">${serProvider.serviceProviderWebsite}</td>
 												<td class="olderserviceProviderIdclass" id="id">${serProvider.serviceProvidertiming}</td>
 												<%-- <td class="olderserviceProviderIdclass" id="id">${serProvider.enabled}</td> --%>
-
 												<td class="serviceProviderCityclass" id="id">${serProvider.serviceProviderComments}</td>
 												<td class="serviceProviderIdclass" id="id">${serProvider.serviceProviderNightOperation}</td>
 												<td class="olderserviceProviderIdclass" id="id">${serProvider.serviceProviderPremium}</td>

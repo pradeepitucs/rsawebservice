@@ -18,7 +18,7 @@ import com.ucs.rsa.model.CityModel;
 import com.ucs.rsa.service.CityService;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class DefaultCityService.
  */

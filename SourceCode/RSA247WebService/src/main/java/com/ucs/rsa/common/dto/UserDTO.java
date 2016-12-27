@@ -16,8 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  */
 @XmlRootElement(name = "user", namespace = "com.ucs.rsa.common.dto")
-
-public class UserDTO implements Serializable
+public class UserDTO extends BaseDTO implements Serializable
 {
 
 	/** The Constant serialVersionUID. */
@@ -31,8 +30,6 @@ public class UserDTO implements Serializable
 
 	/** The mobile no. */
 	private long mobileNo;
-	//	private CustomerDTO customerModel;
-	//	private RoleDTO roleDTO;
 
 	/**
 	 * Gets the user id.
@@ -96,21 +93,5 @@ public class UserDTO implements Serializable
 	{
 		this.mobileNo = mobileNo;
 	}
-
-	//	public CustomerDTO getCustomerModel() {
-	//		return this.customerModel;
-	//	}
-	//
-	//	public void setCustomerModel(CustomerDTO customerModel) {
-	//		this.customerModel = customerModel;
-	//	}
-	//
-	//	public RoleDTO getRoleModel() {
-	//		return this.roleDTO;
-	//	}
-	//
-	//	public void setRoleModel(RoleDTO roleDTO) {
-	//		this.roleDTO = roleDTO;
-	//	}
 
 }

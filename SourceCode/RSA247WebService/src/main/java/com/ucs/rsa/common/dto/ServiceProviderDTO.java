@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class ServiceProviderDTO.
  *

@@ -92,6 +92,8 @@
 				<value>com.ucs.rsa.common.dto.StringBuilderDTO</value>
 				<value>com.ucs.rsa.common.dto.PaymentDTO</value>
 				<value>com.ucs.rsa.common.dto.EmployeeDashboard</value>
+				<value>com.ucs.rsa.common.dto.CustomerServiceRequestDTO</value>
+				<value>com.ucs.rsa.common.dto.CustomerServiceRequestsDTO</value>
 			</list>
 		</property>
 	</bean>
@@ -225,6 +227,9 @@
 				<value>com.ucs.rsa.model.IssuePaymentModel</value>
 				<value>com.ucs.rsa.model.CustomerPaymentModel</value>
 				<value>com.ucs.rsa.model.AdminModel</value>
+				<value>com.ucs.rsa.model.ServiceProviderServicePriceModel</value>
+				<value>com.ucs.rsa.model.CustomerServiceRequestModel</value>
+				<value>com.ucs.rsa.model.VehicleServiceTypeModel</value>
 			</list>
 		</property>
 		<property name="configLocation" value="classpath:hibernate.cfg.xml" />

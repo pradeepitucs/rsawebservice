@@ -8,7 +8,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class IssuePaymentDTO.
  *

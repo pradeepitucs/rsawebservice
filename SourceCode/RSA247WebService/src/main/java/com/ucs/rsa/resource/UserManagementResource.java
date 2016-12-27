@@ -55,6 +55,7 @@ import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.RoleModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.model.ServiceProviderServiceMatchingModel;
+import com.ucs.rsa.model.ServiceProviderServicePriceModel;
 import com.ucs.rsa.model.ServiceTypeModel;
 import com.ucs.rsa.model.UserVehicleModel;
 import com.ucs.rsa.service.BillGeneratorService;
@@ -294,7 +295,7 @@ public class UserManagementResource
 	{
 
 		String result = getUserService().employeeLogin(iMobileNo, iGcmId);
-		if (result.contains("employeeName"))
+		/*if (result.contains("employeeName"))
 		{
 			String[] values = result.split(",");
 			String[] id = values[1].split(":-");
@@ -302,7 +303,23 @@ public class UserManagementResource
 			ServiceProviderModel serviceprovider = new ServiceProviderModel();
 			serviceprovider = getUserService().get(ServiceProviderModel.class, serviceProviderId);
 			result = result + ",imageFoldername:-" + serviceprovider.getImageFolderName();
-		}
+		}*/
+		if(result.contains("serviceProviderId")){
+			String[] values = result.split(",");
+			String[] id = values[1].split(":-");
+			int serviceProviderId = Integer.parseInt(id[1]);
+			if (result.contains("employeeName")) {
+
+			ServiceProviderModel serviceprovider = new ServiceProviderModel();
+			serviceprovider = getUserService().get(ServiceProviderModel.class, serviceProviderId);
+			result = result + ",imageFoldername:-" + serviceprovider.getImageFolderName();
+			}else {
+			ServiceProviderModel serviceModel = new ServiceProviderModel();
+			serviceModel = getUserService().get(ServiceProviderModel.class, serviceProviderId);
+			result = result +",sr_Name:-"+serviceModel.getServiceProviderName()+",sr_latitude:-"+serviceModel.getServiceProviderLatitude()+",sr_longitude:-"+serviceModel.getServiceProviderLongitude()+
+			",sr_timestamp"+serviceModel.getServiceProviderTimestamp()+",sr_phone:-"+serviceModel.getServiceProviderPhoneNumber();
+			}
+			}
 
 		return new ModelAndView("xml", "result", result);
 	}
@@ -2059,7 +2076,9 @@ public class UserManagementResource
 			@RequestParam("contactPersonPhoneNumber") final Long contactPersonPhoneNumber,
 			@RequestParam("employeeName") final String employeeName,
 			@RequestParam("employeeMobileNumber") final String employeeMobileNumber, @RequestParam("gcmID") final String gcmID,
-			@RequestParam("userId") final int userId)
+			@RequestParam("userId") final int userId,
+			@RequestParam("silverPrice") final String silverPrice,@RequestParam("goldPrice") final String goldPrice,
+			@RequestParam("platinumPrice") final String platinumPrice)
 	{
 		String status = "";
 		ServiceProviderModel serviceProvider = new ServiceProviderModel();
@@ -2110,6 +2129,13 @@ public class UserManagementResource
 			@SuppressWarnings("unused")
 			ServiceProviderServiceMatchingModel serviceProviderMatch = getUserService()
 					.getServiceProvidermatchingModel(serviceProviderServiceMatchingModelList);
+			ServiceProviderServicePriceModel serviceProviderServicePriceModel =  new ServiceProviderServicePriceModel();
+			serviceProviderServicePriceModel.setServiceProviderModel(serviceProviderModel);
+			serviceProviderServicePriceModel.setSilverPrice(silverPrice);
+			serviceProviderServicePriceModel.setGoldPrice(goldPrice);
+			serviceProviderServicePriceModel.setPlatinumPrice(platinumPrice);
+			ServiceProviderServicePriceModel serviceProviderServicePrice = getUserService().updateServiceProviderServicePriceModel(serviceProviderServicePriceModel);
+			
 			ArrayList<EmployeeModel> employeeModels = new ArrayList<>();
 			EmployeeModel customerModel = new EmployeeModel();
 			customerModel.setIsEnabled(false);
@@ -2129,98 +2155,81 @@ public class UserManagementResource
 			customerModel.setOlderEmployeeID(1);
 			employeeModels.add(customerModel);
 			final EmployeeModel employeeModel1 = getUserService().insertEmployeesData(customerModel);
-			if (employeeModel1 != null)
-			{
+			if ( employeeModel1 != null) {
 				final String smsForEmployee = " Mr " + employeeModel1.getEmployeeName()
-						+ ", You has successfully registered in the RSA 247 network.";
-				Runnable r = new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						sendSMS(smsForEmployee, employeeModel1.getMobileNo());
+						+ ", You has successfully registered in the UDriveVCare network.";
+				Runnable r = new Runnable() {
+			         public void run() {
+			        	sendSMS(smsForEmployee,employeeModel1.getMobileNo());
+			         }	
+			     };
+			     new Thread(r).start();	
+				
+				final String msg = ",\n\n" + "\t Welcome to UDriveVCare Provider Network"
+						+ "\n  Congratulations, you are a member of the provider network in UDriveVCare. We will review your details and documents and approve your registration."
+						+ " Please wait for the mobile app notification to start using the app." + "\n\n" + "\n\n"
+						+ "Thank you" + "\n\n" + "UDriveVCare";
+				Runnable r1 = new Runnable() {
+			         public void run() {
+			        	sendMail(msg,employeeModel1.getEmployeeEmail());
+			         }	
+			     };
+			     new Thread(r1).start();	
+				if(!employeeMobileNumber.isEmpty() && !employeeName.isEmpty() ) {
+				String[] mobiles = employeeMobileNumber.split(",");
+				String[] names = employeeName.split(",");
+				for (int i = 0; i < mobiles.length; i++) {
+					EmployeeModel employee = new EmployeeModel();
+					employee.setIsEnabled(false);
+					employee.setMobileNo(Long.parseLong(mobiles[i]));
+					if (names[i] == null) {
+						employee.setEmployeeName(null);
+					} else {
+						employee.setEmployeeName(names[i]);
 					}
-				};
-				new Thread(r).start();
+					employee.setSendArrovalNotification(false);
 
-				final String msg = ",\n\n" + "\t Welcome to RSA247 Provider Network"
-						+ "\n  Congratulations, you are a member of the provider network in RSA247. We will review your details and documents and approve your registration."
-						+ " Please wait for the mobile app notification to start using the app." + "\n\n" + "\n\n" + "Thank you"
-						+ "\n\n" + "RSA247";
-				Runnable r1 = new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						sendMail(msg, employeeModel1.getEmployeeEmail());
-					}
-				};
-				new Thread(r1).start();
-				if (!employeeMobileNumber.isEmpty() && !employeeName.isEmpty())
-				{
-					String[] mobiles = employeeMobileNumber.split(",");
-					String[] names = employeeName.split(",");
-					for (int i = 0; i < mobiles.length; i++)
-					{
-						EmployeeModel employee = new EmployeeModel();
-						employee.setIsEnabled(false);
-						employee.setMobileNo(Long.parseLong(mobiles[i]));
-						if (names[i] == null)
-						{
-							employee.setEmployeeName(null);
-						}
-						else
-						{
-							employee.setEmployeeName(names[i]);
-						}
-						employee.setSendArrovalNotification(false);
+					RoleModel roleModel1 = new RoleModel();
+					roleModel1.setRoleId(3);
 
-						RoleModel roleModel1 = new RoleModel();
-						roleModel1.setRoleId(3);
-
-						employee.setRoleModel(roleModel1);
-						employee.setUserId(userId);
-						employee.setOnwer(false);
-						employee.setServiceProviderID(userModel.getServiceProviderId());
-						employee.setOlderEmployeeID(1);
-						employeeModels.add(employee);
-						final EmployeeModel employeeModel = getUserService().insertEmployeesData(employee);
-						System.out.println(employeeModel);
-						if (employeeModel != null)
-						{
-							status = "Inserted Data";
-							final String smsForEmployees = " Mr " + employeeModel.getEmployeeName()
-									+ ", Download the RSA247 mobile app from the below link. goo.gl/Axyn3?1";
-							//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(),
+					employee.setRoleModel(roleModel1);
+					employee.setUserId(0);
+					employee.setOnwer(false);
+					employee.setServiceProviderID(userModel.getServiceProviderId());
+					employee.setOlderEmployeeID(1);
+					employeeModels.add(employee);
+					final EmployeeModel employeeModel = getUserService().insertEmployeesData(employee);
+					System.out.println(employeeModel);
+					if (employeeModel != null) {
+						status = "Inserted Data";
+					final	String smsForEmployees = " Mr " + employeeModel.getEmployeeName()
+								+ ", Download the UDriveVCare mobile app from the below link. goo.gl/Axyn3?1";
+						//SmsLane.SMSSender("pradeepit", "pradeep143", "91" + employeeModel.getMobileNo(),
 							//	smsForEmployees, "WebSMS", "0");
-							Runnable r2 = new Runnable()
-							{
-								@Override
-								public void run()
-								{
-									sendSMS(smsForEmployees, employeeModel.getMobileNo());
-								}
-							};
-							new Thread(r2).start();
-							/*
-							 * final String msg1 = ",\n\n" +
-							 * "\t Please complete the registration by downloading the RSA247 app from the link below. Use the phone number below to register. goo.gl/Axyn3?1"
-							 * + "\n"+ "\t MobileNumber = "+employeeModel.getMobileNo(); Runnable r3 = new Runnable() { public
-							 * void run() { sendMailToEmployee(msg1, employeeModel.getEmployeeEmail()); } }; new
-							 * Thread(r3).start();
-							 */
-						}
+						Runnable r2 = new Runnable() {
+					         public void run() {
+					        	sendSMS(smsForEmployees,employeeModel.getMobileNo());
+					         }	
+					     };
+					     new Thread(r2).start();
+					     /*final String msg1 = ",\n\n" + "\t Please complete the registration by downloading the RSA247 app from the link below. Use the phone number below to register. goo.gl/Axyn3?1"+
+					     "\n"+ "\t MobileNumber = "+employeeModel.getMobileNo();
+					     Runnable r3 = new Runnable() {
+					         public void run() {
+					        	sendMailToEmployee(msg1, employeeModel.getEmployeeEmail());
+					         }	
+					     };
+					     new Thread(r3).start();*/
 					}
 				}
+			}else {
+				status = "Inserted Data";
 			}
-			else
-			{
+			} else {
 				status = "Inserted Data";
 			}
 
-		}
-		else
-		{
+		} else {
 			status = "error";
 		}
 		System.out.println("UserDTO " + userModel);

@@ -20,7 +20,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.NotAudited;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class BaseModel.
  */

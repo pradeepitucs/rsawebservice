@@ -34,7 +34,7 @@ import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class ReportRenderer.
  */

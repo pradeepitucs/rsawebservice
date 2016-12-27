@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ucs.rsa.birtreport.viewer.ReportProcessor;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class BirtReportController.
  */
@@ -28,7 +28,9 @@ public class BirtReportController extends HttpServlet
 	/** The processor. */
 	private ReportProcessor processor;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.servlet.GenericServlet#init()
 	 */
 	@Override
@@ -39,8 +41,11 @@ public class BirtReportController extends HttpServlet
 		System.out.println("Engine Initilized!!");
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
+	 * javax.servlet.http.HttpServletResponse)
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
@@ -49,8 +54,11 @@ public class BirtReportController extends HttpServlet
 
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
+	 * javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
 	@RequestMapping("/newReports")
@@ -60,7 +68,9 @@ public class BirtReportController extends HttpServlet
 		doGet(request, response);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.servlet.GenericServlet#destroy()
 	 */
 	@Override

@@ -1,0 +1,14 @@
+<aspectj>
+	<aspects>
+		<concrete-aspect name="com.maintainj.inst.JUnitAspect" extends="com.maintainj.aspect.JUnitExecutionAspect">
+			<pointcut name="anyExecution" expression="execution(public  * *.*(..)) || execution(public  *.new(..))"/>
+			<pointcut name="junitTest" expression="execution(* junit.framework.TestCase+.test*())"/>
+		</concrete-aspect>
+	</aspects>
+	<weaver options="-proceedOnError -nowarn -XaddSerialVersionUID  -Xset:makeTjpFieldsTransient=true -Xset:avoidFinal=true">
+		<include within="com.ucs.rsa..*"/>
+		<exclude within="*ObjectFactory"/>
+		<exclude within="*..*CGLIB*"/>
+		<exclude within="com.maintainj..*"/>
+	</weaver>
+</aspectj>

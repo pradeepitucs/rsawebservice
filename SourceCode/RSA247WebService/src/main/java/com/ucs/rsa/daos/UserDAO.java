@@ -11,10 +11,11 @@ import com.ucs.rsa.model.CustomerModel;
 import com.ucs.rsa.model.EmployeeModel;
 import com.ucs.rsa.model.ServiceProviderModel;
 import com.ucs.rsa.model.ServiceProviderServiceMatchingModel;
+import com.ucs.rsa.model.ServiceProviderServicePriceModel;
 import com.ucs.rsa.model.UserModel;
 import com.ucs.rsa.model.UserVehicleModel;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface UserDAO.
  */
@@ -177,4 +178,5 @@ public interface UserDAO extends BaseDAO {
 	 */
 	public Set<String> findAllCities();
 	
+	public ServiceProviderServicePriceModel updateServiceProviderServicePriceModel(ServiceProviderServicePriceModel serviceProviderServicePriceModel); 
 }
